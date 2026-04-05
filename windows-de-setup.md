@@ -1,7 +1,7 @@
 summary: Data Engineering Environment Setup on Windows 11
 id: windows-de-setup
 categories: Data Engineering, Setup
-tags: windows, git, python, vscode, databricks, aws, pyspark
+tags: windows, git, python, vscode, databricks, aws, pyspark, github
 status: Published
 authors: HitaVirTech
 feedback link: https://github.com/hitavir25/codelabs/issues
@@ -16,17 +16,15 @@ Welcome to **HitaVirTech Batch 5**! This codelab walks you through setting up a 
 
 | Tool | Purpose |
 |------|---------|
+| Windows Terminal | Modern terminal experience |
 | Git & Git Bash | Version control & Unix shell on Windows |
 | Python 3.11 | Core scripting & PySpark |
 | VS Code | Primary IDE |
 | Java 11 (JDK) | Required for PySpark / Spark |
 | Apache Spark | Local Spark for PySpark development |
+| GitHub Account | Cloud version control & collaboration |
 | Databricks CLI | Connect to Databricks workspace |
-| AWS CLI v2 | Connect to AWS services |
-| Node.js 20 LTS | For codelabs tools & frontend work |
-| claat | Google Codelabs authoring tool |
 | Docker Desktop | Containerized environments |
-| Windows Terminal | Modern terminal experience |
 
 ### Prerequisites
 
@@ -34,6 +32,7 @@ Welcome to **HitaVirTech Batch 5**! This codelab walks you through setting up a 
 - At least **16 GB RAM** (8 GB minimum)
 - At least **50 GB** free disk space
 - Stable internet connection
+- A valid email address (for GitHub account)
 
 ## Install Windows Terminal
 Duration: 3:00
@@ -115,20 +114,15 @@ ssh-keygen -t ed25519 -C "your@email.com"
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_ed25519
 
-# Copy public key
+# Copy public key - paste this into GitHub later
 cat ~/.ssh/id_ed25519.pub
 ```
-
-Go to **GitHub > Settings > SSH Keys > New SSH Key** and paste it.
 
 ### Verify
 
 ```bash
 git --version
 # git version 2.44.x.windows.1
-
-ssh -T git@github.com
-# Hi username! You have successfully authenticated
 ```
 
 ## Install Python 3.11
@@ -188,7 +182,7 @@ source .venv/Scripts/activate
 ## Install Java 11 JDK
 Duration: 4:00
 
-Apache Spark requires **Java 11**. Do NOT use Java 17+ (compatibility issues with Spark).
+Apache Spark requires **Java 11**. Do NOT use Java 17+ as it has compatibility issues with Spark.
 
 ### Step 1 - Download JDK 11
 
@@ -242,6 +236,8 @@ ls spark-3.5.1-bin-hadoop3/
 ```
 
 ### Step 3 - Download winutils.exe (Windows-specific)
+
+PySpark on Windows needs `winutils.exe` to work correctly:
 
 ```bash
 mkdir -p /c/hadoop/bin
@@ -336,36 +332,128 @@ code --version
 # 1.88.x
 ```
 
-## Install AWS CLI v2
-Duration: 4:00
+## Create a GitHub Account
+Duration: 6:00
 
-### Step 1 - Install
+GitHub is the world's largest platform for hosting code, collaborating on projects, and managing your data engineering portfolio. You'll use GitHub to store codelabs, Databricks notebooks, and project code throughout this course.
 
-```powershell
-# PowerShell as Administrator
-msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi /quiet
-```
+### Step 1 - Go to GitHub
 
-### Step 2 - Configure AWS Profile
+Open your browser and go to [https://github.com](https://github.com)
+
+Click the **Sign up** button in the top-right corner.
+
+### Step 2 - Enter Your Details
+
+Fill in the registration form:
+
+| Field | Guidance |
+|-------|----------|
+| **Email** | Use a professional email you check regularly |
+| **Password** | Minimum 15 characters, or 8+ with a number and lowercase letter |
+| **Username** | Choose a professional handle (e.g., `firstname-lastname`). This is public! |
+| **Email preferences** | Optional — tick if you want product updates |
+
+> **Tip**: Your GitHub username will appear in all your commit history and public repos. Choose something professional like `john-doe` or `jdoe-de` — not `coolgamer123`.
+
+Click **Continue**.
+
+### Step 3 - Solve the CAPTCHA Puzzle
+
+GitHub shows a visual CAPTCHA. Follow the on-screen instructions to verify you are human, then click **Create account**.
+
+### Step 4 - Verify Your Email
+
+GitHub sends a **launch code** (8-digit number) to your email.
+
+1. Open your email inbox
+2. Find the email from **GitHub** with subject **"Your GitHub launch code"**
+3. Copy the 8-digit code
+4. Paste it into the GitHub verification page
+
+### Step 5 - Personalise Your Account (Optional)
+
+GitHub may ask a few onboarding questions:
+- **How many people are on your team?** → Select **Just me**
+- **Are you a student or teacher?** → Select as appropriate
+- **What features are you interested in?** → Tick **Collaborative coding** and **CI/CD and automation**
+
+Click **Continue** or **Skip personalisation**.
+
+### Step 6 - Choose a Plan
+
+Select **GitHub Free** — this is sufficient for all HitaVirTech coursework.
+
+| Plan | Cost | What You Get |
+|------|------|-------------|
+| **Free** | $0/month | Unlimited public & private repos, 2000 CI/CD mins/month |
+| Pro | $4/month | More CI/CD minutes, advanced insights |
+
+> You do **NOT** need a paid plan for this course.
+
+### Step 7 - Add Your SSH Key to GitHub
+
+You generated an SSH key in the Git step. Now add it to GitHub so you can push/pull without a password.
+
+1. Go to **GitHub > Profile icon (top-right) > Settings**
+2. In the left sidebar click **SSH and GPG keys**
+3. Click **New SSH key**
+4. Fill in:
+   - **Title**: `HitaVirTech-Laptop` (or any label)
+   - **Key type**: `Authentication Key`
+   - **Key**: Paste the output of `cat ~/.ssh/id_ed25519.pub` from Git Bash
+5. Click **Add SSH key**
+6. Confirm with your GitHub password if prompted
+
+### Step 8 - Test SSH Connection
 
 ```bash
-aws configure --profile hitavir-dev
-# AWS Access Key ID: <your-access-key>
-# AWS Secret Access Key: <your-secret-key>
-# Default region name: ap-south-1
-# Default output format: json
+ssh -T git@github.com
+# Hi your-username! You have successfully authenticated
 ```
 
-> **Security**: Never commit AWS keys to Git. They are safely stored in `~/.aws/credentials`.
+### Step 9 - Create Your First Repository
 
-### Verify
+1. Click the **+** icon (top-right) > **New repository**
+2. Fill in:
+   - **Repository name**: `hitavir-batch5`
+   - **Description**: `HitaVirTech Batch 5 - Data Engineering Projects`
+   - **Visibility**: Private
+   - Tick **Add a README file**
+3. Click **Create repository**
+
+Then clone it locally:
 
 ```bash
-aws --version
-# aws-cli/2.x.x
-
-aws sts get-caller-identity --profile hitavir-dev
+cd /c/hitavirtect_codelabs
+git clone git@github.com:your-username/hitavir-batch5.git
+cd hitavir-batch5
+ls
+# README.md
 ```
+
+### Step 10 - Configure Git with Your GitHub Identity
+
+Make sure your local Git matches your GitHub account:
+
+```bash
+git config --global user.name "Your GitHub Display Name"
+git config --global user.email "your-github-email@example.com"
+
+# Verify
+git config --list | grep user
+# user.name=Your GitHub Display Name
+# user.email=your-github-email@example.com
+```
+
+### GitHub Profile Best Practices
+
+| Action | Why It Matters |
+|--------|---------------|
+| Add a profile photo | Makes you recognisable to collaborators |
+| Write a bio | Shows your skills to potential employers |
+| Pin your best repos | Highlights your data engineering work |
+| Use README.md in repos | Documents your projects professionally |
 
 ## Install Databricks CLI
 Duration: 4:00
@@ -395,38 +483,9 @@ Generate token: Databricks > **User Settings > Developer > Access Tokens > Gener
 
 ```bash
 databricks --version
+# Databricks CLI v0.x.x
+
 databricks clusters list --profile hitavir-dev
-```
-
-## Install Node.js and claat
-Duration: 3:00
-
-### Step 1 - Install Node.js LTS
-
-```powershell
-winget install OpenJS.NodeJS.LTS
-```
-
-### Verify Node.js
-
-```bash
-node --version   # v20.x.x
-npm --version    # 10.x.x
-```
-
-### Install claat
-
-Download `claat-windows-amd64.exe` from:
-[https://github.com/googlecodelabs/tools/releases/latest](https://github.com/googlecodelabs/tools/releases/latest)
-
-```powershell
-# PowerShell as Administrator
-Rename-Item "$env:USERPROFILE\Downloads\claat-windows-amd64.exe" "claat.exe"
-Move-Item "$env:USERPROFILE\Downloads\claat.exe" "C:\Windows\System32\claat.exe"
-```
-
-```bash
-claat --help   # verify it works
 ```
 
 ## Install Docker Desktop
@@ -487,11 +546,9 @@ echo "Git:        $(git --version)" && \
 echo "Python:     $(python --version)" && \
 echo "PySpark:    $(python -c 'import pyspark; print(pyspark.__version__)')" && \
 echo "Java:       $(java -version 2>&1 | head -1)" && \
-echo "AWS CLI:    $(aws --version)" && \
-echo "Node.js:    $(node --version)" && \
-echo "npm:        $(npm --version)" && \
 echo "Docker:     $(docker --version)" && \
 echo "VS Code:    $(code --version | head -1)" && \
+echo "GitHub SSH: $(ssh -T git@github.com 2>&1 | head -1)" && \
 echo '======================================='
 ```
 
@@ -503,11 +560,9 @@ Git:        git version 2.44.0.windows.1
 Python:     Python 3.11.9
 PySpark:    3.5.1
 Java:       openjdk version "11.0.23"
-AWS CLI:    aws-cli/2.15.x
-Node.js:    v20.12.x
-npm:        10.5.x
 Docker:     Docker version 26.x.x
 VS Code:    1.88.x
+GitHub SSH: Hi your-username! You have successfully authenticated
 =======================================
 ```
 
@@ -518,9 +573,9 @@ VS Code:    1.88.x
 | `python not found` | Reinstall Python with **Add to PATH** ticked |
 | PySpark Java error | Ensure JAVA_HOME points to JDK 11 exactly |
 | `winutils.exe` error | Check HADOOP_HOME is set correctly |
-| `aws: command not found` | Restart terminal after AWS CLI install |
 | Docker won't start | Enable Virtualization in BIOS |
-| Git push fails | Run `ssh -T git@github.com` to test SSH key |
+| SSH auth failed | Re-run `ssh-add ~/.ssh/id_ed25519` in Git Bash |
+| GitHub push denied | Check SSH key is added to GitHub Settings |
 
 ## Congratulations!
 Duration: 1:00
@@ -530,14 +585,13 @@ You have successfully set up a complete **Data Engineering environment** on Wind
 ### What You Installed
 
 - Windows Terminal
-- Git & Git Bash (with SSH key for GitHub)
+- Git & Git Bash
 - Python 3.11 + PySpark 3.5.1 + Data Engineering packages
 - Java 11 JDK (Temurin / Eclipse Adoptium)
 - Apache Spark 3.5.1 (local)
 - VS Code + Databricks + AWS + Python extensions
-- AWS CLI v2 (configured for ap-south-1)
+- GitHub Account (with SSH key and first repo)
 - Databricks CLI
-- Node.js 20 LTS + claat
 - Docker Desktop + WSL2 + Ubuntu 22.04
 
 ### Next Steps
@@ -551,6 +605,6 @@ You have successfully set up a complete **Data Engineering environment** on Wind
 
 - [HitaVirTech Codelabs](https://hitavir25.github.io/codelabs/)
 - [HitaVirTech GitHub](https://github.com/hitavir25)
+- [GitHub Docs](https://docs.github.com)
 - [Databricks Documentation](https://docs.databricks.com)
 - [PySpark Documentation](https://spark.apache.org/docs/latest/api/python/)
-- [AWS Data Engineering](https://aws.amazon.com/big-data/)
