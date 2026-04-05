@@ -351,7 +351,9 @@
           'height:100%;background:#4caf50;transition:width .5s ease;' +
           'border-radius:0 2px 2px 0;';
         bar.appendChild(fill);
-        title.style.position = 'relative';
+        /* Do NOT change title.style.position — it is position:fixed
+           and changing it breaks the page layout. Fixed elements are
+           already a containing block for absolute children. */
         title.appendChild(bar);
       }
       var fill = bar.querySelector('#sl-fill');
