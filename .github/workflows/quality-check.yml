@@ -132,6 +132,17 @@ jobs:
           done
           echo 'Build complete'
 
+      - name: Inject step-lock script
+        run: |
+          cp assets/step-lock.js _site/step-lock.js
+          for dir in _site/*/; do
+            if [ -f "${dir}index.html" ]; then
+              sed -i 's|</body>|<script src="../step-lock.js"></script>\n</body>|' "${dir}index.html"
+              echo "Injected step-lock into ${dir}index.html"
+            fi
+          done
+          echo 'Step-lock script injected into all codelabs'
+
       - name: Generate landing page
         run: |
           CARDS=''
