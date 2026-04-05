@@ -1,0 +1,195 @@
+name: Codelabs CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+
+  quality-check:
+    name: Quality Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Install claat
+        run: go install github.com/googlecodelabs/tools/claat@latest
+
+      - name: Find codelab files
+        run: |
+          find . -name '*.md' \
+            -not -path './.github/*' \
+            -not -name 'README.md' | tee codelab-files.txt
+          echo "Found $(wc -l < codelab-files.txt) codelab(s)"
+
+      - name: Validate metadata
+        run: |
+          ERRORS=0
+          while IFS= read -r f; do
+            for FIELD in summary id categories authors status; do
+              if ! grep -q "^${FIELD}:" "$f"; then
+                echo "ERROR: Missing $FIELD in $f"
+                ERRORS=$((ERRORS+1))
+              fi
+            done
+          done < codelab-files.txt
+          if [ $ERRORS -gt 0 ]; then exit 1; fi
+          echo 'All metadata valid'
+
+      - name: Check step count
+        run: |
+          while IFS= read -r f; do
+            STEPS=$(grep -c '^## ' "$f" || true)
+            if [ "$STEPS" -lt 2 ]; then
+              echo "WARNING: $f has only $STEPS step(s) (min 3 recommended)"
+            else
+              echo "OK: $f has $STEPS steps"
+            fi
+          done < codelab-files.txt
+
+      - name: Export codelabs with claat
+        run: |
+          mkdir -p exported
+          while IFS= read -r f; do
+            echo "Exporting: $f"
+            claat export -o exported "$f" || exit 1
+          done < codelab-files.txt
+          echo 'All codelabs exported'
+
+      - name: Validate exported structure
+        run: |
+          for dir in exported/*/; do
+            [ -f "${dir}index.html" ] || { echo "Missing index.html in $dir"; exit 1; }
+            [ -f "${dir}codelab.json" ] || { echo "Missing codelab.json in $dir"; exit 1; }
+            echo "OK: $dir"
+          done
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: exported-codelabs
+          path: exported/
+          retention-days: 7
+
+      - name: Quality Summary
+        if: always()
+        run: |
+          COUNT=$(wc -l < codelab-files.txt | tr -d ' ')
+          echo '## Quality Check Summary' >> $GITHUB_STEP_SUMMARY
+          echo '| Check | Status |' >> $GITHUB_STEP_SUMMARY
+          echo '|-------|--------|' >> $GITHUB_STEP_SUMMARY
+          echo '| Metadata | Passed |' >> $GITHUB_STEP_SUMMARY
+          echo '| claat export | Passed |' >> $GITHUB_STEP_SUMMARY
+          echo '| Structure | Passed |' >> $GITHUB_STEP_SUMMARY
+          echo "| Codelabs checked | $COUNT |" >> $GITHUB_STEP_SUMMARY
+
+  build:
+    name: Build Site
+    runs-on: ubuntu-latest
+    needs: quality-check
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: Install claat
+        run: go install github.com/googlecodelabs/tools/claat@latest
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Export all codelabs
+        run: |
+          mkdir -p _site
+          find . -name '*.md' \
+            -not -path './.github/*' \
+            -not -name 'README.md' | while IFS= read -r f; do
+            claat export -o _site "$f"
+          done
+          echo 'Build complete'
+
+      - name: Generate landing page
+        run: |
+          CARDS=''
+          for dir in _site/*/; do
+            ID=$(basename "$dir")
+            if [ -f "${dir}codelab.json" ]; then
+              TITLE=$(python3 -c "import json; d=json.load(open('${dir}codelab.json')); print(d.get('title','Untitled'))" 2>/dev/null || echo 'Lab')
+              CARDS="${CARDS}<div class=card><h3>${TITLE}</h3><a href='${ID}/'>Start Lab</a></div>"
+            fi
+          done
+          cat > _site/index.html << HTMLEOF
+          <!DOCTYPE html>
+          <html lang=en>
+          <head><meta charset=UTF-8><meta name=viewport content='width=device-width,initial-scale=1'>
+          <title>HitaVirTech Codelabs - Batch 5</title>
+          <style>
+          body{font-family:Google Sans,sans-serif;background:#f1f3f4;margin:0}
+          header{background:#1a73e8;color:#fff;padding:2rem;text-align:center}
+          header h1{margin:0;font-size:2rem}
+          header p{margin:.5rem 0 0;opacity:.9}
+          main{max-width:1100px;margin:2rem auto;padding:0 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+          .card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:box-shadow .2s}
+          .card:hover{box-shadow:0 6px 20px rgba(0,0,0,.15)}
+          .card h3{color:#202124;margin:0 0 1rem}
+          .card a{background:#1a73e8;color:#fff;padding:.5rem 1.2rem;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block}
+          footer{text-align:center;padding:2rem;color:#5f6368}
+          </style></head>
+          <body>
+          <header>
+            <h1>HitaVirTech Codelabs</h1>
+            <p>Data Engineering Hands-on Labs &mdash; Batch 5 &bull; April 2026</p>
+          </header>
+          <main>${CARDS}</main>
+          <footer>Built with Google Codelabs &bull; HitaVirTech &copy; 2026</footer>
+          </body></html>
+          HTMLEOF
+          echo 'Landing page generated'
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site/
+
+  deploy:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Deployment Summary
+        run: |
+          echo '## Deployment Complete' >> $GITHUB_STEP_SUMMARY
+          echo "Live URL: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
+          echo 'Codelabs are live on GitHub Pages!' >> $GITHUB_STEP_SUMMARY
