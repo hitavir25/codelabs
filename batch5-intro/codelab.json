@@ -1,0 +1,27 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2026-04-05T16:56:44+05:30",
+  "id": "batch5-intro",
+  "duration": 5,
+  "title": "HitaVirTech Batch 5 - Data Engineering",
+  "authors": "HitaVirTech",
+  "summary": "HitaVirTech Batch 5 - Data Engineering Kickoff",
+  "source": "batch5-intro.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "dataengineering"
+  ],
+  "tags": [
+    "aws",
+    "databricks",
+    "pyspark"
+  ],
+  "feedback": "https://hitavir25.github.io",
+  "url": "batch5-intro"
+}
