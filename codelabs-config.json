@@ -1,0 +1,6 @@
+{
+  "batch5-intro": { "unlocked": true, "order": 1 },
+  "windows-de-setup": { "unlocked": true, "order": 2 },
+  "github-ultimate": { "unlocked": false, "order": 3 },
+  "linux-basics": { "unlocked": false, "order": 4 }
+}

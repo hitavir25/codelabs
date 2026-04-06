@@ -138,43 +138,111 @@ jobs:
           done
           echo 'Step-lock script injected into all codelabs'
 
-      - name: Generate landing page
+      - name: Generate landing pages (current batch + alumni)
         run: |
-          CARDS=''
-          for dir in _site/*/; do
-            ID=$(basename "$dir")
-            if [ -f "${dir}codelab.json" ]; then
-              TITLE=$(python3 -c "import json; d=json.load(open('${dir}codelab.json')); print(d.get('title','Untitled'))" 2>/dev/null || echo 'Lab')
-              CARDS="${CARDS}<div class=card><h3>${TITLE}</h3><a href='${ID}/'>Start Lab</a></div>"
-            fi
-          done
-          cat > _site/index.html << HTMLEOF
-          <!DOCTYPE html>
-          <html lang=en>
-          <head><meta charset=UTF-8><meta name=viewport content='width=device-width,initial-scale=1'>
-          <title>HitaVirTech Codelabs - Batch 5</title>
+          python3 << 'PYSCRIPT'
+          import json, os, glob
+
+          # Load visibility config
+          with open("codelabs-config.json") as f:
+              config = json.load(f)
+
+          # Discover all exported codelabs
+          codelabs = []
+          for cj in glob.glob("_site/*/codelab.json"):
+              with open(cj) as f:
+                  data = json.load(f)
+              cid = data.get("id", os.path.basename(os.path.dirname(cj)))
+              title = data.get("title", "Untitled")
+              cfg = config.get(cid, {"unlocked": True, "order": 99})
+              codelabs.append({
+                  "id": cid,
+                  "title": title,
+                  "unlocked": cfg.get("unlocked", True),
+                  "order": cfg.get("order", 99)
+              })
+
+          codelabs.sort(key=lambda x: x["order"])
+
+          # --- Card HTML generators ---
+          def unlocked_card(c):
+              return (f'<div class="card">'
+                      f'<h3>{c["title"]}</h3>'
+                      f'<a href="{c["id"]}/">Start Lab</a>'
+                      f'</div>')
+
+          def locked_card(c):
+              return (f'<div class="card locked">'
+                      f'<h3>{c["title"]}</h3>'
+                      f'<span class="badge">Coming Soon</span>'
+                      f'</div>')
+
+          # --- HTML template ---
+          def page_html(title, subtitle, cards_html):
+              return f'''<!DOCTYPE html>
+          <html lang="en">
+          <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>{title}</title>
           <style>
-          body{font-family:Google Sans,sans-serif;background:#f1f3f4;margin:0}
-          header{background:#1a73e8;color:#fff;padding:2rem;text-align:center}
-          header h1{margin:0;font-size:2rem}
-          header p{margin:.5rem 0 0;opacity:.9}
-          main{max-width:1100px;margin:2rem auto;padding:0 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
-          .card{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:box-shadow .2s}
-          .card:hover{box-shadow:0 6px 20px rgba(0,0,0,.15)}
-          .card h3{color:#202124;margin:0 0 1rem}
-          .card a{background:#1a73e8;color:#fff;padding:.5rem 1.2rem;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block}
-          footer{text-align:center;padding:2rem;color:#5f6368}
+          body{{font-family:'Google Sans',sans-serif;background:#f1f3f4;margin:0}}
+          header{{background:#1a73e8;color:#fff;padding:2rem;text-align:center}}
+          header h1{{margin:0;font-size:2rem}}
+          header p{{margin:.5rem 0 0;opacity:.9}}
+          main{{max-width:1100px;margin:2rem auto;padding:0 1rem;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}}
+          .card{{background:#fff;border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.1);transition:box-shadow .2s}}
+          .card:hover{{box-shadow:0 6px 20px rgba(0,0,0,.15)}}
+          .card h3{{color:#202124;margin:0 0 1rem}}
+          .card a{{background:#1a73e8;color:#fff;padding:.5rem 1.2rem;border-radius:6px;text-decoration:none;font-weight:500;display:inline-block}}
+          .card.locked{{opacity:.55;pointer-events:none;filter:grayscale(.5)}}
+          .card.locked h3{{color:#5f6368}}
+          .badge{{background:#dadce0;color:#5f6368;padding:.4rem 1rem;border-radius:6px;font-size:.85rem;font-weight:500;display:inline-block}}
+          footer{{text-align:center;padding:2rem;color:#5f6368}}
           </style></head>
           <body>
           <header>
-            <h1>HitaVirTech Codelabs</h1>
-            <p>Data Engineering Hands-on Labs &mdash; Batch 5 &bull; April 2026</p>
+            <h1>{title}</h1>
+            <p>{subtitle}</p>
           </header>
-          <main>${CARDS}</main>
+          <main>{cards_html}</main>
           <footer>Built with Google Codelabs &bull; HitaVirTech &copy; 2026</footer>
-          </body></html>
-          HTMLEOF
-          echo 'Landing page generated'
+          </body></html>'''
+
+          # --- 1. Current batch landing page (index.html) ---
+          batch_cards = ""
+          for c in codelabs:
+              batch_cards += unlocked_card(c) if c["unlocked"] else locked_card(c)
+
+          with open("_site/index.html", "w") as f:
+              f.write(page_html(
+                  "HitaVirTech Codelabs",
+                  "Data Engineering Hands-on Labs &mdash; Batch 5 &bull; April 2026",
+                  batch_cards
+              ))
+          print("Generated: _site/index.html (current batch)")
+
+          # --- 2. Alumni landing page (all/index.html) ---
+          os.makedirs("_site/all", exist_ok=True)
+          all_cards = ""
+          for c in codelabs:
+              all_cards += f'<div class="card"><h3>{c["title"]}</h3><a href="../{c["id"]}/">Start Lab</a></div>'
+
+          with open("_site/all/index.html", "w") as f:
+              f.write(page_html(
+                  "HitaVirTech Codelabs",
+                  "All Codelabs &mdash; Full Access",
+                  all_cards
+              ))
+          print("Generated: _site/all/index.html (alumni - all unlocked)")
+
+          # --- Summary ---
+          unlocked = [c for c in codelabs if c["unlocked"]]
+          locked = [c for c in codelabs if not c["unlocked"]]
+          print(f"\nBatch 5: {len(unlocked)} unlocked, {len(locked)} locked")
+          for c in codelabs:
+              status = "UNLOCKED" if c["unlocked"] else "LOCKED"
+              print(f"  [{status}] {c['order']}. {c['title']}")
+          PYSCRIPT
+          echo 'Landing pages generated'
 
       - name: Copy Cloudflare config files into _site
         run: |
