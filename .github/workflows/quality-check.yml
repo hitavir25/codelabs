@@ -9,11 +9,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
@@ -102,8 +100,8 @@ jobs:
           echo '| Structure | Passed |' >> $GITHUB_STEP_SUMMARY
           echo "| Codelabs checked | $COUNT |" >> $GITHUB_STEP_SUMMARY
 
-  build:
-    name: Build Site
+  build-and-deploy:
+    name: Build & Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
     needs: quality-check
     steps:
@@ -118,9 +116,6 @@ jobs:
 
       - name: Install claat
         run: go install github.com/googlecodelabs/tools/claat@latest
-
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
 
       - name: Export all codelabs
         run: |
@@ -181,26 +176,26 @@ jobs:
           HTMLEOF
           echo 'Landing page generated'
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site/
+      - name: Copy Cloudflare config files into _site
+        run: |
+          cp _headers _site/_headers 2>/dev/null || true
+          cp _redirects _site/_redirects 2>/dev/null || true
+          cp access-help.html _site/access-help.html 2>/dev/null || true
+          echo 'Cloudflare config files copied'
 
-  deploy:
-    name: Deploy to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Deploy to Cloudflare Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: hitavirtech-codelabs
+          directory: _site
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Deployment Summary
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
           echo '## Deployment Complete' >> $GITHUB_STEP_SUMMARY
-          echo "Live URL: ${{ steps.deployment.outputs.page_url }}" >> $GITHUB_STEP_SUMMARY
-          echo 'Codelabs are live on GitHub Pages!' >> $GITHUB_STEP_SUMMARY
+          echo 'Deployed to Cloudflare Pages!' >> $GITHUB_STEP_SUMMARY
+          echo 'Live URL: https://codelabs.hitavirtech.com' >> $GITHUB_STEP_SUMMARY
