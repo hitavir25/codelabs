@@ -185,13 +185,11 @@ jobs:
 
       - name: Deploy to Cloudflare Pages
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-        uses: cloudflare/pages-action@v1
+        uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: hitavirtech-codelabs
-          directory: _site
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy _site --project-name=hitavirtech-codelabs
 
       - name: Deployment Summary
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
