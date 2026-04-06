@@ -1,7 +1,7 @@
 {
   "batch5-intro": { "unlocked": true, "order": 1 },
   "windows-de-setup": { "unlocked": true, "order": 2 },
-  "git-github-basics-gitbash": { "unlocked": false, "order": 3 },
+  "git-github-basics-gitbash": { "unlocked": true, "order": 3 },
   "github-ultimate": { "unlocked": false, "order": 4 },
   "linux-basics": { "unlocked": true, "order": 5 }
 }
