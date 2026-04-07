@@ -613,119 +613,676 @@ python control_loops.py
 > **HitaVir Tech says:** "In data engineering, loops process records, retry failed connections, and iterate through batches. The for loop is your workhorse. The while loop is your retry mechanism. Master both."
 
 ## Functions — Reusable Code
-Duration: 8:00
+Duration: 15:00
 
-Functions let you write code once and use it everywhere. In data engineering, functions are the building blocks of pipelines.
+Functions let you write code once and use it everywhere. In data engineering, functions are the building blocks of every pipeline. This section covers **every type of function** you need to know.
+
+### Types of Functions in Python
+
+| Type | Description | Example |
+|------|-------------|---------|
+| Basic function | No parameters, no return | `def greet():` |
+| Parameterized function | Accepts inputs | `def add(a, b):` |
+| Function with return | Sends back a result | `return a + b` |
+| Default parameters | Parameters with fallback values | `def connect(port=5432):` |
+| Keyword arguments | Call by name | `connect(port=3306)` |
+| `*args` | Variable number of positional args | `def func(*args):` |
+| `**kwargs` | Variable number of keyword args | `def func(**kwargs):` |
+| Lambda function | One-line anonymous function | `lambda x: x * 2` |
+| Nested function | Function inside a function | `def outer(): def inner():` |
+| Recursive function | Function that calls itself | `def factorial(n):` |
+| Generator function | Yields values lazily | `def gen(): yield value` |
+| Decorator function | Wraps another function | `@decorator` |
+
+Let us learn each one with real Data Engineering examples.
+
+### Part 1 — Basic Functions
 
 ```bash
-cat > functions.py << 'PYEOF'
+cat > func_01_basics.py << 'PYEOF'
 # ============================================
-# HitaVir Tech - Functions
+# HitaVir Tech - Part 1: Basic Functions
 # ============================================
 
-# --- Basic function ---
+# --- 1A. Function with no parameters, no return ---
+def print_pipeline_header():
+    """Print a standard header for pipeline output."""
+    print("=" * 50)
+    print("  HitaVir Tech - Data Pipeline")
+    print("=" * 50)
+
+print_pipeline_header()
+
+# --- 1B. Function with parameters ---
 def greet_engineer(name):
     """Greet a data engineer by name."""
-    return f"Welcome to HitaVir Tech, {name}! Let's build some pipelines!"
+    print(f"Welcome to HitaVir Tech, {name}!")
 
-message = greet_engineer("Batch 5 Student")
-print(message)
+greet_engineer("Alice")
+greet_engineer("Bob")
 
-# --- Function with multiple parameters ---
-def calculate_pipeline_stats(total_records, failed_records, processing_time):
-    """Calculate pipeline run statistics."""
-    success_records = total_records - failed_records
-    success_rate = (success_records / total_records) * 100
-    throughput = total_records / processing_time  # records per second
+# --- 1C. Function with return value ---
+def calculate_total(price, quantity):
+    """Calculate total amount for an order."""
+    total = price * quantity
+    return total
 
+result = calculate_total(999.99, 3)
+print(f"\nOrder total: ${result:,.2f}")
+
+# --- 1D. Function returning multiple values ---
+def get_pipeline_stats(total, failed):
+    """Return multiple statistics from a pipeline run."""
+    success = total - failed
+    rate = (success / total) * 100
+    return success, failed, rate    # Returns a tuple
+
+s, f, r = get_pipeline_stats(10000, 23)
+print(f"\nPipeline: {s} success, {f} failed, {r:.1f}% rate")
+
+# --- 1E. Function returning a dictionary ---
+def build_record(id, name, amount):
+    """Build a standardized data record."""
     return {
-        "total": total_records,
-        "success": success_records,
-        "failed": failed_records,
-        "success_rate": round(success_rate, 2),
-        "throughput": round(throughput, 2)
+        "id": id,
+        "name": name.strip().title(),
+        "amount": round(amount, 2),
+        "status": "valid" if amount > 0 else "invalid"
     }
 
-stats = calculate_pipeline_stats(10000, 23, 45.5)
-print(f"\n--- Pipeline Statistics ---")
-for key, value in stats.items():
-    print(f"  {key}: {value}")
+record = build_record(1, "  alice johnson  ", 150.50)
+print(f"\nRecord: {record}")
+PYEOF
 
-# --- Function with default parameters ---
+python func_01_basics.py
+```
+
+### Part 2 — Default Parameters and Keyword Arguments
+
+```bash
+cat > func_02_defaults_kwargs.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Part 2: Defaults & Keyword Args
+# ============================================
+
+# --- 2A. Default parameters ---
+# Parameters with = have default values (used if not provided)
 def connect_database(host, port=5432, database="hitavir_db", timeout=30):
-    """Simulate database connection with defaults."""
-    print(f"\nConnecting to {database} at {host}:{port} (timeout: {timeout}s)")
+    """Connect to database with sensible defaults."""
+    print(f"Connecting to {database} at {host}:{port} (timeout: {timeout}s)")
     return True
 
+print("--- Default Parameters ---")
+# All defaults used:
 connect_database("prod-db.hitavir.tech")
+
+# Override some defaults:
 connect_database("staging-db.hitavir.tech", port=5433, database="staging_db")
 
-# --- Data validation function ---
-def validate_record(record):
-    """Validate a single data record.
+# Override all:
+connect_database("dev-db.hitavir.tech", 3306, "dev_db", 10)
 
-    Returns:
-        tuple: (is_valid, error_message)
-    """
-    if not record.get("id"):
-        return False, "Missing ID"
-    if not record.get("name"):
-        return False, "Missing name"
-    if not isinstance(record.get("amount", 0), (int, float)):
-        return False, "Amount must be numeric"
-    if record.get("amount", 0) < 0:
-        return False, "Amount cannot be negative"
-    return True, "Valid"
+# --- 2B. Keyword arguments (call by name) ---
+# You can pass arguments BY NAME in any order
+def create_pipeline(name, source, destination, schedule="daily", retries=3):
+    """Create a pipeline configuration."""
+    print(f"\n  Pipeline: {name}")
+    print(f"  Source: {source} → Destination: {destination}")
+    print(f"  Schedule: {schedule} | Retries: {retries}")
 
-# Test validation
-print("\n--- Data Validation ---")
-test_records = [
-    {"id": 1, "name": "Alice", "amount": 150.00},
-    {"id": 2, "name": "", "amount": 200.00},
-    {"id": 3, "name": "Charlie", "amount": -50.00},
-    {"id": None, "name": "Diana", "amount": 100.00},
+print("\n--- Keyword Arguments ---")
+
+# Positional (order matters):
+create_pipeline("ETL-1", "postgres", "s3")
+
+# Keyword (order does NOT matter):
+create_pipeline(
+    destination="bigquery",
+    name="ETL-2",
+    source="mysql",
+    schedule="hourly",
+    retries=5
+)
+
+# Mix positional + keyword (positional must come first):
+create_pipeline("ETL-3", "api", "redshift", retries=10)
+
+# --- 2C. Mutable default argument trap ---
+# WRONG — mutable default is shared across all calls:
+def bad_append(item, lst=[]):
+    lst.append(item)
+    return lst
+
+# CORRECT — use None and create inside:
+def good_append(item, lst=None):
+    if lst is None:
+        lst = []
+    lst.append(item)
+    return lst
+
+print("\n--- Mutable Default Trap ---")
+print(f"Bad call 1: {bad_append('a')}")   # ['a']
+print(f"Bad call 2: {bad_append('b')}")   # ['a', 'b'] — BUG! List is shared!
+
+print(f"Good call 1: {good_append('a')}") # ['a']
+print(f"Good call 2: {good_append('b')}") # ['b'] — Correct! Fresh list each time
+PYEOF
+
+python func_02_defaults_kwargs.py
+```
+
+> **HitaVir Tech says:** "Default parameters are incredibly common in data engineering. Database connections, API timeouts, retry counts — they all have sensible defaults that you override when needed."
+
+### Part 3 — *args (Variable Positional Arguments)
+
+```bash
+cat > func_03_args.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Part 3: *args
+# ============================================
+# *args lets a function accept ANY NUMBER of positional arguments.
+# Inside the function, args is a TUPLE.
+
+# --- 3A. Basic *args ---
+def sum_all(*numbers):
+    """Sum any number of values."""
+    print(f"  Received {len(numbers)} args: {numbers}")
+    return sum(numbers)
+
+print("--- *args Basics ---")
+print(f"Sum of 1,2,3: {sum_all(1, 2, 3)}")
+print(f"Sum of 10,20,30,40,50: {sum_all(10, 20, 30, 40, 50)}")
+print(f"Sum of single: {sum_all(100)}")
+print(f"Sum of nothing: {sum_all()}")
+
+# --- 3B. *args in data engineering: Process multiple files ---
+def process_files(*filepaths):
+    """Process any number of data files."""
+    print(f"\n--- Processing {len(filepaths)} files ---")
+    results = []
+    for i, filepath in enumerate(filepaths, 1):
+        result = {"file": filepath, "status": "processed", "rows": i * 100}
+        results.append(result)
+        print(f"  [{i}] {filepath} → {result['rows']} rows")
+    return results
+
+process_files("sales_jan.csv", "sales_feb.csv", "sales_mar.csv")
+process_files("users.csv")  # Works with any count
+
+# --- 3C. Combining regular params + *args ---
+def run_pipeline(pipeline_name, *tables):
+    """Run a pipeline on one or more tables."""
+    print(f"\n--- Pipeline: {pipeline_name} ---")
+    print(f"  Tables to process: {list(tables)}")
+    for table in tables:
+        print(f"  Processing table: {table}")
+
+run_pipeline("Daily ETL", "users", "orders", "products", "payments")
+run_pipeline("Hourly Sync", "events")
+
+# --- 3D. Unpacking a list into *args ---
+quarterly_files = [
+    "q1_sales.csv",
+    "q2_sales.csv",
+    "q3_sales.csv",
+    "q4_sales.csv"
 ]
 
-for record in test_records:
-    is_valid, message = validate_record(record)
-    status = "PASS" if is_valid else "FAIL"
-    print(f"  [{status}] Record {record.get('id', 'N/A')}: {message}")
+# The * unpacks the list into separate arguments:
+process_files(*quarterly_files)
 
-# --- Putting it together: Mini pipeline ---
-def extract(source):
+# Without * it would pass the entire list as ONE argument
+PYEOF
+
+python func_03_args.py
+```
+
+### Part 4 — **kwargs (Variable Keyword Arguments)
+
+```bash
+cat > func_04_kwargs.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Part 4: **kwargs
+# ============================================
+# **kwargs lets a function accept ANY NUMBER of keyword arguments.
+# Inside the function, kwargs is a DICTIONARY.
+
+# --- 4A. Basic **kwargs ---
+def print_config(**settings):
+    """Print any configuration key-value pairs."""
+    print(f"  Received {len(settings)} settings:")
+    for key, value in settings.items():
+        print(f"    {key} = {value}")
+
+print("--- **kwargs Basics ---")
+print_config(host="localhost", port=5432, database="hitavir_db")
+print()
+print_config(name="ETL Pipeline", version="2.0", author="HitaVir Tech", debug=True)
+
+# --- 4B. **kwargs for flexible database connection ---
+def connect(**connection_params):
+    """Connect to any database with flexible parameters."""
+    db_type = connection_params.get("type", "postgres")
+    host = connection_params.get("host", "localhost")
+    port = connection_params.get("port", 5432)
+    database = connection_params.get("database", "default")
+    username = connection_params.get("username", "admin")
+    ssl = connection_params.get("ssl", False)
+
+    print(f"\n  Connecting: {db_type}://{username}@{host}:{port}/{database}")
+    print(f"  SSL: {'enabled' if ssl else 'disabled'}")
+    return True
+
+print("\n--- Flexible Database Connection ---")
+connect(type="postgres", host="prod-db.hitavir.tech", database="analytics", ssl=True)
+connect(type="mysql", host="mysql.hitavir.tech", port=3306, database="reporting")
+connect()  # Uses all defaults
+
+# --- 4C. Combining regular params, *args, and **kwargs ---
+def execute_query(query, *params, **options):
+    """Execute a database query with parameters and options.
+
+    Args:
+        query (str): SQL query string
+        *params: Query parameters (for parameterized queries)
+        **options: Execution options (timeout, retries, etc.)
+    """
+    timeout = options.get("timeout", 30)
+    retries = options.get("retries", 3)
+    log_query = options.get("log", True)
+
+    print(f"\n  Query: {query}")
+    print(f"  Params: {params}")
+    print(f"  Timeout: {timeout}s | Retries: {retries} | Logging: {log_query}")
+
+print("\n--- Combined: regular + *args + **kwargs ---")
+execute_query(
+    "SELECT * FROM users WHERE region = %s AND status = %s",
+    "North", "active",              # *args — query params
+    timeout=60, retries=5, log=True # **kwargs — options
+)
+
+execute_query("SELECT COUNT(*) FROM orders")  # No args or kwargs
+
+# --- 4D. Unpacking a dictionary into **kwargs ---
+prod_config = {
+    "type": "postgres",
+    "host": "prod-db.hitavir.tech",
+    "port": 5432,
+    "database": "hitavir_prod",
+    "username": "etl_service",
+    "ssl": True
+}
+
+# The ** unpacks the dict into keyword arguments:
+connect(**prod_config)
+
+# --- 4E. Building flexible pipeline config ---
+def create_pipeline_config(name, source, destination, **overrides):
+    """Create a pipeline config with default values and optional overrides."""
+    config = {
+        "name": name,
+        "source": source,
+        "destination": destination,
+        "batch_size": 1000,
+        "retries": 3,
+        "timeout": 300,
+        "log_level": "INFO",
+        "notify_on_failure": True
+    }
+    # Override any defaults with provided kwargs
+    config.update(overrides)
+    return config
+
+print("\n--- Flexible Pipeline Config ---")
+config1 = create_pipeline_config("Sales ETL", "postgres", "s3")
+config2 = create_pipeline_config(
+    "Real-time Events", "kafka", "bigquery",
+    batch_size=100, timeout=30, log_level="DEBUG"
+)
+
+print("Config 1 (defaults):")
+for k, v in config1.items():
+    print(f"  {k}: {v}")
+
+print("\nConfig 2 (with overrides):")
+for k, v in config2.items():
+    print(f"  {k}: {v}")
+PYEOF
+
+python func_04_kwargs.py
+```
+
+> **HitaVir Tech says:** "*args and **kwargs are the backbone of flexible Python code. Every major framework uses them — Django, Flask, pandas, Spark. When you see `**options` or `*args` in library docs, you now know exactly what they mean."
+
+### Part 5 — Advanced Function Types
+
+```bash
+cat > func_05_advanced.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Part 5: Advanced Function Types
+# ============================================
+
+# --- 5A. Lambda Functions (Anonymous Functions) ---
+print("=" * 50)
+print("LAMBDA FUNCTIONS")
+print("=" * 50)
+
+# Regular function:
+def double(x):
+    return x * 2
+
+# Lambda equivalent (one-line anonymous function):
+double_lambda = lambda x: x * 2
+
+print(f"Regular: {double(5)}")       # 10
+print(f"Lambda: {double_lambda(5)}") # 10
+
+# Lambdas are most useful with sort, map, filter:
+sales = [
+    {"product": "Laptop", "revenue": 4999.95},
+    {"product": "Mouse", "revenue": 149.95},
+    {"product": "Monitor", "revenue": 899.98},
+    {"product": "Keyboard", "revenue": 239.97},
+]
+
+# Sort by revenue using lambda as the key function:
+sorted_sales = sorted(sales, key=lambda x: x["revenue"], reverse=True)
+print("\nSales by revenue (descending):")
+for s in sorted_sales:
+    print(f"  {s['product']:>10}: ${s['revenue']:>10,.2f}")
+
+# filter() — keep only items matching a condition:
+big_sales = list(filter(lambda x: x["revenue"] > 500, sales))
+print(f"\nBig sales (>$500): {[s['product'] for s in big_sales]}")
+
+# map() — apply a function to every item:
+prices = [100, 200, 300, 400, 500]
+with_tax = list(map(lambda p: round(p * 1.18, 2), prices))
+print(f"\nPrices with 18% tax: {with_tax}")
+
+# --- 5B. Nested Functions (Inner Functions) ---
+print(f"\n{'=' * 50}")
+print("NESTED FUNCTIONS")
+print("=" * 50)
+
+def create_data_cleaner(null_replacement="N/A", trim=True):
+    """Create a customized data cleaning function."""
+
+    def clean(value):
+        """Inner function that does the actual cleaning."""
+        if value is None or value == "":
+            return null_replacement
+        if trim and isinstance(value, str):
+            return value.strip().title()
+        return value
+
+    return clean  # Return the inner function
+
+# Create specialized cleaners:
+name_cleaner = create_data_cleaner(null_replacement="Unknown")
+code_cleaner = create_data_cleaner(null_replacement="NONE", trim=False)
+
+raw_names = ["  alice  ", None, "BOB SMITH", "", "  charlie  "]
+cleaned = [name_cleaner(n) for n in raw_names]
+print(f"Raw:     {raw_names}")
+print(f"Cleaned: {cleaned}")
+
+# --- 5C. Recursive Functions ---
+print(f"\n{'=' * 50}")
+print("RECURSIVE FUNCTIONS")
+print("=" * 50)
+
+def flatten_nested_data(data, prefix=""):
+    """Flatten a nested dictionary (common in JSON/API data)."""
+    flat = {}
+    for key, value in data.items():
+        full_key = f"{prefix}{key}" if not prefix else f"{prefix}.{key}"
+        if isinstance(value, dict):
+            flat.update(flatten_nested_data(value, full_key))  # Recursive call
+        else:
+            flat[full_key] = value
+    return flat
+
+# Nested API response:
+api_response = {
+    "user": {
+        "name": "Alice",
+        "address": {
+            "city": "Bangalore",
+            "state": "Karnataka",
+            "country": "India"
+        },
+        "scores": {
+            "python": 95,
+            "sql": 88
+        }
+    },
+    "status": "active"
+}
+
+flat = flatten_nested_data(api_response)
+print("Flattened JSON:")
+for key, value in flat.items():
+    print(f"  {key}: {value}")
+
+# --- 5D. Generator Functions (yield) ---
+print(f"\n{'=' * 50}")
+print("GENERATOR FUNCTIONS")
+print("=" * 50)
+
+def read_in_batches(data, batch_size):
+    """Yield data in batches — memory efficient for large datasets."""
+    for i in range(0, len(data), batch_size):
+        batch = data[i:i + batch_size]
+        yield batch  # yield pauses and returns one batch at a time
+
+all_records = list(range(1, 16))  # 15 records
+print(f"Total records: {all_records}")
+
+for batch_num, batch in enumerate(read_in_batches(all_records, batch_size=4), 1):
+    print(f"  Batch {batch_num}: {batch}")
+
+# Generators are memory-efficient — they do NOT load all data at once
+# Perfect for processing millions of rows from databases or files
+
+# --- 5E. Decorator Functions ---
+print(f"\n{'=' * 50}")
+print("DECORATOR FUNCTIONS")
+print("=" * 50)
+
+import time
+
+def timer(func):
+    """Decorator that measures how long a function takes."""
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        duration = time.time() - start
+        print(f"  [{func.__name__}] completed in {duration:.4f}s")
+        return result
+    return wrapper
+
+def retry(max_attempts=3):
+    """Decorator that retries a function on failure."""
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for attempt in range(1, max_attempts + 1):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    print(f"  [{func.__name__}] Attempt {attempt} failed: {e}")
+                    if attempt == max_attempts:
+                        raise
+        return wrapper
+    return decorator
+
+@timer
+def process_data(records):
+    """Simulate processing data."""
+    total = sum(records)
+    return total
+
+@timer
+def slow_query():
+    """Simulate a slow database query."""
+    time.sleep(0.1)
+    return "query result"
+
+result = process_data([1, 2, 3, 4, 5])
+print(f"  Result: {result}")
+
+result = slow_query()
+print(f"  Result: {result}")
+PYEOF
+
+python func_05_advanced.py
+```
+
+### Part 6 — Putting It All Together: Pipeline Functions
+
+```bash
+cat > func_06_pipeline.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Part 6: Complete Pipeline Example
+# Using all function types together
+# ============================================
+
+import time
+
+# --- Decorator for logging ---
+def log_step(func):
+    """Decorator: log the start and end of each pipeline step."""
+    def wrapper(*args, **kwargs):
+        print(f"\n[START] {func.__name__}")
+        start = time.time()
+        result = func(*args, **kwargs)
+        elapsed = time.time() - start
+        print(f"[DONE]  {func.__name__} ({elapsed:.3f}s)")
+        return result
+    return wrapper
+
+# --- Extract: uses default params ---
+@log_step
+def extract(source, limit=None):
     """Extract data from source."""
-    print(f"\n[EXTRACT] Loading data from {source}")
-    return [
+    data = [
         {"id": 1, "product": "Laptop", "price": 999.99, "quantity": 5},
         {"id": 2, "product": "Mouse", "price": 29.99, "quantity": 100},
         {"id": 3, "product": "Keyboard", "price": 79.99, "quantity": 50},
+        {"id": 4, "product": "Monitor", "price": 449.99, "quantity": 10},
+        {"id": 5, "product": "Headphones", "price": 149.99, "quantity": 30},
     ]
+    if limit:
+        data = data[:limit]
+    print(f"  Loaded {len(data)} records from {source}")
+    return data
 
-def transform(records):
-    """Transform data: add total column."""
-    print(f"[TRANSFORM] Processing {len(records)} records")
-    for record in records:
-        record["total"] = round(record["price"] * record["quantity"], 2)
+# --- Transform: uses *args for multiple transform steps ---
+@log_step
+def transform(records, *steps):
+    """Apply multiple transform steps to records."""
+    for step_func in steps:
+        records = step_func(records)
     return records
 
-def load(records, destination):
-    """Load data to destination."""
-    print(f"[LOAD] Saving {len(records)} records to {destination}")
+# Individual transform functions (passed as *args):
+def add_total(records):
+    """Add total column."""
     for r in records:
-        print(f"  {r['product']}: ${r['total']:,.2f}")
+        r["total"] = round(r["price"] * r["quantity"], 2)
+    print(f"  Added 'total' column to {len(records)} records")
+    return records
+
+def add_category(records):
+    """Add price category."""
+    for r in records:
+        r["category"] = "Premium" if r["price"] >= 200 else "Standard"
+    print(f"  Added 'category' column to {len(records)} records")
+    return records
+
+def filter_valid(records):
+    """Keep only records with positive quantity."""
+    valid = [r for r in records if r["quantity"] > 0]
+    print(f"  Filtered: {len(valid)}/{len(records)} records valid")
+    return valid
+
+# --- Load: uses **kwargs for flexible options ---
+@log_step
+def load(records, destination, **options):
+    """Load records to destination with flexible options."""
+    format_type = options.get("format", "csv")
+    compress = options.get("compress", False)
+    partition_by = options.get("partition_by", None)
+
+    print(f"  Destination: {destination}")
+    print(f"  Format: {format_type} | Compressed: {compress}")
+    if partition_by:
+        print(f"  Partitioned by: {partition_by}")
+    print(f"  Loaded {len(records)} records")
     return True
 
-# Run the mini pipeline
-data = extract("sales_database")
-data = transform(data)
-load(data, "warehouse_table")
-print("\nPipeline complete!")
+# --- Run the pipeline ---
+print("=" * 50)
+print("  HitaVir Tech - Complete Pipeline")
+print("=" * 50)
+
+# Extract with defaults
+data = extract("postgres://hitavir-db/sales")
+
+# Transform with multiple *args steps
+data = transform(data, add_total, add_category, filter_valid)
+
+# Load with **kwargs options
+load(
+    data,
+    "s3://hitavir-warehouse/output/",
+    format="parquet",
+    compress=True,
+    partition_by="category"
+)
+
+# Display results
+print(f"\n--- Final Data ---")
+for r in data:
+    print(f"  {r['product']:>12} | ${r['total']:>10,.2f} | {r['category']}")
+
+print(f"\nPipeline complete!")
 PYEOF
 
-python functions.py
+python func_06_pipeline.py
 ```
 
-> **HitaVir Tech says:** "Every data pipeline is just a series of functions: extract(), transform(), load(). If you can write good functions, you can build any pipeline."
+### Function Types Summary
+
+| Type | Syntax | When to Use |
+|------|--------|-------------|
+| Basic | `def func():` | Simple, single-purpose tasks |
+| With params | `def func(a, b):` | Configurable behavior |
+| With defaults | `def func(a, b=10):` | Sensible fallbacks |
+| `*args` | `def func(*args):` | Unknown number of inputs (file lists, tables) |
+| `**kwargs` | `def func(**kwargs):` | Flexible config options (DB connections, settings) |
+| Combined | `def func(a, *args, **kwargs):` | Maximum flexibility (frameworks, libraries) |
+| Lambda | `lambda x: x * 2` | Quick inline transformations (sort keys, map/filter) |
+| Nested | `def outer(): def inner():` | Factory pattern, closures (custom cleaners) |
+| Recursive | `def func(): func()` | Tree structures, nested JSON flattening |
+| Generator | `def func(): yield x` | Memory-efficient batch processing |
+| Decorator | `@decorator` | Cross-cutting concerns (logging, timing, retry) |
+
+### The argument order rule
+
+When combining all argument types, they **must** appear in this order:
+
+```python
+def func(regular, default=val, *args, keyword_only, **kwargs):
+    pass
+
+# Example:
+def pipeline(name, mode="batch", *sources, notify=True, **options):
+    pass
+```
+
+> **HitaVir Tech says:** "Functions are the atoms of programming — everything is built from them. Every data pipeline is just extract(), transform(), load(). Every API endpoint is a function. Every automation script is a collection of functions. Master functions and you master Python."
 
 ## Data Structures
 Duration: 10:00
