@@ -60,7 +60,6 @@
     var timeLeft = 0;
     var timerDone = false;
     var scrollDone = false;
-    var ioObserver = null;
 
     /* ============================================================ */
     /*  STORAGE                                                     */
@@ -203,7 +202,6 @@
     function enterStep(idx) {
       /* cleanup */
       if (ticker) { clearInterval(ticker); ticker = null; }
-      if (ioObserver) { ioObserver.disconnect(); ioObserver = null; }
       timerDone = false;
       scrollDone = false;
 
@@ -238,29 +236,25 @@
       }, 1000);
 
       /* ---- SCROLL DETECTION ---- */
-      var last = step.lastElementChild;
-      /* check if the step content is short enough to fit without scroll */
+      /* The scroll container is #steps (inside google-codelab), NOT the
+         viewport. IntersectionObserver defaults to viewport root and
+         never fires. Use a scroll event listener on the actual container. */
       var box = stepsBox();
-      var shortContent = !last;
-      if (box && last) {
-        /* small tolerance: if all content visible, skip scroll requirement */
-        var boxH = box.clientHeight || window.innerHeight;
-        var stepH = step.scrollHeight || 0;
-        if (stepH <= boxH + 60) shortContent = true;
-      }
-
-      if (shortContent) {
+      if (!box || box.scrollHeight <= box.clientHeight + 80) {
+        /* Content fits without scrolling — skip scroll requirement */
         scrollDone = true;
       } else {
-        ioObserver = new IntersectionObserver(function (entries) {
-          if (entries[0] && entries[0].isIntersecting) {
+        var scrollHandler = function () {
+          var atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 80;
+          if (atBottom) {
             scrollDone = true;
-            ioObserver.disconnect();
-            ioObserver = null;
+            box.removeEventListener('scroll', scrollHandler);
             checkDone(idx);
           }
-        }, { threshold: 0.2 });
-        ioObserver.observe(last);
+        };
+        box.addEventListener('scroll', scrollHandler);
+        /* Also check immediately in case already at bottom */
+        setTimeout(scrollHandler, 500);
       }
     }
 
