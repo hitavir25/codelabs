@@ -236,24 +236,25 @@
       }, 1000);
 
       /* ---- SCROLL DETECTION ---- */
-      /* The scroll container is #steps (inside google-codelab), NOT the
-         viewport. IntersectionObserver defaults to viewport root and
-         never fires. Use a scroll event listener on the actual container. */
-      var box = stepsBox();
-      if (!box || box.scrollHeight <= box.clientHeight + 80) {
+      /* The scroll container is the google-codelab-step element itself
+         (overflow-y: auto), NOT #steps (overflow: hidden).
+         Listen for scroll events on the active step element. */
+      var scrollTarget = step;  /* google-codelab-step[selected] */
+      if (scrollTarget.scrollHeight <= scrollTarget.clientHeight + 80) {
         /* Content fits without scrolling — skip scroll requirement */
         scrollDone = true;
       } else {
         var scrollHandler = function () {
-          var atBottom = box.scrollTop + box.clientHeight >= box.scrollHeight - 80;
+          var atBottom = scrollTarget.scrollTop + scrollTarget.clientHeight
+                         >= scrollTarget.scrollHeight - 100;
           if (atBottom) {
             scrollDone = true;
-            box.removeEventListener('scroll', scrollHandler);
+            scrollTarget.removeEventListener('scroll', scrollHandler);
             checkDone(idx);
           }
         };
-        box.addEventListener('scroll', scrollHandler);
-        /* Also check immediately in case already at bottom */
+        scrollTarget.addEventListener('scroll', scrollHandler);
+        /* Check immediately in case already at bottom */
         setTimeout(scrollHandler, 500);
       }
     }
