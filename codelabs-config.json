@@ -3,5 +3,6 @@
   "windows-de-setup": { "unlocked": true, "order": 2 },
   "git-github-basics-gitbash": { "unlocked": true, "order": 3 },
   "github-ultimate": { "unlocked": false, "order": 4 },
-  "linux-basics": { "unlocked": true, "order": 5 }
+  "linux-basics": { "unlocked": true, "order": 5 },
+  "python-data-engineering": { "unlocked": false, "order": 6 }
 }
