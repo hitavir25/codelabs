@@ -1462,6 +1462,62 @@ python data_structures.py
 
 > **HitaVir Tech says:** "A list of dictionaries is the bread and butter of data engineering. It is how APIs return data, how you process CSV rows, and how you pass data between pipeline stages. Master this pattern."
 
+### Data Structure Comparison Table — Interview Reference
+
+This table is asked in **every Python interview** for Data Engineering roles. Memorize it.
+
+#### Core Comparison
+
+| Feature | List | Tuple | Set | Dictionary |
+|---------|------|-------|-----|------------|
+| **Syntax** | `[1, 2, 3]` | `(1, 2, 3)` | `{1, 2, 3}` | `{"a": 1}` |
+| **Mutable?** | Yes | No | Yes | Yes |
+| **Ordered?** | Yes | Yes | No | Yes (3.7+) |
+| **Duplicates?** | Allowed | Allowed | Not allowed | Keys unique |
+| **Indexing?** | Yes `[0]` | Yes `[0]` | No | By key `["a"]` |
+| **Slicing?** | Yes `[1:3]` | Yes `[1:3]` | No | No |
+| **Use case** | Collections of items | Fixed records | Unique values | Key-value mapping |
+
+#### Performance Comparison (Big-O)
+
+| Operation | List | Tuple | Set | Dict |
+|-----------|------|-------|-----|------|
+| Access by index | O(1) | O(1) | N/A | N/A |
+| Access by key | N/A | N/A | N/A | O(1) |
+| Search (in) | O(n) | O(n) | **O(1)** | **O(1)** |
+| Append / Add | O(1) | N/A | O(1) | O(1) |
+| Insert at position | O(n) | N/A | N/A | N/A |
+| Delete | O(n) | N/A | O(1) | O(1) |
+| Memory usage | Medium | **Low** | High | High |
+
+#### When to Use What — Data Engineering Guide
+
+| Scenario | Use This | Why |
+|----------|----------|-----|
+| Rows from a CSV file | List of dicts | Each row is a dict, collection is a list |
+| Database connection config | Tuple or dict | Config should not change (tuple) or needs named access (dict) |
+| Column names to process | List | Ordered, may have duplicates |
+| Unique customer IDs | Set | Automatic deduplication, O(1) lookup |
+| API response / JSON data | Dict | Key-value structure matches JSON |
+| Mapping old column names to new | Dict | `{"old_name": "new_name"}` |
+| Batch of records for processing | List of dicts | Industry standard for tabular data |
+| Immutable function return values | Tuple | Cannot be accidentally modified |
+| Checking if value exists in large dataset | Set | O(1) vs O(n) for lists |
+| Environment variables / settings | Dict | Named access: `config["DB_HOST"]` |
+| Coordinates or fixed pairs | Tuple | `(latitude, longitude)` — immutable |
+| Pipeline of transformation steps | List of functions | `[clean, validate, transform]` |
+
+#### Quick Memory Aid for Interviews
+
+```
+List  = Shopping cart     → ordered, changeable, duplicates OK
+Tuple = ID card           → ordered, fixed, cannot be changed
+Set   = Unique stamps     → unordered, no duplicates, fast lookup
+Dict  = Phone book        → name→number pairs, fast lookup by key
+```
+
+> **HitaVir Tech says:** "In interviews, they will ask: 'When would you use a set instead of a list?' The answer: when you need unique values and fast O(1) lookups. A set checks membership instantly; a list scans every element. For 10 million records, that is the difference between milliseconds and minutes."
+
 ## File Handling — CSV, JSON, and Text
 Duration: 12:00
 
@@ -2635,6 +2691,226 @@ print(f"DEBUG: len = {len(data)}")
 ```
 
 > **HitaVir Tech says:** "Every bug is a lesson. Read the error message carefully — Python tells you exactly what went wrong and on which line. The traceback is your best debugging friend."
+
+## Python Interview Questions for Data Engineering
+Duration: 10:00
+
+These questions are frequently asked in Python Data Engineering interviews at companies hiring through **LinkedIn, Naukri, Indeed**, and at institutes like **Simplilearn, Intellipaat, Coursera, DataCamp, Great Learning**, and **Scaler Academy**. They cover the exact topics you learned in this codelab.
+
+### Category 1 — Python Fundamentals
+
+**Q1: What is the difference between a list and a tuple?**
+
+**Answer:** A list is mutable (can be changed after creation) while a tuple is immutable (cannot be changed). Lists use square brackets `[]`, tuples use parentheses `()`. Use tuples for fixed data like database connection configs `(host, port, db)` and lists for collections that change like rows from a query result. Tuples are slightly faster and use less memory.
+
+**Q2: What are `*args` and `**kwargs`? Give a real example.**
+
+**Answer:** `*args` allows a function to accept any number of positional arguments as a tuple. `**kwargs` allows any number of keyword arguments as a dictionary. Real example: a database connection function uses `**kwargs` so callers can pass `host`, `port`, `ssl`, `timeout` — any combination without the function needing to define every parameter explicitly.
+
+```python
+def connect_db(**kwargs):
+    host = kwargs.get("host", "localhost")
+    port = kwargs.get("port", 5432)
+    # flexible — caller decides which params to pass
+```
+
+**Q3: What is the difference between `==` and `is`?**
+
+**Answer:** `==` checks if two values are equal (same content). `is` checks if two variables point to the exact same object in memory (same identity). For data engineering: use `==` for value comparison, use `is` only for checking `None` (`if value is None`).
+
+**Q4: What are list comprehensions? Why are they preferred?**
+
+**Answer:** List comprehensions are a concise way to create lists from existing iterables. They are preferred because they are faster than traditional for loops (optimized internally by Python) and more readable for simple transformations.
+
+```python
+# Traditional loop
+results = []
+for x in data:
+    if x > 0:
+        results.append(x * 2)
+
+# List comprehension (faster, cleaner)
+results = [x * 2 for x in data if x > 0]
+```
+
+**Q5: Explain mutable vs immutable types with examples.**
+
+**Answer:** Mutable objects can be changed after creation: `list`, `dict`, `set`. Immutable objects cannot: `int`, `float`, `str`, `tuple`, `frozenset`. This matters in data engineering when passing data between functions — mutable objects can be accidentally modified by a function, causing bugs. Use tuples for data that must not change.
+
+### Category 2 — Data Handling and File I/O
+
+**Q6: How do you read a CSV file in Python? Compare csv module vs pandas.**
+
+**Answer:** The `csv` module is built-in and lightweight — good for simple row-by-row processing. pandas `read_csv()` loads the entire file into a DataFrame — good for analysis, transformation, and aggregation. For small files or streaming, use `csv`. For analytics and transformation pipelines, use pandas.
+
+```python
+# csv module (row by row, low memory)
+import csv
+with open("data.csv") as f:
+    reader = csv.DictReader(f)
+    for row in reader:
+        process(row)
+
+# pandas (full DataFrame, powerful but uses more memory)
+import pandas as pd
+df = pd.read_csv("data.csv")
+```
+
+**Q7: How do you handle missing values in a dataset?**
+
+**Answer:** Detect with `df.isnull().sum()`. Handle by either: (1) dropping rows: `df.dropna()`, (2) filling with default: `df.fillna(0)` or `df.fillna(method="ffill")`, (3) filling with statistics: `df.fillna(df["column"].mean())`. The strategy depends on business rules — for financial data, you might reject rows; for sensor data, you might forward-fill.
+
+**Q8: What is the difference between `json.load()` and `json.loads()`?**
+
+**Answer:** `json.load()` reads from a file object. `json.loads()` reads from a string. Similarly, `json.dump()` writes to a file, `json.dumps()` converts to a string. The "s" stands for "string."
+
+```python
+import json
+
+# From file
+with open("config.json") as f:
+    data = json.load(f)
+
+# From string
+data = json.loads('{"key": "value"}')
+```
+
+**Q9: How would you process a 10 GB CSV file that does not fit in memory?**
+
+**Answer:** Use chunked reading with pandas: `pd.read_csv("huge.csv", chunksize=10000)` which returns an iterator of DataFrames. Or use the `csv` module for row-by-row processing. For production, use PySpark or Dask which distribute processing across multiple machines. You can also use generator functions with `yield` to process batches lazily.
+
+### Category 3 — Functions and OOP
+
+**Q10: What is a decorator? Give a data engineering use case.**
+
+**Answer:** A decorator is a function that wraps another function to add behavior without modifying the original. In data engineering, common use cases are: timing pipeline steps (`@timer`), retrying on failure (`@retry(max=3)`), logging function calls (`@log_execution`), and caching results (`@lru_cache`).
+
+```python
+def retry(max_attempts=3):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_attempts):
+                try:
+                    return func(*args, **kwargs)
+                except Exception:
+                    if attempt == max_attempts - 1:
+                        raise
+        return wrapper
+    return decorator
+
+@retry(max_attempts=3)
+def fetch_data_from_api(url):
+    # automatically retries up to 3 times on failure
+    pass
+```
+
+**Q11: What is the difference between `@staticmethod` and `@classmethod`?**
+
+**Answer:** `@staticmethod` does not receive `self` or `cls` — it is a utility function that lives inside a class. `@classmethod` receives `cls` (the class itself) and can create instances. In a data pipeline class, you might use `@classmethod` as a factory method: `Pipeline.from_config("config.yaml")` and `@staticmethod` for utility: `Pipeline.validate_path(path)`.
+
+**Q12: What are generators? When would you use them in data engineering?**
+
+**Answer:** Generators use `yield` instead of `return` and produce values lazily — one at a time, without loading everything into memory. Essential for processing large datasets, reading database cursors row-by-row, or streaming data. They are memory-efficient because only one item exists in memory at a time.
+
+```python
+def read_batches(filepath, batch_size=1000):
+    batch = []
+    with open(filepath) as f:
+        for line in f:
+            batch.append(line)
+            if len(batch) == batch_size:
+                yield batch
+                batch = []
+        if batch:
+            yield batch
+```
+
+### Category 4 — Error Handling and Production Code
+
+**Q13: How do you handle errors in a production data pipeline?**
+
+**Answer:** Use `try-except` blocks with specific exception types (never bare `except:`). Log errors with the `logging` module (not `print`). Implement retry logic for transient failures (network, database timeouts). Use `finally` blocks for cleanup (closing connections). Store failed records separately for investigation rather than silently dropping them.
+
+**Q14: What is the difference between `raise` and `raise from`?**
+
+**Answer:** `raise` re-raises or creates an exception. `raise NewError() from original_error` chains exceptions — preserving the original traceback while wrapping it in a more meaningful error. This is useful in pipelines to add context: "Failed to process batch 42" while still showing the original "Connection refused" error.
+
+**Q15: How do you implement logging in Python?**
+
+**Answer:** Use the built-in `logging` module with appropriate levels: `DEBUG` for development, `INFO` for normal operations, `WARNING` for unexpected but handled situations, `ERROR` for failures, `CRITICAL` for system-level failures. Configure with `basicConfig()` or handler-based setup for file + console output. Never use `print()` in production pipelines.
+
+### Category 5 — pandas and Data Transformation
+
+**Q16: What is the difference between `loc` and `iloc` in pandas?**
+
+**Answer:** `loc` selects by label (column names, index labels). `iloc` selects by integer position. `df.loc[0:5, "name"]` selects rows 0 through 5 of column "name" (inclusive). `df.iloc[0:5, 0]` selects the first 5 rows of the first column (exclusive of end).
+
+**Q17: How do you merge two DataFrames? Explain join types.**
+
+**Answer:** Use `pd.merge(df1, df2, on="key", how="inner")`. Join types: `inner` (matching rows only), `left` (all from left, matching from right), `right` (all from right), `outer` (all from both). This mirrors SQL JOIN behavior. Use `left` when you want to keep all records from your primary table and enrich with data from a lookup table.
+
+**Q18: How do you handle duplicate rows in pandas?**
+
+**Answer:** Detect with `df.duplicated().sum()`. Remove with `df.drop_duplicates()`. For specific columns: `df.drop_duplicates(subset=["email"])`. Keep first or last: `df.drop_duplicates(keep="last")`. In data engineering, always check for duplicates after merging datasets or loading incremental data.
+
+**Q19: What is the `apply()` function in pandas?**
+
+**Answer:** `apply()` runs a function on every row or column of a DataFrame. Use it for custom transformations that cannot be done with built-in pandas methods. It is slower than vectorized operations but more flexible.
+
+```python
+# Apply to each row
+df["full_name"] = df.apply(lambda row: f"{row['first']} {row['last']}", axis=1)
+
+# Apply to a column
+df["category"] = df["price"].apply(lambda p: "Premium" if p > 500 else "Standard")
+```
+
+**Q20: What is the difference between `groupby().agg()` and `groupby().transform()`?**
+
+**Answer:** `agg()` returns a reduced DataFrame (one row per group) — used for summary reports. `transform()` returns a DataFrame with the same shape as the original — each row gets the group's aggregated value. Use `transform()` when you need group statistics as a new column alongside individual rows.
+
+```python
+# agg: one row per region (summary)
+df.groupby("region")["revenue"].agg(["sum", "mean", "count"])
+
+# transform: adds group mean to every row (enrichment)
+df["region_avg"] = df.groupby("region")["revenue"].transform("mean")
+```
+
+### Category 6 — Architecture and Best Practices
+
+**Q21: How do you structure a Python data engineering project?**
+
+**Answer:** Use a modular structure separating concerns: `src/` for source code (extract.py, transform.py, load.py), `config/` for environment configs, `tests/` for unit tests, `data/` for input/output (gitignored), `logs/` for pipeline logs. Include `requirements.txt` for dependencies, `.gitignore` for secrets and data files, and `README.md` for documentation.
+
+**Q22: What is the difference between a virtual environment and a conda environment?**
+
+**Answer:** Both isolate project dependencies. `venv` is built into Python, lightweight, and uses pip. Conda manages both Python packages and non-Python dependencies (like C libraries), and can manage Python versions. For data engineering: use `venv` for pure Python projects, use `conda` when you need complex scientific libraries (NumPy with MKL, CUDA for GPU).
+
+**Q23: How do you make a pipeline idempotent?**
+
+**Answer:** Idempotent means running the pipeline twice produces the same result. Techniques: use `INSERT ... ON CONFLICT DO UPDATE` (upsert) instead of plain `INSERT`, use `CREATE TABLE IF NOT EXISTS`, delete-then-insert for full refreshes, use partition overwriting for incremental loads, and always use deterministic transformations (no random values without seeds).
+
+**Q24: What is the difference between ETL and ELT?**
+
+**Answer:** ETL (Extract-Transform-Load) transforms data before loading into the warehouse — used when compute is cheaper at the pipeline level. ELT (Extract-Load-Transform) loads raw data first and transforms inside the warehouse — used with powerful cloud warehouses like BigQuery, Snowflake, Redshift that can handle heavy SQL transformations. Modern data engineering favors ELT.
+
+**Q25: How do you handle secrets (passwords, API keys) in Python projects?**
+
+**Answer:** Never hardcode secrets in source code. Use environment variables (`os.environ["DB_PASSWORD"]`), `.env` files with `python-dotenv` (gitignored), or secret managers (AWS Secrets Manager, Azure Key Vault). Always add `.env` and credential files to `.gitignore`. In CI/CD, use pipeline secrets (GitHub Secrets, GitLab CI Variables).
+
+### Interview Preparation Tips
+
+| Tip | Why |
+|-----|-----|
+| Always give a **data engineering example** | Shows you understand the domain, not just syntax |
+| Mention **trade-offs** | "Lists are flexible but sets are faster for lookups" |
+| Talk about **production concerns** | Error handling, logging, memory, scalability |
+| Know **pandas deeply** | groupby, merge, apply, pivot_table are asked most |
+| Practice **coding on paper** | Many interviews have whiteboard or live coding rounds |
+| Understand **Big-O basics** | O(1) vs O(n) matters when processing millions of rows |
+
+> **HitaVir Tech says:** "These 25 questions cover 90% of what you will face in a Python Data Engineering interview. But knowing the answer is not enough — practice explaining them out loud. An interview is a conversation, not a written exam."
 
 ## Summary and Next Steps
 Duration: 3:00
