@@ -237,10 +237,16 @@ jobs:
           # --- Summary ---
           unlocked = [c for c in codelabs if c["unlocked"]]
           locked = [c for c in codelabs if not c["unlocked"]]
-          print(f"\nBatch 5: {len(unlocked)} unlocked, {len(locked)} locked")
+          print(f"\n{'='*60}")
+          print(f"LANDING PAGE SUMMARY")
+          print(f"{'='*60}")
+          print(f"Total codelabs found: {len(codelabs)}")
+          print(f"Unlocked: {len(unlocked)} | Locked: {len(locked)}")
+          print(f"")
           for c in codelabs:
-              status = "UNLOCKED" if c["unlocked"] else "LOCKED"
-              print(f"  [{status}] {c['order']}. {c['title']}")
+              status = "UNLOCKED" if c["unlocked"] else "LOCKED  "
+              print(f"  [{status}] {c['order']}. {c['id']} — {c['title']}")
+          print(f"{'='*60}")
           PYSCRIPT
           echo 'Landing pages generated'
 
