@@ -5,5 +5,5 @@
   "github-ultimate": { "unlocked": false, "order": 4 },
   "linux-basics": { "unlocked": true, "order": 5 },
   "python-data-engineering": { "unlocked": false, "order": 6 },
-  "mysql-workbench-setup": { "unlocked": false, "order": 7 }
+  "mysql-workbench-setup": { "unlocked": true, "order": 7 }
 }
