@@ -249,7 +249,7 @@ jobs:
           with open("_site/index.html", "w") as f:
               f.write(page_html(
                   "HitaVirTech Codelabs",
-                  "Data Engineering Hands-on Labs &mdash; Batch 5 &bull; April 2026",
+                  "Data Engineering Hands-on Labs",
                   batch_cards,
                   admin_script=True
               ))
