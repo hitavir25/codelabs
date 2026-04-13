@@ -36,23 +36,25 @@
     'iamawannadole@gmail.com'
   ];
 
-  function getEmailFromCFJWT() {
-    try {
-      var match = document.cookie.match(/CF_Authorization=([^;]+)/);
-      if (!match) return null;
-      var parts = match[1].split('.');
-      if (parts.length < 2) return null;
-      var payload = JSON.parse(atob(parts[1]));
-      return (payload.email || '').toLowerCase();
-    } catch (e) { return null; }
-  }
+  var _isAdmin = false;
+  function isAdmin() { return _isAdmin; }
 
-  var _isAdmin = null;
-  function isAdmin() {
-    if (_isAdmin !== null) return _isAdmin;
-    var email = getEmailFromCFJWT();
-    _isAdmin = email ? ADMIN_EMAILS.indexOf(email) !== -1 : false;
-    return _isAdmin;
+  function detectAdmin(cb) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', '/cdn-cgi/access/get-identity', true);
+    xhr.timeout = 3000;
+    xhr.onload = function () {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        var email = (data.email || '').toLowerCase();
+        if (email && ADMIN_EMAILS.indexOf(email) !== -1) {
+          _isAdmin = true;
+        }
+      } catch (e) { /* not admin */ }
+      cb();
+    };
+    xhr.onerror = xhr.ontimeout = function () { cb(); };
+    xhr.send();
   }
 
   var retries = 0;
@@ -66,7 +68,7 @@
       if (++retries < MAX_RETRIES) setTimeout(boot, RETRY_MS);
       return;
     }
-    run(codelab);
+    detectAdmin(function () { run(codelab); });
   }
 
   /* ================================================================ */
