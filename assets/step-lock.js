@@ -39,23 +39,23 @@
   var _isAdmin = false;
   function isAdmin() { return _isAdmin; }
 
-  function detectAdmin(cb) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', '/cdn-cgi/access/get-identity', true);
-    xhr.timeout = 3000;
-    xhr.onload = function () {
-      try {
+  /* Detect admin via Cloudflare Access identity endpoint (sync).
+     Runs once at script load — blocks briefly but guarantees
+     the admin flag is set before any step-lock logic fires. */
+  (function detectAdmin() {
+    try {
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', '/cdn-cgi/access/get-identity', false); /* sync */
+      xhr.send();
+      if (xhr.status === 200) {
         var data = JSON.parse(xhr.responseText);
         var email = (data.email || '').toLowerCase();
         if (email && ADMIN_EMAILS.indexOf(email) !== -1) {
           _isAdmin = true;
         }
-      } catch (e) { /* not admin */ }
-      cb();
-    };
-    xhr.onerror = xhr.ontimeout = function () { cb(); };
-    xhr.send();
-  }
+      }
+    } catch (e) { /* not admin or endpoint unavailable */ }
+  })();
 
   var retries = 0;
 
@@ -68,7 +68,7 @@
       if (++retries < MAX_RETRIES) setTimeout(boot, RETRY_MS);
       return;
     }
-    detectAdmin(function () { run(codelab); });
+    run(codelab);
   }
 
   /* ================================================================ */
