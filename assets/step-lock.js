@@ -31,6 +31,30 @@
   var MAX_READ_SEC = 120;
   var WORDS_PER_MIN = 200;
 
+  /* ---- ADMIN BYPASS ---- */
+  var ADMIN_EMAILS = [
+    'iamawannadole@gmail.com'
+  ];
+
+  function getEmailFromCFJWT() {
+    try {
+      var match = document.cookie.match(/CF_Authorization=([^;]+)/);
+      if (!match) return null;
+      var parts = match[1].split('.');
+      if (parts.length < 2) return null;
+      var payload = JSON.parse(atob(parts[1]));
+      return (payload.email || '').toLowerCase();
+    } catch (e) { return null; }
+  }
+
+  var _isAdmin = null;
+  function isAdmin() {
+    if (_isAdmin !== null) return _isAdmin;
+    var email = getEmailFromCFJWT();
+    _isAdmin = email ? ADMIN_EMAILS.indexOf(email) !== -1 : false;
+    return _isAdmin;
+  }
+
   var retries = 0;
 
   function boot() {
@@ -205,6 +229,14 @@
       timerDone = false;
       scrollDone = false;
 
+      /* ---- ADMIN BYPASS: no timer, no scroll lock ---- */
+      if (isAdmin()) {
+        saveCompleted(idx);
+        enableForward();
+        hideBadge();
+        return;
+      }
+
       /* already completed → free to navigate */
       if (idx <= maxCompleted()) {
         enableForward();
@@ -280,6 +312,9 @@
       if (!links.length) { setTimeout(lockSidebar, 500); return; }
 
       var total = links.length;
+
+      /* Admin gets all steps unlocked */
+      if (isAdmin()) mc = total - 1;
 
       links.forEach(function (a, i) {
         /* remove old icons */
@@ -379,7 +414,7 @@
       var s = getSel();
       var mc = maxCompleted();
 
-      if (s > mc + 1) {
+      if (!isAdmin() && s > mc + 1) {
         toast('\uD83D\uDD12 Complete the current section before skipping ahead!');
         goTo(lastValid);
         return;
@@ -393,7 +428,7 @@
     /* ---- hashchange guard ---- */
 
     window.addEventListener('hashchange', function () {
-      if (blocking) return;
+      if (blocking || isAdmin()) return;
       var h = parseInt((location.hash || '#0').replace('#', ''), 10) || 0;
       if (h > maxCompleted() + 1) {
         toast('\uD83D\uDD12 You must complete previous sections first!');
@@ -404,6 +439,7 @@
     /* ---- keyboard guard ---- */
 
     document.addEventListener('keydown', function (e) {
+      if (isAdmin()) return;
       var s = getSel();
       if ((e.key === 'ArrowRight' || e.key === 'ArrowDown') && s > maxCompleted()) {
         e.preventDefault();
@@ -419,6 +455,7 @@
     /* ---- click guard on forward buttons ---- */
 
     document.addEventListener('click', function (e) {
+      if (isAdmin()) return;
       var s = getSel();
       if (s > maxCompleted()) {
         var target = e.target;
@@ -450,6 +487,7 @@
     /* ---- drawer click guard (also catches completed-step sidebar access) ---- */
 
     document.addEventListener('click', function (e) {
+      if (isAdmin()) return;
       var target = e.target;
       var node = target;
       while (node && node !== document.body) {
