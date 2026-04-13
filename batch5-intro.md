@@ -1123,42 +1123,245 @@ As you progress through the program, apply these optimization patterns:
 | Databricks | Use autoscaling clusters, Delta Lake optimization (ZORDER, OPTIMIZE) |
 
 ## Cost Optimization
-Duration: 2:00
+Duration: 8:00
 
-### Cloud Free Tiers for Learning
+Cloud FinOps is not an afterthought — it is a core engineering discipline. Every line of code you write, every cluster you spin up, every query you run has a cost. The best engineers think about cost the same way they think about performance: continuously.
 
-```
-AWS Free Tier (12 months):
-  S3:      5 GB storage
-  EC2:     750 hours t2.micro/month
-  RDS:     750 hours db.t2.micro/month
-  Lambda:  1M requests/month (always free)
-
-Azure Free Tier:
-  $200 credit for 30 days
-  12 months of select free services
-  Always-free: Functions (1M), Cosmos DB (limited)
-
-GCP Free Tier:
-  $300 credit for 90 days
-  BigQuery: 1 TB queries/month (always free)
-  Functions: 2M invocations/month (always free)
-
-Databricks Community Edition:
-  Free cluster (auto-terminates after idle)
-  Perfect for learning Spark and Delta Lake
-```
-
-### The Cost Rule
-
-**After every codelab that uses cloud resources:**
+### Cloud FinOps — The Three Pillars
 
 ```
-1. Check your cloud console for running resources
-2. Terminate anything not actively needed
-3. Verify billing dashboard for unexpected charges
-4. Set up billing alerts if you have not already
+  INFORM     →  Know what you are spending and why
+  OPTIMIZE   →  Reduce waste without reducing capability
+  OPERATE    →  Build cost-awareness into daily engineering habits
 ```
+
+| Pillar | Engineer's Responsibility | Example |
+|--------|--------------------------|---------|
+| Inform | Tag every resource, review bills weekly | `project: hitavir-batch5, owner: your-name, env: dev` |
+| Optimize | Right-size, schedule, use spot/preemptible | Downsize m5.xlarge to m5.large if CPU is at 20% |
+| Operate | Auto-terminate, lifecycle policies, alerts | Cluster auto-stops after 15 min idle |
+
+### FinOps Across Clouds
+
+| Practice | AWS | Azure | GCP |
+|----------|-----|-------|-----|
+| Cost Dashboard | Cost Explorer | Cost Management | Billing Reports |
+| Budget Alerts | AWS Budgets | Azure Budgets | GCP Budget Alerts |
+| Right-Sizing | Compute Optimizer | Azure Advisor | Recommender |
+| Spot/Preemptible | Spot Instances | Spot VMs | Preemptible VMs |
+| Storage Tiers | S3 Standard → IA → Glacier | Hot → Cool → Archive | Standard → Nearline → Coldline |
+| Auto-Shutdown | Lambda + CloudWatch Events | Azure Automation | Cloud Scheduler + Functions |
+| Reserved Pricing | Reserved Instances / Savings Plans | Reserved VMs | Committed Use Discounts |
+
+### Databricks FinOps
+
+```
+Databricks Cost Killers (and how to avoid them):
+
+  1. IDLE CLUSTERS
+     Problem:  Cluster running 24/7 but used 2 hours/day
+     Fix:      Auto-termination after 10-15 min idle
+     Savings:  Up to 90%
+
+  2. OVERSIZED CLUSTERS
+     Problem:  8-node cluster for a job that runs on 2 nodes
+     Fix:      Use autoscaling (min 1, max based on workload)
+     Savings:  50-75%
+
+  3. ON-DEMAND FOR DEV/TEST
+     Problem:  Using on-demand instances for development
+     Fix:      Use spot instances for non-critical workloads
+     Savings:  60-80%
+
+  4. FULL TABLE SCANS
+     Problem:  Reading entire Delta table when you need one partition
+     Fix:      Partition pruning, ZORDER, predicate pushdown
+     Savings:  Varies (can be 10x-100x on large tables)
+```
+
+### Best Python Programming Patterns for Cost Optimization
+
+Writing cost-efficient code is just as important as configuring cloud resources. Bad code wastes compute, memory, and money.
+
+**Pattern 1: Use Generators Instead of Lists for Large Data**
+
+```python
+# BAD — Loads entire dataset into memory at once
+# Cost: High memory usage, potential OOM on large files
+def read_all_records(filepath):
+    with open(filepath) as f:
+        return [line.strip() for line in f]  # All in memory
+
+# GOOD — Yields one record at a time
+# Cost: Constant memory regardless of file size
+def read_records(filepath):
+    with open(filepath) as f:
+        for line in f:
+            yield line.strip()  # One at a time
+```
+
+**Pattern 2: Filter Early, Process Late**
+
+```python
+# BAD — Processes everything, then filters
+# Cost: Wasted CPU cycles on data you will discard
+result = []
+for record in massive_dataset:
+    transformed = expensive_transformation(record)
+    if transformed["region"] == "EU":
+        result.append(transformed)
+
+# GOOD — Filter first, then process only what you need
+# Cost: Transforms only matching records
+result = [
+    expensive_transformation(record)
+    for record in massive_dataset
+    if record["region"] == "EU"
+]
+```
+
+**Pattern 3: Use Built-in Functions Over Loops**
+
+```python
+# BAD — Manual loop (slower, more memory)
+total = 0
+for sale in sales_data:
+    total += sale["amount"]
+
+# GOOD — Built-in sum() with generator (C-optimized, faster)
+total = sum(sale["amount"] for sale in sales_data)
+```
+
+**Pattern 4: Efficient String Operations**
+
+```python
+# BAD — String concatenation in a loop (creates new string each time)
+# Cost: O(n^2) memory allocation for n strings
+query = ""
+for column in columns:
+    query += column + ", "
+
+# GOOD — join() method (single allocation)
+# Cost: O(n) memory allocation
+query = ", ".join(columns)
+```
+
+**Pattern 5: Context Managers for Resource Cleanup**
+
+```python
+# BAD — Resource leak if exception occurs between open and close
+# Cost: Leaked connections = wasted cloud resources + potential billing
+conn = database.connect()
+result = conn.execute("SELECT * FROM orders")
+conn.close()  # Never reached if execute() throws
+
+# GOOD — Context manager guarantees cleanup
+# Cost: Connection always released, even on error
+with database.connect() as conn:
+    result = conn.execute("SELECT * FROM orders")
+# Connection automatically closed here
+```
+
+**Pattern 6: Batch Operations Over Individual Calls**
+
+```python
+# BAD — One API call per record (N network round trips)
+# Cost: Slow + may hit API rate limits + higher network charges
+for record in records:
+    s3_client.put_object(Bucket=bucket, Key=record["id"], Body=record["data"])
+
+# GOOD — Batch upload (fewer API calls, lower cost)
+# Cost: Fewer round trips, lower API call charges
+import io
+buffer = io.BytesIO()
+for record in records:
+    buffer.write(record["data"].encode() + b"\n")
+s3_client.put_object(Bucket=bucket, Key="batch_upload.jsonl", Body=buffer.getvalue())
+```
+
+**Pattern 7: Cache Expensive Computations**
+
+```python
+from functools import lru_cache
+
+# BAD — Recalculates every time (wastes CPU)
+def get_exchange_rate(currency):
+    return api_call_to_exchange_service(currency)  # Slow + costs per call
+
+# GOOD — Cache results (avoids redundant API calls)
+@lru_cache(maxsize=128)
+def get_exchange_rate(currency):
+    return api_call_to_exchange_service(currency)  # Called once per currency
+```
+
+**Pattern 8: Use Appropriate Data Structures**
+
+```python
+# BAD — Using list for membership checks (O(n) per lookup)
+blocked_users = ["user1", "user2", "user3", ..., "user10000"]
+if user_id in blocked_users:  # Scans entire list
+    block()
+
+# GOOD — Using set for membership checks (O(1) per lookup)
+blocked_users = {"user1", "user2", "user3", ..., "user10000"}
+if user_id in blocked_users:  # Instant hash lookup
+    block()
+```
+
+### PySpark Cost Patterns
+
+```python
+# BAD — Collect entire DataFrame to driver (OOM risk, defeats Spark)
+all_data = df.collect()  # Pulls everything to one machine
+for row in all_data:
+    process(row)
+
+# GOOD — Keep processing distributed
+df.filter(col("status") == "active") \
+  .groupBy("region") \
+  .agg(sum("revenue").alias("total_revenue")) \
+  .write.format("delta").save("/output/path")
+
+# BAD — No partition pruning (full table scan)
+df = spark.read.format("delta").load("/data/sales")
+result = df.filter(col("sale_date") == "2026-04-14")
+
+# GOOD — Partition-aware reads (reads only relevant partitions)
+df = spark.read.format("delta").load("/data/sales")
+# Table is partitioned by sale_date, so Spark reads only that partition
+result = df.filter(col("sale_date") == "2026-04-14")
+# Verify with: result.explain()  → should show PartitionFilters
+
+# BAD — Persisting data you only use once (wastes memory/disk)
+df.cache()
+result = df.groupBy("category").count()
+result.show()
+# df stays cached, consuming cluster memory
+
+# GOOD — Cache only when reusing the same DataFrame multiple times
+df.cache()
+summary = df.groupBy("category").count()
+details = df.filter(col("amount") > 1000)
+summary.show()
+details.show()
+df.unpersist()  # Release when done
+```
+
+### The FinOps Checklist (Run After Every Cloud Codelab)
+
+```
+After EVERY codelab that uses cloud resources:
+  [ ] Check cloud console for running resources
+  [ ] Terminate idle clusters, VMs, and services
+  [ ] Verify billing dashboard for unexpected charges
+  [ ] Set up budget alerts if not already done
+  [ ] Review code for the 8 Python cost patterns above
+  [ ] Check Spark jobs for unnecessary shuffles and full scans
+  [ ] Verify storage lifecycle policies are in place
+  [ ] Tag all resources with project/owner/environment
+```
+
+**The most expensive bug is the one that runs in production for a month before anyone notices the bill.**
 
 ## Mini Challenges and Exercises
 Duration: 5:00
