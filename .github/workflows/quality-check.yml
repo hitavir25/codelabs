@@ -172,13 +172,46 @@ jobs:
                       f'</div>')
 
           def locked_card(c):
-              return (f'<div class="card locked">'
+              return (f'<div class="card locked" data-id="{c["id"]}">'
                       f'<h3>{c["title"]}</h3>'
                       f'<span class="badge">Coming Soon</span>'
                       f'</div>')
 
+          # --- Admin unlock script (injected only on main landing page) ---
+          ADMIN_SCRIPT = """<script>
+          (function(){
+            try {
+              var xhr = new XMLHttpRequest();
+              xhr.open('GET', '/cdn-cgi/access/get-identity', false);
+              xhr.send();
+              if (xhr.status === 200) {
+                var data = JSON.parse(xhr.responseText);
+                var email = (data.email || '').toLowerCase();
+                var ADMIN_EMAILS = ['iamawannadole@gmail.com'];
+                if (ADMIN_EMAILS.indexOf(email) !== -1) {
+                  var locked = document.querySelectorAll('.card.locked');
+                  for (var i = 0; i < locked.length; i++) {
+                    var card = locked[i];
+                    var id = card.getAttribute('data-id');
+                    if (!id) continue;
+                    card.classList.remove('locked');
+                    var badge = card.querySelector('.badge');
+                    if (badge) {
+                      var link = document.createElement('a');
+                      link.href = id + '/';
+                      link.textContent = 'Start Lab';
+                      badge.parentNode.replaceChild(link, badge);
+                    }
+                  }
+                }
+              }
+            } catch(e) {}
+          })();
+          </script>"""
+
           # --- HTML template ---
-          def page_html(title, subtitle, cards_html):
+          def page_html(title, subtitle, cards_html, admin_script=False):
+              script_block = ADMIN_SCRIPT if admin_script else ""
               return f'''<!DOCTYPE html>
           <html lang="en">
           <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -205,6 +238,7 @@ jobs:
           </header>
           <main>{cards_html}</main>
           <footer>Built with Google Codelabs &bull; HitaVirTech &copy; 2026</footer>
+          {script_block}
           </body></html>'''
 
           # --- 1. Current batch landing page (index.html) ---
@@ -216,7 +250,8 @@ jobs:
               f.write(page_html(
                   "HitaVirTech Codelabs",
                   "Data Engineering Hands-on Labs &mdash; Batch 5 &bull; April 2026",
-                  batch_cards
+                  batch_cards,
+                  admin_script=True
               ))
           print("Generated: _site/index.html (current batch)")
 
