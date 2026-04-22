@@ -12,123 +12,141 @@ Feedback Link: https://github.com/hitavir25/codelabs/issues
 Duration: 5:00
 
 ```
-    ╔═══════════════════════════════════════════════════════╗
-    ║     ☁️   AWS  ANALYTICS  FUNDAMENTALS  —  PART 1   ☁️    ║
-    ║                                                       ║
-    ║     Concepts  •  The 5 Vs  •  AWS Service Mapping     ║
-    ╚═══════════════════════════════════════════════════════╝
+   ╔════════════════════════════════════════════════════════════╗
+   ║                                                            ║
+   ║        ☁️   AWS ANALYTICS FUNDAMENTALS — PART 1    ☁️        ║
+   ║                                                            ║
+   ║     Concepts  •  The 5 Vs of Big Data  •  AWS Mapping       ║
+   ║                                                            ║
+   ║                  Powered by HitaVir Tech                    ║
+   ╚════════════════════════════════════════════════════════════╝
 ```
 
 Welcome to **Fundamentals of Analytics on AWS - Part 1** by **HitaVir Tech**!
 
 This codelab builds your mental model for analytics in the cloud — one concept at a time, one AWS service at a time. No prior AWS experience required.
 
-### What You Will Learn
-
-**🧠 Analytics Concepts**
-- What **Analytics** is and why it matters
-- What **Machine Learning** is and how it relates to analytics
-- The **5 Vs of Big Data** — Volume, Variety, Velocity, Veracity, Value
-
-**☁️ AWS Services for Analytics**
-- AWS services that handle **Volume** (scale)
-- AWS services that handle **Variety** (formats)
-- AWS services that handle **Velocity** (speed)
-- AWS services that handle **Veracity** (quality)
-- AWS services that handle **Value** (outcomes)
-
-**🛠️ Hands-on**
-- Build a mini analytics pipeline on AWS (S3 → Glue → Athena)
-
-### The Big Picture
+### What You Will Master
 
 ```
-                        📊  ANALYTICS
-                             │
-          ┌──────────────────┼──────────────────┐
-          ▼                  ▼                  ▼
-      🧠 Thinking      📏 The 5 Vs         ☁️ AWS Services
-       (concepts)      (what makes         (what solves
-                        it hard)             each challenge)
-
-                     ┌─────┬─────┬─────┬─────┬─────┐
-                     │  V  │  V  │  V  │  V  │  V  │
-                     │ ol  │ ar  │ el  │ er  │ al  │
-                     │ u   │ i   │ o   │ a   │ u   │
-                     │ m   │ e   │ c   │ c   │ e   │
-                     │ e   │ t   │ i   │ i   │     │
-                     │     │ y   │ t   │ t   │     │
-                     │     │     │ y   │ y   │     │
-                     └─────┴─────┴─────┴─────┴─────┘
-                       📦    🧩    🌊    🛡️    💎
+  ┌─────────────────────┐   ┌─────────────────────┐   ┌─────────────────────┐
+  │   🧠  CONCEPTS      │   │   📏  THE  5  Vs    │   │   ☁️  AWS SERVICES │
+  ├─────────────────────┤   ├─────────────────────┤   ├─────────────────────┤
+  │                     │   │                     │   │                     │
+  │  • Analytics        │   │  • Volume     📦    │   │  • for Volume       │
+  │  • Machine Learning │   │  • Variety    🧩    │   │  • for Variety      │
+  │  • Core framework   │   │  • Velocity   🌊    │   │  • for Velocity     │
+  │                     │   │  • Veracity   🛡️    │   │  • for Veracity     │
+  │                     │   │  • Value      💎    │   │  • for Value        │
+  │                     │   │                     │   │                     │
+  └─────────────────────┘   └─────────────────────┘   └─────────────────────┘
+                │                     │                     │
+                └─────────────────────┼─────────────────────┘
+                                      ▼
+                           ┌─────────────────────┐
+                           │   🛠️  HANDS-ON LAB  │
+                           │   S3 → Glue → Athena│
+                           └─────────────────────┘
 ```
 
-### Why This Matters for Your Career
+### Why the 5 Vs Framework Matters
 
-Every modern data engineer, analyst, or ML practitioner encounters these challenges every day:
+Every data challenge you will ever face maps to **one of five questions**:
 
-- 📦 "How do we store 500 TB of logs?" → **Volume problem**
-- 🧩 "We have CSVs, JSON, images, and audio — one pipeline?" → **Variety problem**
-- 🌊 "We need dashboards to update every 30 seconds" → **Velocity problem**
-- 🛡️ "Half our timestamps are malformed" → **Veracity problem**
-- 💎 "Who actually uses this dashboard?" → **Value problem**
+```
+   📦 "How do we store 500 TB?"               → Volume problem
+   🧩 "We have CSVs, JSON, images — help!"     → Variety problem
+   🌊 "Dashboards must refresh every second"  → Velocity problem
+   🛡️ "Half our timestamps are malformed"      → Veracity problem
+   💎 "Who actually uses this dashboard?"      → Value problem
+```
 
-The 5 Vs give you a **framework** to diagnose any data project. AWS gives you a **toolbox** to solve each V.
+The 5 Vs give you a **framework** to diagnose. AWS gives you a **toolbox** to solve each V.
 
 ### Estimated Duration
 
-**3 - 4 hours** (concepts + hands-on lab).
+**3-4 hours** (concepts + hands-on lab)
 
-> **HitaVir Tech says:** "The 5 Vs aren't just an academic framework — they're the checklist every senior engineer runs in their head when someone says 'we have a data problem.' Learn to speak this language."
+> 💡 **HitaVir Tech says:** "The 5 Vs aren't academic jargon — they're the mental checklist every senior engineer runs when someone says 'we have a data problem.' Learn to speak this language and every cloud will feel familiar."
 
 ## Prerequisites
 Duration: 3:00
 
-### Required
+### What You Need
 
-- 💻 A laptop (Windows, Mac, or Linux)
-- 🌐 A web browser (Chrome, Edge, or Firefox)
-- ☁️ An **AWS account** — free tier is more than enough for this codelab
-- 💳 A credit card (required for AWS sign-up; no charges if you stay in free tier)
-- 🧮 Basic SQL familiarity (`SELECT`, `FROM`, `WHERE`) — the MySQL Workbench codelab is a good warm-up
+```
+   ┌──────────────────────────────────────────────────────────┐
+   │  REQUIRED                                                 │
+   │  ─────────                                                │
+   │  💻  Laptop — Windows, Mac, or Linux                      │
+   │  🌐  A modern web browser (Chrome, Edge, Firefox)          │
+   │  ☁️  AWS account — free tier is enough                    │
+   │  💳  Credit card for AWS sign-up (no charges expected)     │
+   │  🧮  Basic SQL (SELECT, FROM, WHERE)                       │
+   │                                                           │
+   │  HELPFUL                                                  │
+   │  ────────                                                 │
+   │  📝  Spreadsheet or Python exposure                        │
+   │  🟦  Any other cloud experience                            │
+   └──────────────────────────────────────────────────────────┘
+```
 
-### Helpful But Not Required
+### No Local Installs Required
 
-- 📝 Any exposure to Python or spreadsheets
-- 🟦 Experience with another cloud (Azure, GCP) — the concepts map across
-
-### No Local Installs
-
-Everything in this codelab runs in the **AWS web console** in your browser. Nothing to install.
+Everything in this codelab runs in the **AWS web console** in your browser. Zero software installation on your machine.
 
 ### ⚠️ Cost Awareness
 
-AWS is a paid service. Every step in this codelab stays inside the **AWS Free Tier**, which includes:
+Every step stays inside the **AWS Free Tier**:
 
-| Free Tier Allowance | What We Use |
-|---------------------|-------------|
-| 🪣 5 GB S3 storage | < 1 MB |
-| 🔍 Athena queries (very cheap) | < 10 queries, < 1 cent total |
-| 📚 Glue Data Catalog (free for first 1M objects) | 1 table |
+```
+   ┌──────────────────────────────────────────────────────────┐
+   │  FREE TIER BUDGET                  USAGE IN THIS CODELAB  │
+   │  ─────────────────                  ──────────────────────  │
+   │  🪣  S3 storage — 5 GB              <  1 MB                 │
+   │  🔍  Athena — pay per query         <  1¢ total             │
+   │  📚  Glue Data Catalog — 1M objects 1 table                 │
+   │  💰  Estimated total cost           $0.00                    │
+   └──────────────────────────────────────────────────────────┘
+```
 
-> ⚠️ **Important:** Don't leave resources running. The last step is a **cleanup section**. Follow it to avoid surprise bills.
+> ⚠️ **Always clean up.** Step 10 of the lab is a **cleanup ritual**. Skip it and AWS will happily bill you for forgotten resources.
 
 ## Analytics Concepts
 Duration: 4:00
 
 ```
-   ┌──────────────────────────────────────────────────┐
-   │   🧠   SECTION  1  —  ANALYTICS  CONCEPTS   🧠    │
-   └──────────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃         🧠   SECTION  1   —   ANALYTICS  CONCEPTS   🧠     ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-Before we touch AWS, let's agree on what the core words mean. Three ideas anchor everything:
+Before we touch AWS, we need three anchor ideas:
 
-1. 📊 **Analytics** — turning data into decisions
-2. 🤖 **Machine Learning** — algorithms that learn patterns from data
-3. 📏 **The 5 Vs of Big Data** — the challenges that make it hard
-
-Each concept builds on the previous one. Let's go.
+```
+                    ┌─────────────────────┐
+                    │   📊  ANALYTICS     │
+                    │   turn data into    │
+                    │     decisions       │
+                    └──────────┬──────────┘
+                               │
+                               │ powered by
+                               ▼
+                    ┌─────────────────────┐
+                    │  🤖 MACHINE LEARNING│
+                    │  algorithms that    │
+                    │  learn patterns     │
+                    └──────────┬──────────┘
+                               │
+                               │ challenged by
+                               ▼
+                    ┌─────────────────────┐
+                    │  📏  THE 5 Vs       │
+                    │  of Big Data        │
+                    └─────────────────────┘
+```
 
 ## Analytics
 Duration: 6:00
@@ -137,59 +155,73 @@ Duration: 6:00
 
 📊 **Analytics** is the practice of turning raw data into useful insights that help people make better decisions.
 
-That's the one-line definition. Everything else — SQL queries, dashboards, data lakes, ML models — is just tooling in service of that one activity.
+That one line is the whole discipline. SQL queries, dashboards, ML models, data lakes — all of it is just tooling in service of that idea.
 
-### Real-World Example: A Coffee Shop Chain
+### Real-World Example — HitaVir Coffee
 
 Imagine **HitaVir Coffee** — 50 locations across India. Every day, each store generates data:
 
 ```
-   ☕ Orders       💰 Transactions    👥 Loyalty swipes
-   📦 Inventory   🕐 Staff hours     🌡️ Equipment logs
+   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐
+   │    ☕     │   │    💰     │   │    👥     │   │    📦     │
+   │  Orders   │   │ Payments  │   │ Loyalty   │   │ Inventory │
+   └───────────┘   └───────────┘   └───────────┘   └───────────┘
+   ┌───────────┐   ┌───────────┐   ┌───────────┐   ┌───────────┐
+   │    🕐     │   │    🌡️     │   │    🚚     │   │    ⭐     │
+   │   Shifts   │   │ Equipment │   │ Deliveries│   │  Reviews  │
+   └───────────┘   └───────────┘   └───────────┘   └───────────┘
 ```
 
-Each data point alone is meaningless. A customer bought a cappuccino at 9:47 AM — so what?
+One transaction alone is meaningless. But **aggregate across 50 stores for a year** and patterns emerge:
 
-But aggregate across all stores for a year, and patterns emerge:
+| Observation | Action |
+|-------------|--------|
+| 🐢 Mondays are slowest | 🎯 Launch "Monday Bogo" |
+| 📈 Store #23 sells 2× pastries | 🔍 Copy their layout |
+| 📉 Cappuccinos drop in summer | 🧊 Push cold brew |
 
-| Question | Insight | Action |
-|----------|---------|--------|
-| "Which day is slowest?" | Mondays | Run a promotion |
-| "Which store sells 2x pastries?" | Store #23 | Copy their layout |
-| "When do cappuccinos drop?" | Summer | Push cold brew |
-
-That journey — **from raw events to business decisions** — is analytics.
+That journey — **from raw events to actions** — is analytics.
 
 ### The Four Levels of Analytics
 
-The industry classifies analytics into four levels of maturity:
-
 ```
-            Level 4  🎯  PRESCRIPTIVE    What should we do?
-                          ▲
-            Level 3  🔮  PREDICTIVE      What will happen?
-                          ▲
-            Level 2  🕵️  DIAGNOSTIC       Why did it happen?
-                          ▲
-            Level 1  📸  DESCRIPTIVE      What happened?
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║        L4  🎯  PRESCRIPTIVE   "What should we do?"         ║
+   ║                                                           ║
+   ║                     ▲                                     ║
+   ║                     │                                     ║
+   ║        L3  🔮  PREDICTIVE    "What will happen?"           ║
+   ║                                                           ║
+   ║                     ▲                                     ║
+   ║                     │                                     ║
+   ║        L2  🕵️  DIAGNOSTIC    "Why did it happen?"         ║
+   ║                                                           ║
+   ║                     ▲                                     ║
+   ║                     │                                     ║
+   ║        L1  📸  DESCRIPTIVE   "What happened?"              ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
-| Level | Icon | Question | Example |
-|-------|:---:|----------|---------|
-| **1. Descriptive** | 📸 | What happened? | "We sold 12,400 cappuccinos last month" |
-| **2. Diagnostic** | 🕵️ | Why did it happen? | "Sales dropped because we ran out of beans for 3 days" |
-| **3. Predictive** | 🔮 | What will happen? | "Based on trends, June sales will rise 15%" |
-| **4. Prescriptive** | 🎯 | What should we do? | "Order 200 kg of beans by May 25 to meet June demand" |
+| Level | Icon | Question | Example | Powered By |
+|-------|:---:|----------|---------|------------|
+| **L1 Descriptive** | 📸 | What happened? | "Sold 12,400 cappuccinos" | 🔍 SQL / BI |
+| **L2 Diagnostic** | 🕵️ | Why did it happen? | "Bean shortage hit week 3" | 🔍 SQL + drill-down |
+| **L3 Predictive** | 🔮 | What will happen? | "June sales ↑ 15%" | 🤖 Machine learning |
+| **L4 Prescriptive** | 🎯 | What should we do? | "Order 200kg by May 25" | 🤖 ML + optimization |
 
-Most companies live at levels 1 and 2. **Analytics engineers build the foundation** that makes levels 3 and 4 possible.
+Most companies live at L1–L2. **Analytics engineers build the foundation** that makes L3–L4 possible.
 
 ### What Analytics Is NOT
 
-- ❌ Analytics is **not** the same as data engineering. Data engineering builds the pipes; analytics drinks from them.
-- ❌ Analytics is **not** the same as BI. BI is mainly dashboards; analytics is broader.
-- ❌ Analytics is **not** machine learning. ML is a specialized branch that predicts the future; most analytics is about understanding the past.
+```
+   ❌  Data engineering (that builds the pipes — analytics drinks from them)
+   ❌  Business Intelligence alone (BI is a subset of analytics)
+   ❌  Machine Learning alone (ML is a specialized branch)
+```
 
-> **HitaVir Tech says:** "Never build a dashboard nobody looks at. Always ask: *what decision will this insight change?* If the answer is 'none,' don't build it."
+> 💡 **HitaVir Tech says:** "Never build a dashboard nobody looks at. Always ask — *what decision will this insight change?* If the answer is 'none', don't build it."
 
 ## Machine Learning
 Duration: 6:00
@@ -201,856 +233,1039 @@ Duration: 6:00
 ### Traditional Programming vs Machine Learning
 
 ```
-   TRADITIONAL PROGRAMMING              MACHINE LEARNING
-   ─────────────────────────            ──────────────────────
-   Rules + Data ──> Program ──> Answer  Data + Answers ──> Program ──> Rules
-
-   You write the rules.                 The machine learns the rules.
-   Example: if amount > 50000,          Example: feed 1M past fraud
-   flag as suspicious.                  cases; model learns patterns.
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓     ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃   🧑‍💻  TRADITIONAL              ┃     ┃   🤖  MACHINE  LEARNING      ┃
+   ┃ ────────────────────────────── ┃     ┃ ────────────────────────────── ┃
+   ┃                                ┃     ┃                                ┃
+   ┃   Rules + Data                 ┃     ┃   Data + Answers               ┃
+   ┃          │                     ┃     ┃          │                     ┃
+   ┃          ▼                     ┃     ┃          ▼                     ┃
+   ┃     ⚙️ Program                 ┃     ┃     🧠 Learned Model          ┃
+   ┃          │                     ┃     ┃          │                     ┃
+   ┃          ▼                     ┃     ┃          ▼                     ┃
+   ┃     ✨ Answer                  ┃     ┃     ✨ Rules (weights)         ┃
+   ┃                                ┃     ┃                                ┃
+   ┃  You write the rules           ┃     ┃  The machine learns the rules  ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛     ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-- In **traditional programming**, a human writes `if-else` logic.
-- In **machine learning**, the machine reads historical data and **figures out the logic itself**.
-
-### Three Flavors of ML
+### The Three Flavors of ML
 
 ```
-   🎯 SUPERVISED          🔎 UNSUPERVISED       🎮 REINFORCEMENT
-   ───────────────        ────────────────      ────────────────
-   Data has labels        Data has no labels    Agent tries actions
-   ("this is spam")       Find structure        Gets rewards/penalties
-
-   Predict price,         Cluster customers,    Game AI, robotics,
-   detect fraud,          anomaly detection,    recommendation systems
-   image classification   topic discovery
+   ┏━━━━━━━━━━━━━━━┓    ┏━━━━━━━━━━━━━━━━━┓    ┏━━━━━━━━━━━━━━━━━┓
+   ┃  🎯           ┃    ┃  🔎              ┃    ┃  🎮              ┃
+   ┃ SUPERVISED    ┃    ┃ UNSUPERVISED    ┃    ┃ REINFORCEMENT   ┃
+   ┃ ─────────────  ┃    ┃ ───────────────  ┃    ┃ ───────────────  ┃
+   ┃ Labels given  ┃    ┃ No labels       ┃    ┃ Rewards/penalt. ┃
+   ┃               ┃    ┃                 ┃    ┃                 ┃
+   ┃ e.g.          ┃    ┃ e.g.            ┃    ┃ e.g.            ┃
+   ┃ • Spam filter ┃    ┃ • Segmentation  ┃    ┃ • Game AI       ┃
+   ┃ • Fraud detect┃    ┃ • Anomaly detect┃    ┃ • Robotics      ┃
+   ┃ • Image class ┃    ┃ • Topic model   ┃    ┃ • Recommenders  ┃
+   ┗━━━━━━━━━━━━━━━┛    ┗━━━━━━━━━━━━━━━━━┛    ┗━━━━━━━━━━━━━━━━━┛
 ```
 
-| Type | Icon | What It Does | AWS Service |
-|------|:---:|--------------|-------------|
-| Supervised | 🎯 | Learn from labeled examples | Amazon SageMaker |
-| Unsupervised | 🔎 | Find structure in raw data | Amazon SageMaker, Comprehend |
-| Reinforcement | 🎮 | Learn by trial-and-error rewards | SageMaker RL, DeepRacer |
+| Type | Icon | Data Needed | AWS Service |
+|------|:---:|-------------|-------------|
+| Supervised | 🎯 | Labeled examples | 🤖 SageMaker |
+| Unsupervised | 🔎 | Raw, unlabeled | 🤖 SageMaker • 💭 Comprehend |
+| Reinforcement | 🎮 | Reward signals | 🤖 SageMaker RL • 🏎️ DeepRacer |
 
-### How ML Relates to Analytics
+### How ML Powers Analytics
 
-Remember the four levels of analytics? **ML powers levels 3 and 4:**
+The four analytics levels → ML becomes essential as you climb:
 
 ```
-   Descriptive ── Diagnostic ──► Predictive ──► Prescriptive
-      📸              🕵️            🔮 ML          🎯 ML+Optim
-    (SQL)           (SQL)          (model)        (model + rules)
+   Level  Where SQL stops          Where ML starts
+   ─────  ─────────────────────    ─────────────────────
+   L1    📸 Descriptive  ✅        
+   L2    🕵️ Diagnostic    ✅        
+   L3    🔮 Predictive                🤖 ML models
+   L4    🎯 Prescriptive              🤖 ML + optimization
 ```
 
-- 📊 **Analytics** says: "Sales dropped 20% last quarter in the South."
-- 🤖 **ML** says: "Here's a model that predicts next quarter's sales per region, ±3%."
-
-You cannot have good ML without good analytics foundations — the 5 Vs problems apply to ML even more sharply.
-
-> **HitaVir Tech says:** "ML is not magic. It's statistics at scale. If your analytics foundations are shaky, your ML models will be too. Clean data first, cool models second."
+> 💡 **HitaVir Tech says:** "ML is not magic — it's statistics at scale. If your analytics foundations are shaky, your ML models will be too. Clean data first, cool models second."
 
 ## The 5 Vs of Big Data
 Duration: 5:00
 
 ```
-   ┌──────────────────────────────────────────────────┐
-   │   📏   SECTION  2  —  THE  5  Vs  OF  BIG DATA   │
-   └──────────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃       📏  SECTION  2  —  THE  5  Vs  OF  BIG  DATA   📏   ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### Where the 5 Vs Came From
+### Where the 5 Vs Come From
 
-In 2001, analyst **Doug Laney** described data challenges with three Vs: **Volume, Variety, Velocity**. Over the years, the industry added two more: **Veracity** (quality/trust) and **Value** (outcome).
+In 2001, analyst **Doug Laney** described big-data challenges with three Vs: **Volume, Variety, Velocity**. Later the industry added **Veracity** (trust) and **Value** (outcome). Together they form the universal diagnostic checklist.
 
-Together, they form a checklist you can run against any data project.
+### The 5 Vs Star
+
+```
+                          ⭐
+                     📦 VOLUME
+                  "How much is it?"
+                       /   \
+                      /     \
+                     /       \
+                    /         \
+          🧩 VARIETY           🌊 VELOCITY
+       "How many formats?"   "How fast?"
+                 \            /
+                  \          /
+                   \        /
+                    \      /
+             🛡️ VERACITY     💎 VALUE
+         "Can we trust it?"  "Worth it?"
+```
 
 ### The 5 Vs at a Glance
 
 ```
-                         📊 BIG DATA
-
-         📦 VOLUME                         🧩 VARIETY
-       How much is it?                 How many formats?
-
-                    ╲                    ╱
-                     ╲                  ╱
-                      ╲                ╱
-           🌊 VELOCITY  ─── 💎 VALUE ─── 🛡️ VERACITY
-           How fast?       Worth it?      Can we trust it?
+   ┏━━━━━━┓  ┏━━━━━━┓  ┏━━━━━━┓  ┏━━━━━━┓  ┏━━━━━━┓
+   ┃  📦  ┃  ┃  🧩  ┃  ┃  🌊  ┃  ┃  🛡️  ┃  ┃  💎  ┃
+   ┃ VOL  ┃  ┃ VAR  ┃  ┃ VEL  ┃  ┃ VER  ┃  ┃ VAL  ┃
+   ┃ UME  ┃  ┃ IETY ┃  ┃ OCITY┃  ┃ ACITY┃  ┃ UE   ┃
+   ┗━━━━━━┛  ┗━━━━━━┛  ┗━━━━━━┛  ┗━━━━━━┛  ┗━━━━━━┛
+    scale     formats   speed     trust     outcome
 ```
 
-| V | Icon | Meaning | Core Question |
-|---|:---:|---------|---------------|
-| 1 | 📦 | **Volume** | How much data? |
-| 2 | 🧩 | **Variety** | How many formats? |
-| 3 | 🌊 | **Velocity** | How fast does it arrive / need to be processed? |
-| 4 | 🛡️ | **Veracity** | How trustworthy is it? |
-| 5 | 💎 | **Value** | What business outcome does it drive? |
-
-Miss any one V and your data platform has a hole. Let's tour them.
+Miss any one V and your data platform has a hole. Let's tour each.
 
 ## Volume
 Duration: 6:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   📦   THE  1st  V  —  VOLUME   📦           │
-   │         "How much data do we have?"         │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              📦   THE  1st  V   —   VOLUME    📦           ┃
+   ┃                                                           ┃
+   ┃              "How much data do we have?"                   ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### What is Volume?
 
-📦 **Volume** is the size of your data — how many bytes, rows, events, or files you need to store, move, and process.
+📦 **Volume** is the size of your data — how many bytes, rows, events, or files you must store, move, and process.
 
 ### The Scale Ladder
 
 ```
-   🐣 Byte (B)           1
-   🐥 Kilobyte (KB)      1,000        1 text email
-   🐤 Megabyte (MB)      10⁶          1 MP3 song
-   🐔 Gigabyte (GB)      10⁹          A DVD movie
-   🦅 Terabyte (TB)      10¹²         A company's year of sales
-   🐘 Petabyte (PB)      10¹⁵         YouTube uploads per day
-   🐋 Exabyte (EB)       10¹⁸         All of Netflix's streaming data
-   🦖 Zettabyte (ZB)     10²¹         The entire internet per year
+   🐣  Byte (B)        =   1                 a letter
+   🐥  KB              =   10³                1 email
+   🐤  MB              =   10⁶                1 song
+   🐔  GB              =   10⁹                1 DVD
+   🦅  TB              =   10¹²               1 year of company sales
+   🐘  PB              =   10¹⁵               1 day of YouTube uploads
+   🐋  EB              =   10¹⁸               all of Netflix streaming
+   🦖  ZB              =   10²¹               the entire internet / year
 ```
 
 ### Why Volume is Hard
 
-A traditional database happily runs on one server up to ~1-10 TB. Beyond that, things break:
+A traditional database runs fine up to ~1–10 TB. Past that, things break:
 
-- 💥 A single disk is too small
-- 💥 A single CPU can't scan it in reasonable time
-- 💥 Backups take days
-- 💥 Failures become likely (any one disk in a fleet of 1000 fails often)
+```
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃  💥  Single disk too small to hold it                      ┃
+   ┃  💥  Single CPU too slow to scan it in reasonable time     ┃
+   ┃  💥  Backups take days                                     ┃
+   ┃  💥  Failures become likely (1-in-1000 → every day)        ┃
+   ┃  💥  Cost spirals out of control                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 
 At big-data scale, you need **distributed** systems — hundreds of machines sharing the load.
 
-### Real-World Volume Examples
+### Real-World Volume
 
 | Company | Daily Volume |
 |---------|--------------|
-| 📱 Instagram | ~100+ million photos uploaded |
-| 🛒 Amazon | Billions of events per day |
-| 🚗 Uber | Tens of terabytes of trip data |
-| 🎬 Netflix | Petabytes of logs and streams |
+| 📱 Instagram | 100M+ photos uploaded |
+| 🛒 Amazon | Billions of events |
+| 🚗 Uber | 10s of TB of trip data |
+| 🎬 Netflix | PB of logs and streams |
+| 🔎 Google | Unimaginable |
 
-### The Questions Volume Forces You to Ask
+### Questions Volume Forces You to Ask
 
-- Where do I **store** 500 TB affordably?
-- How do I **scan** 10 TB in minutes, not days?
-- How do I **back up** a multi-petabyte system?
-- How do I **pay** for this without going bankrupt?
+- 💾 Where do I **store** 500 TB affordably?
+- ⚡ How do I **scan** 10 TB in minutes, not days?
+- 💼 How do I **back up** a multi-PB system?
+- 💰 How do I **afford** this without going bankrupt?
 
-> **HitaVir Tech says:** "Volume changes the rules. What works on 10 GB of data will catastrophically fail at 10 TB. Always ask: *how does this scale at 100x?*"
+> 💡 **HitaVir Tech says:** "What works at 10 GB catastrophically fails at 10 TB. Always ask — *how does this scale at 100×?*"
 
 ## Variety
 Duration: 6:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🧩   THE  2nd  V  —  VARIETY   🧩           │
-   │        "How many kinds of data?"            │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🧩   THE  2nd  V   —   VARIETY   🧩           ┃
+   ┃                                                           ┃
+   ┃              "How many kinds of data?"                     ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### What is Variety?
 
-🧩 **Variety** is the diversity of your data — in formats, schemas, and sources.
+🧩 **Variety** is the diversity of data — formats, schemas, and sources.
 
-Twenty years ago, "data" meant **rows in a database**. Today, "data" includes:
+Twenty years ago, "data" meant rows in a database. Today:
 
 ```
-   📊 Structured      🧩 Semi-structured     🎞️ Unstructured
-   ────────────        ──────────────────    ─────────────────
-   • SQL tables       • JSON from APIs      • Images
-   • CSV files        • XML                 • Videos
-   • Spreadsheets     • Parquet / Avro      • Audio / voice
-                      • Logs                • PDFs
-                                            • Free-text reviews
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃   📊 STRUCTURED      🧩 SEMI-STRUCTURED   🎞️ UNSTRUCTURED  ┃
+   ┃   ──────────────      ─────────────────    ─────────────── ┃
+   ┃   • SQL tables        • JSON from APIs     • Images        ┃
+   ┃   • CSV files         • XML                • Videos        ┃
+   ┃   • Spreadsheets      • Parquet / Avro     • Audio         ┃
+   ┃   • Fixed schema      • Flexible schema    • PDFs          ┃
+   ┃                                             • Free text     ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
-
-### Three Data Categories
-
-| Type | Icon | Description | Example |
-|------|:---:|-------------|---------|
-| **Structured** | 📊 | Fixed rows + columns | Sales table, CSV |
-| **Semi-structured** | 🧩 | Flexible, self-describing | JSON from an API |
-| **Unstructured** | 🎞️ | No predefined schema | Photos, videos, PDFs |
 
 ### Why Variety is Hard
 
-Each format needs different tools:
+Each format needs different tooling:
 
-- SQL for tables
-- JSON parsers for APIs
-- OCR for scanned PDFs
-- Computer vision for images
-- NLP for free text
+```
+   Format          Tool Needed
+   ──────          ──────────────────────
+   SQL tables  →   Relational engine
+   JSON        →   Document parser
+   PDF         →   OCR
+   Image       →   Computer vision
+   Audio       →   Speech-to-text
+   Free text   →   NLP / embeddings
+```
 
-And most real projects combine them: "Correlate customer support **emails** (text) with **call recordings** (audio) and **order history** (tables)." That's **three completely different pipelines** feeding one insight.
+Most real projects combine these. Example — "Correlate support emails + call recordings + order history into one insight." **Three completely different pipelines** feeding one answer.
 
-### Real-World Variety Examples
+### Real-World Variety
 
 | Industry | Variety Mix |
 |----------|-------------|
-| 🏥 Healthcare | Patient records (SQL) + X-ray images + doctor's notes |
-| 🛒 Retail | Orders (SQL) + product photos + customer reviews (text) |
-| 🏦 Banking | Transactions (SQL) + scanned checks + call transcripts |
-| 🚗 Autonomous vehicles | Sensor data (numeric) + video + LiDAR + map tiles |
+| 🏥 Healthcare | 📊 Patient records + 🖼️ X-rays + 📝 Doctor's notes |
+| 🛒 Retail | 📊 Orders + 🖼️ Product photos + ⭐ Reviews |
+| 🏦 Banking | 📊 Transactions + 📄 Scanned checks + 🔊 Call transcripts |
+| 🚗 Autonomous cars | 📊 Sensors + 🎞️ Video + 🗺️ Maps + 📡 LiDAR |
 
-### The Questions Variety Forces You to Ask
+### Questions Variety Forces You to Ask
 
-- Can **one storage system** hold all my data types?
-- How do I **catalog** schemas that keep changing?
-- Which engine queries **JSON, CSV, and Parquet** in one SQL statement?
-- How do I extract insights from **unstructured** data?
+- 🪣 Can **one storage system** hold all my types?
+- 📚 How do I **catalog** schemas that keep changing?
+- 🔍 Which engine queries **JSON, CSV, Parquet** in one SQL?
+- 🤖 How do I extract insights from **unstructured** data?
 
-> **HitaVir Tech says:** "90% of the world's data is unstructured. But 90% of analytics happens on structured or semi-structured data. Your job as an engineer is often to convert chaos into order."
+> 💡 **HitaVir Tech says:** "90% of the world's data is unstructured. But 90% of analytics happens on structured data. Your job is often to convert chaos into order."
 
 ## Velocity
 Duration: 6:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🌊   THE  3rd  V  —  VELOCITY   🌊          │
-   │           "How fast is the data?"           │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🌊   THE  3rd  V   —   VELOCITY   🌊          ┃
+   ┃                                                           ┃
+   ┃              "How fast is the data?"                       ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### What is Velocity?
 
-🌊 **Velocity** is the speed at which data **arrives**, **moves**, and **must be processed** to deliver value.
+🌊 **Velocity** is the speed at which data **arrives**, **moves**, and must be **processed** to deliver value.
 
 ### The Velocity Spectrum
 
 ```
-   🐌 BATCH              🐇 MINI-BATCH         🚀 STREAMING        ⚡ REAL-TIME
-   ───────────           ─────────────         ──────────────      ─────────────
-   Hourly / daily        Every 1-15 min        Seconds             Sub-millisecond
-   "Yesterday's sales"   "Hour-old metrics"    "Live dashboard"    "Fraud in 50ms"
+   ┏━━━━━━━━━━┓  ┏━━━━━━━━━━━┓  ┏━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━┓
+   ┃   🐌     ┃  ┃   🐇      ┃  ┃   🚀      ┃  ┃    ⚡       ┃
+   ┃  BATCH   ┃  ┃ MINI-BATCH┃  ┃ STREAMING ┃  ┃  REAL-TIME  ┃
+   ┃──────────┃  ┃───────────┃  ┃───────────┃  ┃─────────────┃
+   ┃ Nightly  ┃  ┃ 1-15 min  ┃  ┃ Seconds   ┃  ┃ Sub-100ms   ┃
+   ┃ reports  ┃  ┃ dashboards┃  ┃ live dash ┃  ┃ fraud / HFT ┃
+   ┗━━━━━━━━━━┛  ┗━━━━━━━━━━━┛  ┗━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━┛
+     yesterday   ~15 min old     ~sec old      happening now
 ```
 
-| Freshness Need | Icon | Approach | Example Use Case |
-|----------------|:---:|----------|------------------|
-| Next business day | 🐌 | Batch (nightly) | Finance reports |
-| Within the hour | 🐇 | Mini-batch | Ops dashboards |
-| Within seconds | 🚀 | Streaming | Live pricing |
-| Sub-millisecond | ⚡ | Real-time | Fraud detection |
+| Freshness | Icon | Approach | Use Case |
+|-----------|:---:|----------|----------|
+| Next day | 🐌 | Batch | Finance reports |
+| Every hour | 🐇 | Mini-batch | Ops dashboards |
+| Seconds | 🚀 | Streaming | Live pricing |
+| Sub-ms | ⚡ | Real-time | Fraud detection, HFT |
 
 ### Why Velocity is Hard
 
-Fast data means you can't wait:
+```
+   Problem                        Solution
+   ─────────                      ────────────────────────
+   Disks too slow           →     In-memory / caches
+   Batch SQL too slow       →     Stream-processing engines
+   One machine too small    →     Horizontal auto-scaling
+   Failures = data loss     →     Durable logs (Kafka/Kinesis)
+```
 
-- Disks are too slow — data must live in memory or distributed caches
-- Batch SQL isn't enough — you need **stream-processing engines**
-- One machine can't keep up — systems must **scale out horizontally**
-- Failures become catastrophic — if the stream lags by 10 minutes, the business misses events
+### Real-World Velocity
 
-### Real-World Velocity Examples
+| Scenario | Required |
+|----------|----------|
+| 💳 Credit card fraud | < 100 ms |
+| 📈 Stock trading | microseconds |
+| 📱 Social feed | seconds |
+| 🚚 Delivery tracking | minutes |
+| 📊 Exec dashboard | hourly |
+| 🧾 Month close | daily batch |
 
-| Scenario | Required Velocity |
-|----------|-------------------|
-| 💳 Credit card fraud detection | Sub-100 ms |
-| 📈 Stock trading | Microseconds |
-| 📱 Social media feed | Seconds |
-| 🚚 Delivery tracking | Minutes |
-| 📊 Executive BI dashboard | Hourly refresh |
-| 🧾 Monthly close reports | Daily batch |
+### Questions Velocity Forces You to Ask
 
-### The Questions Velocity Forces You to Ask
+- 🕒 Do we **really** need real-time, or is 5 min fine?
+- 🐌 How do we handle **late-arriving** events?
+- 📈 What if the stream **falls behind** during a spike?
+- 🔁 How do we **replay** events on failure?
 
-- Do we really need **real-time**, or is a 5-minute delay fine?
-- How do we handle **late-arriving** events?
-- What if the **stream falls behind** during a spike?
-- How do we **replay** events if a downstream system fails?
-
-> **HitaVir Tech says:** "Streaming is fashionable. Batch is profitable. 80% of real-world analytics runs on batch and that is completely fine. Don't reach for streaming unless the business truly cannot wait."
+> 💡 **HitaVir Tech says:** "Streaming is fashionable. Batch is profitable. 80% of real-world analytics runs on batch — don't reach for streaming unless the business truly cannot wait."
 
 ## Veracity
 Duration: 6:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🛡️   THE  4th  V  —  VERACITY   🛡️          │
-   │       "Can we trust the data?"              │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🛡️   THE  4th  V   —   VERACITY   🛡️          ┃
+   ┃                                                           ┃
+   ┃              "Can we trust the data?"                      ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### What is Veracity?
 
-🛡️ **Veracity** is the quality, accuracy, and trustworthiness of your data.
+🛡️ **Veracity** is the accuracy, consistency, and trustworthiness of your data.
 
 Big volumes and fast pipelines are useless if the data is **wrong**.
 
 ### The Veracity Enemies
 
 ```
-   🦠 Missing values        🗑️ Duplicate rows     🎭 Inconsistent formats
-   "NULL in half the rows"  "Same order 3x"       "2024-01-05 vs 01/05/24"
-
-   📉 Outliers              🪙 Unit mismatches     🪞 Biased sampling
-   "Age = 347"              "USD mixed with INR"   "Only US users"
-
-   🪤 Stale data            📎 Broken joins        🎲 Random noise
-   "Last updated 2019"      "Order without user"   "Flaky sensors"
+   ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓
+   ┃  🦠 MISSING   ┃  ┃  🗑️ DUPLICATE ┃  ┃  🎭 INCONSIST.┃
+   ┃  NULL fields  ┃  ┃  Same row × N ┃  ┃  Date formats ┃
+   ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛
+   ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓
+   ┃  📉 OUTLIERS  ┃  ┃  🪙 UNITS      ┃  ┃  🪞 BIAS       ┃
+   ┃  Age = 347    ┃  ┃  USD mixed INR ┃  ┃  US-only users ┃
+   ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛
+   ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━┓
+   ┃  🪤 STALE     ┃  ┃  📎 BROKEN    ┃  ┃  🎲 NOISE     ┃
+   ┃ Updated 2019  ┃  ┃  Order no user┃  ┃  Flaky sensor  ┃
+   ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━┛
 ```
 
-### The GIGO Principle
+### GIGO — Garbage In, Garbage Out
 
-> **GIGO — Garbage In, Garbage Out.**
+> A beautiful dashboard built on bad data is worse than no dashboard — it creates **false confidence**. The most dangerous insight is a wrong insight someone believes.
 
-A beautiful dashboard built on bad data is worse than no dashboard — it creates **false confidence**. The most dangerous insight is a wrong insight a stakeholder believed.
-
-### How to Measure Veracity
-
-Data quality isn't a single number. Professionals measure it across dimensions:
+### Six Dimensions of Data Quality
 
 | Dimension | Icon | Question |
 |-----------|:---:|----------|
-| **Completeness** | 🧩 | Are all required fields populated? |
-| **Accuracy** | 🎯 | Does the data reflect reality? |
-| **Consistency** | 🧭 | Do related systems agree? |
-| **Timeliness** | ⏰ | Is the data current enough? |
-| **Validity** | ✅ | Does it conform to formats/rules? |
-| **Uniqueness** | 🔢 | Are there unintended duplicates? |
+| **Completeness** | 🧩 | Required fields populated? |
+| **Accuracy** | 🎯 | Data reflects reality? |
+| **Consistency** | 🧭 | Related systems agree? |
+| **Timeliness** | ⏰ | Is it current enough? |
+| **Validity** | ✅ | Matches formats / rules? |
+| **Uniqueness** | 🔢 | Any unintended duplicates? |
 
 ### Real-World Veracity Failures
 
-| Incident | Consequence |
-|----------|-------------|
-| 🛰️ NASA Mars Climate Orbiter (1999) | Lost $125M due to metric-vs-imperial unit mismatch |
-| 🏦 Knight Capital (2012) | $440M loss in 45 minutes from bad trading data |
-| 📊 Google Flu Trends | Overestimated flu peaks by 100%+ due to search bias |
+```
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃  🛰️ NASA Mars Climate Orbiter (1999)                      ┃
+   ┃     Lost $125M — metric vs imperial unit mismatch         ┃
+   ┃                                                           ┃
+   ┃  🏦 Knight Capital (2012)                                 ┃
+   ┃     $440M loss in 45 minutes — bad trading data           ┃
+   ┃                                                           ┃
+   ┃  🤧 Google Flu Trends                                     ┃
+   ┃     Overestimated flu peaks 100%+ due to search bias      ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 
-### The Questions Veracity Forces You to Ask
+### Questions Veracity Forces You to Ask
 
-- Do we have **data quality rules** that run on every pipeline?
-- Are we **monitoring** schema changes from upstream systems?
-- How do we know our data **matches source** systems?
-- Who **owns** the quality of each dataset?
+- 🛡️ Do we have **quality rules** running on every pipeline?
+- 👁️ Are we **monitoring** upstream schema changes?
+- 🪞 Does our data **match source systems**?
+- 🧑 Who **owns** the quality of each dataset?
 
-> **HitaVir Tech says:** "Senior engineers obsess over data quality. Junior engineers obsess over cool tools. Guess which group builds systems that actually work in production."
+> 💡 **HitaVir Tech says:** "Senior engineers obsess over data quality. Juniors obsess over cool tools. Guess which group builds systems that actually work in production."
 
 ## Value
 Duration: 6:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   💎   THE  5th  V  —  VALUE   💎             │
-   │      "What business outcome does it drive?" │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              💎   THE  5th  V   —   VALUE   💎             ┃
+   ┃                                                           ┃
+   ┃          "What business outcome does it drive?"            ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 ### What is Value?
 
 💎 **Value** is the business outcome your data and analytics actually deliver — revenue gained, cost saved, risk reduced, customer experience improved.
 
-Without Value, the other four Vs are just expensive hobbies.
+Without Value, the other four Vs are expensive hobbies.
 
 ### The Value Pyramid
 
 ```
-                      💎 VALUE
-                     (outcome)
-                    ▲
-                    │
-                    │  enabled by
-                    │
-            🧠 Insights & decisions
-                    ▲
-                    │  enabled by
-                    │
-              📊 Analytics + ML
-                    ▲
-                    │  enabled by
-                    │
-          🛡️ Trustworthy (Veracity) data
-                    ▲
-                    │  moved at the right
-                    │  🌊 speed (Velocity)
-                    │
-             🧩 across varieties
-                    ▲
-                    │
-                    │
-           📦 stored at scale (Volume)
+                        💎 VALUE
+                       (outcome)
+                          ▲
+                          │  enabled by
+                          │
+                 🧠 Insights & decisions
+                          ▲
+                          │  enabled by
+                          │
+                    📊 Analytics + ML
+                          ▲
+                          │  enabled by
+                          │
+                🛡️ Trustworthy (Veracity) data
+                          ▲
+                          │  at the right
+                          │  🌊 speed (Velocity)
+                          │
+                   🧩 across Varieties
+                          ▲
+                          │  stored at
+                          │
+                    📦 the right scale (Volume)
 ```
 
-### Examples of Value
+### Examples of Real Value
 
 | Industry | Analytics Value |
 |----------|-----------------|
-| 🛒 Retail | Recommendation engine → +20% revenue |
-| 🏦 Banking | Fraud detection → millions saved |
-| 🚚 Logistics | Route optimization → -15% fuel cost |
-| 🏥 Healthcare | Early diagnosis models → better outcomes |
-| 🎬 Streaming | Personalized content → higher retention |
+| 🛒 Retail | Recommendation engine → **+20% revenue** |
+| 🏦 Banking | Fraud detection → **millions saved** |
+| 🚚 Logistics | Route optimization → **-15% fuel cost** |
+| 🏥 Healthcare | Early diagnosis models → **better outcomes** |
+| 🎬 Streaming | Personalized content → **higher retention** |
 
 ### The Dashboard Graveyard
 
-Most companies have folders full of unused dashboards — the "dashboard graveyard." Every one of them cost engineering time, storage, and compute.
+Most companies have folders full of unused dashboards — the **dashboard graveyard**. Every one cost engineering time, storage, and compute.
 
-The difference between a **valuable** dashboard and a **graveyard** dashboard is one question:
+The difference between a valuable dashboard and a graveyard dashboard:
 
-> 🎯 **"What decision will change because of this?"**
+```
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃         🎯  "What decision will change because           ┃
+   ┃                of this dashboard?"                         ┃
+   ┃                                                           ┃
+   ┃         If nobody can answer → DON'T BUILD IT.             ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 
-If nobody can answer that, don't build it.
+### How to Measure Value
 
-### Measuring Value
+- 🔁 **Adoption** — active daily / weekly users
+- 💰 **Metric movement** — did conversion rise?
+- ⏱️ **Time saved** — replaces manual work?
+- 🎯 **Decisions influenced** — used in leadership meetings?
 
-Value is hard to quantify but you can proxy it:
+### Questions Value Forces You to Ask
 
-- 🔁 **Adoption** — how many people actively use this daily/weekly?
-- 💰 **Business metric movement** — did conversion go up after this dashboard?
-- ⏱️ **Time saved** — does this replace hours of manual work?
-- 🎯 **Decisions influenced** — is leadership using it in meetings?
+- 👥 **Who** uses this, and **how often**?
+- 🎯 What **decision** would be different without it?
+- 💰 What's the **ROI** vs build + maintain cost?
+- 🗑️ When should we **retire** outdated reports?
 
-### The Questions Value Forces You to Ask
+> 💡 **HitaVir Tech says:** "A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture. Lead with Value."
 
-- **Who** uses this, and **how often**?
-- What **decision** would be different without it?
-- What's the **ROI** vs the cost to build and maintain?
-- When should we **retire** outdated reports?
-
-> **HitaVir Tech says:** "A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture is. Always lead with Value."
-
-## AWS Services for Analytics - Overview
+## AWS Services for Analytics
 Duration: 3:00
 
 ```
-   ┌──────────────────────────────────────────────────┐
-   │   ☁️  SECTION  3  —  AWS  SERVICES  BY  THE  5 Vs │
-   └──────────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃     ☁️  SECTION 3  —  AWS SERVICES BY THE 5 Vs   ☁️         ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
 Now we map **each V** to the **AWS services** that solve it.
 
-### The 5 Vs → AWS Service Map
+### The Golden Rule — Every Stack Follows One Shape
 
 ```
-   📦 VOLUME        🧩 VARIETY       🌊 VELOCITY      🛡️ VERACITY      💎 VALUE
-   ──────────       ──────────       ──────────       ──────────       ──────────
-   🪣 S3            🪣 S3            🌊 Kinesis       🕸️ Glue          📊 QuickSight
-   🏛️ Redshift     🕸️ Glue          🚒 Firehose      DataBrew         🤖 SageMaker
-   🐘 EMR           🔍 Athena        🪐 MSK (Kafka)   🛡️ Glue DQ       🔮 Forecast
-   🧊 Glacier       🤖 Rekognition   ⚡ Lambda        🏗️ Lake Form.    🎯 Personalize
-   📋 Lake Form.    📝 Textract      🎯 Kinesis       🔍 CloudTrail    🧠 Redshift ML
-   🗃️ Redshift     🔊 Transcribe    Analytics
-                   💭 Comprehend
+   ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐   ┌─────┐
+   │ 🧲  │──>│ 🪣  │──>│ 📚  │──>│ ⚙️  │──>│ 🔍  │──>│ 📊  │──>│ 🧠  │
+   │INGST│   │STORE│   │CATLG│   │PROCS│   │QUERY│   │VIEW │   │ACT  │
+   └─────┘   └─────┘   └─────┘   └─────┘   └─────┘   └─────┘   └─────┘
 ```
 
-### Remember — the Golden Rule
-
-Every analytics stack on AWS follows the same shape:
-
-```
-   INGEST ──► STORE ──► CATALOG ──► PROCESS ──► QUERY ──► VISUALIZE ──► DECIDE
-```
-
-The **5 Vs** tell you **where your project's bottleneck is**. The **AWS services** tell you **what solves it**. Let's walk through each V.
+The **5 Vs** tell you where the bottleneck is. The **AWS services** tell you what solves it. Let's walk each V.
 
 ## AWS Services for Volume
 Duration: 8:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   📦   AWS  FOR  VOLUME   📦                 │
-   │    "Store any amount of data, affordably."  │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃            📦   AWS   FOR   VOLUME   📦                    ┃
+   ┃                                                           ┃
+   ┃        "Store any amount of data, affordably."             ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### The Volume Toolkit
+### The Volume Toolkit — Service Grid
 
-| Service | Icon | Purpose |
-|---------|:---:|---------|
-| **Amazon S3** | 🪣 | Object storage — the data lake foundation (infinite scale) |
-| **Amazon S3 Glacier** | 🧊 | Cheapest archive tier for cold data |
-| **Amazon Redshift** | 🏛️ | Petabyte-scale columnar data warehouse |
-| **Amazon EMR** | 🐘 | Managed Spark / Hadoop clusters for huge batch jobs |
-| **AWS Lake Formation** | 🏗️ | Manage, govern, and secure a data lake on S3 |
-| **Amazon EBS / EFS** | 💾 | Block and file storage for compute workloads |
+```
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃       🪣         ┃  ┃       🏛️         ┃  ┃       🐘         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃    Amazon S3     ┃  ┃ Amazon Redshift  ┃  ┃   Amazon EMR     ┃
+   ┃   ─────────────  ┃  ┃   ─────────────  ┃  ┃   ─────────────  ┃
+   ┃  Object Storage  ┃  ┃  Data Warehouse  ┃  ┃  Big Data Engine ┃
+   ┃  Infinite scale  ┃  ┃  Petabyte SQL    ┃  ┃  Spark / Hadoop  ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 
-### 🪣 Amazon S3 — The Volume Hero
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃       🧊         ┃  ┃       🏗️          ┃  ┃       💾         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃  S3 Glacier      ┃  ┃  Lake Formation  ┃  ┃  EBS / EFS       ┃
+   ┃  ─────────────   ┃  ┃  ──────────────  ┃  ┃  ─────────────   ┃
+   ┃  Archive tier    ┃  ┃  Lake governance ┃  ┃  Compute storage ┃
+   ┃  Cents per GB    ┃  ┃  Fine permissions┃  ┃  Fast attached   ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+```
 
-S3 is AWS's **object storage** service. Think of it as a limitless, globally accessible hard drive.
+### 🪣 Service Spotlight — Amazon S3
 
-- **11 nines** of durability (99.999999999%)
-- **Infinite scale** — no practical upper limit
-- **Cheap** — ~$0.023 per GB/month for Standard tier
-- Every AWS analytics service reads from S3
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🪣  AMAZON  S3  —  Simple Storage Service                 ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Category     │  Object storage / data lake                 ║
+   ║  Durability    │  99.999999999%  (11 nines)                 ║
+   ║  Scale         │  Unlimited (practically)                    ║
+   ║  Pricing       │  ~$0.023 / GB / month (Standard)            ║
+   ║  Read by       │  Athena, Redshift, EMR, SageMaker, QuickSight║
+   ║                                                             ║
+   ║  💡 If you remember only one AWS service — make it S3.      ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+### S3 Storage Classes — The Cost Pyramid
+
+```
+       🔥 Standard                 hot, frequent access       $$$$
+      ─────────────────
+     🌡️ Intelligent-Tiering       auto hot/cold moves         $$$
+    ─────────────────────
+   ❄️ Standard-IA                 monthly access              $$
+  ─────────────────────────
+ 🧊 Glacier Instant              rare access, instant          $
+─────────────────────────────
+🗄️ Glacier Flexible              hours to retrieve             ¢
+─────────────────────────────────
+🏔️ Glacier Deep Archive          compliance vault              ¢
+```
+
+### 🏛️ Service Spotlight — Amazon Redshift
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🏛️  AMAZON  REDSHIFT  —  Data Warehouse                   ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Category      │  Columnar MPP data warehouse               ║
+   ║  Scale         │  Petabytes (exabytes tested)                ║
+   ║  SQL           │  PostgreSQL-flavored                        ║
+   ║  Modes         │  Serverless • Provisioned (RA3 nodes)       ║
+   ║  Superpower    │  Sub-second queries over billions of rows   ║
+   ║                                                             ║
+   ║  💡 Use when you need fast SQL on huge structured data.     ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+### 🐘 Service Spotlight — Amazon EMR
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🐘  AMAZON  EMR  —  Elastic MapReduce                     ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Category      │  Managed Hadoop / Spark / Presto clusters ║
+   ║  Scale         │  Thousands of nodes                        ║
+   ║  Pricing       │  Per-instance-hour (spot = 90% off)         ║
+   ║                                                             ║
+   ║  💡 Use for petabyte-scale custom Spark jobs.                ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+### S3 Data Lake — Medallion Architecture
 
 ```
    🪣 s3://hitavirtech-analytics/
-      ├── 🥉 raw/         ← untouched source
-      ├── 🥈 curated/     ← cleaned Parquet
-      └── 🥇 analytics/   ← aggregated for BI
+      │
+      ├── 🥉 raw/             ← Untouched source data
+      │     ├── sales/2026/04/22/orders.csv
+      │     └── inventory/2026/04/22/stock.json
+      │
+      ├── 🥈 curated/         ← Cleaned, typed Parquet
+      │     └── sales_fact/year=2026/month=04/day=22/part-001.parquet
+      │
+      └── 🥇 analytics/       ← Pre-aggregated for BI
+            └── daily_revenue/year=2026/month=04/day=22/part-001.parquet
 ```
-
-### 🧊 Amazon S3 Storage Classes
-
-Not all volume is equal. S3 has tiered storage:
-
-```
-    🔥 Standard                  (hot, frequently accessed)     $$$$
-    🌡️ Intelligent-Tiering      (auto-moves hot/cold)          $$$
-    ❄️ Standard-IA              (monthly access)               $$
-    🧊 Glacier Instant          (rare access)                   $
-    🗄️ Glacier Flexible         (hours to retrieve)             ¢
-    🏔️ Glacier Deep Archive     (compliance vault)              ¢
-```
-
-Lifecycle rules auto-move data — hot today, archived next year.
-
-### 🏛️ Amazon Redshift — Petabyte Warehouse
-
-When you need **fast SQL** over huge structured data:
-
-- Columnar storage — blazing aggregations
-- Massively parallel processing (MPP)
-- Scales to petabytes
-- **Redshift Serverless** — pay per query, no cluster to manage
-- **RA3 nodes** — storage separate from compute
-
-### 🐘 Amazon EMR — Big-Data Batch
-
-For massive ETL jobs beyond what Glue can handle:
-
-- Managed Hadoop / Spark / Presto / HBase clusters
-- Scales to thousands of nodes
-- Spot instances drop compute cost by up to 90%
-- Ideal for petabyte-scale Spark jobs
-
-### 🏗️ AWS Lake Formation
-
-Once your S3 lake grows, you need governance:
-
-- Centralized permissions across accounts
-- Fine-grained access (row-level, column-level)
-- Data filters — control who sees what
-- Integrates with Glue, Athena, Redshift Spectrum
 
 ### Volume Decision Tree
 
 ```
-   How much data?
-         │
-         ├── < 1 TB           → 🏛️ Redshift Serverless or RDS
-         ├── 1 - 100 TB        → 🪣 S3 + 🔍 Athena (most common)
-         ├── 100 TB - 10 PB    → 🪣 S3 + 🏛️ Redshift + 🐘 EMR
-         └── > 10 PB           → 🪣 S3 + 🏗️ Lake Formation + 🐘 EMR + 🏛️ Redshift
+                       📦 How much data?
+                              │
+          ┌───────────────────┼───────────────────────────┐
+          │                   │                           │
+       < 1 TB              1-100 TB                    > 100 TB
+          │                   │                           │
+          ▼                   ▼                           ▼
+     🗄️ 🏛️                   🪣 🔍                         🪣 🐘 🏛️ 🏗️
+   RDS or                    S3 +                      S3 + EMR +
+ Redshift Serverless        Athena                    Redshift + LakeForm
+ (small + cheap)          (most common)            (huge analytics platform)
 ```
 
-> **HitaVir Tech says:** "Start with S3. S3 is the universal storage layer. Every analytics service on AWS reads from it. You will never regret putting data into S3 — you may regret putting it anywhere else first."
+> 💡 **HitaVir Tech says:** "Start with S3. Every analytics service on AWS reads from it. You'll never regret putting data into S3 — you may regret putting it anywhere else first."
 
 ## AWS Services for Variety
 Duration: 8:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🧩   AWS  FOR  VARIETY   🧩                 │
-   │    "Handle any data format, elegantly."      │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🧩   AWS   FOR   VARIETY   🧩                 ┃
+   ┃                                                           ┃
+   ┃         "Handle any data format, elegantly."              ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### The Variety Toolkit
-
-| Service | Icon | Purpose |
-|---------|:---:|---------|
-| **Amazon S3** | 🪣 | Holds every format — CSV, JSON, Parquet, images, video |
-| **AWS Glue** | 🕸️ | ETL for all formats; crawlers auto-detect schema |
-| **AWS Glue Data Catalog** | 📚 | Metadata layer — one view across formats |
-| **Amazon Athena** | 🔍 | SQL on CSV, JSON, Parquet, ORC, Avro — all the same |
-| **Amazon DynamoDB** | ⚡ | NoSQL for flexible, semi-structured docs |
-| **Amazon Rekognition** | 🤖 | Turns images/video into structured labels |
-| **Amazon Textract** | 📝 | Extracts text and tables from PDFs and scans |
-| **Amazon Transcribe** | 🔊 | Converts speech to text |
-| **Amazon Comprehend** | 💭 | NLP: sentiment, entities, topics from text |
-| **Amazon OpenSearch** | 🔎 | Full-text search and log analytics |
-
-### 🕸️ AWS Glue — The Variety Engine
-
-Glue is a **serverless ETL** service that speaks every common data format natively:
+### The Variety Toolkit — Service Grid
 
 ```
-   IN  ──►  🕷️ Glue Crawler  ──►  📚 Glue Catalog  ──►  ⚙️ Glue ETL Job  ──►  OUT
-   CSV                             (schema +                                 Parquet
-   JSON                            partitions)                              (optimized)
-   Parquet
-   Avro
-   ORC
-   Database
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🕸️          ┃  ┃       📚         ┃  ┃       🔍         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃   AWS Glue       ┃  ┃  Glue Catalog    ┃  ┃  Amazon Athena   ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Serverless ETL  ┃  ┃  Metadata store  ┃  ┃  Serverless SQL  ┃
+   ┃  Any format      ┃  ┃  All engines use ┃  ┃  CSV JSON Parquet┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       ⚡         ┃  ┃       🤖         ┃  ┃       📝         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃   DynamoDB       ┃  ┃  Rekognition     ┃  ┃  Textract        ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  NoSQL flexible  ┃  ┃  Images & video  ┃  ┃  PDFs & scans    ┃
+   ┃  docs & JSON     ┃  ┃  → labels        ┃  ┃  → text & tables ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🔊         ┃  ┃       💭         ┃  ┃       🔎         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃   Transcribe     ┃  ┃  Comprehend      ┃  ┃  OpenSearch      ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Audio → text    ┃  ┃  NLP: sentiment, ┃  ┃  Search & log    ┃
+   ┃                  ┃  ┃  entities, topics┃  ┃  analytics       ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-- 🕷️ **Crawlers** — auto-detect schema for new S3 folders
-- 📚 **Data Catalog** — central metadata store (used by Athena, Redshift, EMR)
-- ⚙️ **ETL Jobs** — Python or Spark code to transform data
-- 🧪 **DataBrew** — visual, no-code data prep
+### 🕸️ Service Spotlight — AWS Glue
 
-### 🔍 Amazon Athena — One SQL, Many Formats
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🕸️  AWS  GLUE  —  Serverless ETL + Data Catalog          ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  🕷️ Crawlers   │  Auto-detect schema for new S3 folders    ║
+   ║  📚 Catalog    │  Central metadata (Athena, Redshift, EMR) ║
+   ║  ⚙️ ETL Jobs   │  Python / Spark transformations            ║
+   ║  🧪 DataBrew   │  No-code visual data prep                   ║
+   ║  🛡️ Data Quality│  Rule-based DQ checks                      ║
+   ║                                                             ║
+   ║  💡 The "nervous system" of your AWS data lake.            ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+### Glue Flow
+
+```
+   INPUT                                                      OUTPUT
+   ──────                                                     ──────
+
+   📄 CSV        ┐                                           ┌ 🗂️ Parquet
+   🧩 JSON       ├──► 🕷️ Crawler ──► 📚 Catalog ──► ⚙️ Job ──┤
+   🗂️ Parquet    │                   (schema)                │ 📚 Updated
+   🗄️ Database   ┘                                           └    tables
+```
+
+### 🔍 Athena — One SQL, Many Formats
 
 ```sql
 SELECT *
-FROM csv_orders
-JOIN json_customers USING (customer_id)
-JOIN parquet_products USING (product_id);
+FROM   csv_orders
+JOIN   json_customers   USING (customer_id)
+JOIN   parquet_products USING (product_id);
 ```
 
-Athena reads CSV, JSON, Parquet, ORC, Avro — all via the Glue Catalog. You never leave SQL.
+Athena reads **CSV, JSON, Parquet, ORC, Avro** — all via the Glue Catalog. You never leave SQL.
 
-### 🎞️ Handling Unstructured Data
-
-For data with no built-in schema, AWS provides **AI extractors**:
+### 🎞️ Unstructured → Structured: The AI Extractor Pipeline
 
 ```
-   🖼️ Images      ──►  🤖 Rekognition    ──►  Labels, faces, text, moderation
-   📄 PDFs/scans   ──►  📝 Textract       ──►  Extracted text, key-value, tables
-   🎤 Audio        ──►  🔊 Transcribe     ──►  Text transcripts
-   🌐 Text         ──►  💭 Comprehend     ──►  Sentiment, entities, topics
-   🌍 Any language ──►  🗣️ Translate      ──►  Translated text
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃  🖼️ Images       ──►  🤖 Rekognition  ──►  🏷️ Labels       ┃
+   ┃  📄 PDFs/scans    ──►  📝 Textract     ──►  📋 Text+Tables  ┃
+   ┃  🎤 Audio         ──►  🔊 Transcribe   ──►  📃 Transcripts  ┃
+   ┃  💬 Free text     ──►  💭 Comprehend   ──►  😊 Sentiment    ┃
+   ┃  🌍 Translations  ──►  🗣️ Translate    ──►  🇯🇵 Languages    ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-This is the **magic** step: unstructured data goes in, **structured features** come out, and then you can put those into S3 / Athena / Redshift as normal.
+Magic step: **chaos in → structured features out** → then into S3 / Athena / Redshift as normal.
 
-### Real-World Example: E-Commerce Review Pipeline
+### Real-World Example — E-commerce Review Pipeline
 
 ```
-   💬 Customer review (unstructured text)
-              │
-              ▼
-        💭 Comprehend  ──►  sentiment: negative
-              │            topic: shipping
-              ▼
-        📚 Glue Catalog table: reviews_enriched
-              │
-              ▼
-        🔍 Athena SQL: "avg sentiment per product last month"
-              │
-              ▼
-        📊 QuickSight dashboard
+   💬 Customer review (raw text)
+         │
+         ▼
+   💭 Comprehend  ──► sentiment=negative, topic=shipping
+         │
+         ▼
+   🪣 S3 (enriched)
+         │
+         ▼
+   🕷️ Glue Crawler  ──►  📚 Catalog
+         │
+         ▼
+   🔍 Athena: "avg sentiment per product / month"
+         │
+         ▼
+   📊 QuickSight dashboard for the CX team
+         │
+         ▼
+   🎯 Action: fix shipping partner in Region X
 ```
 
 ### Variety Decision Tree
 
 ```
-   What format is my data?
-            │
-            ├── Tabular (CSV / tables)     → 🪣 S3 + 🕸️ Glue + 🔍 Athena
-            ├── JSON / semi-structured     → 🪣 S3 + 🔍 Athena, or ⚡ DynamoDB
-            ├── Images / video             → 🪣 S3 + 🤖 Rekognition
-            ├── PDFs / scanned docs        → 🪣 S3 + 📝 Textract
-            ├── Audio / voice              → 🪣 S3 + 🔊 Transcribe
-            └── Free text / reviews        → 🪣 S3 + 💭 Comprehend
+                        🧩 What's my data?
+                               │
+        ┌───────────────┬──────┼──────┬───────────────┐
+        ▼               ▼      ▼      ▼               ▼
+      📊 Tabular   🧩 JSON   🖼️ Images  📄 PDFs     🎤 Audio/💬 Text
+        │               │      │      │               │
+        ▼               ▼      ▼      ▼               ▼
+      🪣+🕸️+🔍         🪣+🔍    🤖      📝              🔊 / 💭
+   S3+Glue+Athena   S3+Athena Rek.  Textract    Transcribe/Comprehend
+                    or ⚡ DDB
 ```
 
-> **HitaVir Tech says:** "The magic of modern analytics is that unstructured data can be turned into structured features in minutes using AWS AI services. What took PhDs and years 10 years ago, today is an API call."
+> 💡 **HitaVir Tech says:** "The magic of modern analytics — unstructured data becomes structured features in minutes via AWS AI services. What took PhDs years a decade ago is now an API call."
 
 ## AWS Services for Velocity
 Duration: 8:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🌊   AWS  FOR  VELOCITY   🌊                │
-   │      "Move and process data in real time."  │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🌊   AWS   FOR   VELOCITY   🌊                ┃
+   ┃                                                           ┃
+   ┃         "Move and process data in real time."             ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### The Velocity Toolkit
-
-| Service | Icon | Purpose |
-|---------|:---:|---------|
-| **Amazon Kinesis Data Streams** | 🌊 | Real-time event stream (like Kafka) |
-| **Amazon Kinesis Data Firehose** | 🚒 | Buffered streaming delivery to S3 / Redshift |
-| **Amazon Managed Streaming for Kafka (MSK)** | 🪐 | Managed Apache Kafka |
-| **Amazon Kinesis Data Analytics** | 🎯 | SQL / Flink on streams in real time |
-| **AWS Lambda** | ⚡ | Event-driven serverless functions |
-| **Amazon DynamoDB Streams** | 🔁 | Change data capture from DynamoDB |
-| **Amazon EventBridge** | 🚌 | Serverless event bus across AWS |
-| **Amazon SQS / SNS** | 📬 | Queue / pub-sub messaging |
-
-### 🌊 Amazon Kinesis Data Streams — The Real-Time Backbone
-
-Think of Kinesis as a **high-speed conveyor belt** for events:
+### The Velocity Toolkit — Service Grid
 
 ```
-   📱 App events          🌊 Kinesis Data Stream          🧠 Consumers
-   🌐 Clickstreams  ──►   ┌──────────────────────┐  ──►  ⚡ Lambda
-   📟 IoT sensors         │  ⏩ ⏩ ⏩ ⏩ ⏩ ⏩ ⏩ │       🎯 Kinesis Analytics
-   🛒 Transactions        └──────────────────────┘       🏛️ Redshift
-                          (durable, ordered, 24h-365d)   🔎 OpenSearch
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🌊         ┃  ┃       🚒         ┃  ┃       🪐         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃   Kinesis Data   ┃  ┃  Kinesis         ┃  ┃   Amazon MSK     ┃
+   ┃   Streams        ┃  ┃  Firehose        ┃  ┃                  ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Real-time stream┃  ┃  Buffered deliver┃  ┃  Managed Kafka   ┃
+   ┃  MS latency      ┃  ┃  S3/Redshift/ES  ┃  ┃  Kafka API       ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🎯         ┃  ┃       ⚡         ┃  ┃       🚌         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃  Kinesis Data    ┃  ┃  AWS Lambda      ┃  ┃  EventBridge     ┃
+   ┃  Analytics       ┃  ┃                  ┃  ┃                  ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  SQL/Flink on    ┃  ┃  Event-driven    ┃  ┃  Serverless      ┃
+   ┃  streams         ┃  ┃  functions       ┃  ┃  event bus       ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-Kinesis holds events durably for 24 hours (up to 365 days) so multiple consumers can read the same stream independently.
-
-### 🚒 Kinesis Data Firehose — The Easy Button
-
-Firehose is the **serverless, zero-management** way to stream into storage:
-
-- **Input:** JSON records via SDK / agent
-- **Buffers:** holds for 60 sec or 5 MB
-- **Transforms:** optional Lambda enrichment
-- **Lands:** S3 (Parquet!) / Redshift / OpenSearch / HTTP endpoint
+### 🌊 Service Spotlight — Amazon Kinesis Data Streams
 
 ```
-   📱 Producers ──► 🚒 Firehose ──► 🗜️ Convert to Parquet ──► 🪣 S3
-                    (no servers,
-                     auto-scale)
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🌊  KINESIS  DATA  STREAMS  —  Real-time Event Stream    ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Latency      │  Sub-second                                 ║
+   ║  Retention    │  24 hours (up to 365 days)                  ║
+   ║  Throughput   │  MB/sec per shard, scale by sharding        ║
+   ║  Ordering     │  Per-shard ordered                          ║
+   ║                                                             ║
+   ║  💡 The "high-speed conveyor belt" for events.              ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
-No code. No cluster. It just works.
+### Kinesis in Action — The Conveyor Belt
 
-### 🪐 Amazon MSK — Managed Kafka
+```
+   📱 Producers                🌊 KINESIS                  🧠 Consumers
+   ──────────────               ──────────                 ──────────────
 
-If your company already uses **Apache Kafka**, MSK gives you managed Kafka with AWS integrations — the same APIs, without you running ZooKeeper.
+   📱 App events           ┌───────────────────────┐      ⚡ Lambda
+   🌐 Clickstreams  ──►   │  ⏩ ⏩ ⏩ ⏩ ⏩ ⏩ ⏩ │ ──►  🎯 K.Analytics
+   📟 IoT sensors          │ durable, ordered,     │      🚒 Firehose→🪣
+   🛒 Transactions         │ up to 365d retention  │      🔎 OpenSearch
+   💳 Card swipes          └───────────────────────┘      🏛️ Redshift
+```
 
-### 🎯 Kinesis Data Analytics — Stream SQL
+Kinesis holds events **durably**. Multiple consumers read the same stream **independently**.
 
-Run **SQL or Apache Flink** on streaming data for continuous analytics:
+### 🚒 Service Spotlight — Kinesis Firehose
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🚒  KINESIS  FIREHOSE  —  The Easy Button                ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Model        │  Serverless, fully managed                  ║
+   ║  Buffer       │  60 sec or 5 MB (whichever first)           ║
+   ║  Transforms   │  Optional Lambda enrichment                   ║
+   ║  Sinks        │  S3 (Parquet!), Redshift, OpenSearch, HTTP  ║
+   ║                                                             ║
+   ║  💡 No code, no cluster — the laziest streaming on AWS.     ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+```
+   📱 Producers  ──►  🚒 Firehose  ──► 🗜️ Convert → Parquet  ──►  🪣 S3
+                     (no servers,
+                      auto-scale)
+```
+
+### 🎯 Kinesis Data Analytics — Continuous SQL
 
 ```sql
 CREATE STREAM fraud_alerts AS
 SELECT user_id, amount, location
-FROM transactions_stream
-WHERE amount > 10000 OR is_foreign = TRUE;
+FROM   transactions_stream
+WHERE  amount > 10000 OR is_foreign = TRUE;
 ```
 
 Results in **milliseconds** — not after the nightly batch.
 
-### ⚡ AWS Lambda — The Universal Glue
-
-Lambda runs a short function every time an event occurs:
+### ⚡ AWS Lambda — The Universal Event Glue
 
 ```
-   🪣 S3 new file  ─┐
-   🌊 Kinesis event ├──►  ⚡ Lambda  ──►  🏛️ Redshift load
-   🔁 DynamoDB row ─┤            │
-   🚌 EventBridge   ┘            └──►  📣 SNS alert
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃   🪣 S3 new file  ─┐                                      ┃
+   ┃   🌊 Kinesis event ├──►  ⚡ Lambda  ──► 🏛️ Redshift load  ┃
+   ┃   🔁 DynamoDB row ─┤            │                         ┃
+   ┃   🚌 EventBridge   ┘            └──► 📣 SNS / 📨 SQS alert┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-Perfect for: reacting to events, enrichment, lightweight transforms, alerting.
+Perfect for: event reactions, enrichment, alerting, small transforms.
 
-### Real-World Velocity Pipeline
+### Real-World Velocity Pipeline — Rideshare App
 
 ```
-   🚗 Rideshare app (1M events/sec)
+   🚗 Rideshare app  (1 million events/sec)
               │
               ▼
        🌊 Kinesis Data Streams
               │
-        ┌─────┴─────┬─────────┐
-        ▼           ▼         ▼
-   ⚡ Lambda   🎯 Analytics  🚒 Firehose
-   fraud flag  SQL alerts   (to S3 Parquet)
-        │           │           │
-        ▼           ▼           ▼
-   📣 SNS      📊 Live         🔍 Athena
-   to ops      dashboard       historical
+        ┌─────┼─────┬─────────┐
+        ▼     ▼     ▼         ▼
+    ⚡ Lambda  🎯 Analytics  🚒 Firehose
+    fraud     real-time     buffer →
+    flag      aggregates    🪣 S3 (Parquet)
+        │         │             │
+        ▼         ▼             ▼
+    📣 SNS    📊 QuickSight  🔍 Athena
+    alert ops  live dash.   historical BI
 ```
 
 ### Velocity Decision Tree
 
 ```
-   How fresh must the data be?
-            │
-            ├── Next day is fine         → 🗓️ Nightly 🕸️ Glue batch
-            ├── Every 15 minutes         → 🚒 Firehose → 🪣 S3 + 🔍 Athena
-            ├── Seconds                  → 🌊 Kinesis + ⚡ Lambda
-            ├── Sub-second               → 🌊 Kinesis + 🎯 Analytics (Flink)
-            └── Kafka already in use     → 🪐 MSK
+                        🌊 How fresh must the data be?
+                                     │
+        ┌────────────────┬───────────┼──────────┬──────────────┐
+        ▼                ▼           ▼          ▼              ▼
+     Next day        15 minutes    Seconds    Sub-second    Kafka shop
+        │                │           │          │              │
+        ▼                ▼           ▼          ▼              ▼
+      🕸️ Glue         🚒 Firehose  🌊 Kinesis  🎯 Analytics   🪐 MSK
+      batch           → 🪣 S3      + ⚡ Lambda  (Flink)
 ```
 
-> **HitaVir Tech says:** "Every team thinks they need real-time until they see the bill. Start with Firehose and 5-minute micro-batches. You can graduate to full streaming later — most of the time you won't need to."
+> 💡 **HitaVir Tech says:** "Every team thinks they need real-time until they see the bill. Start with Firehose and 5-minute micro-batches — graduate later. Most of the time, you won't need to."
 
 ## AWS Services for Veracity
 Duration: 8:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🛡️   AWS  FOR  VERACITY   🛡️                │
-   │     "Make sure the data is trustworthy."     │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              🛡️   AWS   FOR   VERACITY   🛡️                 ┃
+   ┃                                                           ┃
+   ┃         "Make sure the data is trustworthy."               ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### The Veracity Toolkit
-
-| Service | Icon | Purpose |
-|---------|:---:|---------|
-| **AWS Glue DataBrew** | 🧪 | Visual data cleaning and profiling |
-| **AWS Glue Data Quality** | 🛡️ | Rule-based data-quality checks |
-| **Amazon Deequ (library)** | 🔬 | Unit tests for data on Spark |
-| **AWS Lake Formation** | 🏗️ | Governance and fine-grained permissions |
-| **AWS CloudTrail** | 📜 | Audit every API call (who did what) |
-| **AWS Config** | ⚙️ | Track resource configuration drift |
-| **Amazon Macie** | 🕵️ | Discover and classify PII in S3 |
-| **AWS KMS** | 🔐 | Manage encryption keys |
-
-### 🧪 AWS Glue DataBrew — Clean Visually
-
-DataBrew is a **no-code data prep** tool:
+### The Veracity Toolkit — Service Grid
 
 ```
-   🧪 Load data  ──►  📊 Profile  ──►  🔧 Apply 250+ transforms  ──►  💾 Export
-                      (column stats,      (null fill, dedupe,
-                       distributions,      standardize, parse dates)
-                       anomalies)
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🧪          ┃  ┃       🛡️         ┃  ┃       🔬         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃  Glue DataBrew   ┃  ┃ Glue Data Quality┃  ┃  Deequ (lib)     ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Visual cleaning ┃  ┃  Rule-based checks┃ ┃  Unit tests for  ┃
+   ┃  No-code         ┃  ┃  Block bad data  ┃  ┃  Spark data      ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🏗️          ┃  ┃       🕵️          ┃  ┃       📜         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃ Lake Formation   ┃  ┃  Macie           ┃  ┃  CloudTrail      ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Governance,     ┃  ┃  Discover PII    ┃  ┃  API audit log   ┃
+   ┃  fine-grained AC ┃  ┃  in S3 buckets   ┃  ┃  Who did what    ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-- Detects anomalies: nulls, outliers, duplicates
-- 250+ built-in transformations
-- Creates **recipes** that can be scheduled as jobs
-- No Python/Spark knowledge needed
-
-### 🛡️ AWS Glue Data Quality — Rules That Guard Your Lake
-
-Define rules; Glue checks them as data flows in:
+### 🧪 Service Spotlight — AWS Glue DataBrew
 
 ```
-   Rules ──►   order_id IS NOT NULL                 ✅
-               amount BETWEEN 0 AND 1_000_000        ✅
-               customer_id IN customers.customer_id  ✅
-               COUNT(DISTINCT order_id) = COUNT(*)   ❌ 23 duplicates
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🧪  GLUE  DATABREW  —  No-Code Data Prep                 ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Interface    │  Visual, spreadsheet-like                   ║
+   ║  Transforms   │  250+ built-in (nulls, dupes, dates, etc.)  ║
+   ║  Profiling    │  Auto column stats, anomaly flags           ║
+   ║  Recipes      │  Save + schedule as jobs                    ║
+   ║                                                             ║
+   ║  💡 Hand this to business analysts — no Spark needed.        ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
-Failing rules can **block the pipeline** or **alert** the team. Quality becomes a pipeline concern, not a tribal one.
-
-### 🏗️ AWS Lake Formation — Governance
-
-Tracks who can access what **at column and row level**:
-
 ```
-   🏗️ Lake Formation
-        │
-        ├── 👤 Analyst role: read orders_public (no PII columns)
-        ├── 🛠️ Engineer role: read/write all tables
-        └── 👁️ Auditor role: read all columns, no writes
+   🧪 Load  ──►  📊 Profile  ──►  🔧 Apply transforms  ──►  💾 Export
+                (stats,           (fill nulls, parse        (to S3 or
+                 anomalies)        dates, standardize)       Redshift)
 ```
 
-### 🕵️ Amazon Macie — PII Detection
+### 🛡️ Service Spotlight — Glue Data Quality
 
-Macie uses ML to find sensitive data (credit cards, SSNs, names, emails) hidden in S3 buckets. If analytics data contains customer PII by accident, Macie flags it.
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🛡️  GLUE  DATA  QUALITY  —  Rules That Guard the Lake    ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Rule types   │  Completeness, uniqueness, ranges, custom  ║
+   ║  Enforcement  │  Block pipeline OR quarantine OR alert      ║
+   ║  ML-assisted  │  Recommends rules from sample data          ║
+   ║                                                             ║
+   ║  💡 Data quality becomes a pipeline concern, not tribal.    ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
 
-### 📜 AWS CloudTrail + AWS Config
+```
+   RULES                                         CHECK RESULT
+   ──────                                        ─────────────
+   order_id IS NOT NULL                  ...  ✅ pass
+   amount BETWEEN 0 AND 1_000_000        ...  ✅ pass
+   customer_id IN customers              ...  ✅ pass
+   COUNT(DISTINCT order_id) = COUNT(*)   ...  ❌ 23 duplicates — ALERT!
+```
 
-For audit and compliance:
+### 🕵️ Service Spotlight — Amazon Macie
 
-- 📜 **CloudTrail** — logs every API call ("who clicked what, when")
-- ⚙️ **AWS Config** — snapshots resource configuration over time ("was this bucket ever public?")
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🕵️  AMAZON  MACIE  —  PII Detective                       ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Method       │  ML-based classification of S3 contents    ║
+   ║  Finds        │  Credit cards, SSNs, emails, addresses     ║
+   ║  Output       │  Severity alerts → Security Hub             ║
+   ║                                                             ║
+   ║  💡 Sniffs sensitive data hiding in your data lake.         ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
 
-Essential for regulated industries (finance, healthcare).
+### 📜 CloudTrail + ⚙️ Config — The Audit Twins
+
+```
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃  📜 CloudTrail  =  "Who did WHAT and WHEN?"               ┃
+   ┃                   Every API call logged.                   ┃
+   ┃                                                           ┃
+   ┃  ⚙️ AWS Config  =  "What did it LOOK like then?"         ┃
+   ┃                   Resource config snapshots over time.     ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
+
+Essential for regulated industries (finance, healthcare, gov).
 
 ### The Data Quality Lifecycle
 
 ```
-   🧪 Profile         ──►  Understand what's in the data
-   ✍️ Define rules     ──►  "Expected" shape of clean data
-   🛡️ Enforce          ──►  Check on every pipeline run
-   🚨 Alert            ──►  Fail fast, tell owners
-   🔧 Remediate        ──►  Fix source or add transforms
-   📊 Monitor over time ──►  Score trends, dashboards
+   🧪 PROFILE  ──► ✍️ DEFINE RULES ──► 🛡️ ENFORCE ──► 🚨 ALERT ──► 🔧 FIX ──► 📊 MONITOR
+   (understand)    (expected shape)    (every run)   (fail fast) (remediate) (trends)
+            │                                                                    │
+            └─────────────────────────── loop ────────────────────────────────┘
 ```
 
-### Real-World Example: Sales Lake Quality
+### Real-World Example — Sales Lake Quality Gate
 
 ```
    📊 Raw sales CSV from 50 stores
@@ -1059,225 +1274,286 @@ Essential for regulated industries (finance, healthcare).
    🕸️ Glue ETL reads it
         │
         ▼
-   🛡️ Glue Data Quality checks:
-        - order_id unique?          ✅
-        - amount in [0, 1M]?        ✅
-        - store_id in valid list?   ❌ 12 bad rows
+   🛡️ Glue Data Quality runs rules:
+        ✅ order_id unique
+        ✅ amount in [0, 1M]
+        ❌ store_id in valid list — 12 rows failed
         │
         ▼
-   🚨 Bad rows → quarantine bucket + SNS alert
-   ✅ Good rows → curated zone in Parquet
+   ┌──────┴──────┐
+   ▼             ▼
+❌ Quarantine   ✅ Curated
+   bucket +     zone
+   📣 SNS alert  (Parquet)
 ```
 
-> **HitaVir Tech says:** "Every pipeline must have data quality rules. Not 'someday' — from day one. It's 10x cheaper to catch bad data at ingestion than to explain a wrong dashboard to the CEO."
+> 💡 **HitaVir Tech says:** "Every pipeline must have quality rules — not 'someday', from day one. 10× cheaper to catch bad data at ingest than to explain a wrong dashboard to the CEO."
 
 ## AWS Services for Value
 Duration: 8:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   💎   AWS  FOR  VALUE   💎                   │
-   │     "Turn data into decisions and ROI."      │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃              💎   AWS   FOR   VALUE   💎                   ┃
+   ┃                                                           ┃
+   ┃       "Turn data into decisions and ROI."                  ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-### The Value Toolkit
-
-| Service | Icon | Purpose |
-|---------|:---:|---------|
-| **Amazon QuickSight** | 📊 | Dashboards, BI, natural-language analytics |
-| **Amazon SageMaker** | 🤖 | Build, train, deploy ML models |
-| **Amazon Forecast** | 🔮 | No-code time-series forecasting |
-| **Amazon Personalize** | 🎯 | Recommendation engines |
-| **Amazon Fraud Detector** | 🚨 | Fraud-prediction models |
-| **Amazon Q in QuickSight** | 💬 | Ask data questions in natural language |
-| **Amazon Bedrock** | 🧠 | Foundation models (Claude, Llama, etc.) |
-| **Redshift ML** | 🧠 | Train and run ML using SQL in Redshift |
-| **Amazon Lookout for Metrics** | 👁️ | Auto-detect anomalies in business KPIs |
-
-### 📊 Amazon QuickSight — BI for Everyone
-
-QuickSight is AWS's **business intelligence** service — the consumer of all your pipelines:
-
-- Connects to S3 (via Athena), Redshift, RDS, Aurora, Salesforce, Excel
-- **SPICE** — in-memory cache for blazing dashboard speed
-- 📊 Charts, KPIs, pivot tables, maps
-- 👥 Embedded analytics inside your own apps
-- 💬 **Amazon Q** — ask "What were top products last month?" in plain English
+### The Value Toolkit — Service Grid
 
 ```
-   🔍 Athena / 🏛️ Redshift  ──►  🌶️ SPICE  ──►  📊 Visuals  ──►  🖥️ Dashboard
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       📊         ┃  ┃       🤖         ┃  ┃       🔮         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃   QuickSight     ┃  ┃  SageMaker       ┃  ┃  Forecast        ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  BI dashboards   ┃  ┃  Build/train ML  ┃  ┃  Time-series ML  ┃
+   ┃  Natural-lang Q  ┃  ┃  End-to-end ML   ┃  ┃  No code         ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       🎯         ┃  ┃       🚨         ┃  ┃       🧠         ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃  Personalize     ┃  ┃ Fraud Detector   ┃  ┃  Redshift ML     ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Netflix-style   ┃  ┃  Pre-built fraud ┃  ┃  Train ML in SQL ┃
+   ┃  recommendations ┃  ┃  ML models       ┃  ┃                  ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
+
+   ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓  ┏━━━━━━━━━━━━━━━━━━┓
+   ┃       💬         ┃  ┃       🧠         ┃  ┃       👁️          ┃
+   ┃                  ┃  ┃                  ┃  ┃                  ┃
+   ┃  Q in QuickSight ┃  ┃  Bedrock         ┃  ┃ Lookout Metrics  ┃
+   ┃  ──────────────  ┃  ┃  ──────────────  ┃  ┃  ──────────────  ┃
+   ┃  Ask in English  ┃  ┃  Foundation LLMs ┃  ┃  KPI anomaly     ┃
+   ┃  (Claude, etc)   ┃  ┃                  ┃  ┃  detection       ┃
+   ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 🤖 Amazon SageMaker — ML at Scale
-
-For custom machine learning:
-
-- **SageMaker Studio** — full IDE for ML in the browser
-- **Built-in algorithms** — 17+ algorithms ready to go
-- **AutoPilot** — auto-ML (tries many models, picks the best)
-- **Pipelines** — train, evaluate, deploy models as code
-- **Model Monitor** — catch model drift in production
-
-### 🔮 Amazon Forecast — No-Code Time-Series ML
-
-Predict demand, sales, traffic — without writing ML code:
+### 📊 Service Spotlight — Amazon QuickSight
 
 ```
-   📈 Historical sales + 🌡️ weather + 🎉 holidays
-                       │
-                       ▼
-                 🔮 Forecast (AutoML picks the best model)
-                       │
-                       ▼
-              Daily predictions per SKU per store
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  📊  AMAZON  QUICKSIGHT  —  Business Intelligence          ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Sources      │  S3 via Athena, Redshift, RDS, Excel...   ║
+   ║  Engine       │  SPICE (in-memory columnar cache)           ║
+   ║  Superpowers  │  Amazon Q (natural language) • Embedded     ║
+   ║  Editions     │  Standard • Enterprise                      ║
+   ║                                                             ║
+   ║  💡 Your "Tableau / Power BI" on AWS, with AI built in.     ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
-Uses the same tech Amazon uses internally for demand forecasting.
-
-### 🎯 Amazon Personalize — Recommendations
-
-Build Netflix-style recommendations in hours:
+### QuickSight Flow
 
 ```
-   User ─┐
-   Item ─┼──► 🎯 Personalize ──►  "You might like: ..."
-   Event─┘
+   🔍 Athena / 🏛️ Redshift ──► 🌶️ SPICE ──► 📊 Visuals ──► 🖥️ Dashboard ──► 👥 Share/Embed
+   (data source)              (cached)     (charts)      (compose)      (consume)
+```
+
+### 🤖 Service Spotlight — Amazon SageMaker
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🤖  AMAZON  SAGEMAKER  —  Full-Lifecycle ML               ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Studio       │  Browser IDE for ML                         ║
+   ║  AutoPilot    │  AutoML — tries many models                 ║
+   ║  Pipelines    │  Train/evaluate/deploy as code              ║
+   ║  Monitor      │  Catch model drift in production             ║
+   ║                                                             ║
+   ║  💡 From raw data to deployed model — one platform.          ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+### 🔮 Service Spotlight — Amazon Forecast
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🔮  AMAZON  FORECAST  —  No-Code Time-Series ML           ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Inputs       │  Historical + related series + metadata    ║
+   ║  AutoML       │  Tries multiple algorithms, picks best      ║
+   ║  Accuracy     │  Typically 50% better than Excel baselines  ║
+   ║                                                             ║
+   ║  💡 Same tech Amazon uses internally for demand planning.    ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
+
+```
+   📈 Past sales + 🌡️ Weather + 🎉 Holidays
+                    │
+                    ▼
+              🔮 Forecast (AutoML)
+                    │
+                    ▼
+      📅 Daily predictions per SKU per store
+```
+
+### 🎯 Service Spotlight — Amazon Personalize
+
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║  🎯  AMAZON  PERSONALIZE  —  Netflix-Style Recs            ║
+   ║ ───────────────────────────────────────────────────────── ║
+   ║  Inputs       │  Users + items + interaction events        ║
+   ║  Use cases    │  "You may like…", "Related items…"          ║
+   ║  Real-time    │  Inference in milliseconds                  ║
+   ║                                                             ║
+   ║  💡 Same ML powering Amazon.com recommendations.             ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
 ### 💬 Amazon Q in QuickSight — Natural-Language BI
 
 ```
-   User types: "Show me top 5 products last quarter"
-               │
-               ▼
-   💬 Q interprets, writes SQL, runs, visualizes
-               │
-               ▼
-   📊 Bar chart appears in 2 seconds
+   User types:   "Show me top 5 products last quarter"
+                        │
+                        ▼
+         💬 Q interprets → writes SQL → runs → visualizes
+                        │
+                        ▼
+            📊 Bar chart appears in 2 seconds
 ```
 
 Analysts no longer gatekeep simple questions.
 
-### 🧠 Redshift ML — SQL-Native ML
-
-Train models using SQL, in your data warehouse:
+### 🧠 Redshift ML — SQL-Native Machine Learning
 
 ```sql
 CREATE MODEL churn_model
-FROM customer_features
+FROM   customer_features
 TARGET churned
 FUNCTION predict_churn
 IAM_ROLE DEFAULT
 SETTINGS (S3_BUCKET 'my-ml-bucket');
-```
 
-Then:
-
-```sql
+-- then use it
 SELECT customer_id, predict_churn(features) AS risk
-FROM customers;
+FROM   customers
+WHERE  risk > 0.8;
 ```
 
-ML without ever leaving your warehouse.
+ML without leaving your data warehouse.
 
 ### The Value Stack
 
 ```
-   🛠️  BUILD LAYER       Data engineers → pipelines & lakes
-         ▲
-         │
-   🧪  ANALYSIS LAYER    Analysts → SQL, dashboards, reports (QuickSight, Athena)
-         ▲
-         │
-   🤖  ML LAYER          Data scientists → predictions (SageMaker, Forecast)
-         ▲
-         │
-   🎯  APPLICATION LAYER Product teams → features (Personalize, Fraud Detector)
-         ▲
-         │
-   💎  BUSINESS VALUE    Executives → decisions → revenue, savings, growth
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║   💎  BUSINESS  VALUE     revenue • savings • growth       ║
+   ║          ▲                                                 ║
+   ║          │                                                 ║
+   ║   🎯  APPLICATION LAYER    features: Personalize, Fraud   ║
+   ║          ▲                                                 ║
+   ║          │                                                 ║
+   ║   🤖  ML LAYER             SageMaker, Forecast, Redshift ML║
+   ║          ▲                                                 ║
+   ║          │                                                 ║
+   ║   🧪  ANALYSIS LAYER       Athena + QuickSight + Redshift  ║
+   ║          ▲                                                 ║
+   ║          │                                                 ║
+   ║   🛠️  BUILD LAYER          S3 + Glue + Kinesis + Lake Fm  ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
 
-> **HitaVir Tech says:** "The best data platform in the world is worthless if nobody uses the outputs. Start from Value and work backwards — who sees which insight, and what decision changes? Design everything else to serve that."
+> 💡 **HitaVir Tech says:** "The best data platform is worthless if nobody uses the outputs. Start from Value and work backwards — who sees which insight, and what decision changes? Design everything else to serve that."
 
 ## Putting It All Together
 Duration: 5:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🔗   END-TO-END  ANALYTICS  ON  AWS   🔗    │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃         🔗   END-TO-END  AWS  ANALYTICS  STACK  🔗         ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-Let's combine all 5 Vs into one architecture:
+Let's combine all 5 Vs into one living architecture:
 
 ```
-                         📦 VOLUME                 🧩 VARIETY
-                     ┌──────────────┐           ┌──────────────┐
-                     │   🪣  S3      │           │   🕸️ Glue    │
-   🌊 VELOCITY       │  Data Lake   │   📚     │   Crawlers   │
-  ┌──────────────┐   │  (raw/curat/ │  Catalog  │  auto-detect │
-  │ 🌊 Kinesis    │──►│   analytics)│◄──────────│   schemas    │
-  │ 🚒 Firehose   │   └──────┬──────┘           └──────────────┘
-  │ ⚡ Lambda     │          │
-  └──────────────┘          │
-                            ▼                    🛡️ VERACITY
-                   ┌──────────────────┐        ┌──────────────────┐
-                   │  🕸️  Glue ETL    │        │  🛡️ Glue DQ      │
-                   │  (transform)    │◄───────│  🧪 DataBrew     │
-                   │                 │        │  🏗️ Lake Formation│
-                   └────────┬────────┘        └──────────────────┘
-                            │
-                            ▼
-                   ┌──────────────────┐
-                   │  🪣  S3 curated  │
-                   │    (Parquet)     │
-                   └────────┬─────────┘
-                            │
-                ┌───────────┼───────────┐
-                ▼           ▼           ▼
-          🔍 Athena   🏛️ Redshift   🤖 SageMaker
-         (SQL on S3)  (warehouse)   (ML models)
-                │           │           │
-                └───────────┴───────────┘
-                            │
-                            ▼
-                     💎 VALUE LAYER
-                ┌─────────────────────┐
-                │  📊 QuickSight      │
-                │  💬 Q (natural lang)│
-                │  🔮 Forecast        │
-                │  🎯 Personalize     │
-                └─────────────────────┘
-                            │
-                            ▼
-                     🧠 DECISIONS
-                     💰 REVENUE
-                     🎯 ACTIONS
+   🌊 VELOCITY LAYER                     🧩 VARIETY LAYER
+   ┌──────────────────────┐             ┌──────────────────────┐
+   │  🌊 Kinesis Streams  │             │  🕸️ Glue Crawlers     │
+   │  🚒 Firehose          │             │  🤖 Rekognition       │
+   │  ⚡ Lambda            │             │  📝 Textract          │
+   │  🪐 MSK (Kafka)       │             │  🔊 Transcribe        │
+   └───────────┬──────────┘             │  💭 Comprehend        │
+               │                         └───────────┬──────────┘
+               ▼                                     │
+          ╔══════════════════════════════════════════╪═══════╗
+          ║            📦 VOLUME LAYER               │       ║
+          ║ ┌──────────────────────┐   ┌─────────────▼─────┐ ║
+          ║ │   🪣 Amazon S3       │◄──│  📚 Glue Catalog  │ ║
+          ║ │   Data Lake          │   │  (metadata)       │ ║
+          ║ │   raw / curated /    │   └───────────────────┘ ║
+          ║ │   analytics          │                         ║
+          ║ └──────────┬───────────┘                         ║
+          ║            │                                      ║
+          ║            ▼                                      ║
+          ║ ┌──────────────────────┐                          ║
+          ║ │  ⚙️ Glue ETL          │ ◄─── 🛡️ Glue DQ         ║
+          ║ │  🐘 EMR               │ ◄─── 🧪 DataBrew        ║
+          ║ │  (transform)         │ ◄─── 🏗️ Lake Formation   ║
+          ║ └──────────┬───────────┘       (VERACITY LAYER)   ║
+          ║            ▼                                      ║
+          ║ ┌──────────────────────┐                          ║
+          ║ │  🪣 S3 Curated       │                          ║
+          ║ │  (Parquet)           │                          ║
+          ║ └──────────┬───────────┘                          ║
+          ╚════════════╪══════════════════════════════════════╝
+                       │
+       ┌───────────────┼───────────────┐
+       ▼               ▼               ▼
+  ┌─────────┐    ┌─────────┐    ┌─────────┐
+  │  🔍     │    │  🏛️      │    │  🤖     │
+  │ Athena  │    │ Redshift │    │SageMaker│
+  │ (SQL)   │    │ (MPP)    │    │  (ML)   │
+  └────┬────┘    └────┬─────┘    └────┬────┘
+       │              │                │
+       └──────────────┼────────────────┘
+                      ▼
+   ╔═══════════════════════════════════════════════╗
+   ║              💎 VALUE LAYER                    ║
+   ║  ┌──────────────┐  ┌──────────────┐           ║
+   ║  │ 📊 QuickSight │  │ 🔮 Forecast  │           ║
+   ║  │ 💬 Q          │  │ 🎯 Personal. │           ║
+   ║  └──────┬───────┘  └──────┬───────┘           ║
+   ║         └─────────┬────────┘                    ║
+   ║                   ▼                             ║
+   ║        🧠 Decisions  •  💰 Revenue              ║
+   ╚═══════════════════════════════════════════════╝
 ```
 
-Every arrow is a service. Every box is a V. Together they form a complete analytics platform.
+Every box maps to a V. Every arrow is a managed AWS service. Together they form a complete cloud analytics platform.
 
-## Hands-on Lab - Your First Analytics Pipeline
+## Hands-on Lab - Your First AWS Analytics Pipeline
 Duration: 25:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🛠️   HANDS-ON  LAB  —  S3 + GLUE + ATHENA │
-   └─────────────────────────────────────────────┘
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃                                                           ┃
+   ┃    🛠️   HANDS-ON  LAB  —  S3  →  GLUE  →  ATHENA   🛠️     ┃
+   ┃                                                           ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
-Time to build. You will create a mini pipeline that touches **Volume** (S3), **Variety** (CSV auto-cataloged), and **Value** (SQL insights):
+You will build a mini pipeline that touches **Volume** (S3), **Variety** (CSV auto-cataloged), and **Value** (SQL insights).
 
 ```
-   Step 1         Step 2-3         Step 4-5           Step 6          Step 7-9
-  ┌──────┐       ┌──────┐         ┌──────────┐     ┌────────┐      ┌──────────┐
-  │ 📄   │ ────> │ 🪣   │ ──────> │ 🕷️       │ ───>│ 📚     │ ──── │ 🔍       │
-  │ CSV  │       │ S3   │         │ Crawler  │     │Catalog │      │ Athena   │
-  └──────┘       └──────┘         └──────────┘     └────────┘      └──────────┘
-   Prepare       Upload          Create & run      Table auto      Run SQL,
-   sample data   to bucket        crawler          populated       get insights
+   Step 1         Step 2-3        Step 4-5          Step 6          Step 7-9
+  ┌──────┐       ┌──────┐        ┌──────────┐    ┌────────┐      ┌──────────┐
+  │ 📄   │ ────> │ 🪣   │ ─────> │ 🕷️        │ ──>│ 📚     │ ──── │ 🔍       │
+  │ CSV  │       │  S3  │        │ Crawler  │    │Catalog │      │ Athena   │
+  └──────┘       └──────┘        └──────────┘    └────────┘      └──────────┘
+   Prepare       Upload         Create & run      Table auto     Run SQL,
+   sample data   to bucket       crawler          populated      get insights
 ```
 
 ### 📄 Step 1 — Prepare Sample Data
@@ -1301,53 +1577,54 @@ order_id,customer,product,quantity,amount,order_date
 ### 🪣 Step 2 — Create an S3 Bucket
 
 1. Sign in to the **AWS Management Console**
-2. Search for **S3** in the top search bar
+2. Search **S3** in the top search bar
 3. Click **Create bucket**
-4. Bucket name: `hitavirtech-analytics-yourname` (must be globally unique — add your name)
-5. Region: choose the closest (`ap-south-1` = Mumbai)
-6. Leave defaults; click **Create bucket**
+4. Bucket name: `hitavirtech-analytics-yourname` (globally unique — add your name)
+5. Region: closest to you (`ap-south-1` = Mumbai)
+6. Leave defaults → **Create bucket**
 
 ### ⬆️ Step 3 — Upload the CSV
 
 1. Open your bucket → **Create folder** → `raw`
-2. Inside `raw/`, **Create folder** → `sales`
+2. Inside `raw/` → **Create folder** → `sales`
 3. Inside `raw/sales/` → **Upload** → select `sales.csv` → **Upload**
 
-Your object is now at:
+Your object now lives at:
+
 ```
 🪣 s3://hitavirtech-analytics-yourname/raw/sales/sales.csv
 ```
 
 ### 🕸️ Step 4 — Create Glue Database and Crawler
 
-1. Search for **Glue** in the AWS Console
+1. Search **Glue** in the AWS Console
 2. Left menu → **Databases** → **Add database**
-3. Name: `hitavirtech_sales_db` → **Create database**
+3. Name: `hitavirtech_sales_db` → **Create**
 4. Left menu → **Crawlers** → **Create crawler**
 5. Name: `hitavirtech-sales-crawler` → **Next**
 6. **Add a data source** → S3 → path: `s3://hitavirtech-analytics-yourname/raw/sales/` → **Add**
-7. **Next** → **Create new IAM role** named `AWSGlueServiceRole-hitavirtech` → **Create**
-8. **Next** → Target database: `hitavirtech_sales_db` → Schedule: **On demand** → **Next** → **Create**
+7. **Next** → **Create new IAM role** `AWSGlueServiceRole-hitavirtech` → **Create**
+8. **Next** → Target database `hitavirtech_sales_db` → Schedule **On demand** → **Next** → **Create**
 
 ### 🕷️ Step 5 — Run the Crawler
 
 1. Select `hitavirtech-sales-crawler` → **Run crawler**
-2. Wait 1-2 minutes until **Status = Completed** and **Table changes = 1 created**
+2. Wait 1–2 minutes until **Status = Completed** and **Table changes = 1 created**
 
 ### 📚 Step 6 — Verify the Table
 
 1. Glue → **Tables** → open the new `sales` table
 2. Inspect:
-   - Columns: `order_id`, `customer`, `product`, `quantity`, `amount`, `order_date`
+   - Columns: `order_id, customer, product, quantity, amount, order_date`
    - Types: inferred automatically (bigint, string, double)
    - Location: your S3 folder
 
-Glue just auto-discovered the schema.
+Glue just auto-discovered the schema. 🎉
 
 ### 🔍 Step 7 — Query with Athena
 
 1. Open **Athena** in the AWS Console
-2. If first time: **Edit settings** → set query results location to `s3://hitavirtech-analytics-yourname/athena-results/`
+2. First time: **Edit settings** → set query results location to `s3://hitavirtech-analytics-yourname/athena-results/`
 3. In the editor: Data source = `AwsDataCatalog`, Database = `hitavirtech_sales_db`
 4. Run:
 
@@ -1357,7 +1634,7 @@ SELECT * FROM sales LIMIT 5;
 
 You should see 5 rows. 🎉
 
-### 💡 Step 8 — Run Analytical Queries
+### 💡 Step 8 — Analytical Queries
 
 ```sql
 -- Top customers by revenue
@@ -1383,33 +1660,37 @@ GROUP BY order_date
 ORDER BY order_date;
 ```
 
-### 💰 Step 9 — Notice the "Data Scanned" Number
+### 💰 Step 9 — The "Data Scanned" Number
 
 At the bottom of every result: **"Data scanned: 412 B"** or similar.
 
-That number is your bill. At scale, this is the metric every analytics engineer watches. Partitioning + Parquet shrinks it 100-1000x.
+That number is your bill. At scale, every analytics engineer watches it. Partitioning + Parquet shrinks it 100–1000×.
 
-### 🧹 Step 10 — Cleanup
+### 🧹 Step 10 — Cleanup (Mandatory!)
 
-> ⚠️ **Important:** forgetting cleanup = surprise AWS bill.
+> ⚠️ Forgetting cleanup = surprise AWS bill.
 
-1. **Glue** → Crawlers → delete `hitavirtech-sales-crawler`
-2. **Glue** → Databases → delete `hitavirtech_sales_db`
-3. **S3** → your bucket → **Empty** (confirm) → then **Delete** (confirm with bucket name)
-4. Check **Billing Dashboard** the next day to confirm $0 charges
+```
+   ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+   ┃  1. 🕸️ Glue → Crawlers → delete hitavirtech-sales-crawler  ┃
+   ┃  2. 🕸️ Glue → Databases → delete hitavirtech_sales_db      ┃
+   ┃  3. 🪣 S3 → your bucket → Empty → then Delete              ┃
+   ┃  4. 💰 Check Billing Dashboard next day → confirm $0       ┃
+   ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+```
 
-> **HitaVir Tech says:** "The last 5 minutes of the lab (cleanup) are the most valuable 5 minutes of the entire lab. Engineers who skip it end up with $300 surprise bills."
+> 💡 **HitaVir Tech says:** "The last 5 minutes of cleanup are the most valuable 5 minutes of the entire lab. Engineers who skip it end up with $300 surprise bills."
 
 ## Summary and What's Next
 Duration: 3:00
 
 ```
-   ┌─────────────────────────────────────────────┐
-   │   🎉   CONGRATULATIONS  —  PART  1  DONE!  🎉│
-   └─────────────────────────────────────────────┘
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║          🎉   CONGRATULATIONS  —  PART 1 DONE!   🎉        ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
 ```
-
-You just covered the foundations of analytics on AWS.
 
 ### What You Learned
 
@@ -1417,18 +1698,18 @@ You just covered the foundations of analytics on AWS.
 
 | Topic | Icon |
 |-------|:---:|
-| Analytics and the four levels | 📊 |
-| Machine Learning and its three flavors | 🤖 |
+| Analytics and four maturity levels | 📊 |
+| Machine Learning — three flavors | 🤖 |
 
 **📏 The 5 Vs of Big Data**
 
-| V | Icon | Question |
-|---|:---:|----------|
-| Volume | 📦 | How much data? |
-| Variety | 🧩 | How many formats? |
-| Velocity | 🌊 | How fast? |
-| Veracity | 🛡️ | Can we trust it? |
-| Value | 💎 | What outcome does it deliver? |
+```
+   ┏━━━━━━━━┓ ┏━━━━━━━━┓ ┏━━━━━━━━┓ ┏━━━━━━━━┓ ┏━━━━━━━━┓
+   ┃   📦   ┃ ┃   🧩   ┃ ┃   🌊   ┃ ┃   🛡️   ┃ ┃   💎   ┃
+   ┃ VOLUME ┃ ┃VARIETY ┃ ┃VELOCITY┃ ┃VERACITY┃ ┃ VALUE  ┃
+   ┗━━━━━━━━┛ ┗━━━━━━━━┛ ┗━━━━━━━━┛ ┗━━━━━━━━┛ ┗━━━━━━━━┛
+    Scale     Formats    Speed      Trust      Outcome
+```
 
 **☁️ AWS Services Mapped to Each V**
 
@@ -1443,7 +1724,7 @@ You just covered the foundations of analytics on AWS.
 **🛠️ Hands-on Skills**
 
 - 🪣 Created an S3 bucket
-- ⬆️ Uploaded data
+- ⬆️ Uploaded data to S3
 - 🕷️ Ran a Glue crawler
 - 📚 Viewed the Data Catalog
 - 🔍 Ran SQL with Athena
@@ -1451,30 +1732,42 @@ You just covered the foundations of analytics on AWS.
 
 ### What's Coming in Part 2
 
-🚀 **Fundamentals of Analytics on AWS - Part 2** will cover:
-
-- ⚙️ Transforming data with Glue ETL (Spark)
-- 🛡️ Data quality rules in production (Veracity deep-dive)
-- 🧩 Partitioning and Parquet optimization (Volume + Velocity)
-- 🏛️ Redshift hands-on — load, query, Redshift Spectrum
-- 🌊 Streaming ingestion lab with Kinesis Firehose
-- 📊 Building a real QuickSight dashboard (Value)
-- 🤖 Intro to SageMaker and Redshift ML
-- 🎯 A capstone project
+```
+   🚀  PART 2 — ADVANCED ANALYTICS ON AWS
+       ─────────────────────────────────────
+       ⚙️  Glue ETL with Spark
+       🛡️  Production data quality rules
+       🧩  Partitioning + Parquet deep-dive
+       🏛️  Redshift hands-on — load, query, Spectrum
+       🌊  Streaming lab with Kinesis Firehose
+       📊  Real QuickSight dashboard
+       🤖  Intro to SageMaker + Redshift ML
+       🎯  Capstone project
+```
 
 ### What To Do Next
 
-1. 🔄 **Repeat the lab** with a different dataset (a Kaggle CSV, for example)
-2. 📖 **Read the AWS Athena and Glue documentation**
-3. 💰 **Watch your AWS bill** for a few days to confirm cleanup
+1. 🔄 **Repeat this lab** with a different dataset (try a Kaggle CSV)
+2. 📖 **Read the AWS Athena and Glue docs**
+3. 💰 **Watch your AWS bill** for a few days
 4. 🧠 **Apply the 5 Vs** to a project you work on — identify the bottleneck V
 
 ### Final Thoughts
 
-The 5 Vs give you a **universal lens** for every data challenge. AWS gives you a **complete toolbox** — one service for each V and every combination. Once you've internalized this framework, you can pick up **any cloud's** analytics stack in a week, because they all follow the same pattern.
+```
+   ╔═══════════════════════════════════════════════════════════╗
+   ║                                                           ║
+   ║    📏 The 5 Vs = universal data challenge framework        ║
+   ║    ☁️ AWS = complete toolbox for each V                    ║
+   ║                                                           ║
+   ║    Learn both → you can pick up any cloud's analytics     ║
+   ║    stack in a week.                                       ║
+   ║                                                           ║
+   ╚═══════════════════════════════════════════════════════════╝
+```
 
-> **HitaVir Tech says:** "Analytics is not about tools. Tools change every two years. Analytics is about asking the right question, finding the right data, and presenting an insight people can act on. Master the fundamentals — Volume, Variety, Velocity, Veracity, Value — and every new tool becomes just another syntax."
+> 💡 **HitaVir Tech says:** "Analytics is not about tools. Tools change every two years. Analytics is about asking the right question, finding the right data, and presenting an insight people can act on. Master the fundamentals — Volume, Variety, Velocity, Veracity, Value — and every new tool becomes just another syntax."
 
 🎓 Welcome to cloud analytics. See you in **Part 2**.
 
-— **HitaVir Tech** ☁️
+— **HitaVir Tech**  ☁️
