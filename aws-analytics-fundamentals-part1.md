@@ -55,6 +55,15 @@ The 5 Vs give you a **framework to diagnose**. AWS gives you a **toolbox to solv
 
 **3-4 hours** (concepts + hands-on lab)
 
+### How to Use This Codelab
+
+| If you are... | Do this |
+|---------------|---------|
+| 🎓 A student new to cloud | Read top-to-bottom, do the hands-on lab |
+| 🛠️ A working engineer | Skim Part 1-2, deep-read the 5 Vs, focus on AWS services for your bottleneck V |
+| 🧑‍🏫 A trainer or mentor | Use section headers as talking points; the spotlight cards are slide-ready |
+| 🔖 A reference reader | Jump to the Cheat Sheet at the end |
+
 > 💡 **HitaVir Tech says:** "The 5 Vs aren't academic jargon — they're the mental checklist every senior engineer runs when someone says 'we have a data problem.' Learn to speak this language and every cloud will feel familiar."
 
 ## Prerequisites
@@ -343,6 +352,8 @@ At big-data scale, you need **distributed** systems — hundreds of machines sha
 
 > 💡 **HitaVir Tech says:** "What works at 10 GB catastrophically fails at 10 TB. Always ask — *how does this scale at 100x?*"
 
+> 📦 **Volume in one line:** design for 100× your current data — or rebuild painfully later.
+
 ## Variety
 Duration: 6:00
 
@@ -398,6 +409,8 @@ Most real projects combine these. Example — "Correlate support emails + call r
 
 > 💡 **HitaVir Tech says:** "90% of the world's data is unstructured. But 90% of analytics happens on structured data. Your job is often to convert chaos into order."
 
+> 🧩 **Variety in one line:** structure is created, not found — choose tools that embrace format diversity.
+
 ## Velocity
 Duration: 6:00
 
@@ -449,6 +462,8 @@ Duration: 6:00
 - 🔁 How do we **replay** events on failure?
 
 > 💡 **HitaVir Tech says:** "Streaming is fashionable. Batch is profitable. 80% of real-world analytics runs on batch — don't reach for streaming unless the business truly cannot wait."
+
+> 🌊 **Velocity in one line:** match the pipeline's speed to the decision's deadline — no faster.
 
 ## Veracity
 Duration: 6:00
@@ -511,6 +526,8 @@ Big volumes and fast pipelines are useless if the data is **wrong**.
 - 🧑 Who **owns** the quality of each dataset?
 
 > 💡 **HitaVir Tech says:** "Senior engineers obsess over data quality. Juniors obsess over cool tools. Guess which group builds systems that actually work in production."
+
+> 🛡️ **Veracity in one line:** quality rules are a pipeline concern, not a hope.
 
 ## Value
 Duration: 6:00
@@ -597,6 +614,8 @@ The difference between a valuable dashboard and a graveyard dashboard:
 - 🗑️ When should we **retire** outdated reports?
 
 > 💡 **HitaVir Tech says:** "A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture. Lead with Value."
+
+> 💎 **Value in one line:** start from the decision, work backwards to the pipeline.
 
 ## AWS Services for Analytics
 Duration: 3:00
@@ -1617,6 +1636,93 @@ Duration: 3:00
 🎓 Welcome to cloud analytics. See you in **Part 2**.
 
 — **HitaVir Tech** ☁️
+
+## Bonus - Self-Assessment
+Duration: 5:00
+
+```
+  +==============================================================+
+  |        DIAGNOSE  YOUR  OWN  PROJECT  WITH  THE  5  Vs         |
+  +==============================================================+
+```
+
+Think of a data project you work on (or want to build). Run it through these five questions. The V that feels **most stressful** is your bottleneck — that's where to focus first.
+
+| # | Question | Your V | AWS Services to Study |
+|:-:|----------|:------:|-----------------------|
+| 1 | "Do we have somewhere cheap and durable to store everything?" | 📦 Volume | 🪣 S3 • 🧊 Glacier • 🏛️ Redshift |
+| 2 | "Do we have to handle more than one data format?" | 🧩 Variety | 🕸️ Glue • 🔍 Athena • 🤖 Rekognition • 📝 Textract |
+| 3 | "Is the current data freshness good enough for stakeholders?" | 🌊 Velocity | 🌊 Kinesis • 🚒 Firehose • ⚡ Lambda |
+| 4 | "Do stakeholders trust the numbers we publish?" | 🛡️ Veracity | 🧪 DataBrew • 🛡️ Glue DQ • 🕵️ Macie |
+| 5 | "Is anyone actually acting on our outputs?" | 💎 Value | 📊 QuickSight • 🤖 SageMaker • 🎯 Personalize |
+
+Score each V from 1 (healthy) to 5 (painful). The highest score is where a senior engineer should lead the next sprint.
+
+> 🎯 **Pro Tip:** "Stacking solutions for Velocity when Veracity is the real problem is the most common and expensive AWS mistake. Diagnose honestly before you build."
+
+## Cheat Sheet - The One-Page Summary
+Duration: 3:00
+
+```
+  +==============================================================+
+  |           AWS  ANALYTICS  -  PART 1  CHEAT  SHEET             |
+  |                  (screenshot and keep)                        |
+  +==============================================================+
+```
+
+### 🧠 Concepts in a Sentence
+
+| Term | Definition |
+|------|------------|
+| 📊 **Analytics** | Turning data into decisions |
+| 🤖 **Machine Learning** | Algorithms that learn patterns instead of being programmed |
+| 📸 **Descriptive** → 🕵️ **Diagnostic** → 🔮 **Predictive** → 🎯 **Prescriptive** | The 4 levels of analytics maturity |
+
+### 📏 The 5 Vs in a Sentence
+
+| V | Icon | Question | One-Liner |
+|---|:---:|----------|-----------|
+| 1 | 📦 | How much? | Design for 100× your current data |
+| 2 | 🧩 | How many formats? | Structure is created, not found |
+| 3 | 🌊 | How fast? | Match speed to the decision's deadline |
+| 4 | 🛡️ | Can we trust it? | Quality rules are pipeline-level, not tribal |
+| 5 | 💎 | Worth it? | Start from the decision, work backwards |
+
+### ☁️ AWS Services — By V
+
+| V | Store | Process | Catalog / Quality | Deliver |
+|---|-------|---------|-------------------|---------|
+| 📦 **Volume** | 🪣 S3 • 🧊 Glacier | 🏛️ Redshift • 🐘 EMR | 🏗️ Lake Formation | — |
+| 🧩 **Variety** | 🪣 S3 • ⚡ DynamoDB | 🤖 Rekognition • 📝 Textract • 🔊 Transcribe • 💭 Comprehend | 🕸️ Glue • 📚 Catalog | 🔍 Athena |
+| 🌊 **Velocity** | 🌊 Kinesis • 🪐 MSK | ⚡ Lambda • 🎯 K. Analytics | 🚒 Firehose (→ S3) | 🔎 OpenSearch |
+| 🛡️ **Veracity** | — | 🧪 DataBrew | 🛡️ Glue DQ • 🕵️ Macie • 📜 CloudTrail • ⚙️ Config | 🏗️ Lake Formation |
+| 💎 **Value** | — | 🤖 SageMaker • 🔮 Forecast • 🎯 Personalize • 🧠 Redshift ML | — | 📊 QuickSight • 💬 Q • 🧠 Bedrock |
+
+### 🛠️ The Universal AWS Analytics Pipeline
+
+```
+   INGEST  -->  STORE  -->  CATALOG  -->  PROCESS  -->  QUERY  -->  VISUALIZE  -->  DECIDE
+     |          |           |             |             |            |               |
+   Kinesis     S3          Glue          Glue ETL       Athena       QuickSight      Human
+   Firehose    Redshift    Catalog       EMR            Redshift     SageMaker       action
+   DMS         Glacier     Lake Form.    DataBrew       Spectrum     Forecast
+```
+
+### 🎯 The Decision Rules
+
+- 📦 **Start with S3**, always. Every AWS analytics service reads from it.
+- 🗂️ **Use Parquet + partitioning** in S3. 10-100× cheaper queries.
+- 🌊 **Use Firehose** before full Kinesis Streams — it's 10× simpler.
+- 🛡️ **Add data-quality rules from day one** — not "someday".
+- 💎 **Lead with Value** — if nobody changes a decision, don't build it.
+- 💰 **Always clean up resources** after labs.
+
+### 📈 Next Steps
+
+1. Re-do the hands-on lab with a different dataset.
+2. Apply the 5 Vs self-assessment to a real project.
+3. Watch the AWS Athena and Glue documentation pages.
+4. Move to **Part 2** — Advanced Analytics on AWS.
 
 ---
 
