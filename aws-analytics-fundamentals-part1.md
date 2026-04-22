@@ -11,9 +11,11 @@ Feedback Link: https://github.com/hitavir25/codelabs/issues
 ## Overview
 Duration: 5:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws.svg" height="80" alt="AWS"/>
-</p>
+```
+      ╔══════════════════════════════════════════╗
+      ║    ☁️  AWS  •  ANALYTICS  •  PART 1  ☁️    ║
+      ╚══════════════════════════════════════════╝
+```
 
 Welcome to **Fundamentals of Analytics on AWS - Part 1** by **HitaVir Tech**!
 
@@ -568,9 +570,11 @@ The modern solution: **copy data from OLTP to OLAP** periodically. That copy job
 ## Amazon S3 - The Foundation
 Duration: 10:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-s3.svg" height="80" alt="Amazon S3"/>
-</p>
+```
+   ┌───────────────────────────────────────────┐
+   │   🪣   AMAZON  S3  —  OBJECT  STORAGE  🪣  │
+   └───────────────────────────────────────────┘
+```
 
 If you remember only one AWS service from this codelab, make it **🪣 Amazon S3**.
 
@@ -776,9 +780,11 @@ AWS's preferred path: 🪣 **S3 + 🕸️ Glue + 🔍 Athena + (optionally) 🧊
 ## AWS Glue Data Catalog
 Duration: 8:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-glue.svg" height="80" alt="AWS Glue"/>
-</p>
+```
+   ┌─────────────────────────────────────────────┐
+   │   🕸️   AWS  GLUE  —  DATA  CATALOG  📚   │
+   └─────────────────────────────────────────────┘
+```
 
 S3 stores the raw bytes. But how does a query engine know that `orders.csv` has three columns called `order_id`, `customer`, and `amount`? That knowledge is the **metadata**, and it lives in the 📚 **Glue Data Catalog**.
 
@@ -885,9 +891,11 @@ Avoid partitioning by high-cardinality columns (e.g., `user_id` for a SaaS with 
 ## Amazon Athena - Serverless SQL
 Duration: 8:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-athena.svg" height="80" alt="Amazon Athena"/>
-</p>
+```
+   ┌─────────────────────────────────────────────┐
+   │   🔍   AMAZON  ATHENA  —  SERVERLESS  SQL   │
+   └─────────────────────────────────────────────┘
+```
 
 Now the payoff. All that S3 storage and Glue cataloging exists so you can do one thing: **run SQL**.
 
@@ -1155,9 +1163,11 @@ Double-check the **Billing Dashboard** a day later to confirm no unexpected char
 ## Amazon Redshift - A Conceptual Tour
 Duration: 6:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-redshift.svg" height="80" alt="Amazon Redshift"/>
-</p>
+```
+   ┌─────────────────────────────────────────────┐
+   │   🏛️   AMAZON  REDSHIFT  —  DATA  WAREHOUSE │
+   └─────────────────────────────────────────────┘
+```
 
 We will do hands-on Redshift in Part 2, but every analytics engineer should have a mental model of what it is.
 
@@ -1231,9 +1241,11 @@ This is the foundation of a 🏕️ **lakehouse on AWS**.
 ## Amazon QuickSight - Visualization
 Duration: 5:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-quicksight.svg" height="80" alt="Amazon QuickSight"/>
-</p>
+```
+   ┌──────────────────────────────────────────────┐
+   │   📊   AMAZON  QUICKSIGHT  —  BI  DASHBOARDS │
+   └──────────────────────────────────────────────┘
+```
 
 Data and queries are only useful if people can see the answers. That's where 📊 **Amazon QuickSight** comes in.
 
@@ -1280,9 +1292,11 @@ We'll connect QuickSight to the Athena table you just created and build a dashbo
 ## Security Basics for Analytics
 Duration: 6:00
 
-<p align="center">
-  <img src="https://api.iconify.design/logos:aws-iam.svg" height="80" alt="AWS IAM"/>
-</p>
+```
+   ┌─────────────────────────────────────────────┐
+   │   🔐   AWS  IAM  —  IDENTITY  &  ACCESS   🛡️  │
+   └─────────────────────────────────────────────┘
+```
 
 Analytics and security are not opposite goals. A good analytics platform makes the right data accessible to the right people — nothing more.
 
