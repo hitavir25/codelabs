@@ -11,11 +11,26 @@ Feedback Link: https://github.com/hitavir25/codelabs/issues
 ## Overview
 Duration: 5:00
 
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws.svg" height="80" alt="AWS"/>
+</p>
+
 Welcome to **Fundamentals of Analytics on AWS - Part 1** by **HitaVir Tech**!
 
 This codelab is your entry point into the world of cloud analytics on Amazon Web Services. You will learn what analytics actually means in a cloud context, understand the AWS service landscape, and build your first analytics pipeline end-to-end.
 
 This is a **fundamentals course**. No prior AWS experience is required. We build the mental model first, then the hands-on skills.
+
+### The Pipeline You Will Build
+
+```
+   🪣                   🕷️                  📚                   🔍                  💡
+  ┌────────┐         ┌─────────┐        ┌──────────┐        ┌─────────┐       ┌──────────┐
+  │   S3   │ ──────> │  Glue   │ ─────> │ Catalog  │ ─────> │ Athena  │ ────> │ Insights │
+  │ Bucket │         │ Crawler │        │  Table   │        │   SQL   │       │          │
+  └────────┘         └─────────┘        └──────────┘        └─────────┘       └──────────┘
+   Raw data       Auto-detect schema    Metadata layer     Serverless SQL      Business
+```
 
 ### What You Will Learn
 
@@ -32,15 +47,33 @@ This is a **fundamentals course**. No prior AWS experience is required. We build
 
 ### What You Will Build
 
-A complete **serverless analytics pipeline** in AWS:
+A complete **serverless analytics pipeline** in AWS — no servers to manage, no clusters to spin up, pay only for what you query.
+
+**The journey of one CSV file:**
 
 ```
-  Raw CSV File → Amazon S3 → AWS Glue Crawler → Data Catalog → Amazon Athena → SQL Query Result
-       |             |               |                |              |                |
-   sales.csv    Storage Bucket   Auto-detect      Schema Table   Serverless SQL     Insight
+   📄 sales.csv
+       │
+       │  (upload)
+       ▼
+   🪣  Amazon S3 bucket ─────────────── stores your raw file
+       │
+       │  (point crawler at it)
+       ▼
+   🕷️  AWS Glue Crawler ─────────────── scans & auto-detects schema
+       │
+       │  (writes metadata)
+       ▼
+   📚  Glue Data Catalog ────────────── holds the table definition
+       │
+       │  (read by query engine)
+       ▼
+   🔍  Amazon Athena ────────────────── runs SQL over the raw file
+       │
+       │  (returns rows)
+       ▼
+   💡  Business insight ✨
 ```
-
-No servers to manage. No clusters to spin up. Pay only for what you query.
 
 ### Skills You Will Gain
 
@@ -181,50 +214,80 @@ AWS has a service for each stage.
 
 ### AWS Services by Stage
 
-| Stage | Primary AWS Service | One-line Purpose |
-|-------|--------------------|--------------------|
-| Ingest (batch) | **AWS Glue** | Extract-Transform-Load (ETL) service |
-| Ingest (streaming) | **Amazon Kinesis** | Real-time data streams |
-| Ingest (database) | **AWS DMS** | Database migration and replication |
-| Store | **Amazon S3** | Object storage, the "data lake" |
-| Store (warehouse) | **Amazon Redshift** | Columnar data warehouse |
-| Catalog | **AWS Glue Data Catalog** | Metadata repository (what data you have) |
-| Process | **AWS Glue (Spark)** | Scalable data transformation |
-| Process (big data) | **Amazon EMR** | Managed Hadoop / Spark clusters |
-| Query | **Amazon Athena** | Serverless SQL on S3 |
-| Query (warehouse) | **Amazon Redshift** | Warehouse SQL |
-| Visualize | **Amazon QuickSight** | Dashboards and BI |
-| Orchestrate | **Amazon MWAA (Airflow)** | Pipeline scheduling |
+| Stage | Icon | Primary AWS Service | One-line Purpose |
+|-------|:---:|--------------------|--------------------|
+| Ingest (batch) | 🕸️ | **AWS Glue** | Extract-Transform-Load (ETL) service |
+| Ingest (streaming) | 🌊 | **Amazon Kinesis** | Real-time data streams |
+| Ingest (database) | 🚚 | **AWS DMS** | Database migration and replication |
+| Store | 🪣 | **Amazon S3** | Object storage, the "data lake" |
+| Store (warehouse) | 🏛️ | **Amazon Redshift** | Columnar data warehouse |
+| Catalog | 📚 | **AWS Glue Data Catalog** | Metadata repository (what data you have) |
+| Process | ⚙️ | **AWS Glue (Spark)** | Scalable data transformation |
+| Process (big data) | 🐘 | **Amazon EMR** | Managed Hadoop / Spark clusters |
+| Query | 🔍 | **Amazon Athena** | Serverless SQL on S3 |
+| Query (warehouse) | 🏛️ | **Amazon Redshift** | Warehouse SQL |
+| Visualize | 📊 | **Amazon QuickSight** | Dashboards and BI |
+| Orchestrate | 🗓️ | **Amazon MWAA (Airflow)** | Pipeline scheduling |
 
 Don't try to memorize this. You will pick it up naturally as you build projects.
+
+### Visual Map of the Analytics Pipeline
+
+```
+  ┌──────────────────── INGEST ────────────────────┐   ┌────── STORE ──────┐   ┌── CATALOG ──┐
+  │                                                 │   │                   │   │             │
+  │  🕸️ Glue ETL    🌊 Kinesis    🚚 DMS            │   │  🪣 S3 Lake       │   │ 📚 Glue     │
+  │  (batch)        (streaming)   (database CDC)    │   │  🏛️ Redshift WH  │   │    Catalog  │
+  │                                                 │   │                   │   │             │
+  └─────────────────────────────────────────────────┘   └───────────────────┘   └─────────────┘
+                                                                   │
+                         ┌─────────────────────────────────────────┤
+                         ▼                                         ▼
+         ┌────── PROCESS ──────┐                    ┌──────── QUERY ─────────┐
+         │                     │                    │                        │
+         │  ⚙️ Glue (Spark)    │                    │  🔍 Athena (serverless)│
+         │  🐘 EMR (big)       │                    │  🏛️ Redshift SQL      │
+         │                     │                    │                        │
+         └─────────────────────┘                    └────────────────────────┘
+                                                                   │
+                                                                   ▼
+                                                   ┌────── VISUALIZE ───────┐
+                                                   │                        │
+                                                   │  📊 QuickSight         │
+                                                   │  (BI dashboards)       │
+                                                   │                        │
+                                                   └────────────────────────┘
+```
 
 ### The 5 Services We Will Focus On
 
 For Part 1, we care about:
 
-1. **Amazon S3** — where all the data lives
-2. **AWS Glue Data Catalog** — where the metadata lives
-3. **Amazon Athena** — where you run SQL
-4. **Amazon Redshift** — covered conceptually (hands-on in Part 2)
-5. **Amazon QuickSight** — covered conceptually (hands-on in Part 2)
+| # | Icon | Service | What It Does |
+|---|:---:|---------|--------------|
+| 1 | 🪣 | **Amazon S3** | Where all the data lives |
+| 2 | 📚 | **AWS Glue Data Catalog** | Where the metadata lives |
+| 3 | 🔍 | **Amazon Athena** | Where you run SQL |
+| 4 | 🏛️ | **Amazon Redshift** | Conceptual here; hands-on in Part 2 |
+| 5 | 📊 | **Amazon QuickSight** | Conceptual here; hands-on in Part 2 |
 
 Plus a quick mention of:
 
-- **AWS IAM** — how permissions work
-- **AWS Billing** — how to not get surprised
+- 🔐 **AWS IAM** — how permissions work
+- 💰 **AWS Billing** — how to not get surprised
 
 ### The Serverless Stack vs the Cluster Stack
 
 One important split to understand:
 
-**Serverless stack** (what Part 1 focuses on):
-- S3 + Glue Catalog + Athena + QuickSight
+⚡ **Serverless stack** (what Part 1 focuses on):
+- 🪣 S3 + 📚 Glue Catalog + 🔍 Athena + 📊 QuickSight
 - No servers to manage
 - Pay per query / per GB
 - Best for: small-to-medium analytics, ad-hoc queries, cost-sensitive workloads
 
-**Cluster stack** (covered in Part 2):
-- EMR, Redshift Provisioned, Kinesis Data Streams
+🖥️ **Cluster stack** (covered in Part 2):
+- 🐘 EMR, 🏛️ Redshift Provisioned, 🌊 Kinesis Data Streams
 - You provision and manage capacity
 - Pay for uptime (whether you use it or not)
 - Best for: high-throughput, predictable workloads
@@ -238,11 +301,11 @@ Before storing data, you need to know what kind of data you have. The shape of t
 
 ### Three Categories
 
-| Type | Description | Example | Where It Lives |
-|------|-------------|---------|----------------|
-| **Structured** | Fixed schema, rows and columns | SQL database tables, CSV | Relational DBs, Redshift |
-| **Semi-structured** | Flexible schema, self-describing | JSON, XML, Parquet, Avro | S3, document DBs |
-| **Unstructured** | No predefined schema | Images, videos, audio, PDFs, raw text | S3, object storage |
+| Type | Icon | Description | Example | Where It Lives |
+|------|:---:|-------------|---------|----------------|
+| **Structured** | 📊 | Fixed schema, rows and columns | SQL tables, CSV | 🗄️ RDS, 🏛️ Redshift |
+| **Semi-structured** | 🧩 | Flexible schema, self-describing | JSON, XML, Parquet | 🪣 S3, document DBs |
+| **Unstructured** | 🎞️ | No predefined schema | Images, video, PDF, raw text | 🪣 S3, object storage |
 
 ### Structured Data
 
@@ -300,13 +363,13 @@ These live in object storage (S3). You usually process them with specialized too
 
 Different AWS services handle different data types:
 
-| Data Type | Best AWS Service |
-|-----------|------------------|
-| Structured (small, transactional) | Amazon RDS (MySQL/PostgreSQL) |
-| Structured (large, analytical) | Amazon Redshift |
-| Semi-structured (analytical) | S3 + Athena |
-| Unstructured (storage) | S3 |
-| Unstructured (AI features) | Amazon Rekognition, Textract, Comprehend |
+| Data Type | Icon | Best AWS Service |
+|-----------|:---:|------------------|
+| Structured (small, transactional) | 🗄️ | Amazon RDS (MySQL/PostgreSQL) |
+| Structured (large, analytical) | 🏛️ | Amazon Redshift |
+| Semi-structured (analytical) | 🔍 | S3 + Athena |
+| Unstructured (storage) | 🪣 | S3 |
+| Unstructured (AI features) | 🤖 | Amazon Rekognition, Textract, Comprehend |
 
 > **HitaVir Tech says:** "90% of the world's data is unstructured. But 90% of analytics happens on structured or semi-structured data. Your job as an analytics engineer is often to convert unstructured chaos into structured order."
 
@@ -314,6 +377,16 @@ Different AWS services handle different data types:
 Duration: 5:00
 
 Two fundamental processing patterns. You must understand the difference.
+
+```
+  📦 BATCH                              🌊 STREAMING
+  ─────────────                         ──────────────
+  ┌───┐┌───┐┌───┐                       → → → → → → → →
+  │ █ ││ █ ││ █ │  processed together   one event at a time
+  └───┘└───┘└───┘                       → → → → → → → →
+  run at schedule                       always on
+  data minutes-hours old                data seconds old
+```
 
 ### Batch Processing
 
@@ -335,7 +408,7 @@ The dashboard is never "live" — it's always showing yesterday's numbers.
 **Cons:**
 - Data is stale (minutes, hours, or a day old)
 
-**AWS services for batch:** Glue, EMR, Redshift, Athena, Lambda
+**AWS services for batch:** 🕸️ Glue • 🐘 EMR • 🏛️ Redshift • 🔍 Athena • ⚡ Lambda
 
 ### Streaming Processing
 
@@ -357,7 +430,7 @@ The system must respond in **real time**, or the business value is zero.
 - More expensive
 - Harder to debug (you can't replay the world)
 
-**AWS services for streaming:** Kinesis Data Streams, Kinesis Firehose, MSK (Kafka), Lambda
+**AWS services for streaming:** 🌊 Kinesis Data Streams • 🚒 Kinesis Firehose • 🪐 MSK (Kafka) • ⚡ Lambda
 
 ### Which Should You Use?
 
@@ -379,6 +452,19 @@ Duration: 6:00
 
 This is one of the most important mental models in all of data engineering. If you skip it, nothing else will make sense.
 
+```
+    🛒  OLTP                              📈  OLAP
+    ─────────────                         ──────────────
+    "Run the business"                    "Understand the business"
+
+    Many tiny writes/lookups              Few huge aggregations
+    ┌─┐┌─┐┌─┐┌─┐┌─┐┌─┐                   ┌──────────────────┐
+    └─┘└─┘└─┘└─┘└─┘└─┘                   │  SUM / AVG /     │
+    fast, row-by-row                     │  COUNT / JOIN    │
+                                         └──────────────────┘
+    🗄️ MySQL, DynamoDB                    🏛️ Redshift, 🔍 Athena
+```
+
 ### OLTP — Online Transaction Processing
 
 **Purpose:** Run the day-to-day operations of the business.
@@ -394,7 +480,7 @@ This is one of the most important mental models in all of data engineering. If y
 - Data is always up-to-date (current state)
 - Optimized for **writing** and **looking up specific records**
 
-**Example databases:** MySQL, PostgreSQL, Oracle, Amazon RDS, DynamoDB
+**Example databases:** 🐬 MySQL • 🐘 PostgreSQL • 🅾️ Oracle • 🗄️ Amazon RDS • ⚡ DynamoDB
 
 **Sample query:**
 
@@ -424,7 +510,7 @@ Fast. Touches a handful of rows. Runs millions of times per day.
 - Data can be slightly stale (hours or a day old)
 - Optimized for **reading** and **aggregation** (SUM, AVG, COUNT, GROUP BY)
 
-**Example databases:** Amazon Redshift, Snowflake, BigQuery, Athena (on S3)
+**Example databases:** 🏛️ Amazon Redshift • ❄️ Snowflake • 🔎 BigQuery • 🔍 Athena (on S3)
 
 **Sample query:**
 
@@ -468,8 +554,13 @@ If you run OLAP-style queries on an OLTP database, you will slow down your produ
 The modern solution: **copy data from OLTP to OLAP** periodically. That copy job is your ETL pipeline.
 
 ```
-  [OLTP: RDS MySQL] → (Glue / DMS nightly ETL) → [OLAP: S3 + Athena or Redshift]
-     Live app data                                  Historical analytics
+   🗄️ OLTP: RDS MySQL              🕸️ Glue / 🚚 DMS              🪣 OLAP: S3 + 🔍 Athena
+   ┌────────────────────┐          ┌─────────────────┐          ┌────────────────────────┐
+   │ • Orders table     │ ──────>  │ Nightly ETL     │ ──────>  │ • orders_fact          │
+   │ • Customers table  │          │ (batch job)     │          │ • customers_dim        │
+   │ • Products table   │          │                 │          │ • products_dim         │
+   └────────────────────┘          └─────────────────┘          └────────────────────────┘
+   Live app, always now            Copy & transform              Historical, for analytics
 ```
 
 > **HitaVir Tech says:** "OLTP runs the business. OLAP understands the business. You need both, but you never run them on the same server."
@@ -477,7 +568,11 @@ The modern solution: **copy data from OLTP to OLAP** periodically. That copy job
 ## Amazon S3 - The Foundation
 Duration: 10:00
 
-If you remember only one AWS service from this codelab, make it **Amazon S3**.
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-s3.svg" height="80" alt="Amazon S3"/>
+</p>
+
+If you remember only one AWS service from this codelab, make it **🪣 Amazon S3**.
 
 ### What is S3?
 
@@ -492,15 +587,21 @@ Think of S3 as:
 
 ### Key S3 Concepts
 
-**Bucket** — A top-level container for objects. Bucket names are globally unique across all of AWS. Example: `hitavirtech-analytics-raw`.
+```
+  🌏 Region (ap-south-1 = Mumbai)
+      │
+      └── 🪣 Bucket (hitavirtech-analytics-raw)
+            │
+            ├── 📄 Object: sales/2026/04/22/orders.csv
+            ├── 📄 Object: inventory/2026/04/22/stock.json
+            └── 📄 Object: logs/2026/04/22/access.log
+```
 
-**Object** — A file stored in a bucket. Each object has a **key** (its path-like name) and **data** (the file contents). Example: `sales/2026/04/22/orders.csv`.
-
-**Key** — The unique identifier for an object inside a bucket. Looks like a file path, but S3 is actually flat — there are no real folders.
-
-**Region** — The geographic location of the bucket (e.g., `ap-south-1` is Mumbai). Choose the region closest to your users to minimize latency and cost.
-
-**Storage Class** — The tier of storage (we'll cover this below).
+- 🪣 **Bucket** — A top-level container for objects. Names are globally unique across all of AWS.
+- 📄 **Object** — A file stored in a bucket. Has a **key** (path-like name) and **data** (contents).
+- 🔑 **Key** — The unique identifier for an object. Looks like a path, but S3 is flat — no real folders.
+- 🌏 **Region** — Geographic location of the bucket (`ap-south-1` = Mumbai). Pick the closest one.
+- 🏷️ **Storage Class** — The tier of storage (covered below).
 
 ### Why S3 is the Foundation of Cloud Analytics
 
@@ -514,71 +615,109 @@ Five reasons every analytics engineer should know:
 
 ### S3 Storage Classes
 
-Not all data needs the same performance. S3 offers multiple tiers:
+Not all data needs the same performance. S3 offers multiple tiers — think of a pyramid:
 
-| Class | Purpose | Relative Cost |
-|-------|---------|---------------|
-| **S3 Standard** | Frequently accessed data | $$$$ |
-| **S3 Intelligent-Tiering** | Auto-moves data between tiers based on access patterns | $$$ |
-| **S3 Standard-IA (Infrequent Access)** | Accessed monthly or so | $$ |
-| **S3 One Zone-IA** | Non-critical, infrequent access | $ |
-| **S3 Glacier Instant Retrieval** | Archive, need now and then | $ |
-| **S3 Glacier Flexible Retrieval** | Archive, retrievable in minutes-hours | ¢ |
-| **S3 Glacier Deep Archive** | Long-term archive (compliance) | ¢ |
+```
+                   🔥  S3 Standard             Hot data, highest cost
+                 ─────────────────
+                🌡️ Intelligent-Tiering        Auto-moves hot/cold
+              ─────────────────────
+             ❄️ Standard-IA / One Zone-IA    Cold, cheaper
+           ─────────────────────────
+          🧊 Glacier Instant Retrieval      Icy, rare access
+        ─────────────────────────────
+       🗄️ Glacier Flexible Retrieval       Frozen, minutes-hours
+     ─────────────────────────────────
+    🏔️  Glacier Deep Archive              Deep freeze, compliance only
+  ─────────────────────────────────────
+```
+
+| Class | Icon | Purpose | Relative Cost |
+|-------|:---:|---------|:-------------:|
+| **S3 Standard** | 🔥 | Frequently accessed data | $$$$ |
+| **S3 Intelligent-Tiering** | 🌡️ | Auto-moves data between tiers | $$$ |
+| **S3 Standard-IA** | ❄️ | Accessed monthly or so | $$ |
+| **S3 One Zone-IA** | ❄️ | Non-critical, infrequent | $ |
+| **S3 Glacier Instant Retrieval** | 🧊 | Archive, rare access | $ |
+| **S3 Glacier Flexible Retrieval** | 🗄️ | Archive, minutes-hours to retrieve | ¢ |
+| **S3 Glacier Deep Archive** | 🏔️ | Long-term compliance archive | ¢ |
 
 For analytics, you'll mostly use **S3 Standard** for active data and **Intelligent-Tiering** for anything older than 30 days.
 
 ### How Data is Organized in an S3 Data Lake
 
-A common convention is to organize buckets into three zones:
+A common convention is to organize buckets into three zones — the "medallion" architecture:
 
 ```
-  s3://hitavirtech-analytics/
-   |
-   +-- raw/          <- Source data as-is, never modified
-   |    +-- sales/2026/04/22/orders.csv
-   |    +-- inventory/2026/04/22/stock.json
-   |
-   +-- curated/      <- Cleaned, typed, joined data
-   |    +-- sales_fact/year=2026/month=04/day=22/part-001.parquet
-   |
-   +-- analytics/    <- Aggregated, ready for BI
-        +-- daily_revenue/year=2026/month=04/day=22/part-001.parquet
+  🪣 s3://hitavirtech-analytics/
+   │
+   ├── 🥉 raw/             ← Source data as-is, never modified
+   │     ├── sales/2026/04/22/orders.csv
+   │     └── inventory/2026/04/22/stock.json
+   │
+   ├── 🥈 curated/         ← Cleaned, typed, joined data (Parquet)
+   │     └── sales_fact/year=2026/month=04/day=22/part-001.parquet
+   │
+   └── 🥇 analytics/       ← Pre-aggregated, ready for BI
+         └── daily_revenue/year=2026/month=04/day=22/part-001.parquet
 ```
 
-- **Raw zone** — the data lake's truth. If anything goes wrong, you reprocess from here.
-- **Curated zone** — cleaned and typed. Uses **Parquet** (columnar format) for fast analytics.
-- **Analytics zone** — pre-aggregated. Powers dashboards.
-
-This is sometimes called a **medallion architecture** (bronze/silver/gold).
+- 🥉 **Raw zone (bronze)** — the data lake's truth. If anything goes wrong, you reprocess from here.
+- 🥈 **Curated zone (silver)** — cleaned and typed. Uses **Parquet** (columnar) for fast analytics.
+- 🥇 **Analytics zone (gold)** — pre-aggregated. Powers dashboards.
 
 ### Parquet — The Magic Columnar Format
 
-CSV is human-readable but terrible for analytics:
+📄 **CSV** is human-readable but terrible for analytics:
 - Text takes lots of space
 - No schema enforcement
 - Must scan entire file for one column
 
-**Apache Parquet** is the go-to format for analytics on S3:
-- **Columnar** — stores each column separately, so queries reading 3 out of 50 columns only read those 3
-- **Compressed** — often 5-10x smaller than CSV
-- **Typed** — knows integer from string
-- **Splittable** — parallel readers can each take a chunk
+🗂️ **Apache Parquet** is the go-to format for analytics on S3:
+- 🧱 **Columnar** — each column stored separately; query 3 of 50 columns → read only those 3
+- 🗜️ **Compressed** — often 5-10x smaller than CSV
+- 🏷️ **Typed** — knows integer from string
+- ✂️ **Splittable** — parallel readers each take a chunk
 
-Every modern AWS analytics service reads Parquet natively. Learn to love Parquet.
+```
+  Row-oriented (CSV)              Column-oriented (Parquet)
+  ────────────────────            ───────────────────────────
+  [id|name|age|city]              [id: 1,2,3,4,5,6,...]
+  [id|name|age|city]              [name: A,B,C,D,E,F,...]
+  [id|name|age|city]              [age:  20,30,25,...]
+  [id|name|age|city]              [city: MUM,DEL,...]
+
+  Read all bytes even             Read only the columns
+  if you want 1 column.           you ask for. Much cheaper.
+```
+
+Every modern AWS analytics service reads Parquet natively. **Learn to love Parquet.**
 
 > **HitaVir Tech says:** "S3 + Parquet is the most underrated combo in analytics. It gives you 90% of what a data warehouse does, at 10% of the cost. Start here before spending on Redshift."
 
 ## Data Lakes vs Data Warehouses
 Duration: 7:00
 
+```
+       🏞️ DATA LAKE                           🏛️ DATA WAREHOUSE
+       ─────────────                         ──────────────────
+   ┌───────────────────────┐               ┌───────────────────────┐
+   │  📄 CSV               │               │  Structured tables    │
+   │  🧩 JSON / Parquet    │               │  Strict schema        │
+   │  🎞️ Images / logs     │   vs.         │  Fast SQL             │
+   │  Schema on READ       │               │  Schema on WRITE      │
+   │  Cheap, infinite      │               │  Fast, costly         │
+   └───────────────────────┘               └───────────────────────┘
+   🪣 Amazon S3                             🏛️ Amazon Redshift
+```
+
 This is one of the most debated topics in the industry. Here's a clear take.
 
 ### Data Warehouse
 
-A **data warehouse** is a purpose-built database for OLAP analytics.
+A 🏛️ **data warehouse** is a purpose-built database for OLAP analytics.
 
-Examples: Amazon Redshift, Snowflake, Google BigQuery, Azure Synapse.
+Examples: 🏛️ Amazon Redshift • ❄️ Snowflake • 🔎 Google BigQuery • 🔷 Azure Synapse.
 
 Characteristics:
 - Structured data only
@@ -591,9 +730,9 @@ Characteristics:
 
 ### Data Lake
 
-A **data lake** is a storage-first approach. You dump all data into object storage (S3) in its original format, and query it later when needed.
+A 🏞️ **data lake** is a storage-first approach. You dump all data into object storage (S3) in its original format, and query it later when needed.
 
-Examples: Amazon S3, Azure Data Lake Storage, Google Cloud Storage.
+Examples: 🪣 Amazon S3 • 🔷 Azure Data Lake Storage • 🔎 Google Cloud Storage.
 
 Characteristics:
 - Any data type (structured, semi, unstructured)
@@ -620,52 +759,76 @@ Characteristics:
 
 Why choose? Modern architectures combine both:
 
-- **Storage on S3** (cheap, infinitely scalable)
-- **Table formats** like **Apache Iceberg**, **Delta Lake**, or **Apache Hudi** give you ACID transactions, schema evolution, and time travel on top of S3 files
-- **Query engines** like Athena, Redshift Spectrum, or EMR Spark can read these table formats
+```
+       🏞️ LAKE  +  🏛️ WAREHOUSE  =  🏕️ LAKEHOUSE
+```
+
+- 🪣 **Storage on S3** — cheap, infinitely scalable
+- 🧊 **Table formats** (Apache Iceberg, Delta Lake, Apache Hudi) add ACID transactions, schema evolution, and time travel on top of S3 files
+- 🔍 **Query engines** (Athena, Redshift Spectrum, EMR Spark) read these table formats
 
 This is the **lakehouse** — the flexibility of a lake with the discipline of a warehouse.
 
-AWS's preferred path: **S3 + Glue + Athena + (optionally) Iceberg tables**.
+AWS's preferred path: 🪣 **S3 + 🕸️ Glue + 🔍 Athena + (optionally) 🧊 Iceberg tables**.
 
 > **HitaVir Tech says:** "For most new analytics projects in 2026, start with a lakehouse pattern on S3. You get warehouse-like queries at lake-like prices, and you are never stuck with the wrong tool."
 
 ## AWS Glue Data Catalog
 Duration: 8:00
 
-S3 stores the raw bytes. But how does a query engine know that `orders.csv` has three columns called `order_id`, `customer`, and `amount`? That knowledge is the **metadata**, and it lives in the **Glue Data Catalog**.
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-glue.svg" height="80" alt="AWS Glue"/>
+</p>
+
+S3 stores the raw bytes. But how does a query engine know that `orders.csv` has three columns called `order_id`, `customer`, and `amount`? That knowledge is the **metadata**, and it lives in the 📚 **Glue Data Catalog**.
 
 ### What is the Glue Data Catalog?
 
-The **AWS Glue Data Catalog** is a managed, persistent metadata store. It holds:
+The 📚 **AWS Glue Data Catalog** is a managed, persistent metadata store. It holds:
 
-- **Databases** — logical groupings of tables (e.g., `sales_db`)
-- **Tables** — schema definitions that point to data files in S3
-- **Columns** — names, types, and descriptions
-- **Partitions** — subdivisions of a table (e.g., by date)
-- **Connections** — how to reach JDBC sources like RDS
+- 🗂️ **Databases** — logical groupings of tables (e.g., `sales_db`)
+- 📋 **Tables** — schema definitions that point to data files in S3
+- 🏷️ **Columns** — names, types, and descriptions
+- 🧩 **Partitions** — subdivisions of a table (e.g., by date)
+- 🔌 **Connections** — how to reach JDBC sources like RDS
 
-Think of it as the **library catalog** — S3 is the library shelves with the physical books; the Glue Catalog is the catalog card that tells you which shelf and what's inside.
+> 💡 **Analogy:** Think of it as the **library catalog**. 🪣 S3 is the library shelves with the physical books. 📚 Glue Catalog is the catalog card that tells you which shelf the book is on, what pages it has, and who wrote it.
 
 ### Why You Need It
 
 Without a catalog, every query engine would need to re-discover your data schema. The catalog centralizes this so:
 
-- **Athena** can query S3 files using SQL
-- **Redshift Spectrum** can read S3 tables
-- **EMR (Spark, Hive)** can use the same metadata
-- **QuickSight** can visualize the data
+```
+                            📚 Glue Data Catalog
+                           (one metadata store)
+                                  │
+              ┌───────────────┬───┴───┬────────────────┐
+              ▼               ▼       ▼                ▼
+           🔍 Athena   🏛️ Redshift   🐘 EMR         📊 QuickSight
+           (SQL on S3)   Spectrum   (Spark/Hive)    (dashboards)
+```
 
-One metadata store. Many engines. Consistent views.
+**One metadata store. Many engines. Consistent views.**
 
 ### Glue Crawlers
 
-Writing schemas by hand is tedious. A **Glue Crawler** is a managed job that:
+Writing schemas by hand is tedious. A 🕷️ **Glue Crawler** is a managed job that:
 
-1. Connects to an S3 location (e.g., `s3://my-bucket/sales/`)
-2. Samples the files
-3. Infers schema and format (CSV, JSON, Parquet, etc.)
-4. Creates or updates a table in the Glue Data Catalog
+```
+   🕷️ Crawler
+       │
+       ▼
+   🪣 points at S3 folder
+       │
+       ▼
+   📄 samples a few files
+       │
+       ▼
+   🔬 detects: format (CSV/JSON/Parquet), columns, types, partitions
+       │
+       ▼
+   📚 writes a table into the Glue Catalog
+```
 
 You run a crawler when new data arrives (or on a schedule), and the catalog stays up to date.
 
@@ -674,37 +837,37 @@ You run a crawler when new data arrives (or on a schedule), and the catalog stay
 Just like a traditional database:
 
 ```
-  Glue Data Catalog
-   |
-   +-- Database: sales_db
-   |    +-- Table: orders        --> points to s3://my-bucket/sales/raw/orders/
-   |    +-- Table: customers     --> points to s3://my-bucket/sales/raw/customers/
-   |
-   +-- Database: inventory_db
-        +-- Table: stock_daily   --> points to s3://my-bucket/inventory/stock/
+  📚 Glue Data Catalog
+   │
+   ├── 🗂️ Database: sales_db
+   │    ├── 📋 Table: orders       ──→ 🪣 s3://my-bucket/sales/raw/orders/
+   │    └── 📋 Table: customers    ──→ 🪣 s3://my-bucket/sales/raw/customers/
+   │
+   └── 🗂️ Database: inventory_db
+        └── 📋 Table: stock_daily  ──→ 🪣 s3://my-bucket/inventory/stock/
 ```
 
-Tables are just pointers — the data itself stays in S3. You can drop and recreate a table without losing data.
+> 🔥 **Key insight:** Tables are just **pointers**. The data itself stays in S3. You can drop and recreate a table without losing data.
 
 ### Partitions — The Secret to Fast Queries
 
-A **partition** is a subdivision of a table based on column values, usually represented by folder structure:
+A 🧩 **partition** is a subdivision of a table based on column values, usually represented by folder structure:
 
 ```
-  s3://my-bucket/sales/orders/
-    year=2026/
-      month=04/
-        day=20/
-          orders.parquet
-        day=21/
-          orders.parquet
-        day=22/
-          orders.parquet
+  🪣 s3://my-bucket/sales/orders/
+     │
+     └── 📁 year=2026/
+           │
+           └── 📁 month=04/
+                 │
+                 ├── 📁 day=20/  📄 orders.parquet
+                 ├── 📁 day=21/  📄 orders.parquet
+                 └── 📁 day=22/  📄 orders.parquet   ← WHERE day=22 reads only here!
 ```
 
-When you query `WHERE year=2026 AND month=04 AND day=22`, Athena only scans that one folder. This is called **partition pruning** and it can make your query **100x cheaper and faster**.
+When you query `WHERE year=2026 AND month=04 AND day=22`, Athena only scans that one folder. This is called ✂️ **partition pruning** and it can make your query **100x cheaper and faster**.
 
-Partition design is one of the highest-impact skills in analytics engineering.
+> 🌟 Partition design is one of the highest-impact skills in analytics engineering.
 
 ### Typical Partitioning Conventions
 
@@ -722,43 +885,47 @@ Avoid partitioning by high-cardinality columns (e.g., `user_id` for a SaaS with 
 ## Amazon Athena - Serverless SQL
 Duration: 8:00
 
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-athena.svg" height="80" alt="Amazon Athena"/>
+</p>
+
 Now the payoff. All that S3 storage and Glue cataloging exists so you can do one thing: **run SQL**.
 
 ### What is Amazon Athena?
 
-**Amazon Athena** is a serverless query engine. You give it SQL, it reads from S3 (using the Glue Catalog for schema), and returns results — no servers, no clusters, no infrastructure.
+🔍 **Amazon Athena** is a serverless query engine. You give it SQL, it reads from S3 (using the Glue Catalog for schema), and returns results — no servers, no clusters, no infrastructure.
 
 Under the hood, Athena runs on **Presto / Trino**, an open-source distributed SQL engine.
 
 ### How It Works
 
 ```
-  You write SQL
-     |
-     v
-  Athena reads Glue Catalog to find the table
-     |
-     v
-  Athena reads the matching S3 files
-     |
-     v
-  Athena aggregates, filters, joins in-memory across a fleet of servers
-     |
-     v
-  Results returned to you (and saved to S3)
+  👨‍💻 You write SQL
+        │
+        ▼
+  🔍 Athena asks 📚 Glue Catalog: "where are the files? what's the schema?"
+        │
+        ▼
+  🪣 Athena streams the matching S3 files
+        │
+        ▼
+  ⚡ Distributed workers filter / join / aggregate in-memory
+        │
+        ▼
+  📋 Results returned to you (and saved to S3)
 ```
 
 ### Pricing — Pay Per Query
 
-Athena's pricing is beautifully simple:
+💰 Athena's pricing is beautifully simple:
 
 > **$5 per TB scanned** (as of 2026 pricing in most regions — check the current AWS price list)
 
 Three consequences:
 
-1. If your data is small, your bill is tiny. Scanning 1 GB costs half a cent.
-2. Partition pruning saves you money. If a query scans 1 GB instead of 1 TB, you save $5.
-3. Columnar formats save money. Reading 2 columns of a 50-column Parquet file scans 2/50th of the bytes.
+1. 🐣 If your data is small, your bill is tiny. Scanning 1 GB costs half a cent.
+2. ✂️ Partition pruning saves money. If a query scans 1 GB instead of 1 TB, you save $5.
+3. 🧱 Columnar formats save money. Reading 2 columns of a 50-column Parquet file scans 2/50th of the bytes.
 
 ### SQL You Can Run
 
@@ -797,13 +964,15 @@ FROM sales_db.orders_nested;
 
 ### Best Practices for Athena
 
-1. **Convert to Parquet** — 5-10x cheaper than CSV
-2. **Partition smartly** — by your most common filter columns
-3. **Compress** — use SNAPPY or ZSTD for Parquet
-4. **Avoid SELECT *** — only select the columns you need
-5. **Use LIMIT during exploration** — to avoid scanning everything
-6. **Check query preview** — Athena shows data scanned; watch it shrink as you optimize
-7. **Use `CREATE TABLE AS SELECT` (CTAS)** — to rewrite data into optimized format
+| # | Practice | Why |
+|---|----------|-----|
+| 1 | 🗂️ Convert to Parquet | 5-10x cheaper than CSV |
+| 2 | 🧩 Partition smartly | Skip irrelevant files |
+| 3 | 🗜️ Compress (SNAPPY / ZSTD) | Fewer bytes = less cost |
+| 4 | 🎯 Avoid `SELECT *` | Read only columns you need |
+| 5 | 🧪 `LIMIT` during exploration | Don't scan everything |
+| 6 | 👀 Watch "Data scanned" | It's your bill — shrink it |
+| 7 | 🔄 Use CTAS to rewrite | Create optimized tables |
 
 ### When NOT to Use Athena
 
@@ -819,13 +988,19 @@ Athena is great but not universal. Skip it when:
 ## Hands-on Lab - Your First Analytics Pipeline
 Duration: 30:00
 
-Time to build. You will create the complete pipeline:
+🛠️ Time to build. You will create the complete pipeline:
 
 ```
-  Upload CSV to S3 -> Create Glue Crawler -> Crawler creates Table in Data Catalog -> Query with Athena
+   Step 1         Step 2-3        Step 4-5          Step 6          Step 7-8
+  ┌──────┐       ┌──────┐        ┌──────────┐    ┌────────┐     ┌──────────┐
+  │ 📄   │ ────> │ 🪣   │ ─────> │ 🕷️       │ ──> │ 📚     │ ──> │ 🔍       │
+  │ CSV  │       │  S3  │        │ Crawler  │    │Catalog │     │ Athena   │
+  └──────┘       └──────┘        └──────────┘    └────────┘     └──────────┘
+   Prepare       Upload         Create & run      Table auto    Run SQL,
+   sample data   to bucket       crawler          populated     get insights
 ```
 
-### Step 1 — Prepare Your Sample Data
+### 📄 Step 1 — Prepare Your Sample Data
 
 On your local machine, create a file called `sales.csv` with this content:
 
@@ -845,7 +1020,7 @@ order_id,customer,product,quantity,amount,order_date
 
 Save it. We will upload this file to S3 in a minute.
 
-### Step 2 — Create an S3 Bucket
+### 🪣 Step 2 — Create an S3 Bucket
 
 1. Sign in to the AWS Management Console
 2. In the search bar at the top, type **S3** and click the S3 service
@@ -857,7 +1032,7 @@ Save it. We will upload this file to S3 in a minute.
 
 You should now see your bucket in the S3 buckets list.
 
-### Step 3 — Upload the Sample Data
+### ⬆️ Step 3 — Upload the Sample Data
 
 1. Click your new bucket to open it
 2. Click **Create folder** → name it `raw`
@@ -868,7 +1043,7 @@ You should now see your bucket in the S3 buckets list.
 
 Your object is now at `s3://hitavirtech-analytics-yourname/raw/sales/sales.csv`.
 
-### Step 4 — Create the Glue Database and Crawler
+### 🕸️ Step 4 — Create the Glue Database and Crawler
 
 1. In the AWS console search bar, type **Glue** and click **AWS Glue**
 2. On the left menu, click **Databases** → **Add database**
@@ -890,13 +1065,13 @@ Now the crawler:
 11. Crawler schedule: **On demand**
 12. Click **Next**, review, and **Create crawler**
 
-### Step 5 — Run the Crawler
+### 🕷️ Step 5 — Run the Crawler
 
 1. From the crawlers list, select `hitavirtech-sales-crawler`
 2. Click **Run crawler**
 3. Wait ~1-2 minutes until the status says **Completed** and "Table changes" shows 1 created
 
-### Step 6 — Verify the Table in the Catalog
+### 📚 Step 6 — Verify the Table in the Catalog
 
 1. In Glue, click **Tables** on the left
 2. You should see a new table (named something like `sales`) in the `hitavirtech_sales_db` database
@@ -907,7 +1082,7 @@ Now the crawler:
 
 Glue just auto-discovered your CSV's schema.
 
-### Step 7 — Query with Athena
+### 🔍 Step 7 — Query with Athena
 
 1. In the AWS console search bar, type **Athena** and open it
 2. If it's your first time in Athena, it asks you to set a query results location → pick your bucket: `s3://hitavirtech-analytics-yourname/athena-results/`
@@ -922,7 +1097,7 @@ SELECT * FROM sales LIMIT 5;
 
 Click **Run**. You should see 5 rows from your CSV.
 
-### Step 8 — More Interesting Queries
+### 💡 Step 8 — More Interesting Queries
 
 Try these:
 
@@ -952,7 +1127,7 @@ ORDER BY order_date;
 
 You just ran analytical SQL over files in an object store, with zero servers provisioned, and paid less than 1 cent to do it.
 
-### Step 9 — Check the "Data scanned" Number
+### 💰 Step 9 — Check the "Data scanned" Number
 
 At the bottom of each query result, Athena shows:
 
@@ -960,7 +1135,7 @@ At the bottom of each query result, Athena shows:
 
 This is what you pay for. Notice how small it is for our tiny CSV. For production workloads, this number guides all your optimization work — partitioning, Parquet, column pruning, and so on.
 
-### Step 10 — Cleanup (Important!)
+### 🧹 Step 10 — Cleanup (Important!)
 
 If you leave resources running, AWS will charge you — especially once free-tier usage ends.
 
@@ -980,21 +1155,25 @@ Double-check the **Billing Dashboard** a day later to confirm no unexpected char
 ## Amazon Redshift - A Conceptual Tour
 Duration: 6:00
 
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-redshift.svg" height="80" alt="Amazon Redshift"/>
+</p>
+
 We will do hands-on Redshift in Part 2, but every analytics engineer should have a mental model of what it is.
 
 ### What is Redshift?
 
-**Amazon Redshift** is AWS's **data warehouse** service. It is a relational database purpose-built for **OLAP** workloads — the big, complex, aggregate queries that power reporting and BI.
+🏛️ **Amazon Redshift** is AWS's **data warehouse** service. It is a relational database purpose-built for **OLAP** workloads — the big, complex, aggregate queries that power reporting and BI.
 
-Think "Amazon's answer to Snowflake, BigQuery, and traditional Oracle/Teradata warehouses."
+Think "Amazon's answer to ❄️ Snowflake, 🔎 BigQuery, and traditional Oracle/Teradata warehouses."
 
 ### Key Characteristics
 
-- **Columnar storage** — data is stored by column, making aggregations fast
-- **Massively parallel processing (MPP)** — queries run across many nodes simultaneously
-- **SQL interface** — standard PostgreSQL-flavored SQL
-- **Petabyte scale** — tested at exabyte scale by the largest AWS customers
-- **Integrates with S3** — can query S3 data directly via **Redshift Spectrum**
+- 🧱 **Columnar storage** — data stored by column → aggregations fly
+- ⚙️ **Massively parallel processing (MPP)** — queries span many nodes
+- 🐘 **SQL interface** — PostgreSQL-flavored SQL
+- 📏 **Petabyte scale** — tested at exabyte scale by the largest AWS customers
+- 🪣 **Integrates with S3** — query S3 data directly via **Redshift Spectrum**
 
 ### Redshift Serverless vs Provisioned
 
@@ -1025,34 +1204,52 @@ Rule of thumb:
 
 ### Redshift Spectrum — The Bridge
 
-You don't have to choose. **Redshift Spectrum** lets Redshift query S3 data directly (via the Glue Catalog). This means:
+You don't have to choose. **Redshift Spectrum** lets Redshift query S3 data directly (via the Glue Catalog):
 
-- Keep cold data on S3 (cheap)
-- Keep hot data in Redshift (fast)
-- Query both seamlessly in a single SQL statement
+```
+         🏛️ Redshift Cluster                🪣 S3 Data Lake
+         ┌─────────────────┐              ┌─────────────────┐
+         │  🔥 Hot data    │              │  ❄️ Cold data   │
+         │  (last 90 days) │              │  (history)      │
+         │                 │              │                 │
+         └────────┬────────┘              └────────┬────────┘
+                  │                                │
+                  └───────────┬────────────────────┘
+                              ▼
+                   🔍 One SQL query, both sources
+                         (Redshift Spectrum)
+```
 
-This is the foundation of a **lakehouse on AWS**.
+- ❄️ Keep cold data on S3 (cheap)
+- 🔥 Keep hot data in Redshift (fast)
+- 🔗 Query both in a single SQL statement
+
+This is the foundation of a 🏕️ **lakehouse on AWS**.
 
 > **HitaVir Tech says:** "Redshift and Athena are friends, not rivals. Mature data platforms use both — Athena for flexible exploration, Redshift for production dashboards."
 
 ## Amazon QuickSight - Visualization
 Duration: 5:00
 
-Data and queries are only useful if people can see the answers. That's where **Amazon QuickSight** comes in.
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-quicksight.svg" height="80" alt="Amazon QuickSight"/>
+</p>
+
+Data and queries are only useful if people can see the answers. That's where 📊 **Amazon QuickSight** comes in.
 
 ### What is QuickSight?
 
-**Amazon QuickSight** is AWS's **business intelligence (BI)** service — a managed tool for building dashboards, charts, and interactive analytics.
+📊 **Amazon QuickSight** is AWS's **business intelligence (BI)** service — a managed tool for building dashboards, charts, and interactive analytics.
 
-Think "AWS's answer to Tableau, Power BI, or Looker."
+Think "AWS's answer to 📈 Tableau, 📉 Power BI, or 👁️ Looker."
 
 ### Key Features
 
-- **Connects to many sources** — S3 (via Athena), Redshift, RDS, Aurora, Salesforce, Excel, and more
-- **SPICE engine** — an in-memory columnar engine that caches data for fast dashboards
-- **Auto-narratives** — AI-generated natural-language insights
-- **Q (Natural language)** — ask questions in English; QuickSight generates the answer
-- **Embedded analytics** — embed dashboards into your own app
+- 🔌 **Connects to many sources** — S3 (via Athena), Redshift, RDS, Aurora, Salesforce, Excel, and more
+- 🌶️ **SPICE engine** — in-memory columnar cache for fast dashboards
+- 🧠 **Auto-narratives** — AI-generated natural-language insights
+- 💬 **Q (Natural language)** — ask questions in English; QuickSight answers
+- 🧩 **Embedded analytics** — embed dashboards into your own app
 
 ### QuickSight Editions
 
@@ -1063,11 +1260,16 @@ Think "AWS's answer to Tableau, Power BI, or Looker."
 
 ### Typical QuickSight Workflow
 
-1. Connect a data source (e.g., your Athena table from earlier)
-2. Import it into SPICE (or use direct query)
-3. Build visuals — bar charts, line charts, KPIs, tables
-4. Compose them into dashboards
-5. Share with users or embed in an app
+```
+  🔍 Athena table  ──>  🌶️ SPICE cache  ──>  📊 Visuals  ──>  🖥️ Dashboard  ──>  👥 Share
+     (data source)       (in-memory)       (charts/KPIs)     (compose)        (or embed)
+```
+
+1. 🔌 Connect a data source (e.g., your Athena table from earlier)
+2. 🌶️ Import into SPICE (or use direct query)
+3. 📊 Build visuals — bar charts, line charts, KPIs, tables
+4. 🖥️ Compose them into dashboards
+5. 👥 Share with users or embed in an app
 
 ### Hands-on in Part 2
 
@@ -1078,29 +1280,39 @@ We'll connect QuickSight to the Athena table you just created and build a dashbo
 ## Security Basics for Analytics
 Duration: 6:00
 
+<p align="center">
+  <img src="https://api.iconify.design/logos:aws-iam.svg" height="80" alt="AWS IAM"/>
+</p>
+
 Analytics and security are not opposite goals. A good analytics platform makes the right data accessible to the right people — nothing more.
 
 ### AWS Identity and Access Management (IAM)
 
-**IAM** is the permissions system for AWS. It defines:
+🔐 **IAM** is the permissions system for AWS. It defines:
 
-- **Users** — human or programmatic identities
-- **Groups** — collections of users
-- **Roles** — temporary identities services (like Glue or Athena) assume
-- **Policies** — JSON documents that describe what's allowed/denied
+- 👤 **Users** — human or programmatic identities
+- 👥 **Groups** — collections of users
+- 🎭 **Roles** — temporary identities services (like Glue or Athena) assume
+- 📜 **Policies** — JSON documents that describe what's allowed/denied
+
+```
+   👤 User ──┐
+   👥 Group ─┼──> 📜 Policy (JSON) ──> "Can READ s3://my-bucket/sales/"
+   🎭 Role ──┘
+```
 
 ### The Principle of Least Privilege
 
-> Give every user and service **only** the permissions they need — no more.
+> 🌟 Give every user and service **only** the permissions they need — no more.
 
 In analytics, common examples:
 
-| Identity | Typical Permissions |
-|----------|--------------------|
-| Data engineer | Read/write on S3 lake buckets, run Glue jobs, query Athena |
-| Analyst | Read Athena tables, use QuickSight, read specific S3 prefixes |
-| Dashboard user | View QuickSight dashboards only |
-| Glue service role | Read source S3, write curated S3, update Glue Catalog |
+| Identity | Icon | Typical Permissions |
+|----------|:---:|--------------------|
+| Data engineer | 🛠️ | Read/write S3 lake, run Glue jobs, query Athena |
+| Analyst | 📊 | Read Athena tables, use QuickSight, read specific S3 prefixes |
+| Dashboard user | 👁️ | View QuickSight dashboards only |
+| Glue service role | 🎭 | Read source S3, write curated S3, update Glue Catalog |
 
 Never give `AdministratorAccess` to everyone. Design roles narrowly.
 
@@ -1120,21 +1332,21 @@ Modern best practice:
 
 Two types:
 
-- **Encryption at rest** — data stored on disk is encrypted. S3 can do this automatically with **SSE-S3** (AWS-managed keys) or **SSE-KMS** (customer-managed keys via AWS KMS)
-- **Encryption in transit** — data moving between services is encrypted with TLS
+- 💾 **Encryption at rest** — data on disk is encrypted. S3 does this automatically with **SSE-S3** (AWS keys) or **SSE-KMS** (your keys via AWS KMS)
+- 🌐 **Encryption in transit** — data moving between services is encrypted with TLS
 
-**Default rule:** enable SSE-S3 on every bucket. If compliance requires, use SSE-KMS.
+> 🛡️ **Default rule:** enable SSE-S3 on every bucket. If compliance requires, use SSE-KMS.
 
 ### Data Classification
 
 Before you give someone access, know what the data is:
 
-| Classification | Examples | Access |
-|----------------|----------|--------|
-| Public | Marketing metrics | Everyone |
-| Internal | Sales summaries | Employees |
-| Confidential | Customer PII | Specific roles only |
-| Restricted | Payment card data | Heavily audited, encrypted |
+| Classification | Icon | Examples | Access |
+|----------------|:---:|----------|--------|
+| Public | 🟢 | Marketing metrics | Everyone |
+| Internal | 🟡 | Sales summaries | Employees |
+| Confidential | 🟠 | Customer PII | Specific roles only |
+| Restricted | 🔴 | Payment card data | Heavily audited, encrypted |
 
 Use different buckets (or bucket prefixes) for different classifications and tag them.
 
@@ -1143,101 +1355,105 @@ Use different buckets (or bucket prefixes) for different classifications and tag
 ## Cost Considerations
 Duration: 5:00
 
-Cloud analytics can be incredibly cheap — or surprisingly expensive. Understanding costs is an analytics engineering skill.
+💰 Cloud analytics can be incredibly cheap — or surprisingly expensive. Understanding costs is an analytics engineering skill.
 
 ### The Three Cost Buckets
 
-For our stack (S3 + Glue + Athena), there are three costs to watch:
+For our stack (🪣 S3 + 🕸️ Glue + 🔍 Athena), there are three costs to watch:
 
-**1. S3 storage**
+**1. 🪣 S3 storage**
 - ~$0.023 per GB per month (S3 Standard, varies by region)
-- Lifecycle policies move older data to Intelligent-Tiering or Glacier automatically
+- Lifecycle policies auto-move older data to 🌡️ Intelligent-Tiering or 🧊 Glacier
 
-**2. Glue**
-- Crawlers: ~$0.44 per DPU-hour (small crawler runs in minutes)
+**2. 🕸️ Glue**
+- Crawlers: ~$0.44 per DPU-hour (small crawlers run in minutes)
 - Data Catalog storage: free up to 1M objects, then ~$1 per 100K objects/month
-- Glue ETL jobs: ~$0.44 per DPU-hour (you pay for processing)
+- Glue ETL jobs: ~$0.44 per DPU-hour
 
-**3. Athena**
+**3. 🔍 Athena**
 - $5 per TB scanned
 - $0 per query structure — only scanning costs money
 
 ### The Four Levers That Reduce Cost
 
-1. **Partition your data** — scan less per query
-2. **Use Parquet + compression** — scan less bytes per column
-3. **Project only columns you need** — never `SELECT *` in production
-4. **Filter early** — push `WHERE` conditions that align with partitions
+| # | Lever | Icon | Impact |
+|---|-------|:---:|--------|
+| 1 | Partition your data | 🧩 | Scan less per query |
+| 2 | Use Parquet + compression | 🗂️ | Fewer bytes per column |
+| 3 | Project only columns needed | 🎯 | Never `SELECT *` in prod |
+| 4 | Filter early with `WHERE` | 🪤 | Push conditions to partitions |
 
-### A Real Example
+### A Real Example — Same Data, 3,000x Cheaper
 
 Imagine you have 1 TB of sales data:
 
-| Storage format | Query: daily revenue (1 day) scans |
-|----------------|-------------------------------------|
-| One big CSV, unpartitioned | 1,000 GB → $5.00 |
-| CSV partitioned by day | ~2.7 GB → 1.3¢ |
-| Parquet partitioned by day | ~0.3 GB → 0.15¢ |
+| Storage format | Icon | Query scans | Cost |
+|----------------|:---:|-------------|:----:|
+| One big CSV, unpartitioned | 📄 | 1,000 GB | 💸 $5.00 |
+| CSV partitioned by day | 📁 | ~2.7 GB | 💰 1.3¢ |
+| Parquet partitioned by day | 🗂️ | ~0.3 GB | 🪙 0.15¢ |
 
-Same data, same query, same result — **~3,000x cheaper** with the right storage design.
+> 🌟 Same data, same query, same result — **~3,000x cheaper** with the right storage design.
 
 ### AWS Cost Tools
 
-- **Billing Dashboard** — check current month spend
-- **AWS Cost Explorer** — visualize spending trends
-- **AWS Budgets** — set an alert when you exceed a threshold
-- **Tagging** — tag every resource with a cost-center so you know who's spending
+- 📋 **Billing Dashboard** — check current month spend
+- 📈 **AWS Cost Explorer** — visualize spending trends
+- 🔔 **AWS Budgets** — set an alert when you exceed a threshold
+- 🏷️ **Tagging** — tag every resource with a cost-center to track spend
 
-Create a **$5 monthly budget** on your account right now as a guardrail.
+> ⚠️ **Do this now:** create a **$5 monthly budget** on your account as a guardrail.
 
 > **HitaVir Tech says:** "Cost awareness is not about being cheap — it's about being responsible. A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture is."
 
 ## Summary and What's Next
 Duration: 3:00
 
-You just covered the foundations of analytics on AWS. That was a lot. Let's recap.
+🎉 You just covered the foundations of analytics on AWS. That was a lot. Let's recap.
 
 ### What You Learned
 
-- **Analytics fundamentals** — what it is and the four maturity levels
-- **AWS analytics landscape** — 15 services, 5 that matter most
-- **Data types** — structured, semi-structured, unstructured
-- **Batch vs streaming** — when to use each
-- **OLTP vs OLAP** — the most important dichotomy in data engineering
-- **Amazon S3** — the storage foundation
-- **Data lakes vs data warehouses** — and the lakehouse
-- **AWS Glue Data Catalog** — metadata, crawlers, partitions
-- **Amazon Athena** — serverless SQL on S3
-- **Amazon Redshift** — when to move beyond Athena
-- **Amazon QuickSight** — visualization
-- **IAM and security basics** — least privilege
-- **Cost awareness** — the four levers
+| Topic | Icon |
+|-------|:---:|
+| Analytics fundamentals — the four maturity levels | 📈 |
+| AWS analytics landscape — 15 services, 5 that matter most | ☁️ |
+| Data types — structured, semi-structured, unstructured | 🧩 |
+| Batch vs streaming — when to use each | 📦 🌊 |
+| OLTP vs OLAP — the most important dichotomy | 🛒 📊 |
+| Amazon S3 — the storage foundation | 🪣 |
+| Data lakes vs data warehouses — and the lakehouse | 🏞️ 🏛️ |
+| AWS Glue Data Catalog — metadata, crawlers, partitions | 📚 🕷️ |
+| Amazon Athena — serverless SQL on S3 | 🔍 |
+| Amazon Redshift — when to move beyond Athena | 🏛️ |
+| Amazon QuickSight — visualization | 📊 |
+| IAM and security basics — least privilege | 🔐 |
+| Cost awareness — the four levers | 💰 |
 
 ### Hands-On Skills You Now Have
 
-- Creating an S3 bucket
-- Uploading data to S3
-- Creating a Glue crawler
-- Viewing tables in the Glue Data Catalog
-- Running SQL queries with Athena
-- Cleaning up AWS resources
+- 🪣 Creating an S3 bucket
+- ⬆️ Uploading data to S3
+- 🕷️ Creating a Glue crawler
+- 📚 Viewing tables in the Glue Data Catalog
+- 🔍 Running SQL queries with Athena
+- 🧹 Cleaning up AWS resources
 
 That is a real, production-style analytics pipeline. You could genuinely use this pattern for small-to-medium analytics workloads at a real company.
 
 ### What's Coming in Part 2
 
-Part 2 — **Fundamentals of Analytics on AWS - Part 2** — will cover:
+🚀 Part 2 — **Fundamentals of Analytics on AWS - Part 2** — will cover:
 
-- Transforming data with Glue ETL (Spark)
-- Data quality and schema evolution
-- Partitioning, Parquet conversion, and optimization in depth
-- Redshift hands-on — provisioning, loading, querying
-- Redshift Spectrum — queries spanning S3 and the warehouse
-- Building a real QuickSight dashboard
-- Scheduling and orchestration basics
-- Streaming ingestion with Kinesis
-- Data governance with Lake Formation
-- A capstone project
+- ⚙️ Transforming data with Glue ETL (Spark)
+- 🧪 Data quality and schema evolution
+- 🧩 Partitioning, Parquet conversion, and optimization in depth
+- 🏛️ Redshift hands-on — provisioning, loading, querying
+- 🔗 Redshift Spectrum — queries spanning S3 and the warehouse
+- 📊 Building a real QuickSight dashboard
+- 🗓️ Scheduling and orchestration basics
+- 🌊 Streaming ingestion with Kinesis
+- 🛡️ Data governance with Lake Formation
+- 🎯 A capstone project
 
 ### What You Should Do Next
 
@@ -1254,6 +1470,6 @@ AWS is just one flavor. Azure and GCP have direct equivalents. Once you have the
 
 > **HitaVir Tech says:** "Analytics is not about tools. Tools change every two years. Analytics is about asking the right question, finding the right data, and presenting an insight people can act on. Master the fundamentals, and every new tool becomes just another syntax."
 
-Welcome to cloud analytics. See you in Part 2.
+🎓 Welcome to cloud analytics. See you in Part 2.
 
-— **HitaVir Tech**
+— **HitaVir Tech** ☁️
