@@ -712,6 +712,10 @@ Duration: 3:00
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
+### The Headline Cast
+
+![S3](aws-icons/s3.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Firehose](aws-icons/kinesis-firehose.png) ![Lambda](aws-icons/lambda.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png)
+
 Now we map **each V** to the **AWS services** that solve it.
 
 ### The Golden Rule — Every Stack Follows One Shape
@@ -737,6 +741,12 @@ Duration: 8:00
    ┃                                                           ┃
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
+
+### The Volume Lineup
+
+![S3](aws-icons/s3.png) ![Glacier](aws-icons/glacier.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Lake Formation](aws-icons/lake-formation.png)
+
+**S3** • **Glacier** • **Redshift** • **EMR** • **Lake Formation**
 
 ### The Volume Toolkit — Service Grid
 
@@ -764,7 +774,9 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 🪣 Service Spotlight — Amazon S3
+### Service Spotlight — Amazon S3
+
+![S3](aws-icons/s3.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -796,7 +808,9 @@ Duration: 8:00
 🏔️ Glacier Deep Archive          compliance vault              ¢
 ```
 
-### 🏛️ Service Spotlight — Amazon Redshift
+### Service Spotlight — Amazon Redshift
+
+![Redshift](aws-icons/redshift.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -812,7 +826,9 @@ Duration: 8:00
    ╚═══════════════════════════════════════════════════════════╝
 ```
 
-### 🐘 Service Spotlight — Amazon EMR
+### Service Spotlight — Amazon EMR
+
+![EMR](aws-icons/emr.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -873,6 +889,12 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
+### The Variety Lineup
+
+![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![DynamoDB](aws-icons/dynamodb.png) ![Rekognition](aws-icons/rekognition.png) ![Textract](aws-icons/textract.png) ![Transcribe](aws-icons/transcribe.png) ![Comprehend](aws-icons/comprehend.png) ![OpenSearch](aws-icons/opensearch.png)
+
+**Glue** • **Athena** • **DynamoDB** • **Rekognition** • **Textract** • **Transcribe** • **Comprehend** • **OpenSearch**
+
 ### The Variety Toolkit — Service Grid
 
 ```
@@ -904,7 +926,9 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 🕸️ Service Spotlight — AWS Glue
+### Service Spotlight — AWS Glue
+
+![Glue](aws-icons/glue.png) ![Crawler](aws-icons/glue-crawler.png) ![Catalog](aws-icons/glue-catalog.png) ![DataBrew](aws-icons/glue-databrew.png) ![Data Quality](aws-icons/glue-dq.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -943,7 +967,9 @@ JOIN   parquet_products USING (product_id);
 
 Athena reads **CSV, JSON, Parquet, ORC, Avro** — all via the Glue Catalog. You never leave SQL.
 
-### 🎞️ Unstructured → Structured: The AI Extractor Pipeline
+### Unstructured → Structured: The AI Extractor Pipeline
+
+![Rekognition](aws-icons/rekognition.png) ![Textract](aws-icons/textract.png) ![Transcribe](aws-icons/transcribe.png) ![Comprehend](aws-icons/comprehend.png) ![Translate](aws-icons/translate.png)
 
 ```
    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -1013,6 +1039,12 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
+### The Velocity Lineup
+
+![Kinesis Streams](aws-icons/kinesis-streams.png) ![Firehose](aws-icons/kinesis-firehose.png) ![Kinesis Analytics](aws-icons/kinesis-analytics.png) ![MSK](aws-icons/msk.png) ![Lambda](aws-icons/lambda.png) ![EventBridge](aws-icons/eventbridge.png) ![SNS](aws-icons/sns.png) ![SQS](aws-icons/sqs.png)
+
+**Kinesis Streams** • **Firehose** • **Kinesis Analytics** • **MSK** • **Lambda** • **EventBridge** • **SNS** • **SQS**
+
 ### The Velocity Toolkit — Service Grid
 
 ```
@@ -1037,7 +1069,9 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 🌊 Service Spotlight — Amazon Kinesis Data Streams
+### Service Spotlight — Amazon Kinesis Data Streams
+
+![Kinesis Data Streams](aws-icons/kinesis-streams.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1067,7 +1101,9 @@ Duration: 8:00
 
 Kinesis holds events **durably**. Multiple consumers read the same stream **independently**.
 
-### 🚒 Service Spotlight — Kinesis Firehose
+### Service Spotlight — Kinesis Firehose
+
+![Firehose](aws-icons/kinesis-firehose.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1162,6 +1198,12 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
+### The Veracity Lineup
+
+![DataBrew](aws-icons/glue-databrew.png) ![Glue DQ](aws-icons/glue-dq.png) ![Lake Formation](aws-icons/lake-formation.png) ![Macie](aws-icons/macie.png) ![CloudTrail](aws-icons/cloudtrail.png) ![Config](aws-icons/config.png) ![IAM](aws-icons/iam.png) ![KMS](aws-icons/kms.png)
+
+**DataBrew** • **Glue Data Quality** • **Lake Formation** • **Macie** • **CloudTrail** • **Config** • **IAM** • **KMS**
+
 ### The Veracity Toolkit — Service Grid
 
 ```
@@ -1184,7 +1226,9 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 🧪 Service Spotlight — AWS Glue DataBrew
+### Service Spotlight — AWS Glue DataBrew
+
+![DataBrew](aws-icons/glue-databrew.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1205,7 +1249,9 @@ Duration: 8:00
                  anomalies)        dates, standardize)       Redshift)
 ```
 
-### 🛡️ Service Spotlight — Glue Data Quality
+### Service Spotlight — Glue Data Quality
+
+![Glue Data Quality](aws-icons/glue-dq.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1228,7 +1274,9 @@ Duration: 8:00
    COUNT(DISTINCT order_id) = COUNT(*)   ...  ❌ 23 duplicates — ALERT!
 ```
 
-### 🕵️ Service Spotlight — Amazon Macie
+### Service Spotlight — Amazon Macie
+
+![Macie](aws-icons/macie.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1242,7 +1290,9 @@ Duration: 8:00
    ╚═══════════════════════════════════════════════════════════╝
 ```
 
-### 📜 CloudTrail + ⚙️ Config — The Audit Twins
+### CloudTrail + Config — The Audit Twins
+
+![CloudTrail](aws-icons/cloudtrail.png) ![Config](aws-icons/config.png)
 
 ```
    ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
@@ -1304,6 +1354,12 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
 
+### The Value Lineup
+
+![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Forecast](aws-icons/forecast.png) ![Personalize](aws-icons/personalize.png) ![Fraud Detector](aws-icons/fraud-detector.png) ![Bedrock](aws-icons/bedrock.png)
+
+**QuickSight** • **SageMaker** • **Forecast** • **Personalize** • **Fraud Detector** • **Bedrock**
+
 ### The Value Toolkit — Service Grid
 
 ```
@@ -1335,7 +1391,9 @@ Duration: 8:00
    ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛  ┗━━━━━━━━━━━━━━━━━━┛
 ```
 
-### 📊 Service Spotlight — Amazon QuickSight
+### Service Spotlight — Amazon QuickSight
+
+![QuickSight](aws-icons/quicksight.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1357,7 +1415,9 @@ Duration: 8:00
    (data source)              (cached)     (charts)      (compose)      (consume)
 ```
 
-### 🤖 Service Spotlight — Amazon SageMaker
+### Service Spotlight — Amazon SageMaker
+
+![SageMaker](aws-icons/sagemaker.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1372,7 +1432,9 @@ Duration: 8:00
    ╚═══════════════════════════════════════════════════════════╝
 ```
 
-### 🔮 Service Spotlight — Amazon Forecast
+### Service Spotlight — Amazon Forecast
+
+![Forecast](aws-icons/forecast.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1396,7 +1458,9 @@ Duration: 8:00
       📅 Daily predictions per SKU per store
 ```
 
-### 🎯 Service Spotlight — Amazon Personalize
+### Service Spotlight — Amazon Personalize
+
+![Personalize](aws-icons/personalize.png)
 
 ```
    ╔═══════════════════════════════════════════════════════════╗
@@ -1545,6 +1609,10 @@ Duration: 25:00
    ┃                                                           ┃
    ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
 ```
+
+### The Services We'll Touch
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Crawler](aws-icons/glue-crawler.png) ![Glue Catalog](aws-icons/glue-catalog.png) ![Athena](aws-icons/athena.png)
 
 You will build a mini pipeline that touches **Volume** (S3), **Variety** (CSV auto-cataloged), and **Value** (SQL insights).
 
