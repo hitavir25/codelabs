@@ -11,6 +11,8 @@ Feedback Link: https://github.com/hitavir25/codelabs/issues
 ## Overview
 Duration: 5:00
 
+![AWS](aws-icons/aws.png)
+
 ```
    ╔════════════════════════════════════════════════════════════╗
    ║                                                            ║
