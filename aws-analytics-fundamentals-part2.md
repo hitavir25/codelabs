@@ -48,6 +48,10 @@ In Part 1 you built the mental model — analytics concepts, the 5 Vs, and the A
 | 🗺️ **Reference Architectures** | Batch BI, Streaming, ML, Log analytics, 360° customer, Data mesh |
 | 🎯 **Common Use Cases** | When to pick which pattern |
 
+### Services You Will Meet in Part 2
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![OpenSearch](aws-icons/opensearch.png) ![Lake Formation](aws-icons/lake-formation.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png) ![DataZone](aws-icons/datazone.png)
+
 ### Why Architecture Matters More Than Services
 
 ```
@@ -93,6 +97,8 @@ Duration: 3:00
 
 ### Mental Model You Already Have (From Part 1)
 
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Redshift](aws-icons/redshift.png) ![Rekognition](aws-icons/rekognition.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Lambda](aws-icons/lambda.png) ![Macie](aws-icons/macie.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png)
+
 ```
   +--------------------------------------------------------------+
   |   5 Vs framework          AWS service toolkit                |
@@ -121,6 +127,10 @@ Duration: 3:00
   |         SECTION  1  -  ARCHITECTURES (the big three)         |
   +==============================================================+
 ```
+
+### The Three Architecture Icons
+
+![S3](aws-icons/s3.png) ![Redshift](aws-icons/redshift.png) ![Lake Formation](aws-icons/lake-formation.png)
 
 Three architecture patterns power **95% of modern analytics** in production:
 
@@ -718,6 +728,10 @@ Duration: 10:00
 
 Most real-world analytics work on AWS falls into **six repeatable patterns**. Recognize them and you'll know which reference architecture to reach for.
 
+### The Service Cast Across All Six Patterns
+
+![Redshift](aws-icons/redshift.png) ![QuickSight](aws-icons/quicksight.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Analytics](aws-icons/kinesis-analytics.png) ![OpenSearch](aws-icons/opensearch.png) ![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![SageMaker](aws-icons/sagemaker.png) ![Lake Formation](aws-icons/lake-formation.png)
+
 ### The Six Patterns
 
 ```
@@ -732,6 +746,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 ```
 
 ### Use Case 1 — Batch Business Intelligence
+
+![Redshift](aws-icons/redshift.png) ![QuickSight](aws-icons/quicksight.png)
 
 **Who needs it:** Every company with a CFO.
 
@@ -748,6 +764,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 
 ### Use Case 2 — Real-Time Analytics
 
+![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Analytics](aws-icons/kinesis-analytics.png) ![Lambda](aws-icons/lambda.png)
+
 **Who needs it:** Rideshare, fintech, ad-tech, IoT, online gaming.
 
 **Shape:** Events → Kinesis → stream processor → live dashboard **and** S3 for history.
@@ -762,6 +780,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 **Example prompt:** "Alert the risk team the moment any card transaction looks fraudulent."
 
 ### Use Case 3 — Log & Application Observability
+
+![OpenSearch](aws-icons/opensearch.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![CloudTrail](aws-icons/cloudtrail.png)
 
 **Who needs it:** Every engineering team at scale.
 
@@ -778,6 +798,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 
 ### Use Case 4 — Customer 360
 
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Redshift](aws-icons/redshift.png) ![SageMaker](aws-icons/sagemaker.png)
+
 **Who needs it:** Retail, banking, telecom, SaaS.
 
 **Shape:** Unify profiles from CRM, web, mobile, support into one view, served to marketing + ML.
@@ -793,6 +815,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 
 ### Use Case 5 — ML / Predictive Analytics
 
+![SageMaker](aws-icons/sagemaker.png) ![S3](aws-icons/s3.png) ![Lambda](aws-icons/lambda.png)
+
 **Who needs it:** Forecasting, recommendations, fraud, churn, dynamic pricing.
 
 **Shape:** Lake → feature store → model training → model endpoint → prediction served in app or BI.
@@ -807,6 +831,8 @@ Most real-world analytics work on AWS falls into **six repeatable patterns**. Re
 **Example prompt:** "Predict which customers will churn next month so we can retain them."
 
 ### Use Case 6 — Data Mesh
+
+![Lake Formation](aws-icons/lake-formation.png) ![DataZone](aws-icons/datazone.png) ![S3](aws-icons/s3.png)
 
 **Who needs it:** Enterprises with many product teams owning their own data.
 
@@ -1050,6 +1076,10 @@ Duration: 7:00
   +==============================================================+
 ```
 
+### The Services Under Test
+
+![S3](aws-icons/s3.png) ![Redshift](aws-icons/redshift.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Lake Formation](aws-icons/lake-formation.png) ![DataZone](aws-icons/datazone.png) ![QuickSight](aws-icons/quicksight.png)
+
 Answer each question before revealing. No peeking — this is how you build real recall.
 
 ### Question 1 — Data Lake Fundamentals
@@ -1183,6 +1213,10 @@ Duration: 4:00
   +==============================================================+
 ```
 
+### Every Service You Now Know
+
+![S3](aws-icons/s3.png) ![Glacier](aws-icons/glacier.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Lake Formation](aws-icons/lake-formation.png) ![OpenSearch](aws-icons/opensearch.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png) ![DataZone](aws-icons/datazone.png)
+
 ### What You Learned
 
 **🪣 Data Lakes**
@@ -1269,6 +1303,10 @@ Duration: 3:00
   +==============================================================+
 ```
 
+### Services Referenced in This Appendix
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Redshift](aws-icons/redshift.png) ![Kinesis](aws-icons/kinesis-streams.png) ![OpenSearch](aws-icons/opensearch.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Lake Formation](aws-icons/lake-formation.png) ![DataZone](aws-icons/datazone.png)
+
 ### Official AWS Documentation
 
 | Topic | Icon | Where to Read |
@@ -1334,6 +1372,10 @@ Duration: 3:00
   |                  (screenshot and keep)                       |
   +==============================================================+
 ```
+
+### The Lake House Toolbox — At a Glance
+
+![S3](aws-icons/s3.png) ![Redshift](aws-icons/redshift.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![EMR](aws-icons/emr.png) ![Kinesis](aws-icons/kinesis-streams.png) ![OpenSearch](aws-icons/opensearch.png) ![DynamoDB](aws-icons/dynamodb.png) ![Lake Formation](aws-icons/lake-formation.png) ![Macie](aws-icons/macie.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png) ![DataZone](aws-icons/datazone.png)
 
 ### 🪣 Data Lake in 30 Seconds
 

@@ -98,6 +98,10 @@ Every step stays inside the **AWS Free Tier**:
 | 💰 Estimated total cost | **$0.00** |
 
 > ⚠️ **Always clean up.** Step 10 of the lab is a cleanup ritual. Skip it and AWS will happily bill you for forgotten resources.
+### Services the Hands-on Lab Will Use
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Glue Crawler](aws-icons/glue-crawler.png) ![Glue Catalog](aws-icons/glue-catalog.png) ![Athena](aws-icons/athena.png)
+
 
 ## Analytics Concepts
 Duration: 4:00
@@ -132,6 +136,10 @@ Before we touch AWS, we need three anchor ideas:
                     |  of Big Data         |
                     +----------------------+
 ```
+### Each Anchor Maps to an AWS Service Family
+
+![Athena](aws-icons/athena.png) ![SageMaker](aws-icons/sagemaker.png) ![S3](aws-icons/s3.png)
+
 
 ## Analytics
 Duration: 6:00
@@ -201,6 +209,12 @@ Most companies live at L1-L2. **Analytics engineers build the foundation** that 
 - ❌ Not only Machine Learning (ML is a specialized branch)
 
 > 💡 **HitaVir Tech says:** "Never build a dashboard nobody looks at. Always ask — *what decision will this insight change?* If the answer is 'none', don't build it."
+### Preview — AWS Services Across Analytics Maturity
+
+![Athena](aws-icons/athena.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png)
+
+L1-L2 is **Athena + QuickSight**. L3-L4 adds **SageMaker + Bedrock**.
+
 
 ## Machine Learning
 Duration: 6:00
@@ -248,6 +262,12 @@ Duration: 6:00
 ```
 
 > 💡 **HitaVir Tech says:** "ML is not magic — it's statistics at scale. If your analytics foundations are shaky, your ML models will be too. Clean data first, cool models second."
+### Preview — AWS ML Services
+
+![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png) ![Comprehend](aws-icons/comprehend.png) ![Personalize](aws-icons/personalize.png) ![Forecast](aws-icons/forecast.png) ![Fraud Detector](aws-icons/fraud-detector.png)
+
+*Coming up in "AWS Services for Value" (L3-L4 analytics).*
+
 
 ## The 5 Vs of Big Data
 Duration: 5:00
@@ -293,6 +313,12 @@ In 2001, analyst **Doug Laney** described big-data challenges with three Vs: **V
 | 5 | 💎 **VALUE** | What outcome? |
 
 Miss any one V and your data platform has a hole. Let's tour each.
+### Preview — AWS's One Service Per V
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Lake Formation](aws-icons/lake-formation.png) ![QuickSight](aws-icons/quicksight.png)
+
+*Volume → S3. Variety → Glue. Velocity → Kinesis. Veracity → Lake Formation. Value → QuickSight.*
+
 
 ## Volume
 Duration: 6:00
@@ -353,6 +379,12 @@ At big-data scale, you need **distributed** systems — hundreds of machines sha
 > 💡 **HitaVir Tech says:** "What works at 10 GB catastrophically fails at 10 TB. Always ask — *how does this scale at 100x?*"
 
 > 📦 **Volume in one line:** design for 100× your current data — or rebuild painfully later.
+### Preview — AWS Services That Solve Volume
+
+![S3](aws-icons/s3.png) ![Glacier](aws-icons/glacier.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Lake Formation](aws-icons/lake-formation.png)
+
+*Coming up in "AWS Services for Volume".*
+
 
 ## Variety
 Duration: 6:00
@@ -410,6 +442,12 @@ Most real projects combine these. Example — "Correlate support emails + call r
 > 💡 **HitaVir Tech says:** "90% of the world's data is unstructured. But 90% of analytics happens on structured data. Your job is often to convert chaos into order."
 
 > 🧩 **Variety in one line:** structure is created, not found — choose tools that embrace format diversity.
+### Preview — AWS Services That Solve Variety
+
+![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![DynamoDB](aws-icons/dynamodb.png) ![Rekognition](aws-icons/rekognition.png) ![Textract](aws-icons/textract.png) ![Comprehend](aws-icons/comprehend.png)
+
+*Coming up in "AWS Services for Variety".*
+
 
 ## Velocity
 Duration: 6:00
@@ -464,6 +502,12 @@ Duration: 6:00
 > 💡 **HitaVir Tech says:** "Streaming is fashionable. Batch is profitable. 80% of real-world analytics runs on batch — don't reach for streaming unless the business truly cannot wait."
 
 > 🌊 **Velocity in one line:** match the pipeline's speed to the decision's deadline — no faster.
+### Preview — AWS Services That Solve Velocity
+
+![Kinesis Data Streams](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Kinesis Analytics](aws-icons/kinesis-analytics.png) ![Lambda](aws-icons/lambda.png) ![EventBridge](aws-icons/eventbridge.png)
+
+*Coming up in "AWS Services for Velocity".*
+
 
 ## Veracity
 Duration: 6:00
@@ -528,6 +572,12 @@ Big volumes and fast pipelines are useless if the data is **wrong**.
 > 💡 **HitaVir Tech says:** "Senior engineers obsess over data quality. Juniors obsess over cool tools. Guess which group builds systems that actually work in production."
 
 > 🛡️ **Veracity in one line:** quality rules are a pipeline concern, not a hope.
+### Preview — AWS Services That Solve Veracity
+
+![Glue DataBrew](aws-icons/glue-databrew.png) ![Glue Data Quality](aws-icons/glue-dq.png) ![Lake Formation](aws-icons/lake-formation.png) ![Macie](aws-icons/macie.png) ![CloudTrail](aws-icons/cloudtrail.png) ![KMS](aws-icons/kms.png)
+
+*Coming up in "AWS Services for Veracity".*
+
 
 ## Value
 Duration: 6:00
@@ -616,6 +666,12 @@ The difference between a valuable dashboard and a graveyard dashboard:
 > 💡 **HitaVir Tech says:** "A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture. Lead with Value."
 
 > 💎 **Value in one line:** start from the decision, work backwards to the pipeline.
+### Preview — AWS Services That Deliver Value
+
+![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png) ![Forecast](aws-icons/forecast.png) ![Personalize](aws-icons/personalize.png)
+
+*Coming up in "AWS Services for Value".*
+
 
 ## AWS Services for Analytics
 Duration: 3:00
@@ -664,12 +720,12 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Amazon S3** | 🪣 | Object storage — the data-lake foundation (infinite scale) |
-| **Amazon S3 Glacier** | 🧊 | Cheapest archive tier for cold data |
-| **Amazon Redshift** | 🏛️ | Petabyte-scale columnar data warehouse |
-| **Amazon EMR** | 🐘 | Managed Spark / Hadoop clusters for huge batch jobs |
-| **AWS Lake Formation** | 🏗️ | Manage, govern, and secure a data lake on S3 |
-| **Amazon EBS / EFS** | 💾 | Block and file storage for compute workloads |
+| **Amazon S3** | <img src="aws-icons/s3.png" width="32" height="32" alt="Amazon S3"> | Object storage — the data-lake foundation (infinite scale) |
+| **Amazon S3 Glacier** | <img src="aws-icons/glacier.png" width="32" height="32" alt="S3 Glacier"> | Cheapest archive tier for cold data |
+| **Amazon Redshift** | <img src="aws-icons/redshift.png" width="32" height="32" alt="Redshift"> | Petabyte-scale columnar data warehouse |
+| **Amazon EMR** | <img src="aws-icons/emr.png" width="32" height="32" alt="EMR"> | Managed Spark / Hadoop clusters for huge batch jobs |
+| **AWS Lake Formation** | <img src="aws-icons/lake-formation.png" width="32" height="32" alt="Lake Formation"> | Manage, govern, and secure a data lake on S3 |
+| **Amazon EBS / EFS** | <img src="aws-icons/s3.png" width="32" height="32" alt="EBS / EFS"> | Block and file storage for compute workloads |
 
 ### Service Spotlight — Amazon S3
 
@@ -792,16 +848,16 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Amazon S3** | 🪣 | Holds every format — CSV, JSON, Parquet, images, video |
-| **AWS Glue** | 🕸️ | ETL for all formats; crawlers auto-detect schema |
-| **AWS Glue Data Catalog** | 📚 | Metadata layer — one view across formats |
-| **Amazon Athena** | 🔍 | SQL on CSV, JSON, Parquet, ORC, Avro |
-| **Amazon DynamoDB** | ⚡ | NoSQL for flexible docs |
-| **Amazon Rekognition** | 🤖 | Images / video → structured labels |
-| **Amazon Textract** | 📝 | PDFs and scans → text and tables |
-| **Amazon Transcribe** | 🔊 | Speech → text |
-| **Amazon Comprehend** | 💭 | NLP: sentiment, entities, topics |
-| **Amazon OpenSearch** | 🔎 | Full-text search and log analytics |
+| **Amazon S3** | <img src="aws-icons/s3.png" width="32" height="32" alt="Amazon S3"> | Holds every format — CSV, JSON, Parquet, images, video |
+| **AWS Glue** | <img src="aws-icons/glue.png" width="32" height="32" alt="AWS Glue"> | ETL for all formats; crawlers auto-detect schema |
+| **AWS Glue Data Catalog** | <img src="aws-icons/glue-catalog.png" width="32" height="32" alt="Glue Catalog"> | Metadata layer — one view across formats |
+| **Amazon Athena** | <img src="aws-icons/athena.png" width="32" height="32" alt="Athena"> | SQL on CSV, JSON, Parquet, ORC, Avro |
+| **Amazon DynamoDB** | <img src="aws-icons/dynamodb.png" width="32" height="32" alt="DynamoDB"> | NoSQL for flexible docs |
+| **Amazon Rekognition** | <img src="aws-icons/rekognition.png" width="32" height="32" alt="Rekognition"> | Images / video → structured labels |
+| **Amazon Textract** | <img src="aws-icons/textract.png" width="32" height="32" alt="Textract"> | PDFs and scans → text and tables |
+| **Amazon Transcribe** | <img src="aws-icons/transcribe.png" width="32" height="32" alt="Transcribe"> | Speech → text |
+| **Amazon Comprehend** | <img src="aws-icons/comprehend.png" width="32" height="32" alt="Comprehend"> | NLP: sentiment, entities, topics |
+| **Amazon OpenSearch** | <img src="aws-icons/opensearch.png" width="32" height="32" alt="OpenSearch"> | Full-text search and log analytics |
 
 ### Service Spotlight — AWS Glue
 
@@ -920,13 +976,13 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Kinesis Data Streams** | 🌊 | Real-time event stream (like Kafka) |
-| **Kinesis Firehose** | 🚒 | Buffered streaming delivery to S3 / Redshift |
-| **Amazon MSK** | 🪐 | Managed Apache Kafka |
-| **Kinesis Data Analytics** | 🎯 | SQL / Flink on streams in real time |
-| **AWS Lambda** | ⚡ | Event-driven serverless functions |
-| **Amazon EventBridge** | 🚌 | Serverless event bus across AWS |
-| **Amazon SNS / SQS** | 📬 | Pub-sub / queue messaging |
+| **Kinesis Data Streams** | <img src="aws-icons/kinesis-streams.png" width="32" height="32" alt="Kinesis Data Streams"> | Real-time event stream (like Kafka) |
+| **Kinesis Firehose** | <img src="aws-icons/kinesis-firehose.png" width="32" height="32" alt="Kinesis Firehose"> | Buffered streaming delivery to S3 / Redshift |
+| **Amazon MSK** | <img src="aws-icons/msk.png" width="32" height="32" alt="Amazon MSK"> | Managed Apache Kafka |
+| **Kinesis Data Analytics** | <img src="aws-icons/kinesis-analytics.png" width="32" height="32" alt="Kinesis Analytics"> | SQL / Flink on streams in real time |
+| **AWS Lambda** | <img src="aws-icons/lambda.png" width="32" height="32" alt="Lambda"> | Event-driven serverless functions |
+| **Amazon EventBridge** | <img src="aws-icons/eventbridge.png" width="32" height="32" alt="EventBridge"> | Serverless event bus across AWS |
+| **Amazon SNS / SQS** | <img src="aws-icons/sqs.png" width="32" height="32" alt="SNS / SQS"> | Pub-sub / queue messaging |
 
 ### Service Spotlight — Amazon Kinesis Data Streams
 
@@ -1062,14 +1118,14 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **AWS Glue DataBrew** | 🧪 | Visual data cleaning and profiling |
-| **AWS Glue Data Quality** | 🛡️ | Rule-based DQ checks |
-| **Amazon Deequ (library)** | 🔬 | Unit tests for data on Spark |
-| **AWS Lake Formation** | 🏗️ | Governance and fine-grained permissions |
-| **AWS CloudTrail** | 📜 | Audit every API call |
-| **AWS Config** | ⚙️ | Track resource configuration drift |
-| **Amazon Macie** | 🕵️ | Discover and classify PII in S3 |
-| **AWS KMS** | 🔐 | Manage encryption keys |
+| **AWS Glue DataBrew** | <img src="aws-icons/glue-databrew.png" width="32" height="32" alt="Glue DataBrew"> | Visual data cleaning and profiling |
+| **AWS Glue Data Quality** | <img src="aws-icons/glue-dq.png" width="32" height="32" alt="Glue Data Quality"> | Rule-based DQ checks |
+| **Amazon Deequ (library)** | <img src="aws-icons/glue-dq.png" width="32" height="32" alt="Deequ"> | Unit tests for data on Spark |
+| **AWS Lake Formation** | <img src="aws-icons/lake-formation.png" width="32" height="32" alt="Lake Formation"> | Governance and fine-grained permissions |
+| **AWS CloudTrail** | <img src="aws-icons/cloudtrail.png" width="32" height="32" alt="CloudTrail"> | Audit every API call |
+| **AWS Config** | <img src="aws-icons/config.png" width="32" height="32" alt="AWS Config"> | Track resource configuration drift |
+| **Amazon Macie** | <img src="aws-icons/macie.png" width="32" height="32" alt="Macie"> | Discover and classify PII in S3 |
+| **AWS KMS** | <img src="aws-icons/kms.png" width="32" height="32" alt="KMS"> | Manage encryption keys |
 
 ### Service Spotlight — AWS Glue DataBrew
 
@@ -1198,15 +1254,15 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Amazon QuickSight** | 📊 | Dashboards, BI, natural-language analytics |
-| **Amazon SageMaker** | 🤖 | Build, train, deploy ML models |
-| **Amazon Forecast** | 🔮 | No-code time-series forecasting |
-| **Amazon Personalize** | 🎯 | Recommendation engines |
-| **Amazon Fraud Detector** | 🚨 | Fraud-prediction models |
-| **Amazon Q in QuickSight** | 💬 | Ask data questions in natural language |
-| **Amazon Bedrock** | 🧠 | Foundation models (Claude, Llama, etc.) |
-| **Redshift ML** | 🧠 | Train and run ML using SQL in Redshift |
-| **Amazon Lookout for Metrics** | 👁️ | Auto-detect anomalies in business KPIs |
+| **Amazon QuickSight** | <img src="aws-icons/quicksight.png" width="32" height="32" alt="QuickSight"> | Dashboards, BI, natural-language analytics |
+| **Amazon SageMaker** | <img src="aws-icons/sagemaker.png" width="32" height="32" alt="SageMaker"> | Build, train, deploy ML models |
+| **Amazon Forecast** | <img src="aws-icons/forecast.png" width="32" height="32" alt="Forecast"> | No-code time-series forecasting |
+| **Amazon Personalize** | <img src="aws-icons/personalize.png" width="32" height="32" alt="Personalize"> | Recommendation engines |
+| **Amazon Fraud Detector** | <img src="aws-icons/fraud-detector.png" width="32" height="32" alt="Fraud Detector"> | Fraud-prediction models |
+| **Amazon Q in QuickSight** | <img src="aws-icons/quicksight.png" width="32" height="32" alt="Amazon Q in QuickSight"> | Ask data questions in natural language |
+| **Amazon Bedrock** | <img src="aws-icons/bedrock.png" width="32" height="32" alt="Bedrock"> | Foundation models (Claude, Llama, etc.) |
+| **Redshift ML** | <img src="aws-icons/redshift.png" width="32" height="32" alt="Redshift ML"> | Train and run ML using SQL in Redshift |
+| **Amazon Lookout for Metrics** | <img src="aws-icons/forecast.png" width="32" height="32" alt="Lookout for Metrics"> | Auto-detect anomalies in business KPIs |
 
 ### Service Spotlight — Amazon QuickSight
 
@@ -1355,6 +1411,10 @@ Duration: 5:00
   |         END-TO-END  AWS  ANALYTICS  STACK                    |
   +==============================================================+
 ```
+
+### The Full Cast — Every Service You Will See Below
+
+![Kinesis](aws-icons/kinesis-streams.png) ![Firehose](aws-icons/kinesis-firehose.png) ![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![SageMaker](aws-icons/sagemaker.png) ![QuickSight](aws-icons/quicksight.png) ![Bedrock](aws-icons/bedrock.png)
 
 All 5 Vs combined into one living architecture:
 
@@ -1578,6 +1638,8 @@ Duration: 3:00
 | **VERACITY** | 🛡️ | Trust |
 | **VALUE** | 💎 | Outcome |
 
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Redshift](aws-icons/redshift.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Lambda](aws-icons/lambda.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png)
+
 **☁️ AWS Services Mapped to Each V**
 
 | V | Key Services |
@@ -1646,7 +1708,8 @@ Duration: 5:00
   +==============================================================+
 ```
 
-Think of a data project you work on (or want to build). Run it through these five questions. The V that feels **most stressful** is your bottleneck — that's where to focus first.
+
+![S3](aws-icons/s3.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Macie](aws-icons/macie.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png)Think of a data project you work on (or want to build). Run it through these five questions. The V that feels **most stressful** is your bottleneck — that's where to focus first.
 
 | # | Question | Your V | AWS Services to Study |
 |:-:|----------|:------:|-----------------------|
@@ -1669,6 +1732,10 @@ Duration: 3:00
   |                  (screenshot and keep)                        |
   +==============================================================+
 ```
+
+### The AWS Analytics Toolbox — At a Glance
+
+![S3](aws-icons/s3.png) ![Glacier](aws-icons/glacier.png) ![Redshift](aws-icons/redshift.png) ![EMR](aws-icons/emr.png) ![Glue](aws-icons/glue.png) ![Athena](aws-icons/athena.png) ![Kinesis](aws-icons/kinesis-streams.png) ![Kinesis Firehose](aws-icons/kinesis-firehose.png) ![Lambda](aws-icons/lambda.png) ![Macie](aws-icons/macie.png) ![CloudTrail](aws-icons/cloudtrail.png) ![KMS](aws-icons/kms.png) ![QuickSight](aws-icons/quicksight.png) ![SageMaker](aws-icons/sagemaker.png) ![Bedrock](aws-icons/bedrock.png)
 
 ### 🧠 Concepts in a Sentence
 
