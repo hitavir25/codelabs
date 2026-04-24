@@ -48,6 +48,10 @@ In Part 1 you built the mental model — analytics concepts, the 5 Vs, and the A
 | 🗺️ **Reference Architectures** | Batch BI, Streaming, ML, Log analytics, 360° customer, Data mesh |
 | 🎯 **Common Use Cases** | When to pick which pattern |
 
+### Services You Will Meet in Part 2
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![AI Search](azure-icons/ai-search.svg)
+
 ### Why Architecture Matters More Than Services
 
 ```
@@ -93,6 +97,8 @@ Duration: 3:00
 
 ### Mental Model You Already Have (From Part 1)
 
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![AI Vision](azure-icons/ai-vision.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Functions](azure-icons/functions.svg) ![Defender](azure-icons/defender.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg)
+
 ```
   +--------------------------------------------------------------+
   |   5 Vs framework          Azure service toolkit              |
@@ -121,6 +127,10 @@ Duration: 3:00
   |         SECTION  1  -  ARCHITECTURES (the big three)         |
   +==============================================================+
 ```
+
+### The Three Architecture Icons
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg)
 
 Three architecture patterns power **95% of modern analytics** in production:
 
@@ -252,7 +262,7 @@ Data lakes fixed this by leveraging **cheap object storage** (ADLS at ~$0.018 / 
 
 ### Service Spotlight — Microsoft Purview
 
-![Purview](azure-icons/info-protection.svg) ![Data Shares](azure-icons/data-shares.svg) ![Policy](azure-icons/policy.svg)
+![Purview](azure-icons/data-shares.svg) ![Info Protection](azure-icons/info-protection.svg) ![Policy](azure-icons/policy.svg)
 
 ```
   +--------------------------------------------------------------+
@@ -505,7 +515,7 @@ In 2023 Microsoft launched **Fabric** — a single SaaS surface that bundles:
 | **Synapse Real-Time Analytics** | <img src="azure-icons/data-explorer.svg" width="32" height="32" alt="Synapse RTA"> | KQL / Data Explorer on streams |
 | **Power BI** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Power BI"> | Native BI over OneLake (Direct Lake mode) |
 | **Data Activator** | <img src="azure-icons/event-grid.svg" width="32" height="32" alt="Data Activator"> | Trigger actions from data signals |
-| **Copilot** | <img src="azure-icons/openai.svg" width="32" height="32" alt="Copilot"> | Natural-language across all pillars |
+| **Copilot** | <img src="azure-icons/openai.svg" width="32" height="32" alt="Fabric Copilot"> | Natural-language across all pillars |
 
 Fabric is where Azure analytics is heading. The Part 1 services still exist — Fabric simply bundles them on one pricing model, one identity, one lakehouse.
 
@@ -758,6 +768,10 @@ Duration: 10:00
 
 Most real-world analytics work on Azure falls into **six repeatable patterns**. Recognize them and you'll know which reference architecture to reach for.
 
+### The Service Cast Across All Six Patterns
+
+![Synapse](azure-icons/synapse.svg) ![Power BI](azure-icons/power-bi.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg) ![Data Factory](azure-icons/data-factory.svg) ![ML](azure-icons/ml.svg) ![Databricks](azure-icons/databricks.svg)
+
 ### The Six Patterns
 
 ```
@@ -772,6 +786,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 ```
 
 ### Use Case 1 — Batch Business Intelligence
+
+![Synapse](azure-icons/synapse.svg) ![Power BI](azure-icons/power-bi.svg)
 
 **Who needs it:** Every company with a CFO.
 
@@ -788,6 +804,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 
 ### Use Case 2 — Real-Time Analytics
 
+![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Functions](azure-icons/functions.svg)
+
 **Who needs it:** Rideshare, fintech, ad-tech, IoT, online gaming.
 
 **Shape:** Events → Event Hubs → stream processor → live dashboard **and** ADLS for history.
@@ -802,6 +820,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 **Example prompt:** "Alert the risk team the moment any card transaction looks fraudulent."
 
 ### Use Case 3 — Log & Application Observability
+
+![Data Explorer](azure-icons/data-explorer.svg) ![Log Analytics](azure-icons/log-analytics.svg) ![Monitor](azure-icons/monitor.svg)
 
 **Who needs it:** Every engineering team at scale.
 
@@ -818,6 +838,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 
 ### Use Case 4 — Customer 360
 
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Data Factory](azure-icons/data-factory.svg) ![Synapse](azure-icons/synapse.svg) ![ML](azure-icons/ml.svg)
+
 **Who needs it:** Retail, banking, telecom, SaaS.
 
 **Shape:** Unify profiles from CRM, web, mobile, support into one view, served to marketing + ML.
@@ -833,6 +855,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 
 ### Use Case 5 — ML / Predictive Analytics
 
+![ML](azure-icons/ml.svg) ![Databricks](azure-icons/databricks.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg)
+
 **Who needs it:** Forecasting, recommendations, fraud, churn, dynamic pricing.
 
 **Shape:** Lake → feature store → model training → model endpoint → prediction served in app or BI.
@@ -847,6 +871,8 @@ Most real-world analytics work on Azure falls into **six repeatable patterns**. 
 **Example prompt:** "Predict which customers will churn next month so we can retain them."
 
 ### Use Case 6 — Data Mesh
+
+![Data Shares](azure-icons/data-shares.svg) ![Policy](azure-icons/policy.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg)
 
 **Who needs it:** Enterprises with many product teams owning their own data.
 
@@ -1094,6 +1120,10 @@ Duration: 7:00
   +==============================================================+
 ```
 
+### The Services Under Test
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Shares](azure-icons/data-shares.svg) ![Power BI](azure-icons/power-bi.svg)
+
 Answer each question before revealing. No peeking — this is how you build real recall.
 
 ### Question 1 — Data Lake Fundamentals
@@ -1227,6 +1257,10 @@ Duration: 4:00
   +==============================================================+
 ```
 
+### Every Service You Now Know
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![AI Search](azure-icons/ai-search.svg) ![Cosmos DB](azure-icons/cosmos-db.svg)
+
 ### What You Learned
 
 **🪣 Data Lakes**
@@ -1314,6 +1348,10 @@ Duration: 3:00
   +==============================================================+
 ```
 
+### Services Referenced in This Appendix
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Data Factory](azure-icons/data-factory.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![Data Shares](azure-icons/data-shares.svg)
+
 ### Official Microsoft Documentation
 
 | Topic | Icon | Where to Read |
@@ -1383,6 +1421,10 @@ Duration: 3:00
   |                  (screenshot and keep)                       |
   +==============================================================+
 ```
+
+### The Lakehouse Toolbox — At a Glance
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Cosmos DB](azure-icons/cosmos-db.svg) ![Data Shares](azure-icons/data-shares.svg) ![Key Vault](azure-icons/key-vault.svg) ![Defender](azure-icons/defender.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![AI Search](azure-icons/ai-search.svg)
 
 ### 🪣 Data Lake in 30 Seconds
 

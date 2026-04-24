@@ -99,6 +99,10 @@ Every step stays inside the **Azure free tier / low-cost services**:
 
 > ⚠️ **Always clean up.** Step 10 of the lab is a cleanup ritual. Skip it and Azure will happily bill you for forgotten resources.
 
+### Services the Hands-on Lab Will Use
+
+![Storage Accounts](azure-icons/storage-accounts.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg)
+
 ## Analytics Concepts
 Duration: 4:00
 
@@ -132,6 +136,10 @@ Before we touch Azure, we need three anchor ideas:
                     |  of Big Data         |
                     +----------------------+
 ```
+
+### Each Anchor Maps to an Azure Service Family
+
+![Synapse](azure-icons/synapse.svg) ![ML](azure-icons/ml.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg)
 
 ## Analytics
 Duration: 6:00
@@ -202,6 +210,12 @@ Most companies live at L1-L2. **Analytics engineers build the foundation** that 
 
 > 💡 **HitaVir Tech says:** "Never build a dashboard nobody looks at. Always ask — *what decision will this insight change?* If the answer is 'none', don't build it."
 
+### Preview — Azure Services Across Analytics Maturity
+
+![Synapse](azure-icons/synapse.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg)
+
+L1-L2 is **Synapse + Power BI**. L3-L4 adds **Azure ML + Azure OpenAI**.
+
 ## Machine Learning
 Duration: 6:00
 
@@ -249,6 +263,12 @@ Duration: 6:00
 
 > 💡 **HitaVir Tech says:** "ML is not magic — it's statistics at scale. If your analytics foundations are shaky, your ML models will be too. Clean data first, cool models second."
 
+### Preview — Azure ML Services
+
+![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![Cognitive Services](azure-icons/cognitive-services.svg) ![AI Search](azure-icons/ai-search.svg) ![Anomaly Detector](azure-icons/anomaly-detector.svg) ![Personalizer](azure-icons/personalizer.svg)
+
+*Coming up in "Azure Services for Value" (L3-L4 analytics).*
+
 ## The 5 Vs of Big Data
 Duration: 5:00
 
@@ -293,6 +313,12 @@ In 2001, analyst **Doug Laney** described big-data challenges with three Vs: **V
 | 5 | 💎 **VALUE** | What outcome? |
 
 Miss any one V and your data platform has a hole. Let's tour each.
+
+### Preview — Azure's One Service Per V
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Data Shares](azure-icons/data-shares.svg) ![Power BI](azure-icons/power-bi.svg)
+
+*Volume → ADLS Gen2. Variety → Data Factory. Velocity → Event Hubs. Veracity → Purview. Value → Power BI.*
 
 ## Volume
 Duration: 6:00
@@ -354,6 +380,12 @@ At big-data scale, you need **distributed** systems — hundreds of machines sha
 
 > 📦 **Volume in one line:** design for 100× your current data — or rebuild painfully later.
 
+### Preview — Azure Services That Solve Volume
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![HDInsight](azure-icons/hdinsight.svg)
+
+*Coming up in "Azure Services for Volume".*
+
 ## Variety
 Duration: 6:00
 
@@ -411,6 +443,12 @@ Most real projects combine these. Example — "Correlate support emails + call r
 
 > 🧩 **Variety in one line:** structure is created, not found — choose tools that embrace format diversity.
 
+### Preview — Azure Services That Solve Variety
+
+![Data Factory](azure-icons/data-factory.svg) ![Synapse](azure-icons/synapse.svg) ![Cosmos DB](azure-icons/cosmos-db.svg) ![AI Vision](azure-icons/ai-vision.svg) ![Doc Intelligence](azure-icons/doc-intelligence.svg) ![AI Language](azure-icons/ai-language.svg)
+
+*Coming up in "Azure Services for Variety".*
+
 ## Velocity
 Duration: 6:00
 
@@ -464,6 +502,12 @@ Duration: 6:00
 > 💡 **HitaVir Tech says:** "Streaming is fashionable. Batch is profitable. 80% of real-world analytics runs on batch — don't reach for streaming unless the business truly cannot wait."
 
 > 🌊 **Velocity in one line:** match the pipeline's speed to the decision's deadline — no faster.
+
+### Preview — Azure Services That Solve Velocity
+
+![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Functions](azure-icons/functions.svg) ![Event Grid](azure-icons/event-grid.svg)
+
+*Coming up in "Azure Services for Velocity".*
 
 ## Veracity
 Duration: 6:00
@@ -528,6 +572,12 @@ Big volumes and fast pipelines are useless if the data is **wrong**.
 > 💡 **HitaVir Tech says:** "Senior engineers obsess over data quality. Juniors obsess over cool tools. Guess which group builds systems that actually work in production."
 
 > 🛡️ **Veracity in one line:** quality rules are a pipeline concern, not a hope.
+
+### Preview — Azure Services That Solve Veracity
+
+![Data Factory](azure-icons/data-factory.svg) ![Data Shares](azure-icons/data-shares.svg) ![Defender](azure-icons/defender.svg) ![Key Vault](azure-icons/key-vault.svg) ![Activity Log](azure-icons/activity-log.svg)
+
+*Coming up in "Azure Services for Veracity".*
 
 ## Value
 Duration: 6:00
@@ -616,6 +666,12 @@ The difference between a valuable dashboard and a graveyard dashboard:
 > 💡 **HitaVir Tech says:** "A data platform that costs more than the decisions it enables is a failure, no matter how beautiful the architecture. Lead with Value."
 
 > 💎 **Value in one line:** start from the decision, work backwards to the pipeline.
+
+### Preview — Azure Services That Deliver Value
+
+![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![Personalizer](azure-icons/personalizer.svg) ![Anomaly Detector](azure-icons/anomaly-detector.svg)
+
+*Coming up in "Azure Services for Value".*
 
 ## Azure Services for Analytics
 Duration: 3:00
@@ -1224,7 +1280,7 @@ Duration: 8:00
 | **Azure AI Personalizer** | <img src="azure-icons/personalizer.svg" width="32" height="32" alt="Personalizer"> | Contextual recommendation engine |
 | **Azure AI Metrics Advisor** | <img src="azure-icons/metrics-advisor.svg" width="32" height="32" alt="Metrics Advisor"> | Proactive KPI anomaly monitoring |
 | **Azure OpenAI Service** | <img src="azure-icons/openai.svg" width="32" height="32" alt="Azure OpenAI"> | GPT, Claude-competitive LLMs on Azure |
-| **Power BI Copilot** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Copilot"> | Ask data questions in natural language |
+| **Power BI Copilot** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Power BI Copilot"> | Ask data questions in natural language |
 | **Synapse ML / Fabric ML** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Synapse ML"> | ML in notebooks next to your data |
 | **Microsoft Fabric** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Fabric"> | SaaS analytics: Lakehouse + Warehouse + BI |
 
@@ -1377,6 +1433,10 @@ Duration: 5:00
   |         END-TO-END  AZURE  ANALYTICS  STACK                  |
   +==============================================================+
 ```
+
+### The Full Cast — Every Service You Will See Below
+
+![Event Hubs](azure-icons/event-hubs.svg) ![Data Factory](azure-icons/data-factory.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![ML](azure-icons/ml.svg) ![Power BI](azure-icons/power-bi.svg) ![OpenAI](azure-icons/openai.svg)
 
 All 5 Vs combined into one living architecture:
 
@@ -1623,6 +1683,8 @@ Duration: 3:00
 
 **☁️ Azure Services Mapped to Each V**
 
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg)
+
 | V | Key Services |
 |---|--------------|
 | 📦 Volume | 🪣 ADLS Gen2 • 🏛️ Synapse • 🔥 Databricks • 🐘 HDInsight |
@@ -1690,6 +1752,8 @@ Duration: 5:00
 
 Think of a data project you work on (or want to build). Run it through these five questions. The V that feels **most stressful** is your bottleneck — that's where to focus first.
 
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Data Factory](azure-icons/data-factory.svg) ![Synapse](azure-icons/synapse.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Defender](azure-icons/defender.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg)
+
 | # | Question | Your V | Azure Services to Study |
 |:-:|----------|:------:|-------------------------|
 | 1 | "Do we have somewhere cheap and durable to store everything?" | 📦 Volume | 🪣 ADLS Gen2 • 🏛️ Synapse • 🔥 Databricks |
@@ -1711,6 +1775,10 @@ Duration: 3:00
   |                  (screenshot and keep)                       |
   +==============================================================+
 ```
+
+### The Azure Analytics Toolbox — At a Glance
+
+![ADLS Gen2](azure-icons/adls-gen2.svg) ![Synapse](azure-icons/synapse.svg) ![Databricks](azure-icons/databricks.svg) ![Data Factory](azure-icons/data-factory.svg) ![Event Hubs](azure-icons/event-hubs.svg) ![Stream Analytics](azure-icons/stream-analytics.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Cosmos DB](azure-icons/cosmos-db.svg) ![Defender](azure-icons/defender.svg) ![Key Vault](azure-icons/key-vault.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![OpenAI](azure-icons/openai.svg) ![AI Search](azure-icons/ai-search.svg)
 
 ### 🧠 Concepts in a Sentence
 
