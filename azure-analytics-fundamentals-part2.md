@@ -498,14 +498,14 @@ In 2023 Microsoft launched **Fabric** — a single SaaS surface that bundles:
 
 | Fabric Pillar | Icon | Under the Hood |
 |---------------|:---:|----------------|
-| **OneLake** | 🪣 | One tenant-wide ADLS, "OneDrive for data" |
-| **Data Factory** | 🕸️ | Ingest and orchestrate (same engine as ADF) |
-| **Synapse Data Engineering** | 🔥 | Spark notebooks on Delta Lake |
-| **Synapse Data Warehouse** | 🏛️ | T-SQL warehouse over Delta (not Dedicated Pool!) |
-| **Synapse Real-Time Analytics** | 🔬 | KQL / Data Explorer on streams |
-| **Power BI** | 📊 | Native BI over OneLake (Direct Lake mode) |
-| **Data Activator** | 🔔 | Trigger actions from data signals |
-| **Copilot** | 💬 | Natural-language across all pillars |
+| **OneLake** | <img src="azure-icons/adls-gen2.svg" width="32" height="32" alt="OneLake"> | One tenant-wide ADLS, "OneDrive for data" |
+| **Data Factory** | <img src="azure-icons/data-factory.svg" width="32" height="32" alt="Data Factory"> | Ingest and orchestrate (same engine as ADF) |
+| **Synapse Data Engineering** | <img src="azure-icons/databricks.svg" width="32" height="32" alt="Synapse DE"> | Spark notebooks on Delta Lake |
+| **Synapse Data Warehouse** | <img src="azure-icons/sql-dw.svg" width="32" height="32" alt="Synapse DW"> | T-SQL warehouse over Delta (not Dedicated Pool!) |
+| **Synapse Real-Time Analytics** | <img src="azure-icons/data-explorer.svg" width="32" height="32" alt="Synapse RTA"> | KQL / Data Explorer on streams |
+| **Power BI** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Power BI"> | Native BI over OneLake (Direct Lake mode) |
+| **Data Activator** | <img src="azure-icons/event-grid.svg" width="32" height="32" alt="Data Activator"> | Trigger actions from data signals |
+| **Copilot** | <img src="azure-icons/openai.svg" width="32" height="32" alt="Copilot"> | Natural-language across all pillars |
 
 Fabric is where Azure analytics is heading. The Part 1 services still exist — Fabric simply bundles them on one pricing model, one identity, one lakehouse.
 

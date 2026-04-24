@@ -664,12 +664,12 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Azure Data Lake Storage Gen2** | 🪣 | Object storage built on Blob, hierarchical namespace — the data-lake foundation |
-| **Azure Blob Storage** | 💾 | Raw object storage — hot / cool / archive tiers |
-| **Azure Archive Storage** | 🧊 | Cheapest long-term vault (hours-to-retrieve) |
-| **Azure Synapse Analytics** | 🏛️ | Analytics platform — dedicated + serverless SQL + Spark |
-| **Azure HDInsight** | 🐘 | Managed Hadoop / Spark / Kafka clusters |
-| **Azure Databricks** | 🔥 | Managed Apache Spark + MLflow + Delta Lake |
+| **Azure Data Lake Storage Gen2** | <img src="azure-icons/adls-gen2.svg" width="32" height="32" alt="ADLS Gen2"> | Object storage built on Blob, hierarchical namespace — the data-lake foundation |
+| **Azure Blob Storage** | <img src="azure-icons/storage-accounts.svg" width="32" height="32" alt="Blob Storage"> | Raw object storage — hot / cool / archive tiers |
+| **Azure Archive Storage** | <img src="azure-icons/recovery-vault.svg" width="32" height="32" alt="Archive"> | Cheapest long-term vault (hours-to-retrieve) |
+| **Azure Synapse Analytics** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Synapse"> | Analytics platform — dedicated + serverless SQL + Spark |
+| **Azure HDInsight** | <img src="azure-icons/hdinsight.svg" width="32" height="32" alt="HDInsight"> | Managed Hadoop / Spark / Kafka clusters |
+| **Azure Databricks** | <img src="azure-icons/databricks.svg" width="32" height="32" alt="Databricks"> | Managed Apache Spark + MLflow + Delta Lake |
 
 ### Service Spotlight — Azure Data Lake Storage Gen2
 
@@ -792,15 +792,15 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **ADLS Gen2** | 🪣 | Holds every format — CSV, JSON, Parquet, images, video |
-| **Azure Data Factory** | 🕸️ | ETL / ELT, 100+ connectors, mapping data flows |
-| **Synapse Serverless SQL** | 🔍 | `OPENROWSET` on CSV / JSON / Parquet — no setup |
-| **Azure Cosmos DB** | ⚡ | Multi-model NoSQL (document, graph, key-value) |
-| **Azure AI Vision** | 🤖 | Images / video → structured labels, OCR |
-| **Azure AI Document Intelligence** | 📝 | PDFs, forms, invoices → text and tables |
-| **Azure AI Speech** | 🔊 | Speech → text, speaker ID, translation |
-| **Azure AI Language** | 💭 | NLP: sentiment, entities, summarization |
-| **Azure AI Search** | 🔎 | Full-text and vector search over any source |
+| **ADLS Gen2** | <img src="azure-icons/adls-gen2.svg" width="32" height="32" alt="ADLS Gen2"> | Holds every format — CSV, JSON, Parquet, images, video |
+| **Azure Data Factory** | <img src="azure-icons/data-factory.svg" width="32" height="32" alt="Data Factory"> | ETL / ELT, 100+ connectors, mapping data flows |
+| **Synapse Serverless SQL** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Synapse"> | `OPENROWSET` on CSV / JSON / Parquet — no setup |
+| **Azure Cosmos DB** | <img src="azure-icons/cosmos-db.svg" width="32" height="32" alt="Cosmos DB"> | Multi-model NoSQL (document, graph, key-value) |
+| **Azure AI Vision** | <img src="azure-icons/ai-vision.svg" width="32" height="32" alt="AI Vision"> | Images / video → structured labels, OCR |
+| **Azure AI Document Intelligence** | <img src="azure-icons/doc-intelligence.svg" width="32" height="32" alt="Doc Intelligence"> | PDFs, forms, invoices → text and tables |
+| **Azure AI Speech** | <img src="azure-icons/ai-speech.svg" width="32" height="32" alt="AI Speech"> | Speech → text, speaker ID, translation |
+| **Azure AI Language** | <img src="azure-icons/ai-language.svg" width="32" height="32" alt="AI Language"> | NLP: sentiment, entities, summarization |
+| **Azure AI Search** | <img src="azure-icons/ai-search.svg" width="32" height="32" alt="AI Search"> | Full-text and vector search over any source |
 
 ### Service Spotlight — Azure Data Factory
 
@@ -924,13 +924,13 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Azure Event Hubs** | 🌊 | Real-time event stream (Kafka-compatible) |
-| **Event Hubs Capture** | 🚒 | Buffered delivery to ADLS / Blob (no code) |
-| **Azure Stream Analytics** | 🎯 | SQL on streams, sub-second latency |
-| **Azure Data Explorer (Kusto)** | 🔬 | Blazing-fast time-series + log analytics |
-| **Azure Functions** | ⚡ | Event-driven serverless code |
-| **Azure Event Grid** | 🚌 | Serverless event bus across Azure |
-| **Azure Service Bus / Queue Storage** | 📬 | Queue and pub-sub messaging |
+| **Azure Event Hubs** | <img src="azure-icons/event-hubs.svg" width="32" height="32" alt="Event Hubs"> | Real-time event stream (Kafka-compatible) |
+| **Event Hubs Capture** | <img src="azure-icons/event-hubs.svg" width="32" height="32" alt="Event Hubs Capture"> | Buffered delivery to ADLS / Blob (no code) |
+| **Azure Stream Analytics** | <img src="azure-icons/stream-analytics.svg" width="32" height="32" alt="Stream Analytics"> | SQL on streams, sub-second latency |
+| **Azure Data Explorer (Kusto)** | <img src="azure-icons/data-explorer.svg" width="32" height="32" alt="Data Explorer"> | Blazing-fast time-series + log analytics |
+| **Azure Functions** | <img src="azure-icons/functions.svg" width="32" height="32" alt="Functions"> | Event-driven serverless code |
+| **Azure Event Grid** | <img src="azure-icons/event-grid.svg" width="32" height="32" alt="Event Grid"> | Serverless event bus across Azure |
+| **Azure Service Bus / Queue Storage** | <img src="azure-icons/logic-apps.svg" width="32" height="32" alt="Service Bus"> | Queue and pub-sub messaging |
 
 ### Service Spotlight — Azure Event Hubs
 
@@ -1083,14 +1083,14 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **ADF Mapping Data Flows** | 🧪 | Visual data cleaning and profiling |
-| **Microsoft Purview Data Quality** | 🛡️ | Rule-based DQ checks |
-| **Great Expectations / Deequ on Spark** | 🔬 | Unit tests for data (open-source in Databricks) |
-| **Microsoft Purview** | 🏗️ | Data catalog + lineage + policy |
-| **Azure Activity Log** | 📜 | Audit every control-plane change |
-| **Azure Monitor + Log Analytics** | ⚙️ | Resource and pipeline telemetry |
-| **Microsoft Defender for Cloud** | 🕵️ | Discover and classify PII, CSPM |
-| **Azure Key Vault** | 🔐 | Manage encryption keys and secrets |
+| **ADF Mapping Data Flows** | <img src="azure-icons/data-factory.svg" width="32" height="32" alt="ADF Data Flows"> | Visual data cleaning and profiling |
+| **Microsoft Purview Data Quality** | <img src="azure-icons/info-protection.svg" width="32" height="32" alt="Purview DQ"> | Rule-based DQ checks |
+| **Great Expectations / Deequ on Spark** | <img src="azure-icons/databricks.svg" width="32" height="32" alt="Databricks DQ"> | Unit tests for data (open-source in Databricks) |
+| **Microsoft Purview** | <img src="azure-icons/data-shares.svg" width="32" height="32" alt="Purview"> | Data catalog + lineage + policy |
+| **Azure Activity Log** | <img src="azure-icons/activity-log.svg" width="32" height="32" alt="Activity Log"> | Audit every control-plane change |
+| **Azure Monitor + Log Analytics** | <img src="azure-icons/monitor.svg" width="32" height="32" alt="Azure Monitor"> | Resource and pipeline telemetry |
+| **Microsoft Defender for Cloud** | <img src="azure-icons/defender.svg" width="32" height="32" alt="Defender"> | Discover and classify PII, CSPM |
+| **Azure Key Vault** | <img src="azure-icons/key-vault.svg" width="32" height="32" alt="Key Vault"> | Manage encryption keys and secrets |
 
 ### Service Spotlight — ADF Mapping Data Flows
 
@@ -1218,15 +1218,15 @@ Duration: 8:00
 
 | Service | Icon | Purpose |
 |---------|:---:|---------|
-| **Microsoft Power BI** | 📊 | Dashboards, BI, natural-language analytics |
-| **Azure Machine Learning** | 🤖 | Build, train, deploy ML models |
-| **Azure AI Anomaly Detector** | 👁️ | No-code time-series anomaly detection |
-| **Azure AI Personalizer** | 🎯 | Contextual recommendation engine |
-| **Azure AI Metrics Advisor** | 🚨 | Proactive KPI anomaly monitoring |
-| **Azure OpenAI Service** | 🧠 | GPT, Claude-competitive LLMs on Azure |
-| **Power BI Copilot** | 💬 | Ask data questions in natural language |
-| **Synapse ML / Fabric ML** | 🧠 | ML in notebooks next to your data |
-| **Microsoft Fabric** | 🏡 | SaaS analytics: Lakehouse + Warehouse + BI |
+| **Microsoft Power BI** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Power BI"> | Dashboards, BI, natural-language analytics |
+| **Azure Machine Learning** | <img src="azure-icons/ml.svg" width="32" height="32" alt="Azure ML"> | Build, train, deploy ML models |
+| **Azure AI Anomaly Detector** | <img src="azure-icons/anomaly-detector.svg" width="32" height="32" alt="Anomaly Detector"> | No-code time-series anomaly detection |
+| **Azure AI Personalizer** | <img src="azure-icons/personalizer.svg" width="32" height="32" alt="Personalizer"> | Contextual recommendation engine |
+| **Azure AI Metrics Advisor** | <img src="azure-icons/metrics-advisor.svg" width="32" height="32" alt="Metrics Advisor"> | Proactive KPI anomaly monitoring |
+| **Azure OpenAI Service** | <img src="azure-icons/openai.svg" width="32" height="32" alt="Azure OpenAI"> | GPT, Claude-competitive LLMs on Azure |
+| **Power BI Copilot** | <img src="azure-icons/power-bi.svg" width="32" height="32" alt="Copilot"> | Ask data questions in natural language |
+| **Synapse ML / Fabric ML** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Synapse ML"> | ML in notebooks next to your data |
+| **Microsoft Fabric** | <img src="azure-icons/synapse.svg" width="32" height="32" alt="Fabric"> | SaaS analytics: Lakehouse + Warehouse + BI |
 
 ### Service Spotlight — Microsoft Power BI
 
