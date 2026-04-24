@@ -7,5 +7,7 @@
   "python-data-engineering": { "unlocked": true, "order": 6 },
   "mysql-workbench-setup": { "unlocked": true, "order": 7 },
   "aws-analytics-fundamentals-part1": { "unlocked": true, "order": 8 },
-  "aws-analytics-fundamentals-part2": { "unlocked": true, "order": 9 }
+  "aws-analytics-fundamentals-part2": { "unlocked": true, "order": 9 },
+  "azure-analytics-fundamentals-part1": { "unlocked": true, "order": 10 },
+  "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 11 }
 }
