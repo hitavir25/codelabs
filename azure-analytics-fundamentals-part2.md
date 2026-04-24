@@ -252,6 +252,8 @@ Data lakes fixed this by leveraging **cheap object storage** (ADLS at ~$0.018 / 
 
 ### Service Spotlight — Microsoft Purview
 
+![Purview](azure-icons/info-protection.svg) ![Data Shares](azure-icons/data-shares.svg) ![Policy](azure-icons/policy.svg)
+
 ```
   +--------------------------------------------------------------+
   |  MICROSOFT  PURVIEW  -  Unified Data Governance              |
@@ -489,6 +491,8 @@ By 2018, most companies had **both** a lake and a warehouse — and suffered:
 Instead of lake **or** warehouse, you get lake **and** warehouse — unified by one catalog, one permission model, one lineage.
 
 ### Microsoft Fabric — The Unified SaaS Lakehouse
+
+![Synapse](azure-icons/synapse.svg) ![Data Factory](azure-icons/data-factory.svg) ![Data Explorer](azure-icons/data-explorer.svg) ![Power BI](azure-icons/power-bi.svg) ![ML](azure-icons/ml.svg) ![ADLS Gen2](azure-icons/adls-gen2.svg)
 
 In 2023 Microsoft launched **Fabric** — a single SaaS surface that bundles:
 
