@@ -6,5 +6,6 @@
   "linux-basics": { "unlocked": true, "order": 5 },
   "python-data-engineering": { "unlocked": true, "order": 6 },
   "mysql-workbench-setup": { "unlocked": true, "order": 7 },
-  "aws-analytics-fundamentals-part1": { "unlocked": false, "order": 8 }
+  "aws-analytics-fundamentals-part1": { "unlocked": true, "order": 8 },
+  "aws-analytics-fundamentals-part2": { "unlocked": true, "order": 9 }
 }
