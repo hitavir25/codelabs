@@ -13,17 +13,19 @@ Duration: 5:00
 
 Welcome to **Python Programming for Data Engineering** by **HitaVir Tech**!
 
-This hands-on codelab takes you from zero Python knowledge to building real data pipelines. Every concept is taught through the lens of Data Engineering — you will not learn Python in a vacuum, you will learn it the way data engineers actually use it.
+This hands-on codelab is built for **complete beginners from a non-technical background**. Every concept is explained in plain English first, then shown through real Data Engineering examples. You will not just learn Python — you will learn the way data engineers actually use it.
+
+> **Promise to the learner:** If you can use Excel and save a file, you can finish this codelab. We define every term, show every command, and explain every line.
 
 ### What You Will Learn
 
 - Python fundamentals (variables, data types, control flow, functions)
-- Data structures used in pipelines (lists, dicts, JSON)
-- File handling (CSV, JSON, text files)
+- Data structures used in pipelines (lists, dicts, sets, tuples, JSON)
+- File handling for Data Engineering (CSV, JSON, log files)
 - Error handling and logging for production pipelines
-- pandas and numpy for data transformation
-- Building a complete ETL pipeline from scratch
-- Industry best practices for data engineering code
+- pandas for data cleaning, transformation, and aggregation
+- Building a complete ETL (Extract-Transform-Load) pipeline from scratch
+- Interview-ready Python concepts for Data Engineering jobs
 
 ### What You Will Build
 
@@ -31,8 +33,8 @@ A complete **Sales Data ETL Pipeline** for HitaVir Tech:
 
 ```
   Raw CSV Data → Extract → Clean → Transform → Aggregate → Report
-       │              │          │          │           │          │
-  sales_raw.csv   Load file  Fix nulls  Add cols   Summarize  output.csv
+       │            │        │          │           │          │
+  sales_raw.csv  Load file  Fix nulls  Add cols   Summarize  output.csv
 ```
 
 ### Skills You Will Gain
@@ -42,7 +44,7 @@ A complete **Sales Data ETL Pipeline** for HitaVir Tech:
 | Python syntax, variables, types | Beginner |
 | Control flow (if/else, loops) | Beginner |
 | Functions and modular code | Beginner |
-| Data structures (lists, dicts) | Beginner |
+| Data structures (lists, dicts, sets, tuples) | Beginner |
 | File I/O (CSV, JSON, text) | Intermediate |
 | Error handling and logging | Intermediate |
 | pandas data manipulation | Intermediate |
@@ -56,12 +58,35 @@ Python is the **number one language** in Data Engineering because:
 1. **Every tool supports it** — Spark, Airflow, Databricks, AWS Glue, dbt
 2. **Massive library ecosystem** — pandas, numpy, PySpark, SQLAlchemy
 3. **Easy to learn** — readable syntax that looks like English
-4. **Industry standard** — required in 95% of DE job postings
+4. **Industry standard** — required in 95% of Data Engineering job postings
 5. **Automation** — script anything from file processing to API calls
+
+### Quick Glossary — Bookmark This
+
+You will see these words throughout the codelab. Read them once now; they will sink in as you practice.
+
+| Term | Plain-English meaning | Used for in Data Engineering |
+|------|-----------------------|-------------------------------|
+| **Script** | A `.py` file that runs Python code top-to-bottom | Running an ETL job, cleaning a CSV |
+| **Variable** | A named container for a value | Holding a record count, file path, status |
+| **Data type** | The kind of value (number, text, true/false) | Validating that "price" is a number |
+| **Function** | A reusable block of code with a name | `extract()`, `clean()`, `load()` |
+| **Argument** | A value you pass into a function | `read_csv("sales.csv")` — the filename is an argument |
+| **Return value** | What a function gives back to you | A cleaned list, a row count, a DataFrame |
+| **List** | An ordered collection in `[ ]` brackets | A list of rows from a CSV |
+| **Dictionary** | Key-value pairs in `{ }` braces | One row of data, a config file |
+| **Loop** | Repeating an action for each item | Looping over every row in a file |
+| **Library** | Pre-written Python code you import | `pandas`, `csv`, `json`, `logging` |
+| **DataFrame** | A spreadsheet inside Python (from pandas) | The main object data engineers work with |
+| **ETL** | **E**xtract → **T**ransform → **L**oad — the standard pipeline pattern | Reading raw data, cleaning it, saving the clean version |
+| **CSV** | Comma-Separated Values — a plain-text spreadsheet | The most common file format in Data Engineering |
+| **JSON** | JavaScript Object Notation — text format for nested data | API responses, pipeline configs |
+| **Pipeline** | A sequence of steps that move and transform data | Your daily sales-data job |
+| **Log** | A line-by-line record of what your program did | Debugging failures, audit trails |
 
 ### Estimated Duration
 
-**5-7 hours** (go at your own pace — every section builds on the previous one)
+**5–7 hours total** — go at your own pace. Each section builds on the last.
 
 > **HitaVir Tech says:** "Python is not just a programming language — it is the glue that holds modern data platforms together. Master it, and every data tool becomes accessible to you."
 
@@ -77,19 +102,22 @@ Duration: 3:00
 
 ### No Prior Knowledge Needed
 
-This codelab assumes **zero Python experience**. We start from installing Python itself.
+This codelab assumes **zero Python experience and zero programming background**. We start from installing Python itself.
 
 ### Helpful but Not Required
 
 - Basic familiarity with the command line (covered in our Linux Basics codelab)
-- Understanding of what data and files are
+- Understanding of what data and files are (you already do — every Excel sheet is data!)
 
 > **HitaVir Tech says:** "If you can use a calculator and save a file, you are ready to learn Python. Everything else, we teach you step by step."
 
 ## Environment Setup
 Duration: 10:00
 
-Let us set up a professional Python development environment on Windows.
+> **What is an "environment"?**
+> An environment is the set of tools your code runs inside — Python itself, an editor to write code in, and a sandbox to install libraries. We will set up all three on Windows.
+
+Let us set up a professional Python development environment.
 
 ### Step 1 — Install Python
 
@@ -100,7 +128,10 @@ Go to [https://www.python.org/downloads/](https://www.python.org/downloads/) and
 1. **Check the box** that says **"Add Python to PATH"** (at the bottom of the first screen)
 2. Click **"Install Now"**
 
-If you miss the PATH checkbox, Python commands will not work in your terminal.
+> **What does "Add to PATH" mean?**
+> PATH is a list of folders Windows searches when you type a command. If Python is on PATH, typing `python` anywhere in any terminal works. If you skip this, Python will be installed but invisible to your terminal.
+
+If you miss the PATH checkbox, Python commands will not work — reinstall and check it.
 
 ### Step 2 — Verify Python Installation
 
@@ -116,7 +147,7 @@ python --version
 Python 3.12.3
 ```
 
-Also verify pip (Python's package manager):
+Now check **pip**, Python's package installer (it ships with Python):
 
 ```bash
 pip --version
@@ -128,9 +159,15 @@ pip --version
 pip 24.0 from ... (python 3.12)
 ```
 
+> **What is pip?**
+> `pip` is the tool that downloads and installs Python libraries (extra code other people wrote that you can reuse). Think of it like the App Store, but for Python code.
+
 ### Step 3 — Install VS Code
 
-Download from [https://code.visualstudio.com/](https://code.visualstudio.com/) and install with default settings.
+VS Code is a free code editor from Microsoft. Download from [https://code.visualstudio.com/](https://code.visualstudio.com/) and install with default settings.
+
+> **Why VS Code?**
+> A code editor is a souped-up Notepad: it color-codes your Python so it is easier to read, catches typos as you type, and runs your scripts with one click.
 
 ### Step 4 — Install Python Extension for VS Code
 
@@ -146,13 +183,17 @@ mkdir -p ~/python-de-learning
 cd ~/python-de-learning
 ```
 
-### Step 6 — Create a Virtual Environment
+> **What did that do?**
+> `mkdir` makes a new folder. `~` is your home folder (e.g., `C:/Users/YourName`). `cd` moves into the folder. From now on, every file you create lives here.
 
-A virtual environment keeps your project's packages separate from other projects:
+### Step 6 — Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
+
+> **What is a virtual environment, and why?**
+> A virtual environment (`venv`) is a private sandbox of Python libraries for **this project only**. Different projects need different versions of libraries — without a venv, they would conflict. The venv folder holds its own Python and its own libraries, isolated from everything else.
 
 Activate it:
 
@@ -168,7 +209,7 @@ source venv/Scripts/activate
 venv\Scripts\activate
 ```
 
-You should see `(venv)` at the beginning of your prompt:
+You should see `(venv)` at the beginning of your prompt — that means it is active:
 
 ```
 (venv) user@COMPUTER ~/python-de-learning
@@ -181,12 +222,20 @@ $
 pip install pandas numpy requests
 ```
 
-Save your dependencies:
+> **What did we just install?**
+> - **pandas** — the spreadsheet-in-Python library every data engineer uses
+> - **numpy** — fast number-crunching (pandas is built on top of it)
+> - **requests** — for calling APIs to pull data over the internet
+
+Save your dependency list so anyone can recreate your environment:
 
 ```bash
 pip freeze > requirements.txt
 cat requirements.txt
 ```
+
+> **What is `requirements.txt`?**
+> A plain-text file listing every library your project uses, with versions. When you share your project, others run `pip install -r requirements.txt` to get the exact same setup.
 
 ### Step 8 — Verify Everything Works
 
@@ -244,21 +293,39 @@ python-de-learning/
 | `venv` activation fails | Use the correct command for your terminal |
 
 ## Python Basics — Variables and Data Types
-Duration: 10:00
+Duration: 12:00
+
+> **What is a variable?**
+> A variable is a **name that points to a value**. Think of it as a labeled box: you write a label on the box (the variable name), put something inside (the value), and later refer to the box by its label.
+>
+> Example: `total_records = 15000` means "make a labeled box named `total_records` and put the number 15000 inside it."
+
+> **What is a data type?**
+> The data type tells Python **what kind of value** is in the box — a number, some text, a true/false flag, etc. Python figures this out automatically when you assign a value.
 
 Let us write real Python code. Create a new file for each section.
 
-### Variables — Storing Data
+### The Five Core Data Types You Use Every Day in Data Engineering
 
-A variable is a **name that points to a value**. Think of it as a labeled box.
+| Type | Python name | Example | What it represents in DE |
+|------|-------------|---------|--------------------------|
+| **String** | `str` | `"sales_etl"` | Text — names, file paths, log messages, column names |
+| **Integer** | `int` | `15000` | Whole numbers — row counts, IDs, ports, batch sizes |
+| **Float** | `float` | `99.7` | Decimal numbers — prices, percentages, rates |
+| **Boolean** | `bool` | `True` / `False` | Yes/no flags — `is_valid`, `has_errors` |
+| **None** | `NoneType` | `None` | "No value yet" — equivalent to `NULL` in databases |
+
+### Variables — Storing Data
 
 ```bash
 cat > basics_variables.py << 'PYEOF'
 # ============================================
 # HitaVir Tech - Python Variables
 # ============================================
+# This script shows the five core data types
+# you will use in every data pipeline.
 
-# Strings — text data (names, cities, log messages)
+# --- Strings — text data (names, cities, log messages) ---
 pipeline_name = "HitaVir Sales ETL"
 data_source = "postgres"
 status = "running"
@@ -267,7 +334,7 @@ print(f"Pipeline: {pipeline_name}")
 print(f"Source: {data_source}")
 print(f"Status: {status}")
 
-# Integers — whole numbers (counts, IDs, ports)
+# --- Integers — whole numbers (counts, IDs, ports) ---
 total_records = 15000
 batch_size = 500
 port = 5432
@@ -276,7 +343,7 @@ print(f"\nTotal records: {total_records}")
 print(f"Batch size: {batch_size}")
 print(f"Database port: {port}")
 
-# Floats — decimal numbers (percentages, measurements)
+# --- Floats — decimal numbers (percentages, measurements) ---
 success_rate = 99.7
 processing_time = 3.45
 data_quality_score = 0.95
@@ -285,7 +352,7 @@ print(f"\nSuccess rate: {success_rate}%")
 print(f"Processing time: {processing_time}s")
 print(f"Quality score: {data_quality_score}")
 
-# Booleans — True/False (flags, conditions)
+# --- Booleans — True/False (flags, conditions) ---
 is_production = True
 has_errors = False
 pipeline_active = True
@@ -294,7 +361,7 @@ print(f"\nProduction mode: {is_production}")
 print(f"Has errors: {has_errors}")
 print(f"Pipeline active: {pipeline_active}")
 
-# None — represents "no value" (null in databases)
+# --- None — represents "no value" (NULL in databases) ---
 last_error = None
 print(f"\nLast error: {last_error}")
 PYEOF
@@ -328,17 +395,22 @@ Pipeline active: True
 Last error: None
 ```
 
-### Data Types Summary
+> **What is an `f-string`?**
+> An f-string (formatted string) is text starting with `f"..."` that lets you drop variables straight into the text using `{ }`. Example: `f"Total: {total_records}"` becomes `"Total: 15000"`. This is the modern, recommended way to build strings in Python.
 
-| Type | Example | Data Engineering Use |
-|------|---------|---------------------|
-| `str` | `"hello"` | Column names, log messages, file paths |
-| `int` | `42` | Row counts, IDs, batch sizes |
-| `float` | `3.14` | Metrics, percentages, measurements |
-| `bool` | `True` | Flags, conditions, validations |
-| `None` | `None` | Missing values, null handling |
+### Naming Rules for Variables
+
+| Rule | Good | Bad |
+|------|------|-----|
+| Use lowercase with underscores | `total_records` | `TotalRecords`, `totalrecords` |
+| Start with a letter or underscore | `_internal`, `count` | `1count`, `2records` |
+| Be descriptive | `customer_email` | `x`, `tmp`, `data1` |
+| Avoid Python keywords | `pipeline_class` | `class`, `if`, `def` |
 
 ### Type Checking and Conversion
+
+> **What is type conversion?**
+> Often a value comes in one type but you need it in another. For example, when reading a CSV, every cell starts as a string `"500"`. Before you can add it, you must convert it to an integer `500`. This is type conversion.
 
 ```bash
 cat > basics_types.py << 'PYEOF'
@@ -346,7 +418,7 @@ cat > basics_types.py << 'PYEOF'
 # HitaVir Tech - Type Checking & Conversion
 # ============================================
 
-# Check types
+# --- Check the type of a variable ---
 record_count = 1500
 pipeline_name = "ETL Pipeline"
 is_active = True
@@ -355,23 +427,22 @@ print(f"type of record_count: {type(record_count)}")   # <class 'int'>
 print(f"type of pipeline_name: {type(pipeline_name)}") # <class 'str'>
 print(f"type of is_active: {type(is_active)}")         # <class 'bool'>
 
-# Type conversion (common in data pipelines)
-# String to integer (e.g., reading CSV data)
-raw_value = "2500"
+# --- String to integer (e.g., reading CSV columns) ---
+raw_value = "2500"            # CSV cells are always strings
 numeric_value = int(raw_value)
 print(f"\nConverted '{raw_value}' to integer: {numeric_value}")
 
-# Integer to string (e.g., building log messages)
+# --- Integer to string (e.g., building log messages) ---
 count = 1500
 message = "Processed " + str(count) + " records"
 print(message)
 
-# String to float (e.g., parsing decimal data)
+# --- String to float (e.g., parsing decimal data) ---
 price_str = "29.99"
 price = float(price_str)
 print(f"Price: ${price}")
 
-# f-strings — the best way to format strings in Python
+# --- f-strings: the recommended way to build strings ---
 name = "HitaVir Tech"
 records = 5000
 time_taken = 2.3
@@ -383,20 +454,23 @@ python basics_types.py
 
 ### Operators
 
+> **What is an operator?**
+> An operator is a symbol that performs an action on values: `+` adds, `==` compares, `and` combines two truths. Operators are how you do math, compare data, and check conditions in your pipeline.
+
 ```bash
 cat > basics_operators.py << 'PYEOF'
 # ============================================
 # HitaVir Tech - Operators
 # ============================================
 
-# Arithmetic
-total = 1000 + 500       # Addition
-remaining = 1000 - 300   # Subtraction
-total_size = 500 * 3     # Multiplication
-avg = 1500 / 3           # Division (returns float)
-batches = 1500 // 500    # Floor division (returns int)
-leftover = 1500 % 500    # Modulo (remainder)
-squared = 2 ** 10        # Exponentiation
+# --- Arithmetic operators (math) ---
+total = 1000 + 500       # Addition           → 1500
+remaining = 1000 - 300   # Subtraction        → 700
+total_size = 500 * 3     # Multiplication     → 1500
+avg = 1500 / 3           # Division (float)   → 500.0
+batches = 1500 // 500    # Floor division     → 3
+leftover = 1500 % 500    # Modulo (remainder) → 0
+squared = 2 ** 10        # Exponentiation     → 1024
 
 print(f"Total: {total}")
 print(f"Remaining: {remaining}")
@@ -406,14 +480,14 @@ print(f"Batches needed: {batches}")
 print(f"Leftover records: {leftover}")
 print(f"2^10 = {squared}")
 
-# Comparison (used in data validation)
+# --- Comparison operators (used in data validation) ---
 row_count = 1500
 threshold = 1000
 print(f"\nRow count > threshold: {row_count > threshold}")   # True
 print(f"Row count == 1500: {row_count == 1500}")             # True
 print(f"Row count != 0: {row_count != 0}")                   # True
 
-# Logical (used in pipeline conditions)
+# --- Logical operators (used in pipeline conditions) ---
 has_data = True
 is_valid = True
 has_errors = False
@@ -426,6 +500,16 @@ PYEOF
 python basics_operators.py
 ```
 
+#### Operator Cheat Sheet
+
+| Category | Operators | Example | Result |
+|----------|-----------|---------|--------|
+| Arithmetic | `+ - * / // % **` | `7 // 2` | `3` (integer division) |
+| Comparison | `== != > < >= <=` | `5 > 3` | `True` |
+| Logical | `and or not` | `True and False` | `False` |
+| Membership | `in`, `not in` | `"ETL" in "ETL Pipeline"` | `True` |
+| Identity | `is`, `is not` | `value is None` | True/False |
+
 ### User Input
 
 ```bash
@@ -434,10 +518,10 @@ cat > basics_input.py << 'PYEOF'
 # HitaVir Tech - User Input
 # ============================================
 
-# input() always returns a string
+# input() always returns a string — convert if you need a number
 name = input("Enter your name: ")
 batch = input("Enter your batch number: ")
-batch_num = int(batch)  # Convert to integer
+batch_num = int(batch)  # Convert string → integer
 
 print(f"\nWelcome to HitaVir Tech, {name}!")
 print(f"You are in Batch {batch_num}")
@@ -447,24 +531,34 @@ PYEOF
 python basics_input.py
 ```
 
-> **HitaVir Tech says:** "In data engineering, you rarely use input(). Instead, you read from files, databases, and APIs. But understanding input/output flow is fundamental to programming."
+> **HitaVir Tech says:** "In data engineering, you rarely use `input()`. Instead, you read from files, databases, and APIs. But understanding input/output flow is fundamental to programming."
 
-### Exercise
+### Practice Exercise
 
-Create a file called `exercise_basics.py` that calculates pipeline statistics:
+Create a file called `exercise_basics.py` that calculates pipeline throughput:
 
 ```python
-# Calculate: If a pipeline processes 50,000 records per hour,
-# how many records in 8 hours? What is the per-minute rate?
-# Print results using f-strings.
+# Goal: If a pipeline processes 50,000 records per hour,
+#       how many records in 8 hours? What is the per-minute rate?
+# Use variables, arithmetic, and f-strings to print the result.
 ```
 
 ## Control Flow — Making Decisions
-Duration: 10:00
+Duration: 12:00
 
-Data pipelines constantly make decisions: Is the data valid? Should we retry? Which path to take?
+> **What is "control flow"?**
+> Control flow is how Python decides **which lines of code to run, and how many times to run them**. Without control flow, Python just runs everything top-to-bottom, once. With it, your script can make decisions (`if-else`) and repeat work (`for`, `while`).
+>
+> Real-life analogy: when you cook, your recipe says "if the water is boiling, add the pasta. Repeat stirring every 30 seconds for 8 minutes." Those `if`s and `repeats` are control flow.
 
-### if-else — Conditional Logic
+Data pipelines constantly make decisions: Is the data valid? Should we retry? Which path to take? Control flow is how you express that logic.
+
+### `if-else` — Conditional Logic
+
+> **What is `if-else`?**
+> `if` runs a block of code **only when a condition is true**. `elif` ("else if") checks another condition. `else` is the fallback when nothing else matched.
+>
+> Real-life analogy: "If it is raining, take an umbrella. Else if it is hot, wear sunglasses. Else, just go."
 
 ```bash
 cat > control_if.py << 'PYEOF'
@@ -473,6 +567,7 @@ cat > control_if.py << 'PYEOF'
 # ============================================
 
 # --- Data Quality Check ---
+# Reject the batch if more than 5% of rows have null values
 null_percentage = 0.03  # 3% nulls
 threshold = 0.05        # 5% max allowed
 
@@ -484,6 +579,7 @@ else:
     print(f"  Null rate: {null_percentage:.1%} exceeds threshold: {threshold:.1%}")
 
 # --- Pipeline Status Router ---
+# An API or service typically returns a status code; we route the response
 print("\n--- Pipeline Status Router ---")
 status_code = 200
 
@@ -499,6 +595,7 @@ else:
     print(f"UNKNOWN: Unexpected status code {status_code}")
 
 # --- Environment Selector ---
+# Pick the right database based on dev/staging/prod environment
 print("\n--- Environment Selector ---")
 env = "production"
 
@@ -520,6 +617,7 @@ print(f"Database: {db_host}")
 print(f"Log level: {log_level}")
 
 # --- Data Type Validator ---
+# Decide whether a value is an integer, float, or string
 print("\n--- Data Type Validator ---")
 value = "12345"
 
@@ -536,7 +634,16 @@ PYEOF
 python control_if.py
 ```
 
+> **Pay attention to indentation!** Python uses 4 spaces of indentation to know what code is "inside" the `if`. Mixing tabs and spaces, or wrong indentation, is the #1 beginner error.
+
 ### Loops — Processing Data
+
+> **What is a loop?**
+> A loop runs the same block of code **multiple times** — once per item. Without loops, processing 10 million CSV rows would mean writing 10 million lines of code. With a loop, you write the row-handling code once.
+>
+> Two kinds of loops:
+> - **`for` loop** — repeats once for each item in a collection ("for each row in the file…")
+> - **`while` loop** — repeats as long as a condition is true ("while not connected, retry…")
 
 ```bash
 cat > control_loops.py << 'PYEOF'
@@ -545,6 +652,7 @@ cat > control_loops.py << 'PYEOF'
 # ============================================
 
 # --- for loop: Process a batch of records ---
+# enumerate() gives us the index AND the value at the same time
 print("--- Processing Transaction Batch ---")
 transactions = [150.00, 230.50, 45.99, 1200.00, 89.95, 567.25]
 
@@ -556,7 +664,8 @@ for i, amount in enumerate(transactions, 1):
 print(f"\n  Batch total: ${total:.2f}")
 print(f"  Average: ${total / len(transactions):.2f}")
 
-# --- for loop with range: Batch processing ---
+# --- for loop with range(): Batch processing ---
+# range(start, stop, step) generates numbers — used to slice big datasets
 print("\n--- Batch Processing Simulation ---")
 total_records = 1500
 batch_size = 500
@@ -568,6 +677,7 @@ for batch_num in range(0, total_records, batch_size):
 print("  All batches processed!")
 
 # --- while loop: Retry logic ---
+# Keep trying until we connect (or hit the max retry limit)
 print("\n--- Connection Retry Logic ---")
 max_retries = 3
 attempt = 0
@@ -584,6 +694,8 @@ if not connected:
     print("  FAILED: Could not connect after max retries")
 
 # --- break and continue ---
+# break = stop the loop immediately
+# continue = skip to the next iteration
 print("\n--- Data Filtering with break/continue ---")
 records = [
     {"id": 1, "name": "Alice", "status": "active"},
@@ -597,10 +709,10 @@ active_users = []
 for record in records:
     if record["name"] == "STOP":
         print(f"  Stop signal received at record {record['id']}")
-        break
+        break  # exit the loop entirely
     if record["status"] != "active":
         print(f"  Skipping inactive user: {record['name']}")
-        continue
+        continue  # skip this record, move to next
     active_users.append(record["name"])
     print(f"  Added active user: {record['name']}")
 
@@ -610,12 +722,45 @@ PYEOF
 python control_loops.py
 ```
 
-> **HitaVir Tech says:** "In data engineering, loops process records, retry failed connections, and iterate through batches. The for loop is your workhorse. The while loop is your retry mechanism. Master both."
+> **HitaVir Tech says:** "In data engineering, loops process records, retry failed connections, and iterate through batches. The `for` loop is your workhorse. The `while` loop is your retry mechanism. Master both."
+
+### Control-Flow Cheat Sheet
+
+| Pattern | When to use | Example |
+|---------|-------------|---------|
+| `if/elif/else` | Branch logic — one of several paths | Choose DB host based on environment |
+| `for` over a list | Process every item | Loop over CSV rows |
+| `for ... in range()` | A fixed number of iterations | Batch chunks of 500 |
+| `while` | Repeat until a condition flips | Retry until connected |
+| `break` | Stop early | Stop on a sentinel value |
+| `continue` | Skip this iteration | Skip invalid rows, keep looping |
 
 ## Functions — Reusable Code
-Duration: 15:00
+Duration: 18:00
 
-Functions let you write code once and use it everywhere. In data engineering, functions are the building blocks of every pipeline. This section covers **every type of function** you need to know.
+> **What is a function?**
+> A function is a **named block of code that performs one task**. You define it once, then "call" it (run it) as many times as you want, with different inputs.
+>
+> Real-life analogy: a microwave is a function. Inputs (arguments): food + time. Output (return value): hot food. You don't rebuild a microwave every time you reheat lunch — same idea here.
+
+In data engineering, functions are the building blocks of every pipeline. Every ETL job is just `extract()`, then `transform()`, then `load()` — three functions you call in order.
+
+### The Anatomy of a Function
+
+```python
+def calculate_total(price, quantity):    # def = "define a function"
+    """Multiply price by quantity."""    # docstring (optional but recommended)
+    total = price * quantity              # body — the actual work
+    return total                          # send the result back
+```
+
+| Part | Meaning |
+|------|---------|
+| `def` | Keyword that starts a function definition |
+| `calculate_total` | The function's name (use snake_case) |
+| `(price, quantity)` | Parameters — the inputs the function expects |
+| `"""..."""` | Docstring — a description of what the function does |
+| `return total` | The value the caller gets back |
 
 ### Types of Functions in Python
 
@@ -651,7 +796,7 @@ def print_pipeline_header():
     print("  HitaVir Tech - Data Pipeline")
     print("=" * 50)
 
-print_pipeline_header()
+print_pipeline_header()  # We "call" the function by writing its name + ()
 
 # --- 1B. Function with parameters ---
 def greet_engineer(name):
@@ -671,6 +816,7 @@ result = calculate_total(999.99, 3)
 print(f"\nOrder total: ${result:,.2f}")
 
 # --- 1D. Function returning multiple values ---
+# Python lets you return a tuple of values, then unpack them on the caller side
 def get_pipeline_stats(total, failed):
     """Return multiple statistics from a pipeline run."""
     success = total - failed
@@ -680,7 +826,7 @@ def get_pipeline_stats(total, failed):
 s, f, r = get_pipeline_stats(10000, 23)
 print(f"\nPipeline: {s} success, {f} failed, {r:.1f}% rate")
 
-# --- 1E. Function returning a dictionary ---
+# --- 1E. Function returning a dictionary (a record) ---
 def build_record(id, name, amount):
     """Build a standardized data record."""
     return {
@@ -699,6 +845,12 @@ python func_01_basics.py
 
 ### Part 2 — Default Parameters and Keyword Arguments
 
+> **What is a default parameter?**
+> A parameter with `=` and a value is **optional** — if the caller does not pass it, the default kicks in. This is how libraries give you sensible defaults but let you override when needed.
+
+> **What is a keyword argument?**
+> Calling a function by **naming** the argument: `connect(port=5432)`. Order does not matter, and the code reads more clearly.
+
 ```bash
 cat > func_02_defaults_kwargs.py << 'PYEOF'
 # ============================================
@@ -706,7 +858,7 @@ cat > func_02_defaults_kwargs.py << 'PYEOF'
 # ============================================
 
 # --- 2A. Default parameters ---
-# Parameters with = have default values (used if not provided)
+# port, database, and timeout all have defaults — host is required
 def connect_database(host, port=5432, database="hitavir_db", timeout=30):
     """Connect to database with sensible defaults."""
     print(f"Connecting to {database} at {host}:{port} (timeout: {timeout}s)")
@@ -723,7 +875,6 @@ connect_database("staging-db.hitavir.tech", port=5433, database="staging_db")
 connect_database("dev-db.hitavir.tech", 3306, "dev_db", 10)
 
 # --- 2B. Keyword arguments (call by name) ---
-# You can pass arguments BY NAME in any order
 def create_pipeline(name, source, destination, schedule="daily", retries=3):
     """Create a pipeline configuration."""
     print(f"\n  Pipeline: {name}")
@@ -747,13 +898,13 @@ create_pipeline(
 # Mix positional + keyword (positional must come first):
 create_pipeline("ETL-3", "api", "redshift", retries=10)
 
-# --- 2C. Mutable default argument trap ---
-# WRONG — mutable default is shared across all calls:
+# --- 2C. Mutable default argument trap (a famous Python gotcha) ---
+# WRONG — the same list is reused across every call!
 def bad_append(item, lst=[]):
     lst.append(item)
     return lst
 
-# CORRECT — use None and create inside:
+# CORRECT — use None and create the list inside the function
 def good_append(item, lst=None):
     if lst is None:
         lst = []
@@ -771,17 +922,18 @@ PYEOF
 python func_02_defaults_kwargs.py
 ```
 
-> **HitaVir Tech says:** "Default parameters are incredibly common in data engineering. Database connections, API timeouts, retry counts — they all have sensible defaults that you override when needed."
+> **HitaVir Tech says:** "Default parameters are everywhere in data engineering. Database connections, API timeouts, retry counts — they all have sensible defaults that you override when needed."
 
-### Part 3 — *args (Variable Positional Arguments)
+### Part 3 — `*args` (Variable Positional Arguments)
+
+> **What is `*args`?**
+> `*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like a list of files to process.
 
 ```bash
 cat > func_03_args.py << 'PYEOF'
 # ============================================
 # HitaVir Tech - Part 3: *args
 # ============================================
-# *args lets a function accept ANY NUMBER of positional arguments.
-# Inside the function, args is a TUPLE.
 
 # --- 3A. Basic *args ---
 def sum_all(*numbers):
@@ -795,7 +947,7 @@ print(f"Sum of 10,20,30,40,50: {sum_all(10, 20, 30, 40, 50)}")
 print(f"Sum of single: {sum_all(100)}")
 print(f"Sum of nothing: {sum_all()}")
 
-# --- 3B. *args in data engineering: Process multiple files ---
+# --- 3B. *args in data engineering: process multiple files ---
 def process_files(*filepaths):
     """Process any number of data files."""
     print(f"\n--- Processing {len(filepaths)} files ---")
@@ -830,22 +982,22 @@ quarterly_files = [
 
 # The * unpacks the list into separate arguments:
 process_files(*quarterly_files)
-
-# Without * it would pass the entire list as ONE argument
+# Without *, the entire list would be passed as ONE argument
 PYEOF
 
 python func_03_args.py
 ```
 
-### Part 4 — **kwargs (Variable Keyword Arguments)
+### Part 4 — `**kwargs` (Variable Keyword Arguments)
+
+> **What is `**kwargs`?**
+> `**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any database connection options.
 
 ```bash
 cat > func_04_kwargs.py << 'PYEOF'
 # ============================================
 # HitaVir Tech - Part 4: **kwargs
 # ============================================
-# **kwargs lets a function accept ANY NUMBER of keyword arguments.
-# Inside the function, kwargs is a DICTIONARY.
 
 # --- 4A. Basic **kwargs ---
 def print_config(**settings):
@@ -917,7 +1069,7 @@ prod_config = {
 # The ** unpacks the dict into keyword arguments:
 connect(**prod_config)
 
-# --- 4E. Building flexible pipeline config ---
+# --- 4E. Building a flexible pipeline config ---
 def create_pipeline_config(name, source, destination, **overrides):
     """Create a pipeline config with default values and optional overrides."""
     config = {
@@ -953,9 +1105,16 @@ PYEOF
 python func_04_kwargs.py
 ```
 
-> **HitaVir Tech says:** "*args and **kwargs are the backbone of flexible Python code. Every major framework uses them — Django, Flask, pandas, Spark. When you see `**options` or `*args` in library docs, you now know exactly what they mean."
+> **HitaVir Tech says:** "`*args` and `**kwargs` are the backbone of flexible Python code. Every major framework uses them — Django, Flask, pandas, Spark. When you see `**options` or `*args` in library docs, you now know exactly what they mean."
 
 ### Part 5 — Advanced Function Types
+
+> **Quick definitions before we dive in:**
+> - **Lambda** — a one-line, unnamed function. Useful as a tiny "throwaway" function passed to `sorted`, `map`, etc.
+> - **Nested function** — a function defined inside another function. Used to "build" customized helpers.
+> - **Recursive function** — a function that calls itself. Used for tree/JSON-like nested structures.
+> - **Generator** — a function that yields values one at a time, saving memory for huge datasets.
+> - **Decorator** — a function that wraps another function to add behavior (logging, timing, retries).
 
 ```bash
 cat > func_05_advanced.py << 'PYEOF'
@@ -963,7 +1122,7 @@ cat > func_05_advanced.py << 'PYEOF'
 # HitaVir Tech - Part 5: Advanced Function Types
 # ============================================
 
-# --- 5A. Lambda Functions (Anonymous Functions) ---
+# --- 5A. Lambda Functions (anonymous, one-line) ---
 print("=" * 50)
 print("LAMBDA FUNCTIONS")
 print("=" * 50)
@@ -972,13 +1131,13 @@ print("=" * 50)
 def double(x):
     return x * 2
 
-# Lambda equivalent (one-line anonymous function):
+# Lambda equivalent:
 double_lambda = lambda x: x * 2
 
 print(f"Regular: {double(5)}")       # 10
 print(f"Lambda: {double_lambda(5)}") # 10
 
-# Lambdas are most useful with sort, map, filter:
+# Lambdas shine with sort, map, filter:
 sales = [
     {"product": "Laptop", "revenue": 4999.95},
     {"product": "Mouse", "revenue": 149.95},
@@ -986,7 +1145,7 @@ sales = [
     {"product": "Keyboard", "revenue": 239.97},
 ]
 
-# Sort by revenue using lambda as the key function:
+# Sort by revenue (descending):
 sorted_sales = sorted(sales, key=lambda x: x["revenue"], reverse=True)
 print("\nSales by revenue (descending):")
 for s in sorted_sales:
@@ -1001,7 +1160,7 @@ prices = [100, 200, 300, 400, 500]
 with_tax = list(map(lambda p: round(p * 1.18, 2), prices))
 print(f"\nPrices with 18% tax: {with_tax}")
 
-# --- 5B. Nested Functions (Inner Functions) ---
+# --- 5B. Nested Functions (a function inside a function) ---
 print(f"\n{'=' * 50}")
 print("NESTED FUNCTIONS")
 print("=" * 50)
@@ -1066,7 +1225,7 @@ print("Flattened JSON:")
 for key, value in flat.items():
     print(f"  {key}: {value}")
 
-# --- 5D. Generator Functions (yield) ---
+# --- 5D. Generator Functions (memory-efficient) ---
 print(f"\n{'=' * 50}")
 print("GENERATOR FUNCTIONS")
 print("=" * 50)
@@ -1083,8 +1242,7 @@ print(f"Total records: {all_records}")
 for batch_num, batch in enumerate(read_in_batches(all_records, batch_size=4), 1):
     print(f"  Batch {batch_num}: {batch}")
 
-# Generators are memory-efficient — they do NOT load all data at once
-# Perfect for processing millions of rows from databases or files
+# Generators do NOT load all data at once — perfect for millions of rows
 
 # --- 5E. Decorator Functions ---
 print(f"\n{'=' * 50}")
@@ -1102,20 +1260,6 @@ def timer(func):
         print(f"  [{func.__name__}] completed in {duration:.4f}s")
         return result
     return wrapper
-
-def retry(max_attempts=3):
-    """Decorator that retries a function on failure."""
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for attempt in range(1, max_attempts + 1):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    print(f"  [{func.__name__}] Attempt {attempt} failed: {e}")
-                    if attempt == max_attempts:
-                        raise
-        return wrapper
-    return decorator
 
 @timer
 def process_data(records):
@@ -1150,7 +1294,7 @@ cat > func_06_pipeline.py << 'PYEOF'
 
 import time
 
-# --- Decorator for logging ---
+# --- Decorator for logging each pipeline step ---
 def log_step(func):
     """Decorator: log the start and end of each pipeline step."""
     def wrapper(*args, **kwargs):
@@ -1255,8 +1399,8 @@ python func_06_pipeline.py
 
 ### Function Types Summary
 
-| Type | Syntax | When to Use |
-|------|--------|-------------|
+| Type | Syntax | When to Use in Data Engineering |
+|------|--------|----------------------------------|
 | Basic | `def func():` | Simple, single-purpose tasks |
 | With params | `def func(a, b):` | Configurable behavior |
 | With defaults | `def func(a, b=10):` | Sensible fallbacks |
@@ -1282,12 +1426,21 @@ def pipeline(name, mode="batch", *sources, notify=True, **options):
     pass
 ```
 
-> **HitaVir Tech says:** "Functions are the atoms of programming — everything is built from them. Every data pipeline is just extract(), transform(), load(). Every API endpoint is a function. Every automation script is a collection of functions. Master functions and you master Python."
+> **HitaVir Tech says:** "Functions are the atoms of programming — everything is built from them. Every data pipeline is just `extract()`, `transform()`, `load()`. Every API endpoint is a function. Every automation script is a collection of functions. Master functions and you master Python."
 
 ## Data Structures
-Duration: 10:00
+Duration: 12:00
 
-Data structures are how you organize data in memory. Data engineers use them constantly.
+> **What is a "data structure"?**
+> A data structure is a **way of organizing values together** so you can work with them efficiently. Python ships with four built-in ones — list, tuple, set, dictionary. Each is best for a specific job.
+>
+> Real-life analogy:
+> - **List** — a numbered to-do list (order matters, can edit, duplicates allowed)
+> - **Tuple** — your printed boarding pass (order matters, locked, cannot edit)
+> - **Set** — a collection of unique stamps (no duplicates, no order)
+> - **Dictionary** — a phone contacts list (look up a number by name)
+
+Data engineers use these every single day. Master them and you can model almost any data.
 
 ```bash
 cat > data_structures.py << 'PYEOF'
@@ -1308,18 +1461,18 @@ print(f"First table: {tables[0]}")
 print(f"Last table: {tables[-1]}")
 print(f"Number of tables: {len(tables)}")
 
-# Add and remove
-tables.append("logs")
+# Add and remove items
+tables.append("logs")           # add to the end
 print(f"After append: {tables}")
 
-tables.remove("logs")
+tables.remove("logs")           # remove a specific value
 print(f"After remove: {tables}")
 
-# Slicing
+# Slicing — get a sub-list using [start:stop]
 print(f"First two: {tables[:2]}")
 print(f"Last two: {tables[-2:]}")
 
-# List of numbers — common in data processing
+# Built-ins for numeric lists
 scores = [85, 92, 78, 95, 88, 76, 91]
 print(f"\nScores: {scores}")
 print(f"Average: {sum(scores) / len(scores):.1f}")
@@ -1340,7 +1493,7 @@ print(f"Host: {host}")
 print(f"Port: {port}")
 print(f"Database: {database}")
 
-# Coordinates, pairs, fixed data
+# Coordinates, pairs, fixed mappings
 column_mapping = [
     ("first_name", "fname"),
     ("last_name", "lname"),
@@ -1370,10 +1523,10 @@ print(f"Name: {employee['name']}")
 print(f"Department: {employee['department']}")
 print(f"Skills: {', '.join(employee['skills'])}")
 
-# Safe access with .get()
+# Safe access with .get() — returns a default if the key is missing
 print(f"Manager: {employee.get('manager', 'Not assigned')}")
 
-# Iterate over dictionary
+# Iterate over a dictionary
 print("\nEmployee record:")
 for key, value in employee.items():
     print(f"  {key}: {value}")
@@ -1415,7 +1568,7 @@ print(f"Raw count: {len(raw_emails)}")
 print(f"Unique count: {len(unique_emails)}")
 print(f"Duplicates removed: {len(raw_emails) - len(unique_emails)}")
 
-# Set operations — comparing datasets
+# Set operations — comparing two datasets
 db_users = {"alice", "bob", "charlie", "diana"}
 api_users = {"charlie", "diana", "eve", "frank"}
 
@@ -1438,15 +1591,15 @@ sales_data = [
     {"date": "2026-04-03", "product": "Laptop", "amount": 999.99, "region": "West"},
 ]
 
-# Filter: sales above $100
+# Filter: keep only sales above $100
 big_sales = [s for s in sales_data if s["amount"] > 100]
 print(f"Sales > $100: {len(big_sales)}")
 
-# Calculate total
+# Aggregate: total revenue
 total_revenue = sum(s["amount"] for s in sales_data)
 print(f"Total revenue: ${total_revenue:,.2f}")
 
-# Group by region
+# Group by region using a defaultdict
 from collections import defaultdict
 by_region = defaultdict(float)
 for sale in sales_data:
@@ -1480,11 +1633,14 @@ This table is asked in **every Python interview** for Data Engineering roles. Me
 
 #### Performance Comparison (Big-O)
 
+> **What is "Big-O"?**
+> Big-O describes how much slower an operation gets as your dataset grows. `O(1)` means "instant — the same speed for 10 rows or 10 million." `O(n)` means "scales with size — 10× the data takes 10× longer." For data engineers handling millions of rows, this matters.
+
 | Operation | List | Tuple | Set | Dict |
 |-----------|------|-------|-----|------|
 | Access by index | O(1) | O(1) | N/A | N/A |
 | Access by key | N/A | N/A | N/A | O(1) |
-| Search (in) | O(n) | O(n) | **O(1)** | **O(1)** |
+| Search (`in`) | O(n) | O(n) | **O(1)** | **O(1)** |
 | Append / Add | O(1) | N/A | O(1) | O(1) |
 | Insert at position | O(n) | N/A | N/A | N/A |
 | Delete | O(n) | N/A | O(1) | O(1) |
@@ -1519,9 +1675,15 @@ Dict  = Phone book        → name→number pairs, fast lookup by key
 > **HitaVir Tech says:** "In interviews, they will ask: 'When would you use a set instead of a list?' The answer: when you need unique values and fast O(1) lookups. A set checks membership instantly; a list scans every element. For 10 million records, that is the difference between milliseconds and minutes."
 
 ## File Handling — CSV, JSON, and Text
-Duration: 12:00
+Duration: 14:00
 
-Reading and writing files is the foundation of every data pipeline.
+> **Why file handling matters in DE**
+> Every data pipeline starts and ends with a file. You read raw data **from** a file, transform it, and write the cleaned result **to** another file. The two formats you will use 95% of the time are CSV and JSON.
+
+> **Quick definitions:**
+> - **CSV (Comma-Separated Values)** — a plain-text spreadsheet. Each line is a row; commas separate the columns.
+> - **JSON (JavaScript Object Notation)** — a text format for structured/nested data. Looks like Python dictionaries.
+> - **Log file** — a plain-text file where every line is a timestamped event (used for debugging).
 
 ### Create Sample Data Files
 
@@ -1595,7 +1757,13 @@ PYEOF
 python create_sample_data.py
 ```
 
+> **What is the `with open(...) as f:` block?**
+> This is the **safe way** to open files in Python. The `with` block automatically closes the file when you are done — even if an error happens inside. This prevents the "file left open and locked" bug.
+
 ### Reading and Writing CSV Files
+
+> **What is `csv.DictReader`?**
+> `csv.DictReader` reads each row of a CSV as a **dictionary** where the keys are the column names from the header row. Instead of remembering "column 4 is price," you write `row["price"]`. Cleaner, safer, easier.
 
 ```bash
 cat > file_csv.py << 'PYEOF'
@@ -1623,6 +1791,7 @@ for i, record in enumerate(records[:3]):
           f"@ ${record['price']}")
 
 # --- PROCESS CSV ---
+# Validate every record; bad ones go to a rejected list, good ones to cleaned
 print(f"\n{'=' * 60}")
 print("PROCESSING CSV DATA")
 print("=" * 60)
@@ -1631,7 +1800,7 @@ cleaned = []
 rejected = []
 
 for record in records:
-    # Convert numeric fields
+    # Convert numeric fields (CSV cells are always strings)
     record["quantity"] = int(record["quantity"])
     record["price"] = float(record["price"])
 
@@ -1679,7 +1848,18 @@ PYEOF
 python file_csv.py
 ```
 
+#### CSV File Mode Cheat Sheet
+
+| Mode | Meaning | Use it for |
+|------|---------|-----------|
+| `"r"` | Read | Loading existing data |
+| `"w"` | Write (overwrites) | Creating a new output file |
+| `"a"` | Append | Adding new rows to an existing log |
+| `"r+"` | Read + write | Rare in DE — usually avoid |
+
 ### Reading and Writing JSON Files
+
+> **JSON ↔ Python dictionary**: JSON is text; a Python dict is in-memory. `json.load()` converts JSON text → Python dict. `json.dump()` does the reverse.
 
 ```bash
 cat > file_json.py << 'PYEOF'
@@ -1732,7 +1912,7 @@ report = {
 }
 
 with open("pipeline_report.json", "w") as f:
-    json.dump(report, f, indent=2)
+    json.dump(report, f, indent=2)  # indent=2 makes the file human-readable
 
 print("Report saved to pipeline_report.json")
 print(f"\nPipeline Status: {report['status']}")
@@ -1742,6 +1922,15 @@ PYEOF
 
 python file_json.py
 ```
+
+#### JSON Function Cheat Sheet
+
+| Function | Direction | Source/Destination |
+|----------|-----------|--------------------|
+| `json.load(file)` | JSON → Python | Read from a file object |
+| `json.loads(string)` | JSON → Python | Read from a string (note the **`s`** = string) |
+| `json.dump(obj, file)` | Python → JSON | Write to a file object |
+| `json.dumps(obj)` | Python → JSON | Convert to a string |
 
 ### Reading Text/Log Files
 
@@ -1757,7 +1946,7 @@ print("LOG FILE ANALYSIS")
 print("=" * 60)
 
 with open("pipeline.log", "r") as f:
-    lines = f.readlines()
+    lines = f.readlines()  # returns a list of strings, one per line
 
 info_count = 0
 warning_count = 0
@@ -1793,9 +1982,23 @@ python file_logs.py
 > **HitaVir Tech says:** "File handling is where theory meets reality. Every data pipeline starts with reading a file and ends with writing a file. CSV and JSON are the two formats you will use most."
 
 ## Error Handling and Logging
-Duration: 8:00
+Duration: 10:00
 
-Production pipelines must handle errors gracefully and log everything for debugging.
+> **What is an "error" or "exception"?**
+> When Python tries to do something impossible — divide by zero, open a missing file, convert "abc" to a number — it raises an **exception** and the program crashes. Error handling is how you **catch** those exceptions and respond gracefully instead of crashing.
+
+> **What is logging?**
+> Logging is writing timestamped messages about what your pipeline did, to a file or the console. When something fails at 3 AM in production, the log is the only way to find out what happened.
+
+> **Why this matters in DE**
+> Production pipelines must NEVER silently crash. They must **fail gracefully**, log every problem, and let on-call engineers debug the next morning.
+
+### `try-except` — Catching Errors
+
+> **The pattern:**
+> - `try:` — "try to do this risky thing"
+> - `except SomeError:` — "if THIS specific error happens, do this instead"
+> - `finally:` — "do this no matter what (cleanup)"
 
 ```bash
 cat > error_handling.py << 'PYEOF'
@@ -1806,13 +2009,14 @@ import logging
 from datetime import datetime
 
 # --- Setup logging ---
+# Level INFO means: log INFO, WARNING, ERROR, CRITICAL (skip DEBUG)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
     handlers=[
-        logging.FileHandler("etl_pipeline.log"),
-        logging.StreamHandler()  # Also print to console
+        logging.FileHandler("etl_pipeline.log"),  # write to file
+        logging.StreamHandler()                    # also print to console
     ]
 )
 
@@ -1928,12 +2132,41 @@ PYEOF
 python error_handling.py
 ```
 
+#### Common Python Exceptions in Data Engineering
+
+| Exception | When it happens | How to handle |
+|-----------|-----------------|---------------|
+| `FileNotFoundError` | The path does not exist | Log a warning, return empty data |
+| `ValueError` | Bad type conversion (`int("abc")`) | Skip that record, keep going |
+| `KeyError` | Dict key missing | Use `.get(key, default)` |
+| `TypeError` | Wrong type passed to a function | Validate types before the call |
+| `ZeroDivisionError` | Divide by 0 | Check denominator first |
+| `ConnectionError` | Network or DB unreachable | Retry with backoff |
+| `PermissionError` | Cannot write to file | Log critical, alert team |
+
+#### Logging Levels — When to Use Each
+
+| Level | Meaning | Example |
+|-------|---------|---------|
+| `DEBUG` | Detailed info for developers | "Loaded row 42 with values..." |
+| `INFO` | Normal operation milestones | "Pipeline started", "Loaded 1500 rows" |
+| `WARNING` | Unexpected but not failure | "Skipped 3 invalid records" |
+| `ERROR` | Operation failed but pipeline continues | "Could not write report.json" |
+| `CRITICAL` | Pipeline cannot continue | "Database is unreachable" |
+
 > **HitaVir Tech says:** "In production, errors WILL happen. The question is not if, but when. Good error handling means your pipeline fails gracefully, logs the problem, and makes debugging easy."
 
 ## Working with pandas
-Duration: 12:00
+Duration: 15:00
 
-pandas is the most important Python library for data engineering. It handles tabular data like a spreadsheet on steroids.
+> **What is pandas?**
+> pandas is the most-used Python library for working with **tabular data** (rows and columns). Think of it as Excel inside Python — but able to handle millions of rows, perform complex transformations, and integrate with every data tool.
+
+> **What is a DataFrame?**
+> A **DataFrame** is the central pandas object — a table with rows, columns, and an index. Every column has a name and a data type. It is what you get when you load a CSV via `pd.read_csv(...)`.
+
+> **Why DE engineers love pandas**
+> One library handles: loading CSVs/Excel/JSON, cleaning nulls, filtering rows, joining tables, grouping/aggregating, and writing the result back out.
 
 ```bash
 cat > pandas_basics.py << 'PYEOF'
@@ -1956,6 +2189,8 @@ print(f"\nFirst 5 rows:")
 print(df.head())
 
 # --- EXPLORE DATA ---
+# describe() gives min/max/mean for every numeric column
+# isnull().sum() counts missing values per column
 print(f"\n{'=' * 60}")
 print("DATA EXPLORATION")
 print("=" * 60)
@@ -1979,7 +2214,7 @@ print("=" * 60)
 df_clean = df.dropna(subset=["customer", "product"])
 print(f"After dropping nulls: {len(df_clean)} rows (was {len(df)})")
 
-# Remove invalid data
+# Remove invalid data (using boolean indexing)
 df_clean = df_clean[df_clean["quantity"] > 0]
 df_clean = df_clean[df_clean["price"] > 0]
 print(f"After removing invalid: {len(df_clean)} rows")
@@ -1999,6 +2234,7 @@ df_clean["price_category"] = df_clean["price"].apply(
 print(df_clean[["order_id", "product", "price", "quantity", "total", "price_category"]])
 
 # --- AGGREGATE DATA ---
+# groupby + agg = SQL's GROUP BY + COUNT/SUM/AVG
 print(f"\n{'=' * 60}")
 print("DATA AGGREGATION")
 print("=" * 60)
@@ -2033,19 +2269,45 @@ PYEOF
 python pandas_basics.py
 ```
 
-> **HitaVir Tech says:** "pandas is to data engineers what a stethoscope is to doctors — you cannot work without it. Learn read_csv, groupby, merge, and apply, and you can handle 90% of data tasks."
+### pandas Cheat Sheet — The 15 Methods You'll Use Daily
+
+| Task | Method | Example |
+|------|--------|---------|
+| Read CSV | `pd.read_csv()` | `pd.read_csv("sales.csv")` |
+| Read JSON | `pd.read_json()` | `pd.read_json("data.json")` |
+| Peek at first rows | `.head()` | `df.head(10)` |
+| Peek at last rows | `.tail()` | `df.tail()` |
+| See column types | `.dtypes` | `df.dtypes` |
+| Summary stats | `.describe()` | `df.describe()` |
+| Count nulls | `.isnull().sum()` | `df.isnull().sum()` |
+| Drop nulls | `.dropna()` | `df.dropna(subset=["price"])` |
+| Fill nulls | `.fillna()` | `df.fillna(0)` |
+| Filter rows | Boolean indexing | `df[df["price"] > 100]` |
+| Add column | Assignment | `df["total"] = df["a"] * df["b"]` |
+| Apply a function | `.apply()` | `df["col"].apply(lambda x: x*2)` |
+| Group + aggregate | `.groupby().agg()` | `df.groupby("region")["sales"].sum()` |
+| Join two tables | `pd.merge()` | `pd.merge(df1, df2, on="id")` |
+| Save CSV | `.to_csv()` | `df.to_csv("out.csv", index=False)` |
+
+> **HitaVir Tech says:** "pandas is to data engineers what a stethoscope is to doctors — you cannot work without it. Learn `read_csv`, `groupby`, `merge`, and `apply`, and you can handle 90% of data tasks."
 
 ## Data Engineering Mini Project — Complete ETL Pipeline
-Duration: 15:00
+Duration: 20:00
 
-Time to build a **real, production-quality ETL pipeline** that combines everything you have learned.
+> **What is ETL?**
+> ETL stands for **Extract, Transform, Load** — the three universal stages of every data pipeline.
+> 1. **Extract** — pull raw data from a source (file, database, API)
+> 2. **Transform** — clean, validate, enrich, reshape it
+> 3. **Load** — save the result to a destination (file, warehouse, dashboard)
+
+Time to build a **real, production-quality ETL pipeline** that combines everything you have learned: variables, control flow, functions, data structures, file I/O, error handling, and logging.
 
 ### The Scenario
 
 HitaVir Tech receives daily sales CSV files. You need to build an automated pipeline that:
 
 1. Reads the raw CSV
-2. Validates every record
+2. Validates every record against business rules
 3. Cleans and transforms the data
 4. Generates summary reports
 5. Saves outputs with proper logging
@@ -2079,6 +2341,7 @@ from collections import defaultdict
 
 # ============================================================
 # CONFIGURATION
+# All "knobs" of the pipeline live here, not buried in code
 # ============================================================
 
 CONFIG = {
@@ -2101,7 +2364,7 @@ CONFIG = {
 # ============================================================
 
 def setup_logging(log_file):
-    """Configure logging for the pipeline."""
+    """Configure logging to write to BOTH a file and the console."""
     os.makedirs(os.path.dirname(log_file), exist_ok=True)
 
     logging.basicConfig(
@@ -2156,12 +2419,12 @@ def validate_record(record, rules):
     """
     errors = []
 
-    # Check required fields
+    # Check required fields are present and non-empty
     for field in rules["required_fields"]:
         if not record.get(field, "").strip():
             errors.append(f"Missing required field: {field}")
 
-    # Validate numeric fields
+    # Validate quantity
     try:
         qty = int(record.get("quantity", 0))
         if qty < rules["min_quantity"]:
@@ -2169,6 +2432,7 @@ def validate_record(record, rules):
     except ValueError:
         errors.append(f"Invalid quantity: {record.get('quantity')}")
 
+    # Validate price
     try:
         price = float(record.get("price", 0))
         if price < rules["min_price"]:
@@ -2178,7 +2442,7 @@ def validate_record(record, rules):
     except ValueError:
         errors.append(f"Invalid price: {record.get('price')}")
 
-    # Validate region
+    # Validate region (if provided)
     region = record.get("region", "").strip()
     if region and region not in rules["valid_regions"]:
         errors.append(f"Invalid region: {region}")
@@ -2210,11 +2474,11 @@ def transform(records, rules, logger):
             logger.warning(f"[TRANSFORM] Rejected order {record.get('order_id', '?')}: {errors}")
             continue
 
-        # Type conversion
+        # Type conversion (CSV strings → numbers)
         record["quantity"] = int(record["quantity"])
         record["price"] = float(record["price"])
 
-        # Enrichment
+        # Enrichment — add computed fields
         record["total"] = round(record["price"] * record["quantity"], 2)
         record["customer"] = record["customer"].strip().title()
         record["product"] = record["product"].strip().title()
@@ -2252,7 +2516,7 @@ def load(cleaned, rejected, config, logger):
             writer.writerows(cleaned)
         logger.info(f"[LOAD] Saved {len(cleaned)} cleaned records to {config['output_file']}")
 
-    # Save rejected records
+    # Save rejected records (always useful for debugging)
     if rejected:
         fieldnames = ["order_id", "customer", "product", "quantity",
                        "price", "date", "region", "rejection_reasons"]
@@ -2267,7 +2531,7 @@ def load(cleaned, rejected, config, logger):
 # ============================================================
 
 def generate_report(cleaned, rejected, duration, config, logger):
-    """Generate pipeline run report."""
+    """Generate a JSON pipeline run report."""
     total_input = len(cleaned) + len(rejected)
     success_rate = (len(cleaned) / total_input * 100) if total_input > 0 else 0
 
@@ -2308,6 +2572,7 @@ def generate_report(cleaned, rejected, duration, config, logger):
 
 # ============================================================
 # MAIN — ORCHESTRATOR
+# Calls every step in the right order
 # ============================================================
 
 def run_pipeline():
@@ -2354,6 +2619,9 @@ if __name__ == "__main__":
 PYEOF
 ```
 
+> **What is `if __name__ == "__main__":`?**
+> This standard Python idiom means: "Only run `run_pipeline()` if this file is executed directly (`python etl_pipeline.py`), NOT if it is imported by another file." It is how you make a Python file work both as a script and as a reusable module.
+
 ### Copy Sample Data and Run
 
 ```bash
@@ -2387,7 +2655,7 @@ pipeline_project/
 │   └── sales_raw.csv        ← Raw input data
 ├── output/
 │   ├── sales_cleaned.csv    ← Cleaned output
-│   ├── rejected_records.csv ← Failed records
+│   ├── rejected_records.csv ← Failed records (for debugging)
 │   └── daily_report.json    ← Summary report
 └── logs/
     └── pipeline.log         ← Execution log
@@ -2400,9 +2668,10 @@ cd ~/python-de-learning
 ```
 
 ## Intermediate Concepts
-Duration: 10:00
+Duration: 12:00
 
-Level up your Python with patterns used daily in data engineering.
+> **Why these matter in DE**
+> Comprehensions, lambdas, and classes are the patterns that turn a Python beginner into a productive Data Engineer. They make code shorter, clearer, and reusable.
 
 ```bash
 cat > intermediate.py << 'PYEOF'
@@ -2411,6 +2680,8 @@ HitaVir Tech - Intermediate Python for Data Engineering
 """
 
 # ====== LIST COMPREHENSIONS ======
+# A list comprehension builds a new list from another iterable, in ONE line.
+# Pattern: [expression for item in iterable if condition]
 print("=" * 60)
 print("LIST COMPREHENSIONS")
 print("=" * 60)
@@ -2426,14 +2697,14 @@ for p in prices:
 high_value_lc = [p for p in prices if p > 100]
 print(f"High value items: {high_value_lc}")
 
-# Transform and filter in one line
+# Transform AND filter in one line
 discounted = [round(p * 0.9, 2) for p in prices if p > 100]
 print(f"10% discount on premium items: {discounted}")
 
-# Dictionary comprehension
+# Dictionary comprehension — same idea, building a dict
 products = ["Laptop", "Mouse", "Keyboard", "Monitor"]
-prices = [999.99, 29.99, 79.99, 449.99]
-catalog = {product: price for product, price in zip(products, prices)}
+prices_list = [999.99, 29.99, 79.99, 449.99]
+catalog = {product: price for product, price in zip(products, prices_list)}
 print(f"\nCatalog: {catalog}")
 
 # ====== LAMBDA FUNCTIONS ======
@@ -2441,34 +2712,35 @@ print(f"\n{'=' * 60}")
 print("LAMBDA FUNCTIONS")
 print("=" * 60)
 
-# Named function
+# Named function:
 def calculate_tax(amount):
     return round(amount * 0.18, 2)
 
-# Lambda equivalent (inline function)
+# Lambda equivalent (inline, anonymous):
 tax = lambda amount: round(amount * 0.18, 2)
 
 print(f"Tax on $100: ${tax(100)}")
 
-# Common use: sorting complex data
+# Common use: sorting complex data by a custom key
 sales = [
     {"product": "Laptop", "revenue": 4999.95},
     {"product": "Mouse", "revenue": 149.95},
     {"product": "Monitor", "revenue": 449.99},
 ]
 
-# Sort by revenue (descending)
 sorted_sales = sorted(sales, key=lambda x: x["revenue"], reverse=True)
 print("\nSales sorted by revenue:")
 for s in sorted_sales:
     print(f"  {s['product']}: ${s['revenue']:,.2f}")
 
-# Common use: map and filter
+# Common use: map and filter together
 amounts = [100, 250, 50, 800, 30, 1200]
 large_with_tax = list(map(lambda x: round(x * 1.18, 2), filter(lambda x: x > 200, amounts)))
 print(f"\nLarge amounts with 18% tax: {large_with_tax}")
 
-# ====== BASIC OOP ======
+# ====== BASIC OOP (Object-Oriented Programming) ======
+# A class is a blueprint; an object is an instance built from it.
+# Real-life analogy: "Car" is a class; your specific car is an object.
 print(f"\n{'=' * 60}")
 print("CLASSES (BASIC OOP)")
 print("=" * 60)
@@ -2477,6 +2749,8 @@ class DataPipeline:
     """A reusable data pipeline class."""
 
     def __init__(self, name, source, destination):
+        # __init__ is the constructor — runs when you create an object
+        # self refers to "this specific instance"
         self.name = name
         self.source = source
         self.destination = destination
@@ -2492,7 +2766,7 @@ class DataPipeline:
             {"id": 3, "value": 300},
         ]
         print(f"  [{self.name}] Extracted {len(self.records)} records from {self.source}")
-        return self
+        return self  # returning self enables method chaining
 
     def transform(self, multiplier=1.0):
         """Transform records."""
@@ -2514,6 +2788,7 @@ class DataPipeline:
         return self.extract().transform(multiplier=1.18).load()
 
     def __str__(self):
+        # __str__ controls what print(object) shows
         return f"Pipeline('{self.name}', status={self.status}, records={len(self.records)})"
 
 # Use the class
@@ -2527,6 +2802,8 @@ pipeline.run()
 print(f"Result: {pipeline}")
 
 # ====== WORKING WITH APIs ======
+# An API (Application Programming Interface) is a URL that returns data
+# (usually JSON). The requests library lets you call APIs in one line.
 print(f"\n{'=' * 60}")
 print("WORKING WITH APIs")
 print("=" * 60)
@@ -2555,7 +2832,7 @@ python intermediate.py
 > **HitaVir Tech says:** "List comprehensions, lambdas, and classes are the intermediate trifecta. Comprehensions make your code concise. Lambdas make sorting and filtering elegant. Classes make your pipelines reusable and testable."
 
 ## Best Practices and Project Structure
-Duration: 5:00
+Duration: 6:00
 
 How real data engineering teams organize their code.
 
@@ -2586,6 +2863,8 @@ DEFAULT_BATCH_SIZE = 1000
 DATABASE_TIMEOUT = 30
 
 # ====== DOCSTRINGS ======
+# A docstring describes what a function does, its arguments, and what it returns.
+# Tools like VS Code, Sphinx, and your future self all read these.
 def process_batch(records, batch_size=500):
     """
     Process records in batches.
@@ -2651,14 +2930,25 @@ hitavir-data-project/
 └── logs/                      ← Log files (gitignored)
 ```
 
-> **HitaVir Tech says:** "Code is read 10 times more than it is written. Follow naming conventions, write docstrings, and organize your projects. Your future self and your teammates will thank you."
+### The 10 Habits of Good Data Engineers
+
+1. **Use virtual environments** — never install libraries globally
+2. **Pin dependency versions** — `pandas==2.2.1`, not just `pandas`
+3. **Never hardcode secrets** — use environment variables / `.env`
+4. **Always log, never `print`** in production code
+5. **Validate at the boundary** — check inputs from files/APIs, trust internal calls
+6. **Make pipelines idempotent** — running twice gives the same result
+7. **Save rejected records** — never silently drop bad data
+8. **Use type hints** — `def func(x: int) -> str:` (introduced in Python 3.5+)
+9. **Write unit tests** — pytest is the standard
+10. **Commit often, with clear messages** — `git commit -m "feat: add region filter"`
+
+> **HitaVir Tech says:** "Code is read 10× more than it is written. Follow naming conventions, write docstrings, and organize your projects. Your future self and your teammates will thank you."
 
 ## Debugging and Troubleshooting
-Duration: 5:00
+Duration: 6:00
 
-Common issues Windows users face and how to fix them.
-
-### Common Python Errors
+### Common Python Errors and Fixes
 
 | Error | Cause | Fix |
 |-------|-------|-----|
@@ -2668,6 +2958,8 @@ Common issues Windows users face and how to fix them.
 | `TypeError` | Wrong data type | Use `type()` to debug, convert types |
 | `KeyError` | Dict key missing | Use `.get(key, default)` instead of `[key]` |
 | `UnicodeDecodeError` | File encoding issue | Add `encoding="utf-8"` to `open()` |
+| `IndexError` | List index out of range | Check `len(list)` before accessing |
+| `AttributeError` | Calling method that doesn't exist | Check `dir(object)` to see available methods |
 
 ### Windows-Specific Issues
 
@@ -2678,22 +2970,39 @@ Common issues Windows users face and how to fix them.
 | Permission denied | Run terminal as Administrator |
 | `venv` won't activate | Use `venv\Scripts\activate` (Command Prompt) or `source venv/Scripts/activate` (Git Bash) |
 
-### Debugging Technique
+### Debugging Technique — The Print-Statement Trick
 
 ```python
-# When something is wrong, add print statements:
+# When something is wrong, add print statements to inspect the state:
 print(f"DEBUG: variable = {variable}")
 print(f"DEBUG: type = {type(variable)}")
 print(f"DEBUG: len = {len(data)}")
 
-# Or use the built-in debugger:
+# Or use Python's built-in debugger:
 # python -m pdb your_script.py
+```
+
+### Reading a Traceback
+
+When Python crashes, it prints a **traceback** — the trail of function calls leading to the error. Read it **bottom up**:
+
+```
+Traceback (most recent call last):
+  File "etl_pipeline.py", line 100, in <module>
+    run_pipeline()
+  File "etl_pipeline.py", line 80, in run_pipeline
+    cleaned = transform(raw_data, ...)
+  File "etl_pipeline.py", line 50, in transform
+    record["price"] = float(record["price"])
+ValueError: could not convert string to float: 'abc'
+                                                ^^^^^
+                                  This is the actual problem
 ```
 
 > **HitaVir Tech says:** "Every bug is a lesson. Read the error message carefully — Python tells you exactly what went wrong and on which line. The traceback is your best debugging friend."
 
 ## Python Interview Questions for Data Engineering
-Duration: 10:00
+Duration: 12:00
 
 These questions are frequently asked in Python Data Engineering interviews at companies hiring through **LinkedIn, Naukri, Indeed**, and at institutes like **Simplilearn, Intellipaat, Coursera, DataCamp, Great Learning**, and **Scaler Academy**. They cover the exact topics you learned in this codelab.
 
@@ -2923,14 +3232,14 @@ Congratulations! You have completed **Python for Data Engineering** by **HitaVir
 |--------|--------|
 | Basics | Variables, types, operators, f-strings |
 | Control Flow | if/else, for/while loops, break/continue |
-| Functions | Parameters, returns, validation functions |
+| Functions | All 11 function types, decorators, generators |
 | Data Structures | Lists, dicts, sets, tuples, list of dicts |
 | File I/O | CSV read/write, JSON handling, log parsing |
 | Error Handling | try/except, logging, graceful failures |
 | pandas | DataFrames, cleaning, transformation, aggregation |
 | ETL Pipeline | Complete extract-transform-load with reporting |
 | Intermediate | Comprehensions, lambdas, OOP, APIs |
-| Best Practices | Naming, structure, docstrings, .gitignore |
+| Best Practices | Naming, structure, docstrings, secrets |
 
 ### What to Learn Next
 
@@ -2978,7 +3287,7 @@ You have successfully completed **Python Programming for Data Engineering** by *
 ### What You Built
 
 - A complete development environment
-- Multiple hands-on Python scripts
+- Multiple hands-on Python scripts (one per concept)
 - A production-quality ETL pipeline with logging and error handling
 - Data cleaning and transformation workflows
 - Automated report generation
@@ -2996,7 +3305,12 @@ python-de-learning/
 ├── basics_input.py
 ├── control_if.py
 ├── control_loops.py
-├── functions.py
+├── func_01_basics.py
+├── func_02_defaults_kwargs.py
+├── func_03_args.py
+├── func_04_kwargs.py
+├── func_05_advanced.py
+├── func_06_pipeline.py
 ├── data_structures.py
 ├── create_sample_data.py
 ├── file_csv.py
