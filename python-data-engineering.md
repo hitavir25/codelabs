@@ -173,14 +173,43 @@ VS Code is a free code editor from Microsoft. Download from [https://code.visual
 
 A code editor is a souped-up Notepad: it color-codes your Python so it is easier to read, catches typos as you type, and runs your scripts with one click.
 
-### Step 4 — Install Python Extension for VS Code
+### Step 4 — Install the Python Extension for VS Code
 
 1. Open VS Code
 2. Press `Ctrl + Shift + X` (Extensions panel)
 3. Search for **"Python"** by Microsoft
 4. Click **Install**
 
-### Step 5 — Create Your Project Folder
+### Step 5 — Set VS Code to the Dark+ Theme
+
+Every code example in this codelab is written and explained against the **Dark+ (default dark)** theme. Set the same theme so what you see on screen matches what you see here.
+
+1. Press `Ctrl + K` then `Ctrl + T` to open the Color Theme picker
+2. Choose **"Dark+ (default dark)"** (or **"Default Dark Modern"** on newer VS Code versions)
+3. Press `Enter` to confirm
+
+Why dark theme for long study sessions? Less eye strain, better contrast on syntax colors, and it matches every screenshot in this codelab.
+
+#### What Your Code Will Look Like in VS Code Dark+
+
+When you paste any Python code from this codelab into a `.py` file in VS Code, the syntax highlighter colors it like this:
+
+| Token type | Color in Dark+ | Example |
+|------------|----------------|---------|
+| **Keywords** | pink / magenta | `def`, `if`, `for`, `return`, `import`, `class` |
+| **Strings** | orange / salmon | `"HitaVir Tech"`, `'sales.csv'` |
+| **Numbers** | light green | `1500`, `99.7`, `0.05` |
+| **Function names** (definition) | yellow | `extract`, `transform`, `validate_record` |
+| **Function calls** | yellow | `print(...)`, `len(...)` |
+| **Built-ins** | sky blue | `int`, `float`, `str`, `True`, `False`, `None` |
+| **Comments** | green (italic) | `# this is a comment` |
+| **Class names** | teal / mint | `DataPipeline`, `SalesTransformer` |
+| **Operators** | white | `+ - * / = == != < >` |
+| **Decorators** | yellow | `@timer`, `@retry` |
+
+If your code shows up white-on-black with no colors, the Python extension is probably not active — make sure the file is saved with a `.py` extension and the bottom-right of VS Code shows "Python" as the language mode.
+
+### Step 6 — Create Your Project Folder
 
 ```bash
 mkdir -p ~/python-de-learning
@@ -191,7 +220,7 @@ cd ~/python-de-learning
 
 `mkdir` makes a new folder. `~` is your home folder (e.g., `C:/Users/YourName`). `cd` moves into the folder. From now on, every file you create lives here.
 
-### Step 6 — Create a Virtual Environment
+### Step 7 — Create a Virtual Environment
 
 ```bash
 python -m venv venv
@@ -222,7 +251,7 @@ You should see `(venv)` at the beginning of your prompt — that means it is act
 $
 ```
 
-### Step 7 — Install Essential Packages
+### Step 8 — Install Essential Packages
 
 ```bash
 pip install pandas numpy requests
@@ -245,7 +274,7 @@ cat requirements.txt
 
 `requirements.txt` is a plain-text file listing every library your project uses, with versions. When you share your project, others run `pip install -r requirements.txt` to get the exact same setup.
 
-### Step 8 — Verify Everything Works
+### Step 9 — Verify Everything Works
 
 Create a test file:
 
@@ -514,6 +543,7 @@ total=price*quantity+tax            # missing spaces around operators
 process(records,batch_size,retries) # missing spaces after commas
 threshold=0.05                       # missing spaces around =
 def connect(host, port = 5432):     # extra spaces around = in default
+    pass
 records[ 0 ]                         # extra spaces inside brackets
 { "key" : "value" }                  # extra spaces inside braces
 ```
@@ -744,6 +774,56 @@ PEP 8 is style. These are the **engineering practices** every Data Engineer foll
 ```
 
 > **HitaVir Tech says:** "PEP 8 is to Python what tabs and bullet points are to a resume — non-negotiable polish. Once your editor formats your code with `black` on every save, you stop thinking about style and focus on logic. That is the goal."
+
+### Assignment 0 — Style-Refactor Drill
+
+**Goal:** Take the bad-style code from this section and clean it up by hand. Then verify with the tools.
+
+**Tasks:**
+
+1. Create a new file `assignment_00_pep8.py` and paste in this messy code:
+
+```python
+import pandas as pd,numpy as np,csv,json,logging
+def TransformData( records,Threshold=100 ):
+  Cleaned=[]
+  for i in range(len(records)):
+    r=records[i]
+    if r["price"]==None:continue
+    if r["price"]>Threshold:
+      r["total"]=r["price"]*r["qty"];r["category"]="premium"
+      Cleaned.append( r )
+  return Cleaned
+```
+
+2. **Without running tools yet**, rewrite it by hand to fix:
+   - Indentation (4 spaces)
+   - Imports (one per line, grouped: stdlib, third-party, local)
+   - Function name (`snake_case`)
+   - Parameter name (`threshold`, lowercase, no spaces around `=`)
+   - Variable names (`record` instead of `r`, `cleaned` instead of `Cleaned`)
+   - Loop pattern (use `for record in records:`, not `range(len(...))`)
+   - `== None` -> `is None`
+   - Two statements per line -> one per line
+   - Add a docstring
+3. Now install and run the tools:
+
+```bash
+pip install black flake8
+black assignment_00_pep8.py
+flake8 assignment_00_pep8.py
+```
+
+4. Fix any remaining `flake8` warnings until it prints **nothing**.
+
+**Success criteria:**
+
+- [ ] All 9 issues from the "what changed" table fixed by hand
+- [ ] `black` makes no further changes (file is already formatted)
+- [ ] `flake8` reports zero warnings
+- [ ] Function still produces the same output for the same input
+
+**Stretch goal:** Add type hints (`list[dict]`, `int`, etc.) and run `mypy` to confirm they are correct.
 
 ## Python Basics — Variables and Data Types
 Duration: 12:00
@@ -1017,15 +1097,47 @@ python basics_input.py
 
 > **HitaVir Tech says:** "In data engineering, you rarely use `input()`. Instead, you read from files, databases, and APIs. But understanding input/output flow is fundamental to programming."
 
-### Practice Exercise
+### Assignment 1 — Pipeline Stats Calculator
 
-Create a file called `exercise_basics.py` that calculates pipeline throughput:
+**Goal:** Practice every data type, type conversion, operators, and f-strings by building a small pipeline reporter.
 
-```python
-# Goal: If a pipeline processes 50,000 records per hour,
-#       how many records in 8 hours? What is the per-minute rate?
-# Use variables, arithmetic, and f-strings to print the result.
+**The scenario:** HitaVir Tech's overnight sales pipeline finished. Your job is to write a script that prints a clean stats summary the on-call engineer can read in 5 seconds.
+
+**Tasks:**
+
+1. Open VS Code and create a new file: `assignment_01_basics.py`.
+2. Define these variables (use the right data type for each):
+   - `pipeline_name` = `"HitaVir Sales ETL"`
+   - `total_records` = `50000`
+   - `failure_rate` = `0.023`
+   - `is_production` = `True`
+   - `last_error` = `None`
+3. Compute `failed_records` = `total_records * failure_rate` (cast to `int`).
+4. Compute `success_rate` = `(1 - failure_rate) * 100`.
+5. Print this exact format using f-strings:
+
+```text
+============================================
+  HitaVir Tech - Pipeline Stats
+============================================
+Pipeline       : HitaVir Sales ETL
+Mode           : PRODUCTION
+Records read   : 50,000
+Failed records : 1,150
+Success rate   : 97.7%
+Last error     : None
+============================================
 ```
+
+**Success criteria:**
+
+- [ ] All 5 data types used (str, int, float, bool, None)
+- [ ] Numbers use thousands separator (`{x:,}`)
+- [ ] Success rate has 1 decimal place (`{x:.1f}`)
+- [ ] "PRODUCTION" or "DEVELOPMENT" picked from `is_production` using a conditional
+- [ ] Output matches the format above exactly
+
+**Stretch goal:** Read each value with `input()` and convert the strings to the right types before printing.
 
 ## Control Flow — Making Decisions
 Duration: 12:00
@@ -1210,6 +1322,60 @@ python control_loops.py
 ```
 
 > **HitaVir Tech says:** "In data engineering, loops process records, retry failed connections, and iterate through batches. The `for` loop is your workhorse. The `while` loop is your retry mechanism. Master both."
+
+### Assignment 2 — Data Quality Gate
+
+**Goal:** Build a "data quality gate" that decides which records can flow into the warehouse and which must be quarantined.
+
+**The scenario:** A daily extract from the upstream system contains some bad records. Before loading, you must inspect every record and route it.
+
+**Tasks:**
+
+1. Create `assignment_02_control.py`.
+2. Use this input list (paste it into your file):
+
+```python
+records = [
+    {"id": 1, "value": 100,  "region": "North"},
+    {"id": 2, "value": -50,  "region": "South"},
+    {"id": 3, "value": 200,  "region": "INVALID"},
+    {"id": 4, "value": None, "region": "East"},
+    {"id": 5, "value": 75,   "region": "West"},
+    {"id": 6, "value": 320,  "region": "North"},
+    {"id": 7, "value": 0,    "region": "South"},
+]
+VALID_REGIONS = ["North", "South", "East", "West"]
+```
+
+3. Loop through each record and apply these rules **in this order**:
+   - If `value` is `None` -> log `"SKIP id={id}: null value"` and `continue`
+   - If `value` is less than or equal to `0` -> log `"SKIP id={id}: non-positive value"` and `continue`
+   - If `region` is not in `VALID_REGIONS` -> log `"SKIP id={id}: invalid region '{region}'"` and `continue`
+   - Otherwise print `"PASS id={id}: ${value} ({region})"` and add to a `valid` list
+4. After the loop, print a one-line summary: `"Valid: X | Skipped: Y"`.
+
+**Expected output (last lines):**
+
+```text
+PASS id=1: $100 (North)
+SKIP id=2: non-positive value
+SKIP id=3: invalid region 'INVALID'
+SKIP id=4: null value
+PASS id=5: $75 (West)
+PASS id=6: $320 (North)
+SKIP id=7: non-positive value
+Valid: 3 | Skipped: 4
+```
+
+**Success criteria:**
+
+- [ ] Uses `if`, `elif`, and `else`
+- [ ] Uses `for` over the list
+- [ ] Uses `continue` to skip bad rows
+- [ ] Uses `in` to check region membership
+- [ ] Final summary numbers are correct: 3 valid, 4 skipped
+
+**Stretch goal:** Wrap the rules in a `while` loop that retries the whole batch up to 3 times if any record was skipped (simulating a flaky upstream).
 
 ### Control-Flow Cheat Sheet
 
@@ -1942,6 +2108,47 @@ def pipeline(name, mode="batch", *sources, notify=True, **options):
 
 > **HitaVir Tech says:** "Functions are the atoms of programming — everything is built from them. Every data pipeline is just `extract()`, `transform()`, `load()`. Every API endpoint is a function. Every automation script is a collection of functions. Master functions and you master Python."
 
+### Assignment 3 — Reusable Validation Toolkit
+
+**Goal:** Build a small library of reusable functions that any pipeline at HitaVir Tech could import.
+
+**The scenario:** Three teams keep re-writing the same validators. Build them once, write proper docstrings, and ship a single toolkit file everyone can import.
+
+**Tasks:**
+
+1. Create `assignment_03_functions.py`.
+2. Implement these four functions, each with a docstring and snake_case name:
+
+   - `validate_email(email)` -> returns `True` if the string contains `@` and `.` (after the `@`), else `False`.
+   - `clean_name(name)` -> returns a stripped, title-cased version. If `None` or empty, return `"Unknown"`.
+   - `calculate_total(price, quantity, tax_rate=0.18)` -> returns `round(price * quantity * (1 + tax_rate), 2)`. Default tax 18%.
+   - `summarize(*amounts, label="Total")` -> prints `"{label}: ${sum:,.2f}"` for any number of amounts.
+
+3. Below the functions, add a `if __name__ == "__main__":` block that calls each function with at least 3 different inputs and prints the results.
+
+**Sample output:**
+
+```text
+validate_email('alice@hitavir.tech') -> True
+validate_email('not-an-email')       -> False
+clean_name('  alice johnson  ')      -> Alice Johnson
+clean_name(None)                     -> Unknown
+calculate_total(99.99, 3)            -> 354.0
+calculate_total(50, 2, tax_rate=0.0) -> 100.0
+Total: $1,250.50
+Refunds: $35.99
+```
+
+**Success criteria:**
+
+- [ ] All four functions defined with docstrings
+- [ ] Default parameter used in `calculate_total`
+- [ ] `*args` used in `summarize`
+- [ ] All functions called at least 3 times each
+- [ ] Code passes `flake8 assignment_03_functions.py` with zero warnings
+
+**Stretch goal:** Add a `@timer` decorator from the codelab and apply it to `summarize`. Also add type hints (e.g., `def calculate_total(price: float, quantity: int, tax_rate: float = 0.18) -> float:`).
+
 ## Data Structures
 Duration: 12:00
 
@@ -2209,6 +2416,60 @@ Dict  = Phone book        → name→number pairs, fast lookup by key
 ```
 
 > **HitaVir Tech says:** "In interviews, they will ask: 'When would you use a set instead of a list?' The answer: when you need unique values and fast O(1) lookups. A set checks membership instantly; a list scans every element. For 10 million records, that is the difference between milliseconds and minutes."
+
+### Assignment 4 — Sales Aggregator
+
+**Goal:** Use every Python data structure to build a small sales aggregator.
+
+**The scenario:** Marketing wants three answers from yesterday's sales: revenue per region, the list of unique customers, and the top-spending customer.
+
+**Tasks:**
+
+1. Create `assignment_04_data_structures.py`.
+2. Use this input data:
+
+```python
+sales = [
+    {"customer": "Alice",  "region": "North", "amount": 1500},
+    {"customer": "Bob",    "region": "South", "amount":  800},
+    {"customer": "Alice",  "region": "North", "amount": 2300},
+    {"customer": "Carol",  "region": "East",  "amount": 1200},
+    {"customer": "Bob",    "region": "South", "amount":  600},
+    {"customer": "David",  "region": "West",  "amount":  450},
+    {"customer": "Carol",  "region": "East",  "amount":  900},
+]
+```
+
+3. Build:
+   - `revenue_by_region` (a `dict`) -> total amount per region
+   - `unique_customers` (a `set`) -> distinct customer names
+   - `revenue_by_customer` (a `dict`) -> total amount per customer
+   - `top_customer` (a `tuple` of `(name, amount)`) -> the highest-spender
+
+4. Print a clean report:
+
+```text
+Revenue by Region:
+  East   : $2,100.00
+  North  : $3,800.00
+  South  : $1,400.00
+  West   :   $450.00
+
+Unique customers: 4
+Names: ['Alice', 'Bob', 'Carol', 'David']
+
+Top customer: Alice ($3,800.00)
+```
+
+**Success criteria:**
+
+- [ ] Uses `dict`, `set`, `list`, and `tuple` (all four)
+- [ ] Regions printed in alphabetical order
+- [ ] Customer list sorted alphabetically
+- [ ] Top customer = `("Alice", 3800)`
+- [ ] Numbers formatted with thousands separator and 2 decimals
+
+**Stretch goal:** Replace the manual loops with `defaultdict(float)` and a dictionary comprehension. Then replace the `for`-loop top-customer logic with `max(revenue_by_customer.items(), key=lambda x: x[1])`.
 
 ## File Handling — CSV, JSON, and Text
 Duration: 14:00
@@ -2521,6 +2782,49 @@ python file_logs.py
 
 > **HitaVir Tech says:** "File handling is where theory meets reality. Every data pipeline starts with reading a file and ends with writing a file. CSV and JSON are the two formats you will use most."
 
+### Assignment 5 — CSV to JSON Region Report
+
+**Goal:** Read a CSV, transform the data, and write a JSON summary — the most common file-handling task in real pipelines.
+
+**The scenario:** Finance asked for a daily JSON file showing total revenue per region. They will load the JSON into their dashboard.
+
+**Tasks:**
+
+1. Make sure `sales_raw.csv` exists in your working folder (if not, run `python create_sample_data.py` from the codelab).
+2. Create `assignment_05_files.py`.
+3. Read `sales_raw.csv` using `csv.DictReader`.
+4. Skip records that have empty `customer` or empty `product` (these are bad rows).
+5. Convert `quantity` and `price` to numbers, compute `total = quantity * price`.
+6. Skip records where `quantity <= 0` or `price <= 0`.
+7. Group by `region`, summing the `total`.
+8. Write the result to `region_summary.json` with `indent=2`. Format:
+
+```json
+{
+  "report_date": "2026-04-30",
+  "currency": "USD",
+  "by_region": {
+    "East":  599.98,
+    "North": 4079.95,
+    "South": 149.95,
+    "West":  1449.98
+  },
+  "total": 6279.86
+}
+```
+
+9. After writing the file, read it back with `json.load()` and print "Report verified — total: $X.XX" using the value from the loaded file.
+
+**Success criteria:**
+
+- [ ] Uses `csv.DictReader` with `with open(...)`
+- [ ] Uses `json.dump(..., indent=2)`
+- [ ] Skips rows with empty fields and non-positive numbers
+- [ ] JSON file is valid (re-readable by `json.load`)
+- [ ] Regions appear in alphabetical order in the output
+
+**Stretch goal:** Also write a `rejected_records.csv` containing every skipped row with a new column `reason` explaining why it was rejected.
+
 ## Error Handling and Logging
 Duration: 10:00
 
@@ -2729,6 +3033,46 @@ python error_handling.py
 
 > **HitaVir Tech says:** "In production, errors WILL happen. The question is not if, but when. Good error handling means your pipeline fails gracefully, logs the problem, and makes debugging easy."
 
+### Assignment 6 — Bullet-Proof CSV Reader
+
+**Goal:** Build one reusable function that can read any CSV without ever crashing the parent program.
+
+**The scenario:** Your team's pipelines keep dying because of bad input files. Build a single `safe_read_csv()` they can all import.
+
+**Tasks:**
+
+1. Create `assignment_06_errors.py`.
+2. Set up `logging` to write to **both** `errors.log` AND the console, level `INFO`, with a timestamp format.
+3. Write `safe_read_csv(filepath)` that:
+   - Returns `[]` if the file does not exist (log a `WARNING`)
+   - Returns `[]` if the file is unreadable for any other reason (log `CRITICAL`)
+   - Otherwise reads with `csv.DictReader`, skips rows that fail `int(row["quantity"])` or `float(row["price"])`, and logs each skip as a `WARNING` with the row number and reason
+   - Returns the list of valid rows
+4. Test by calling `safe_read_csv()` three times:
+   - With `"missing_file.csv"` -> should log a warning, return `[]`
+   - With `"sales_raw.csv"` -> should log skipped rows, return cleaned list
+   - With a temp file you create yourself containing 1 good row and 1 row with `price="abc"` -> should keep 1, skip 1
+
+**Sample log output:**
+
+```text
+2026-04-30 09:00:01 [WARNING] File not found: missing_file.csv
+2026-04-30 09:00:02 [INFO]    Loading sales_raw.csv
+2026-04-30 09:00:02 [WARNING] Row 7 skipped: invalid quantity '0'
+2026-04-30 09:00:02 [WARNING] Row 10 skipped: invalid price '-999.99'
+2026-04-30 09:00:02 [INFO]    Loaded 8 valid rows from sales_raw.csv
+```
+
+**Success criteria:**
+
+- [ ] Uses `try` / `except` with **specific** exception types (no bare `except:`)
+- [ ] Uses `logging`, never `print` for status
+- [ ] Function never raises an unhandled exception under any input
+- [ ] Both file and console show the same log lines
+- [ ] `errors.log` exists and is human-readable
+
+**Stretch goal:** Add the `@retry(max_attempts=3)` decorator from the codelab and apply it to `safe_read_csv` so flaky network-mounted files get retried automatically.
+
 ## Working with pandas
 Duration: 15:00
 
@@ -2866,6 +3210,47 @@ python pandas_basics.py
 | Save CSV | `.to_csv()` | `df.to_csv("out.csv", index=False)` |
 
 > **HitaVir Tech says:** "pandas is to data engineers what a stethoscope is to doctors — you cannot work without it. Learn `read_csv`, `groupby`, `merge`, and `apply`, and you can handle 90% of data tasks."
+
+### Assignment 7 — Daily Sales Report with pandas
+
+**Goal:** Practice the entire pandas workflow — read, clean, transform, group, save — on the sales dataset.
+
+**The scenario:** The COO wants a daily sales report broken down by date AND region, with one row per (date, region) and revenue ranked.
+
+**Tasks:**
+
+1. Create `assignment_07_pandas.py`.
+2. Read `sales_raw.csv` into a DataFrame `df`.
+3. Print `df.shape`, `df.dtypes`, and `df.isnull().sum()`.
+4. Drop rows where `customer` or `product` is null.
+5. Keep only rows where `quantity > 0` and `price > 0`.
+6. Add columns:
+   - `total = price * quantity` (rounded to 2 decimals)
+   - `is_premium = price > 200` (boolean)
+7. Group by `["date", "region"]` and aggregate `total` with `sum`, `count`, and `mean`. Round to 2 decimals.
+8. Sort the result by `total sum` descending.
+9. Save to `daily_region_report.csv`.
+10. Print the **top 3 (date, region) pairs** by revenue.
+
+**Sample output (top section):**
+
+```text
+DataFrame shape: (10, 7)
+
+Top 3 by revenue:
+  2026-04-02 | West  | $1,999.98 | 1 order  | avg $1,999.98
+  2026-04-01 | North | $1,159.97 | 2 orders | avg   $539.99
+  2026-04-03 | West  |   $449.99 | 1 order  | avg   $449.99
+```
+
+**Success criteria:**
+
+- [ ] Uses `read_csv`, `dropna`, boolean indexing, `assign` or column-add, `groupby` with `agg`, and `to_csv`
+- [ ] Output CSV has multi-column groupby (date + region)
+- [ ] Top-3 print uses formatted strings with thousands separator
+- [ ] No `SettingWithCopyWarning` in the output (use `df = df.copy()` after filtering)
+
+**Stretch goal:** Add a `pivot_table` showing regions as rows and dates as columns, with `total` as the cell values. Save it as `pivot_report.csv`.
 
 ## Data Engineering Mini Project — Complete ETL Pipeline
 Duration: 20:00
@@ -3266,6 +3651,40 @@ pipeline_project/
 
 > **HitaVir Tech says:** "This is a real ETL pipeline. It extracts, validates, transforms, loads, reports, and logs. This exact pattern scales from 10 records to 10 million. Add PySpark and you are ready for Big Data."
 
+### Assignment 8 — Extend the ETL Pipeline (capstone)
+
+**Goal:** Modify the production pipeline you just built to add new business rules, a new tier, and richer reporting.
+
+**The scenario:** Sales leadership added three asks: catch typo orders, identify "whale" customers, and surface the top buyers in the daily report.
+
+**Tasks:**
+
+1. Open `pipeline_project/etl_pipeline.py` in VS Code.
+2. **New validation rule.** In `validate_record`, add a check: if `quantity > 1000`, reject with reason `"quantity too large (likely typo)"`. Add a new key to `CONFIG["rules"]` for this maximum (`"max_quantity": 1000`).
+3. **New tier.** In `transform`, add a "Whale" tier above "Enterprise":
+   - `total >= 5000` -> `"Whale"`
+   - `total >= 1000` -> `"Enterprise"`
+   - `total >= 200`  -> `"Business"`
+   - else            -> `"Consumer"`
+4. **Richer report.** In `generate_report`, add a `top_customers` section: top 5 customers by total spend, formatted as `[{"customer": "Alice Johnson", "spend": 1999.98}, ...]`.
+5. Edit `pipeline_project/input/sales_raw.csv` and add 2 test rows:
+   - One row with `quantity=2000` (should be rejected)
+   - One row with `total >= 5000` (should land in the new Whale tier)
+6. Run `python etl_pipeline.py` and verify:
+   - `output/rejected_records.csv` contains your typo row
+   - `output/sales_cleaned.csv` shows a `"Whale"` in the `tier` column
+   - `output/daily_report.json` includes `top_customers`
+
+**Success criteria:**
+
+- [ ] New rule reads its limit from `CONFIG["rules"]["max_quantity"]` (no magic numbers)
+- [ ] Whale tier appears in cleaned CSV
+- [ ] `top_customers` section in JSON has up to 5 entries, sorted descending
+- [ ] Pipeline log shows the typo rejection and the Whale assignment
+- [ ] All existing tests still pass — no regression on the current good records
+
+**Stretch goal:** Add command-line arguments using `argparse` so the pipeline can be run with `python etl_pipeline.py --input path/to/file.csv --top-n 10`.
+
 ```bash
 cd ~/python-de-learning
 ```
@@ -3434,6 +3853,35 @@ python intermediate.py
 ```
 
 > **HitaVir Tech says:** "List comprehensions, lambdas, and classes are the intermediate trifecta. Comprehensions make your code concise. Lambdas make sorting and filtering elegant. Classes make your pipelines reusable and testable."
+
+### Assignment 9 — Refactor Assignment 4 with Pythonic Tools
+
+**Goal:** Take the sales aggregator from Assignment 4 and rewrite it using comprehensions, lambdas, and a class — the trifecta of intermediate Python.
+
+**The scenario:** Code review feedback says your aggregator works but is "too imperative." Refactor it.
+
+**Tasks:**
+
+1. Copy `assignment_04_data_structures.py` to `assignment_09_intermediate.py`.
+2. Replace the manual region-grouping loop with a `defaultdict(float)` and a single `for sale in sales: by_region[sale["region"]] += sale["amount"]`. Then convert `by_region` into a regular dict using a **dict comprehension** that also rounds to 2 decimals.
+3. Replace the top-customer loop with `max(...)` plus a **lambda** key.
+4. Wrap everything in a class `SalesAggregator` with:
+   - `__init__(self)` -> initializes empty internal dicts
+   - `add_sale(self, customer, region, amount)` -> records one sale
+   - `revenue_by_region(self)` -> returns the dict
+   - `top_customer(self)` -> returns `(name, amount)`
+   - `__str__(self)` -> returns a one-line summary
+5. In `if __name__ == "__main__":`, build the aggregator from the same input list, call each method, and print the results.
+
+**Success criteria:**
+
+- [ ] At least one **list or dict comprehension** is used
+- [ ] At least one **lambda** is used (with `sorted`, `max`, `filter`, or `map`)
+- [ ] Class has `__init__`, three methods, and `__str__`
+- [ ] Same numeric output as Assignment 4 (Alice = $3,800 top customer)
+- [ ] Code passes `black` formatter and `flake8` with zero warnings
+
+**Stretch goal:** Make the class iterable by adding `__iter__` so you can write `for sale in aggregator:` to walk through every recorded sale.
 
 ## Best Practices and Project Structure
 Duration: 6:00
@@ -3916,6 +4364,7 @@ You have successfully completed **Python Programming for Data Engineering** by *
 python-de-learning/
 ├── venv/
 ├── requirements.txt
+│
 ├── test_setup.py
 ├── basics_variables.py
 ├── basics_types.py
@@ -3938,13 +4387,43 @@ python-de-learning/
 ├── pandas_basics.py
 ├── intermediate.py
 ├── best_practices.py
-├── pipeline_project/
+│
+├── assignment_00_pep8.py            <-- Style refactor drill
+├── assignment_01_basics.py          <-- Pipeline Stats Calculator
+├── assignment_02_control.py         <-- Data Quality Gate
+├── assignment_03_functions.py       <-- Reusable Validation Toolkit
+├── assignment_04_data_structures.py <-- Sales Aggregator
+├── assignment_05_files.py           <-- CSV to JSON Region Report
+├── assignment_06_errors.py          <-- Bullet-Proof CSV Reader
+├── assignment_07_pandas.py          <-- Daily Sales Report
+├── assignment_09_intermediate.py    <-- Pythonic refactor
+│
+├── pipeline_project/                <-- Capstone (Assignment 8)
 │   ├── etl_pipeline.py
 │   ├── input/sales_raw.csv
 │   ├── output/
 │   └── logs/
 └── (data files created during exercises)
 ```
+
+### Assignment Tracker — Tick Each One Off
+
+```
++---------------------------------------------------------------+
+|  [ ]  Assignment 0  -  Style-Refactor Drill                   |
+|  [ ]  Assignment 1  -  Pipeline Stats Calculator              |
+|  [ ]  Assignment 2  -  Data Quality Gate                      |
+|  [ ]  Assignment 3  -  Reusable Validation Toolkit            |
+|  [ ]  Assignment 4  -  Sales Aggregator                       |
+|  [ ]  Assignment 5  -  CSV to JSON Region Report              |
+|  [ ]  Assignment 6  -  Bullet-Proof CSV Reader                |
+|  [ ]  Assignment 7  -  Daily Sales Report with pandas         |
+|  [ ]  Assignment 8  -  Extend the ETL Pipeline (capstone)     |
+|  [ ]  Assignment 9  -  Refactor Assignment 4 (intermediate)   |
++---------------------------------------------------------------+
+```
+
+When all 10 boxes are ticked, you have a portfolio of working pipeline code you can show in any DE interview.
 
 Keep coding, keep building pipelines, and keep growing with HitaVir Tech!
 
