@@ -292,6 +292,448 @@ python-de-learning/
 | Wrong Python version | Use `python3` instead of `python` |
 | `venv` activation fails | Use the correct command for your terminal |
 
+### Setup Checkpoint — You Should Now Be Able To...
+
+```
++--------------------------------------------------------------+
+|  [ ]  Open a terminal and run `python --version` successfully |
+|  [ ]  Activate a virtual environment and see (venv) prompt    |
+|  [ ]  Run `pip install pandas` without errors                 |
+|  [ ]  Open VS Code and run a .py file with one click          |
+|  [ ]  Recreate this setup on any new Windows machine          |
++--------------------------------------------------------------+
+```
+
+If any box is unchecked, revisit the step above before moving on.
+
+## PEP 8 — Python's Style Guide for Professional Code
+Duration: 15:00
+
+> **What is PEP 8?**
+> PEP 8 is the official **Style Guide for Python Code** — a set of rules that tells you HOW to format your code so every Python developer in the world can read it. PEP stands for "Python Enhancement Proposal." PEP 8 was written in 2001 by Guido van Rossum (Python's creator) and is the universal standard.
+>
+> Read the full document any time at: [https://peps.python.org/pep-0008/](https://peps.python.org/pep-0008/)
+
+> **Why does this matter for Data Engineers?**
+> Code is read 10 times more than it is written. Every team you join — banks, startups, FAANG, consultancies — expects PEP 8-compliant code. Tools like `black`, `flake8`, `ruff`, and `pylint` check it automatically in CI/CD. If your pull request fails the style check, it does not merge.
+
+### The Big Picture — The 7 Pillars of PEP 8
+
+```
++-----------------------------------------------------------------+
+|                  THE 7 PILLARS OF PEP 8                         |
++-----------------------------------------------------------------+
+|   1. Indentation        4 spaces, never tabs                    |
+|   2. Line Length        79 chars (88 with Black formatter)      |
+|   3. Imports            Top of file, grouped, alphabetized      |
+|   4. Naming             snake_case, PascalCase, UPPER_SNAKE     |
+|   5. Whitespace         Around operators, after commas          |
+|   6. Comments           Block, inline, docstrings               |
+|   7. Recommendations    `is None`, `isinstance`, `enumerate`    |
++-----------------------------------------------------------------+
+```
+
+Let us walk through each pillar with Data Engineering examples.
+
+### Pillar 1 — Indentation
+
+> **The rule:** **4 spaces** per indentation level. Never tabs. Never mix.
+
+Python uses indentation to know what code is "inside" a function, loop, or `if`. Consistent indentation is not a suggestion — it is a syntax requirement.
+
+**CORRECT — 4 spaces per level**
+
+```python
+def transform(records):
+    for record in records:
+        if record["valid"]:
+            record["total"] = record["price"] * record["quantity"]
+    return records
+```
+
+**WRONG — 2 spaces (works but breaks the standard)**
+
+```python
+def transform(records):
+  for record in records:
+    if record["valid"]:
+      record["total"] = record["price"] * record["quantity"]
+  return records
+```
+
+**FATAL — mixing tabs and spaces (Python crashes with `TabError`)**
+
+```python
+def transform(records):
+    for record in records:    # ← spaces
+        if record["valid"]:   # ← tab here = invisible bug
+            ...
+```
+
+> **VS Code fix:** Open Settings, search for `render whitespace`, set it to `all`. Tabs and spaces become visible so you can spot the mix instantly.
+
+### Pillar 2 — Line Length
+
+> **The rule:**
+> - **PEP 8 default**: 79 characters (a 1980s legacy from VT100 terminals)
+> - **Black formatter**: 88 characters (the modern compromise)
+> - **Many teams**: 120 characters (matches a wide monitor)
+
+Pick one limit per project and stick to it. Long lines are painful to review side-by-side in a pull request diff.
+
+**WRONG — 130+ characters, hard to scan**
+
+```python
+result = pd.merge(sales_df, customer_df, left_on="customer_id", right_on="id", how="left", validate="many_to_one")
+```
+
+**CORRECT — wrapped at 88 chars, every argument on its own line**
+
+```python
+result = pd.merge(
+    sales_df,
+    customer_df,
+    left_on="customer_id",
+    right_on="id",
+    how="left",
+    validate="many_to_one",
+)
+```
+
+### Pillar 3 — Imports
+
+> **The rule:** Imports go at the **top of the file**, on **separate lines**, grouped in this order, with **one blank line** between groups:
+>
+> 1. **Standard library** — `os`, `csv`, `json`, `logging`
+> 2. **Third-party libraries** — `pandas`, `numpy`, `requests`
+> 3. **Local modules** — `from src.transform import clean`
+
+**CORRECT — three groups, separated by blank lines**
+
+```python
+import csv
+import json
+import logging
+from datetime import datetime
+
+import numpy as np
+import pandas as pd
+
+from src.extract import extract_csv
+from src.transform import clean_records
+```
+
+**WRONG — common beginner mistakes**
+
+```python
+from pandas import *           # wildcard pollutes the namespace
+import os, sys, json           # multiple imports on one line
+import pandas, csv, datetime   # mixes stdlib and third-party
+```
+
+### Pillar 4 — Naming Conventions
+
+> **The naming cheat sheet that fits in your head:**
+
+| Element | Convention | Data Engineering example |
+|---------|------------|---------------------------|
+| Variable | `snake_case` | `total_records`, `customer_id` |
+| Function | `snake_case` | `read_csv()`, `validate_record()` |
+| Class | `PascalCase` | `DataPipeline`, `SalesTransformer` |
+| Constant | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT`, `BATCH_SIZE` |
+| Module / file | `snake_case.py` | `etl_pipeline.py`, `validators.py` |
+| Package / folder | `lowercase` | `src/`, `config/` |
+| Internal (private) | `_leading_underscore` | `_internal_cache`, `_helper()` |
+| Strongly private | `__double_underscore` | `__name_mangled` (advanced) |
+
+**CORRECT**
+
+```python
+MAX_BATCH_SIZE = 1000   # constant — UPPER_SNAKE_CASE
+
+def calculate_total(price, quantity):   # function — snake_case
+    return price * quantity
+
+class SalesPipeline:                    # class — PascalCase
+    def __init__(self, source_path):
+        self.source_path = source_path
+        self._records_cache = []        # internal — leading underscore
+```
+
+**WRONG**
+
+```python
+maxBatchSize = 1000           # camelCase is JavaScript, not Python
+def CalculateTotal(p, q):     # PascalCase belongs to classes
+    return p * q
+class sales_pipeline:         # snake_case belongs to functions/vars
+    pass
+```
+
+> **PITFALL:** Single-letter variables (`x`, `i`, `tmp`, `c`) are acceptable inside short loops or list comprehensions only. In a real pipeline, `customer_id` always beats `c`. Future-you will thank present-you.
+
+### Pillar 5 — Whitespace
+
+> **Where to use spaces (and where NOT to):**
+
+```python
+# CORRECT — spaces around binary operators
+total = price * quantity + tax
+
+# CORRECT — space after every comma
+process(records, batch_size, retries)
+
+# CORRECT — spaces around assignment in normal code
+threshold = 0.05
+
+# CORRECT — NO spaces around = in keyword arguments / defaults
+def connect(host, port=5432):
+    pass
+
+connect(host="localhost", port=5432)
+
+# CORRECT — NO spaces inside brackets
+records[0]
+{"key": "value"}
+```
+
+```python
+# WRONG — common whitespace mistakes
+total=price*quantity+tax            # missing spaces around operators
+process(records,batch_size,retries) # missing spaces after commas
+threshold=0.05                       # missing spaces around =
+def connect(host, port = 5432):     # extra spaces around = in default
+records[ 0 ]                         # extra spaces inside brackets
+{ "key" : "value" }                  # extra spaces inside braces
+```
+
+### Pillar 6 — Comments and Docstrings
+
+> **Three kinds of comments — know when to use which:**
+
+| Type | Where | Purpose |
+|------|-------|---------|
+| Block comment | Above code, full line(s) starting with `#` | Explain WHY a block exists |
+| Inline comment | After code, 2+ spaces from it, then `#` | Clarify a tricky line |
+| Docstring | First lines of function/class/module, triple-quoted | API contract — args, returns, raises |
+
+```python
+# CORRECT — block comment explains WHY
+# Group every order by region and sum the revenue.
+# Used by the daily executive dashboard.
+revenue_by_region = df.groupby("region")["total"].sum()
+
+
+def validate_record(record, rules):
+    """
+    Validate a single record against business rules.
+
+    Args:
+        record (dict): The record to check.
+        rules (dict): Validation rules from config.
+
+    Returns:
+        tuple: (is_valid: bool, errors: list[str])
+    """
+    ...
+```
+
+```python
+# CORRECT — inline comment explains WHY, not WHAT
+total = price * quantity  # tax added later by enrichment step
+
+# WRONG — useless restatement of the code
+total = price * quantity  # multiply price by quantity
+```
+
+### Pillar 7 — Programming Recommendations
+
+> **The "Pythonic" rules every Data Engineer should know:**
+
+| Topic | CORRECT | WRONG |
+|-------|---------|-------|
+| Compare to None | `if value is None:` | `if value == None:` |
+| Type check | `if isinstance(x, (int, float)):` | `if type(x) == int or type(x) == float:` |
+| Empty check | `if not records:` | `if len(records) == 0:` |
+| Index loop | `for i, record in enumerate(records):` | `for i in range(len(records)):` |
+| Parallel walk | `for name, age in zip(names, ages):` | indexing both lists by `i` |
+| Boolean test | `if is_valid:` | `if is_valid == True:` |
+| String join | `", ".join(items)` | `s = ""; for x in items: s += x + ", "` |
+| Default dict get | `config.get("port", 5432)` | `if "port" in config: ... else: ...` |
+
+### The PEP 8 Toolchain — Tools That Check (and Fix) Your Code
+
+You do not memorize PEP 8 by heart — you install tools that check (and even fix) it for you.
+
+| Tool | What it does | Install |
+|------|-------------|---------|
+| **`black`** | Auto-formats your code to PEP 8 (opinionated, one true style) | `pip install black` |
+| **`isort`** | Sorts and groups imports correctly | `pip install isort` |
+| **`flake8`** | Reports PEP 8 violations | `pip install flake8` |
+| **`ruff`** | Modern, fast linter+formatter (replaces black + flake8 + isort) | `pip install ruff` |
+| **`mypy`** | Type-checks your annotations | `pip install mypy` |
+
+**The 60-second setup for any DE project:**
+
+```bash
+# Install everything
+pip install black isort flake8 ruff
+
+# Auto-format your code (run before every commit)
+black .
+isort .
+
+# Or use the modern, single-tool approach
+ruff format .
+ruff check . --fix
+```
+
+Add these to a `requirements-dev.txt` so every teammate uses the same versions.
+
+### Putting It All Together — A Real Refactor
+
+The same logic, before and after PEP 8 is applied. Read both — feel the difference.
+
+**BEFORE — works, but painful**
+
+```python
+import pandas as pd,numpy as np,csv,json,logging
+def TransformData( records,Threshold=100 ):
+  Cleaned=[]
+  for i in range(len(records)):
+    r=records[i]
+    if r["price"]==None:continue
+    if r["price"]>Threshold:
+      r["total"]=r["price"]*r["qty"];r["category"]="premium"
+      Cleaned.append( r )
+  return Cleaned
+```
+
+**AFTER — PEP 8 compliant**
+
+```python
+import csv
+import json
+import logging
+
+import numpy as np
+import pandas as pd
+
+
+def transform_data(records, threshold=100):
+    """Filter premium records and compute totals."""
+    cleaned = []
+    for record in records:
+        if record["price"] is None:
+            continue
+        if record["price"] > threshold:
+            record["total"] = record["price"] * record["qty"]
+            record["category"] = "premium"
+            cleaned.append(record)
+    return cleaned
+```
+
+#### What changed?
+
+| Issue in BEFORE | Fix in AFTER |
+|------------------|--------------|
+| Imports on one line, mixed groups | One per line, grouped, alphabetized |
+| `TransformData` (PascalCase) | `transform_data` (snake_case) |
+| `Threshold=100` (mixed case + spaces) | `threshold=100` (snake_case, no space around `=`) |
+| 2-space indent | 4-space indent |
+| `r` is too cryptic | `record` (descriptive) |
+| `==None` | `is None` |
+| `range(len(records))` | direct iteration over `records` |
+| Two statements on one line (`;`) | One per line |
+| No docstring | Docstring describing intent |
+
+### Try It — Format the Bad Code Yourself
+
+```bash
+# Save the BAD example into a file:
+cat > bad_style.py << 'PYEOF'
+import pandas as pd,numpy as np,csv,json,logging
+def TransformData( records,Threshold=100 ):
+  Cleaned=[]
+  for i in range(len(records)):
+    r=records[i]
+    if r["price"]==None:continue
+    if r["price"]>Threshold:
+      r["total"]=r["price"]*r["qty"];r["category"]="premium"
+      Cleaned.append( r )
+  return Cleaned
+PYEOF
+
+# Install black and run it:
+pip install black
+black bad_style.py
+
+# Open the file — it has been auto-fixed for indentation, spacing, and line breaks.
+# (Naming and the `==None` are flagged by flake8, not by black.)
+
+pip install flake8
+flake8 bad_style.py
+```
+
+You will see flake8 print the remaining issues — naming and `== None`. Fix those by hand and run flake8 again until it prints nothing. **That silence is the goal.**
+
+### PEP 8 Cheat Card — Tape This Above Your Monitor
+
+```
++----------------------------------------------------------+
+|  PEP 8 QUICK REFERENCE  -  for Data Engineers            |
++----------------------------------------------------------+
+|  Indent       | 4 spaces, no tabs                        |
+|  Line length  | 79  (or 88 if using Black)               |
+|  Blank lines  | 2 between top-level defs, 1 between meth |
+|  Imports      | stdlib  ->  third-party  ->  local       |
+|  Strings      | "double quotes" preferred for text       |
+|  Variables    | snake_case                               |
+|  Functions    | snake_case()                             |
+|  Classes      | PascalCase                               |
+|  Constants    | UPPER_SNAKE                              |
+|  Privates     | _leading_underscore                      |
+|  None check   | `if x is None:`  not  `== None`          |
+|  Type check   | `isinstance(x, int)`  not  `type(x)==int`|
+|  Empty check  | `if not records:`  not  `len() == 0`     |
+|  Format       | run `black .` before every commit        |
+|  Lint         | run `flake8 .` or `ruff check .`         |
++----------------------------------------------------------+
+```
+
+### Best-Practice Standards Beyond PEP 8
+
+PEP 8 is style. These are the **engineering practices** every Data Engineer follows on top of it.
+
+| Practice | Why it matters in DE |
+|----------|----------------------|
+| **Type hints** (`def f(x: int) -> str:`) | Catch type bugs before runtime; IDE autocomplete |
+| **Docstrings on every public function** | New teammates can read the API without reading the body |
+| **One function = one job** (Single Responsibility) | Easier to test, easier to reuse |
+| **No magic numbers** | `THRESHOLD = 100` at the top, not `if x > 100:` buried in code |
+| **Fail loudly, log clearly** | Silent failures destroy trust in pipelines |
+| **Keep functions under ~50 lines** | If it does not fit on one screen, split it |
+| **Pure functions when possible** | Same input, same output, no side effects = trivial to test |
+| **Use `pathlib` over `os.path`** | Modern, cross-platform, readable |
+| **F-strings over `%` and `.format()`** | Readable, fast, the recommended style since Python 3.6 |
+| **Never `except:`; always `except Exception` or specific** | Bare `except` swallows `Ctrl-C` and hides bugs |
+
+### PEP 8 Checkpoint — You Should Now Be Able To...
+
+```
++----------------------------------------------------------------+
+|  [ ]  Explain what PEP 8 is and why it exists                  |
+|  [ ]  Apply 4-space indentation correctly                      |
+|  [ ]  Group imports in stdlib / third-party / local order      |
+|  [ ]  Pick the right naming style for vars, funcs, classes     |
+|  [ ]  Place spaces around operators but not in default params  |
+|  [ ]  Write a function with a proper docstring                 |
+|  [ ]  Run `black` and `flake8` to auto-check your code         |
++----------------------------------------------------------------+
+```
+
+> **HitaVir Tech says:** "PEP 8 is to Python what tabs and bullet points are to a resume — non-negotiable polish. Once your editor formats your code with `black` on every save, you stop thinking about style and focus on logic. That is the goal."
+
 ## Python Basics — Variables and Data Types
 Duration: 12:00
 
@@ -302,6 +744,32 @@ Duration: 12:00
 
 > **What is a data type?**
 > The data type tells Python **what kind of value** is in the box — a number, some text, a true/false flag, etc. Python figures this out automatically when you assign a value.
+
+### Visual Mental Model — Variables in Memory
+
+```
+        Your code                   What Python does in memory
+        ---------                   --------------------------
+
+   pipeline_name = "Sales ETL"
+                                    +-----------------+      +-----------+
+   total_records = 15000            | pipeline_name   | ---> | "Sales ETL"|
+                                    +-----------------+      +-----------+
+   success_rate  = 99.7
+                                    +-----------------+      +-----------+
+   is_production = True             | total_records   | ---> |   15000   |
+                                    +-----------------+      +-----------+
+                                    +-----------------+      +-----------+
+                                    | success_rate    | ---> |   99.7    |
+                                    +-----------------+      +-----------+
+                                    +-----------------+      +-----------+
+                                    | is_production   | ---> |   True    |
+                                    +-----------------+      +-----------+
+
+           NAME (label)                         VALUE (the data)
+```
+
+The variable name is a sticker on a box. Python remembers which box each sticker is attached to.
 
 Let us write real Python code. Create a new file for each section.
 
@@ -745,7 +1213,28 @@ Duration: 18:00
 
 In data engineering, functions are the building blocks of every pipeline. Every ETL job is just `extract()`, then `transform()`, then `load()` — three functions you call in order.
 
-### The Anatomy of a Function
+### The Anatomy of a Function — Visual Breakdown
+
+```
+        keyword    name           parameters
+           |        |                  |
+           v        v                  v
+        +---+ +---------------+ +------------------+
+         def   calculate_total  (price, quantity):
+                                                      +--- colon ends the signature
+        """Multiply price by quantity."""             |
+        |--------------- docstring ---------------|   |
+                                                      v
+            total = price * quantity   <--- body (indented 4 spaces)
+            return total               <--- return value sent back to caller
+
+
+   When the caller writes:                 Python returns:
+        result = calculate_total(99.99, 3)        ----> 299.97
+                          |        |
+                       price    quantity
+                       (arg)     (arg)
+```
 
 ```python
 def calculate_total(price, quantity):    # def = "define a function"
@@ -1440,6 +1929,26 @@ Duration: 12:00
 > - **Set** — a collection of unique stamps (no duplicates, no order)
 > - **Dictionary** — a phone contacts list (look up a number by name)
 
+### Visual Comparison — The Four Built-ins at a Glance
+
+```
+   LIST  [ ]                          TUPLE  ( )
+   +---+---+---+---+                  +---+---+---+---+
+   | A | B | C | A |  <-- duplicates  | A | B | C | A |  <-- locked,
+   +---+---+---+---+                  +---+---+---+---+      cannot
+     0   1   2   3   <-- positions      0   1   2   3      change
+   ordered, mutable                    ordered, immutable
+
+
+   SET  { }                           DICT  { key: value }
+   +---+---+---+                      +-----+-----+-----+
+   | A | B | C |  <-- unique only     | id  | name|email|   keys
+   +---+---+---+                      +-----+-----+-----+
+   no order, no duplicates            | 1   |Alice| a@.. |  values
+                                      +-----+-----+-----+
+                                      lookup by KEY (not position)
+```
+
 Data engineers use these every single day. Master them and you can model almost any data.
 
 ```bash
@@ -2000,6 +2509,35 @@ Duration: 10:00
 > - `except SomeError:` — "if THIS specific error happens, do this instead"
 > - `finally:` — "do this no matter what (cleanup)"
 
+#### Visual Flow — How `try / except / finally` runs
+
+```
+               +--------------+
+               |   try:       |
+               |   risky_code |
+               +--------------+
+                      |
+              did it raise an error?
+               /                  \
+             NO                   YES
+              |                    |
+              v                    v
+     +----------------+   +-------------------+
+     | skip except    |   | matching except:  |
+     | block          |   | run handler code  |
+     +----------------+   +-------------------+
+              \                    /
+               \                  /
+                v                v
+               +------------------+
+               |    finally:      |   <-- ALWAYS runs
+               |    cleanup       |       (close file,
+               +------------------+        release lock)
+                        |
+                        v
+                  continue program
+```
+
 ```bash
 cat > error_handling.py << 'PYEOF'
 """
@@ -2299,6 +2837,31 @@ Duration: 20:00
 > 1. **Extract** — pull raw data from a source (file, database, API)
 > 2. **Transform** — clean, validate, enrich, reshape it
 > 3. **Load** — save the result to a destination (file, warehouse, dashboard)
+
+### The ETL Pipeline You Are About to Build
+
+```
+                              HitaVir Tech Sales ETL
+                              ----------------------
+
+  +---------------+      +---------------+      +-------------------+
+  |    EXTRACT    |      |   TRANSFORM   |      |       LOAD        |
+  |               |      |               |      |                   |
+  | sales_raw.csv | ---> |  validate     | ---> |  sales_cleaned.csv|
+  |               |      |  type-cast    |      |  rejected.csv     |
+  | input/        |      |  enrich       |      |  daily_report.json|
+  +---------------+      |  categorize   |      +-------------------+
+                         +---------------+               |
+                                |                        v
+                                v                +-------------------+
+                         +---------------+       |    pipeline.log   |
+                         | rejected.csv  |       |  (every step is   |
+                         | (bad records) |       |   logged here)    |
+                         +---------------+       +-------------------+
+
+  Every arrow above is one Python function. Every function is logged.
+  If a record fails validation, it goes to rejected.csv with the reason.
+```
 
 Time to build a **real, production-quality ETL pipeline** that combines everything you have learned: variables, control flow, functions, data structures, file I/O, error handling, and logging.
 
@@ -3256,25 +3819,39 @@ Congratulations! You have completed **Python for Data Engineering** by **HitaVir
 ### The Data Engineer Learning Path
 
 ```
-Python Basics (you are here!)
-    │
-    ▼
-SQL + Database Design
-    │
-    ▼
-pandas + Data Transformation
-    │
-    ▼
-Apache Spark (PySpark)
-    │
-    ▼
-Airflow (Pipeline Orchestration)
-    │
-    ▼
-Cloud Platforms (AWS / Azure / GCP)
-    │
-    ▼
-Databricks + Delta Lake
++----------------------------------------------+
+|  Python Basics (you finished this codelab!)  |   <-- you are here
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  SQL + Database Design                       |
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  pandas + Data Transformation                |
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  Apache Spark (PySpark)                      |
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  Airflow (Pipeline Orchestration)            |
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  Cloud Platforms (AWS / Azure / GCP)         |
++----------------------------------------------+
+                       |
+                       v
++----------------------------------------------+
+|  Databricks + Delta Lake (production scale)  |
++----------------------------------------------+
 ```
 
 > **HitaVir Tech says:** "You now have the Python foundation that every data engineer needs. The language is your tool — data is your mission. Go build pipelines that move data, transform businesses, and create value."
