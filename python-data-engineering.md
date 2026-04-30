@@ -114,8 +114,9 @@ This codelab assumes **zero Python experience and zero programming background**.
 ## Environment Setup
 Duration: 10:00
 
-> **What is an "environment"?**
-> An environment is the set of tools your code runs inside — Python itself, an editor to write code in, and a sandbox to install libraries. We will set up all three on Windows.
+**What is an "environment"?**
+
+An environment is the set of tools your code runs inside — Python itself, an editor to write code in, and a sandbox to install libraries. We will set up all three on Windows.
 
 Let us set up a professional Python development environment.
 
@@ -128,8 +129,9 @@ Go to [https://www.python.org/downloads/](https://www.python.org/downloads/) and
 1. **Check the box** that says **"Add Python to PATH"** (at the bottom of the first screen)
 2. Click **"Install Now"**
 
-> **What does "Add to PATH" mean?**
-> PATH is a list of folders Windows searches when you type a command. If Python is on PATH, typing `python` anywhere in any terminal works. If you skip this, Python will be installed but invisible to your terminal.
+**What does "Add to PATH" mean?**
+
+PATH is a list of folders Windows searches when you type a command. If Python is on PATH, typing `python` anywhere in any terminal works. If you skip this, Python will be installed but invisible to your terminal.
 
 If you miss the PATH checkbox, Python commands will not work — reinstall and check it.
 
@@ -159,15 +161,17 @@ pip --version
 pip 24.0 from ... (python 3.12)
 ```
 
-> **What is pip?**
-> `pip` is the tool that downloads and installs Python libraries (extra code other people wrote that you can reuse). Think of it like the App Store, but for Python code.
+**What is pip?**
+
+`pip` is the tool that downloads and installs Python libraries (extra code other people wrote that you can reuse). Think of it like the App Store, but for Python code.
 
 ### Step 3 — Install VS Code
 
 VS Code is a free code editor from Microsoft. Download from [https://code.visualstudio.com/](https://code.visualstudio.com/) and install with default settings.
 
-> **Why VS Code?**
-> A code editor is a souped-up Notepad: it color-codes your Python so it is easier to read, catches typos as you type, and runs your scripts with one click.
+**Why VS Code?**
+
+A code editor is a souped-up Notepad: it color-codes your Python so it is easier to read, catches typos as you type, and runs your scripts with one click.
 
 ### Step 4 — Install Python Extension for VS Code
 
@@ -183,8 +187,9 @@ mkdir -p ~/python-de-learning
 cd ~/python-de-learning
 ```
 
-> **What did that do?**
-> `mkdir` makes a new folder. `~` is your home folder (e.g., `C:/Users/YourName`). `cd` moves into the folder. From now on, every file you create lives here.
+**What did that do?**
+
+`mkdir` makes a new folder. `~` is your home folder (e.g., `C:/Users/YourName`). `cd` moves into the folder. From now on, every file you create lives here.
 
 ### Step 6 — Create a Virtual Environment
 
@@ -192,8 +197,9 @@ cd ~/python-de-learning
 python -m venv venv
 ```
 
-> **What is a virtual environment, and why?**
-> A virtual environment (`venv`) is a private sandbox of Python libraries for **this project only**. Different projects need different versions of libraries — without a venv, they would conflict. The venv folder holds its own Python and its own libraries, isolated from everything else.
+**What is a virtual environment, and why?**
+
+A virtual environment (`venv`) is a private sandbox of Python libraries for **this project only**. Different projects need different versions of libraries — without a venv, they would conflict. The venv folder holds its own Python and its own libraries, isolated from everything else.
 
 Activate it:
 
@@ -222,10 +228,11 @@ $
 pip install pandas numpy requests
 ```
 
-> **What did we just install?**
-> - **pandas** — the spreadsheet-in-Python library every data engineer uses
-> - **numpy** — fast number-crunching (pandas is built on top of it)
-> - **requests** — for calling APIs to pull data over the internet
+**What did we just install?**
+
+- **pandas** — the spreadsheet-in-Python library every data engineer uses
+- **numpy** — fast number-crunching (pandas is built on top of it)
+- **requests** — for calling APIs to pull data over the internet
 
 Save your dependency list so anyone can recreate your environment:
 
@@ -234,8 +241,9 @@ pip freeze > requirements.txt
 cat requirements.txt
 ```
 
-> **What is `requirements.txt`?**
-> A plain-text file listing every library your project uses, with versions. When you share your project, others run `pip install -r requirements.txt` to get the exact same setup.
+**What is requirements.txt?**
+
+`requirements.txt` is a plain-text file listing every library your project uses, with versions. When you share your project, others run `pip install -r requirements.txt` to get the exact same setup.
 
 ### Step 8 — Verify Everything Works
 
@@ -309,13 +317,15 @@ If any box is unchecked, revisit the step above before moving on.
 ## PEP 8 — Python's Style Guide for Professional Code
 Duration: 15:00
 
-> **What is PEP 8?**
-> PEP 8 is the official **Style Guide for Python Code** — a set of rules that tells you HOW to format your code so every Python developer in the world can read it. PEP stands for "Python Enhancement Proposal." PEP 8 was written in 2001 by Guido van Rossum (Python's creator) and is the universal standard.
->
-> Read the full document any time at: [https://peps.python.org/pep-0008/](https://peps.python.org/pep-0008/)
+**What is PEP 8?**
 
-> **Why does this matter for Data Engineers?**
-> Code is read 10 times more than it is written. Every team you join — banks, startups, FAANG, consultancies — expects PEP 8-compliant code. Tools like `black`, `flake8`, `ruff`, and `pylint` check it automatically in CI/CD. If your pull request fails the style check, it does not merge.
+PEP 8 is the official **Style Guide for Python Code** — a set of rules that tells you HOW to format your code so every Python developer in the world can read it. PEP stands for "Python Enhancement Proposal." PEP 8 was written in 2001 by Guido van Rossum (Python's creator) and is the universal standard.
+
+Read the full document any time at: [https://peps.python.org/pep-0008/](https://peps.python.org/pep-0008/)
+
+**Why does this matter for Data Engineers?**
+
+Code is read 10 times more than it is written. Every team you join — banks, startups, FAANG, consultancies — expects PEP 8-compliant code. Tools like `black`, `flake8`, `ruff`, and `pylint` check it automatically in CI/CD. If your pull request fails the style check, it does not merge.
 
 ### The Big Picture — The 7 Pillars of PEP 8
 
@@ -374,10 +384,11 @@ def transform(records):
 
 ### Pillar 2 — Line Length
 
-> **The rule:**
-> - **PEP 8 default**: 79 characters (a 1980s legacy from VT100 terminals)
-> - **Black formatter**: 88 characters (the modern compromise)
-> - **Many teams**: 120 characters (matches a wide monitor)
+**The rule:**
+
+- **PEP 8 default**: 79 characters (a 1980s legacy from VT100 terminals)
+- **Black formatter**: 88 characters (the modern compromise)
+- **Many teams**: 120 characters (matches a wide monitor)
 
 Pick one limit per project and stick to it. Long lines are painful to review side-by-side in a pull request diff.
 
@@ -402,11 +413,11 @@ result = pd.merge(
 
 ### Pillar 3 — Imports
 
-> **The rule:** Imports go at the **top of the file**, on **separate lines**, grouped in this order, with **one blank line** between groups:
->
-> 1. **Standard library** — `os`, `csv`, `json`, `logging`
-> 2. **Third-party libraries** — `pandas`, `numpy`, `requests`
-> 3. **Local modules** — `from src.transform import clean`
+**The rule:** Imports go at the **top of the file**, on **separate lines**, grouped in this order, with **one blank line** between groups:
+
+1. **Standard library** — `os`, `csv`, `json`, `logging`
+2. **Third-party libraries** — `pandas`, `numpy`, `requests`
+3. **Local modules** — `from src.transform import clean`
 
 **CORRECT — three groups, separated by blank lines**
 
@@ -737,13 +748,15 @@ PEP 8 is style. These are the **engineering practices** every Data Engineer foll
 ## Python Basics — Variables and Data Types
 Duration: 12:00
 
-> **What is a variable?**
-> A variable is a **name that points to a value**. Think of it as a labeled box: you write a label on the box (the variable name), put something inside (the value), and later refer to the box by its label.
->
-> Example: `total_records = 15000` means "make a labeled box named `total_records` and put the number 15000 inside it."
+**What is a variable?**
 
-> **What is a data type?**
-> The data type tells Python **what kind of value** is in the box — a number, some text, a true/false flag, etc. Python figures this out automatically when you assign a value.
+A variable is a **name that points to a value**. Think of it as a labeled box: you write a label on the box (the variable name), put something inside (the value), and later refer to the box by its label.
+
+Example: `total_records = 15000` means "make a labeled box named `total_records` and put the number 15000 inside it."
+
+**What is a data type?**
+
+The data type tells Python **what kind of value** is in the box — a number, some text, a true/false flag, etc. Python figures this out automatically when you assign a value.
 
 ### Visual Mental Model — Variables in Memory
 
@@ -863,8 +876,9 @@ Pipeline active: True
 Last error: None
 ```
 
-> **What is an `f-string`?**
-> An f-string (formatted string) is text starting with `f"..."` that lets you drop variables straight into the text using `{ }`. Example: `f"Total: {total_records}"` becomes `"Total: 15000"`. This is the modern, recommended way to build strings in Python.
+**What is an f-string?**
+
+An f-string (formatted string) is text starting with `f"..."` that lets you drop variables straight into the text using `{ }`. Example: `f"Total: {total_records}"` becomes `"Total: 15000"`. This is the modern, recommended way to build strings in Python.
 
 ### Naming Rules for Variables
 
@@ -877,8 +891,9 @@ Last error: None
 
 ### Type Checking and Conversion
 
-> **What is type conversion?**
-> Often a value comes in one type but you need it in another. For example, when reading a CSV, every cell starts as a string `"500"`. Before you can add it, you must convert it to an integer `500`. This is type conversion.
+**What is type conversion?**
+
+Often a value comes in one type but you need it in another. For example, when reading a CSV, every cell starts as a string `"500"`. Before you can add it, you must convert it to an integer `500`. This is type conversion.
 
 ```bash
 cat > basics_types.py << 'PYEOF'
@@ -922,8 +937,9 @@ python basics_types.py
 
 ### Operators
 
-> **What is an operator?**
-> An operator is a symbol that performs an action on values: `+` adds, `==` compares, `and` combines two truths. Operators are how you do math, compare data, and check conditions in your pipeline.
+**What is an operator?**
+
+An operator is a symbol that performs an action on values: `+` adds, `==` compares, `and` combines two truths. Operators are how you do math, compare data, and check conditions in your pipeline.
 
 ```bash
 cat > basics_operators.py << 'PYEOF'
@@ -1014,19 +1030,21 @@ Create a file called `exercise_basics.py` that calculates pipeline throughput:
 ## Control Flow — Making Decisions
 Duration: 12:00
 
-> **What is "control flow"?**
-> Control flow is how Python decides **which lines of code to run, and how many times to run them**. Without control flow, Python just runs everything top-to-bottom, once. With it, your script can make decisions (`if-else`) and repeat work (`for`, `while`).
->
-> Real-life analogy: when you cook, your recipe says "if the water is boiling, add the pasta. Repeat stirring every 30 seconds for 8 minutes." Those `if`s and `repeats` are control flow.
+**What is "control flow"?**
+
+Control flow is how Python decides **which lines of code to run, and how many times to run them**. Without control flow, Python just runs everything top-to-bottom, once. With it, your script can make decisions (`if-else`) and repeat work (`for`, `while`).
+
+Real-life analogy: when you cook, your recipe says "if the water is boiling, add the pasta. Repeat stirring every 30 seconds for 8 minutes." Those `if`s and `repeats` are control flow.
 
 Data pipelines constantly make decisions: Is the data valid? Should we retry? Which path to take? Control flow is how you express that logic.
 
 ### `if-else` — Conditional Logic
 
-> **What is `if-else`?**
-> `if` runs a block of code **only when a condition is true**. `elif` ("else if") checks another condition. `else` is the fallback when nothing else matched.
->
-> Real-life analogy: "If it is raining, take an umbrella. Else if it is hot, wear sunglasses. Else, just go."
+**What is the if-else statement?**
+
+`if` runs a block of code **only when a condition is true**. `elif` ("else if") checks another condition. `else` is the fallback when nothing else matched.
+
+Real-life analogy: "If it is raining, take an umbrella. Else if it is hot, wear sunglasses. Else, just go."
 
 ```bash
 cat > control_if.py << 'PYEOF'
@@ -1106,12 +1124,13 @@ python control_if.py
 
 ### Loops — Processing Data
 
-> **What is a loop?**
-> A loop runs the same block of code **multiple times** — once per item. Without loops, processing 10 million CSV rows would mean writing 10 million lines of code. With a loop, you write the row-handling code once.
->
-> Two kinds of loops:
-> - **`for` loop** — repeats once for each item in a collection ("for each row in the file…")
-> - **`while` loop** — repeats as long as a condition is true ("while not connected, retry…")
+**What is a loop?**
+
+A loop runs the same block of code **multiple times** — once per item. Without loops, processing 10 million CSV rows would mean writing 10 million lines of code. With a loop, you write the row-handling code once.
+
+Two kinds of loops:
+- **`for` loop** — repeats once for each item in a collection ("for each row in the file…")
+- **`while` loop** — repeats as long as a condition is true ("while not connected, retry…")
 
 ```bash
 cat > control_loops.py << 'PYEOF'
@@ -1206,10 +1225,11 @@ python control_loops.py
 ## Functions — Reusable Code
 Duration: 18:00
 
-> **What is a function?**
-> A function is a **named block of code that performs one task**. You define it once, then "call" it (run it) as many times as you want, with different inputs.
->
-> Real-life analogy: a microwave is a function. Inputs (arguments): food + time. Output (return value): hot food. You don't rebuild a microwave every time you reheat lunch — same idea here.
+**What is a function?**
+
+A function is a **named block of code that performs one task**. You define it once, then "call" it (run it) as many times as you want, with different inputs.
+
+Real-life analogy: a microwave is a function. Inputs (arguments): food + time. Output (return value): hot food. You don't rebuild a microwave every time you reheat lunch — same idea here.
 
 In data engineering, functions are the building blocks of every pipeline. Every ETL job is just `extract()`, then `transform()`, then `load()` — three functions you call in order.
 
@@ -1334,11 +1354,13 @@ python func_01_basics.py
 
 ### Part 2 — Default Parameters and Keyword Arguments
 
-> **What is a default parameter?**
-> A parameter with `=` and a value is **optional** — if the caller does not pass it, the default kicks in. This is how libraries give you sensible defaults but let you override when needed.
+**What is a default parameter?**
 
-> **What is a keyword argument?**
-> Calling a function by **naming** the argument: `connect(port=5432)`. Order does not matter, and the code reads more clearly.
+A parameter with `=` and a value is **optional** — if the caller does not pass it, the default kicks in. This is how libraries give you sensible defaults but let you override when needed.
+
+**What is a keyword argument?**
+
+Calling a function by **naming** the argument: `connect(port=5432)`. Order does not matter, and the code reads more clearly.
 
 ```bash
 cat > func_02_defaults_kwargs.py << 'PYEOF'
@@ -1415,8 +1437,9 @@ python func_02_defaults_kwargs.py
 
 ### Part 3 — `*args` (Variable Positional Arguments)
 
-> **What is `*args`?**
-> `*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like a list of files to process.
+**What does *args mean?**
+
+`*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like a list of files to process.
 
 ```bash
 cat > func_03_args.py << 'PYEOF'
@@ -1479,8 +1502,9 @@ python func_03_args.py
 
 ### Part 4 — `**kwargs` (Variable Keyword Arguments)
 
-> **What is `**kwargs`?**
-> `**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any database connection options.
+**What does \*\*kwargs mean?**
+
+`**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any database connection options.
 
 ```bash
 cat > func_04_kwargs.py << 'PYEOF'
@@ -1598,12 +1622,13 @@ python func_04_kwargs.py
 
 ### Part 5 — Advanced Function Types
 
-> **Quick definitions before we dive in:**
-> - **Lambda** — a one-line, unnamed function. Useful as a tiny "throwaway" function passed to `sorted`, `map`, etc.
-> - **Nested function** — a function defined inside another function. Used to "build" customized helpers.
-> - **Recursive function** — a function that calls itself. Used for tree/JSON-like nested structures.
-> - **Generator** — a function that yields values one at a time, saving memory for huge datasets.
-> - **Decorator** — a function that wraps another function to add behavior (logging, timing, retries).
+**Quick definitions before we dive in:**
+
+- **Lambda** — a one-line, unnamed function. Useful as a tiny "throwaway" function passed to `sorted`, `map`, etc.
+- **Nested function** — a function defined inside another function. Used to "build" customized helpers.
+- **Recursive function** — a function that calls itself. Used for tree/JSON-like nested structures.
+- **Generator** — a function that yields values one at a time, saving memory for huge datasets.
+- **Decorator** — a function that wraps another function to add behavior (logging, timing, retries).
 
 ```bash
 cat > func_05_advanced.py << 'PYEOF'
@@ -1920,14 +1945,15 @@ def pipeline(name, mode="batch", *sources, notify=True, **options):
 ## Data Structures
 Duration: 12:00
 
-> **What is a "data structure"?**
-> A data structure is a **way of organizing values together** so you can work with them efficiently. Python ships with four built-in ones — list, tuple, set, dictionary. Each is best for a specific job.
->
-> Real-life analogy:
-> - **List** — a numbered to-do list (order matters, can edit, duplicates allowed)
-> - **Tuple** — your printed boarding pass (order matters, locked, cannot edit)
-> - **Set** — a collection of unique stamps (no duplicates, no order)
-> - **Dictionary** — a phone contacts list (look up a number by name)
+**What is a "data structure"?**
+
+A data structure is a **way of organizing values together** so you can work with them efficiently. Python ships with four built-in ones — list, tuple, set, dictionary. Each is best for a specific job.
+
+Real-life analogy:
+- **List** — a numbered to-do list (order matters, can edit, duplicates allowed)
+- **Tuple** — your printed boarding pass (order matters, locked, cannot edit)
+- **Set** — a collection of unique stamps (no duplicates, no order)
+- **Dictionary** — a phone contacts list (look up a number by name)
 
 ### Visual Comparison — The Four Built-ins at a Glance
 
@@ -2142,8 +2168,9 @@ This table is asked in **every Python interview** for Data Engineering roles. Me
 
 #### Performance Comparison (Big-O)
 
-> **What is "Big-O"?**
-> Big-O describes how much slower an operation gets as your dataset grows. `O(1)` means "instant — the same speed for 10 rows or 10 million." `O(n)` means "scales with size — 10× the data takes 10× longer." For data engineers handling millions of rows, this matters.
+**What is "Big-O"?**
+
+Big-O describes how much slower an operation gets as your dataset grows. `O(1)` means "instant — the same speed for 10 rows or 10 million." `O(n)` means "scales with size — 10× the data takes 10× longer." For data engineers handling millions of rows, this matters.
 
 | Operation | List | Tuple | Set | Dict |
 |-----------|------|-------|-----|------|
@@ -2186,13 +2213,15 @@ Dict  = Phone book        → name→number pairs, fast lookup by key
 ## File Handling — CSV, JSON, and Text
 Duration: 14:00
 
-> **Why file handling matters in DE**
-> Every data pipeline starts and ends with a file. You read raw data **from** a file, transform it, and write the cleaned result **to** another file. The two formats you will use 95% of the time are CSV and JSON.
+**Why file handling matters in DE**
 
-> **Quick definitions:**
-> - **CSV (Comma-Separated Values)** — a plain-text spreadsheet. Each line is a row; commas separate the columns.
-> - **JSON (JavaScript Object Notation)** — a text format for structured/nested data. Looks like Python dictionaries.
-> - **Log file** — a plain-text file where every line is a timestamped event (used for debugging).
+Every data pipeline starts and ends with a file. You read raw data **from** a file, transform it, and write the cleaned result **to** another file. The two formats you will use 95% of the time are CSV and JSON.
+
+**Quick definitions:**
+
+- **CSV (Comma-Separated Values)** — a plain-text spreadsheet. Each line is a row; commas separate the columns.
+- **JSON (JavaScript Object Notation)** — a text format for structured/nested data. Looks like Python dictionaries.
+- **Log file** — a plain-text file where every line is a timestamped event (used for debugging).
 
 ### Create Sample Data Files
 
@@ -2266,13 +2295,15 @@ PYEOF
 python create_sample_data.py
 ```
 
-> **What is the `with open(...) as f:` block?**
-> This is the **safe way** to open files in Python. The `with` block automatically closes the file when you are done — even if an error happens inside. This prevents the "file left open and locked" bug.
+**What is the with-open block?**
+
+`with open(...) as f:` is the **safe way** to open files in Python. The `with` block automatically closes the file when you are done — even if an error happens inside. This prevents the "file left open and locked" bug.
 
 ### Reading and Writing CSV Files
 
-> **What is `csv.DictReader`?**
-> `csv.DictReader` reads each row of a CSV as a **dictionary** where the keys are the column names from the header row. Instead of remembering "column 4 is price," you write `row["price"]`. Cleaner, safer, easier.
+**What is csv.DictReader?**
+
+`csv.DictReader` reads each row of a CSV as a **dictionary** where the keys are the column names from the header row. Instead of remembering "column 4 is price," you write `row["price"]`. Cleaner, safer, easier.
 
 ```bash
 cat > file_csv.py << 'PYEOF'
@@ -2493,21 +2524,25 @@ python file_logs.py
 ## Error Handling and Logging
 Duration: 10:00
 
-> **What is an "error" or "exception"?**
-> When Python tries to do something impossible — divide by zero, open a missing file, convert "abc" to a number — it raises an **exception** and the program crashes. Error handling is how you **catch** those exceptions and respond gracefully instead of crashing.
+**What is an "error" or "exception"?**
 
-> **What is logging?**
-> Logging is writing timestamped messages about what your pipeline did, to a file or the console. When something fails at 3 AM in production, the log is the only way to find out what happened.
+When Python tries to do something impossible — divide by zero, open a missing file, convert "abc" to a number — it raises an **exception** and the program crashes. Error handling is how you **catch** those exceptions and respond gracefully instead of crashing.
 
-> **Why this matters in DE**
-> Production pipelines must NEVER silently crash. They must **fail gracefully**, log every problem, and let on-call engineers debug the next morning.
+**What is logging?**
+
+Logging is writing timestamped messages about what your pipeline did, to a file or the console. When something fails at 3 AM in production, the log is the only way to find out what happened.
+
+**Why this matters in DE**
+
+Production pipelines must NEVER silently crash. They must **fail gracefully**, log every problem, and let on-call engineers debug the next morning.
 
 ### `try-except` — Catching Errors
 
-> **The pattern:**
-> - `try:` — "try to do this risky thing"
-> - `except SomeError:` — "if THIS specific error happens, do this instead"
-> - `finally:` — "do this no matter what (cleanup)"
+**The pattern:**
+
+- `try:` — "try to do this risky thing"
+- `except SomeError:` — "if THIS specific error happens, do this instead"
+- `finally:` — "do this no matter what (cleanup)"
 
 #### Visual Flow — How `try / except / finally` runs
 
@@ -2697,14 +2732,17 @@ python error_handling.py
 ## Working with pandas
 Duration: 15:00
 
-> **What is pandas?**
-> pandas is the most-used Python library for working with **tabular data** (rows and columns). Think of it as Excel inside Python — but able to handle millions of rows, perform complex transformations, and integrate with every data tool.
+**What is pandas?**
 
-> **What is a DataFrame?**
-> A **DataFrame** is the central pandas object — a table with rows, columns, and an index. Every column has a name and a data type. It is what you get when you load a CSV via `pd.read_csv(...)`.
+pandas is the most-used Python library for working with **tabular data** (rows and columns). Think of it as Excel inside Python — but able to handle millions of rows, perform complex transformations, and integrate with every data tool.
 
-> **Why DE engineers love pandas**
-> One library handles: loading CSVs/Excel/JSON, cleaning nulls, filtering rows, joining tables, grouping/aggregating, and writing the result back out.
+**What is a DataFrame?**
+
+A **DataFrame** is the central pandas object — a table with rows, columns, and an index. Every column has a name and a data type. It is what you get when you load a CSV via `pd.read_csv(...)`.
+
+**Why DE engineers love pandas**
+
+One library handles: loading CSVs/Excel/JSON, cleaning nulls, filtering rows, joining tables, grouping/aggregating, and writing the result back out.
 
 ```bash
 cat > pandas_basics.py << 'PYEOF'
@@ -2832,11 +2870,12 @@ python pandas_basics.py
 ## Data Engineering Mini Project — Complete ETL Pipeline
 Duration: 20:00
 
-> **What is ETL?**
-> ETL stands for **Extract, Transform, Load** — the three universal stages of every data pipeline.
-> 1. **Extract** — pull raw data from a source (file, database, API)
-> 2. **Transform** — clean, validate, enrich, reshape it
-> 3. **Load** — save the result to a destination (file, warehouse, dashboard)
+**What is ETL?**
+
+ETL stands for **Extract, Transform, Load** — the three universal stages of every data pipeline.
+1. **Extract** — pull raw data from a source (file, database, API)
+2. **Transform** — clean, validate, enrich, reshape it
+3. **Load** — save the result to a destination (file, warehouse, dashboard)
 
 ### The ETL Pipeline You Are About to Build
 
@@ -3182,8 +3221,9 @@ if __name__ == "__main__":
 PYEOF
 ```
 
-> **What is `if __name__ == "__main__":`?**
-> This standard Python idiom means: "Only run `run_pipeline()` if this file is executed directly (`python etl_pipeline.py`), NOT if it is imported by another file." It is how you make a Python file work both as a script and as a reusable module.
+**What is the if-name-main idiom?**
+
+`if __name__ == "__main__":` is a standard Python idiom that means: "Only run `run_pipeline()` if this file is executed directly (`python etl_pipeline.py`), NOT if it is imported by another file." It is how you make a Python file work both as a script and as a reusable module.
 
 ### Copy Sample Data and Run
 
@@ -3233,8 +3273,9 @@ cd ~/python-de-learning
 ## Intermediate Concepts
 Duration: 12:00
 
-> **Why these matter in DE**
-> Comprehensions, lambdas, and classes are the patterns that turn a Python beginner into a productive Data Engineer. They make code shorter, clearer, and reusable.
+**Why these matter in DE**
+
+Comprehensions, lambdas, and classes are the patterns that turn a Python beginner into a productive Data Engineer. They make code shorter, clearer, and reusable.
 
 ```bash
 cat > intermediate.py << 'PYEOF'
