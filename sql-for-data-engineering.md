@@ -61,7 +61,7 @@ The full setup happens in **Step 2**. If you already have MySQL Server 8.0+ and 
 > 💡 **HitaVir Tech connection:** SQL exists because Codd proved in 1970 that organizing data into relations (tables) is more powerful than any other shape — and 50+ years later, every Data Engineer still earns a living off that idea.
 > 🎯 **Why this matters now:** Spend the next 10 minutes building a clear mental model of OLTP vs OLAP. Every architectural decision you make later traces back to this one distinction.
 
-Duration: 10 min
+Duration: 10:00
 
 ### What is SQL?
 
@@ -128,7 +128,7 @@ Before moving on, you should be able to:
 > 💡 **HitaVir Tech connection:** Setup is the unglamorous step every learner wants to skip — and the one that separates the people who finish from the people who quit on Day 2.
 > 🎯 **Why this matters now:** Do every step below today, in order, even if you "kind of already have" MySQL. A clean install is faster than a debugging session next Tuesday.
 
-Duration: 20 min
+Duration: 20:00
 
 ### Step 2.1 — Install MySQL Server 8.0+
 
@@ -449,11 +449,11 @@ SELECT 'order_items', COUNT(*) FROM order_items;
 | customers   |        30 |
 | products    |        15 |
 | orders      |       100 |
-| order_items |       182 |
+| order_items |       180 |
 +-------------+-----------+
 ```
 
-(Your `order_items` count will be exactly 182 if you pasted the seed verbatim.)
+(Your `order_items` count will be exactly 180 if you pasted the seed verbatim.)
 
 💡 **HitaVir Tech Tip:** Always sanity-check row counts immediately after a seed or load. A pipeline that silently lost half its rows is the worst kind of bug.
 
@@ -479,7 +479,7 @@ If anything is off, drop and recreate the schema with `DROP DATABASE hitavir_sal
 > 💡 **HitaVir Tech connection:** This step is "make it work." You will write your first real queries against `hitavir_sales` — getting them correct, then refining them, then making them fast comes in Steps 13 and 15.
 > 🎯 **Why this matters now:** Type every query yourself. Do not copy-paste. Muscle memory for `SELECT … FROM … WHERE … ORDER BY … LIMIT` is non-negotiable.
 
-Duration: 15 min
+Duration: 15:00
 
 ### 3.1 — Your first SELECT
 
@@ -624,7 +624,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Tables are the source of truth. A clean schema explains the system; a dirty one buries it.
 > 🎯 **Why this matters now:** Read every column type below and write down — in your own words — why it was picked. If you cannot justify a type, you do not understand the data.
 
-Duration: 20 min
+Duration: 20:00
 
 ### 4.1 — Re-read the schema you created in Step 2
 
@@ -775,7 +775,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** DML is the unglamorous engine room of every pipeline — it inserts, it updates, it deletes, every day, forever, and *it must not lose data when something goes wrong*.
 > 🎯 **Why this matters now:** For the next 15 minutes, every `UPDATE` and `DELETE` you write must include a `WHERE` clause you have *read out loud*. No exceptions.
 
-Duration: 15 min
+Duration: 15:00
 
 ### 5.1 — INSERT a single row
 
@@ -906,7 +906,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Conditions are how SQL captures the user's intent — every `AND`, `IN`, and `CASE` is a piece of business logic translated into a row filter or a derived column.
 > 🎯 **Why this matters now:** For every condition you write today, say in plain English what business question it answers. If you cannot say it, do not write it.
 
-Duration: 15 min
+Duration: 15:00
 
 ### 6.1 — AND, OR, NOT
 
@@ -962,10 +962,10 @@ LIMIT 5;
 | customer_id | full_name       | city      |
 +-------------+-----------------+-----------+
 |           1 | Asha Sharma     | Bengaluru |
-|          18 | Suresh Iyengar  | Bengaluru |
 |          29 | Ravi Kumar      | Bengaluru |
-|           5 | Kavya Iyer      | Chennai   |
+|          18 | Suresh Iyengar  | Bengaluru |
 |          10 | Karthik Pillai  | Chennai   |
+|           5 | Kavya Iyer      | Chennai   |
 +-------------+-----------------+-----------+
 ```
 
@@ -1083,7 +1083,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Aggregations are how you turn millions of raw rows into the three numbers a CEO actually wants. Get them wrong and the report lies.
 > 🎯 **Why this matters now:** Every aggregation you write today must answer a *specific* business question — say it before you write the SQL.
 
-Duration: 20 min
+Duration: 20:00
 
 ### 7.1 — The five aggregate functions you will use daily
 
@@ -1130,10 +1130,10 @@ ORDER BY order_count DESC;
 +-----------+-------------+
 | status    | order_count |
 +-----------+-------------+
-| DELIVERED |          88 |
-| SHIPPED   |           5 |
-| CANCELLED |           4 |
+| DELIVERED |          86 |
+| SHIPPED   |           6 |
 | RETURNED  |           3 |
+| CANCELLED |           3 |
 | PLACED    |           2 |
 +-----------+-------------+
 ```
@@ -1163,10 +1163,10 @@ LIMIT 5;
 | product_name        | revenue    |
 +---------------------+------------+
 | Laptop Pro 14       | 1259986.00 |
-| Office Chair        |  103992.00 |
-| Mechanical Keyboard |   54989.00 |
-| Running Shoes       |   45487.00 |
-| Denim Jeans         |   30583.00 |
+| Office Chair        |  116991.00 |
+| Mechanical Keyboard |   59988.00 |
+| Running Shoes       |   55984.00 |
+| USB-C Hub           |   47481.00 |
 +---------------------+------------+
 ```
 
@@ -1191,7 +1191,9 @@ ORDER BY order_count DESC;
 +-------------+-------------+
 | customer_id | order_count |
 +-------------+-------------+
-|           1 |           5 |
+|           1 |           7 |
+|           5 |           5 |
+|           3 |           5 |
 +-------------+-------------+
 ```
 
@@ -1216,7 +1218,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Joins are where your tables tell their story together. 80% of production SQL bugs hide in bad joins — wrong columns, wrong direction, exploding row counts.
 > 🎯 **Why this matters now:** In the next 30 minutes, draw every join on paper before you write it. No exceptions.
 
-Duration: 30 min
+Duration: 30:00
 
 ### 8.1 — The five joins, drawn
 
@@ -1293,9 +1295,9 @@ LIMIT 5;
 +-------------+----------------+-------------+
 |          23 | Ritu Agarwal   |           0 |
 |          29 | Ravi Kumar     |           0 |
-|           1 | Asha Sharma    |           5 |
-|           2 | Ravi Kumar     |           3 |
-|           3 | Priya Patel    |           4 |
+|          10 | Karthik Pillai |           1 |
+|          12 | Aditya Bhatt   |           3 |
+|          13 | Divya Krishnan |           3 |
 +-------------+----------------+-------------+
 ```
 
@@ -1408,7 +1410,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Subqueries bend your mind on the first read. You will write a wrong one, then a slow one, then a clean one — that arc is the whole skill.
 > 🎯 **Why this matters now:** Run every example below twice. The second time, change one thing and predict the new output before you press Run.
 
-Duration: 20 min
+Duration: 20:00
 
 ### 9.1 — Scalar subquery (returns one value)
 
@@ -1501,10 +1503,10 @@ LIMIT 5;
 | customer_id | full_name      | last_order_date |
 +-------------+----------------+-----------------+
 |          19 | Lakshmi Menon  | 2026-04-14      |
+|           5 | Kavya Iyer     | 2026-04-13      |
 |           1 | Asha Sharma    | 2026-04-12      |
 |           3 | Priya Patel    | 2026-04-11      |
 |          18 | Suresh Iyengar | 2026-04-10      |
-|          22 | Deepak Nair    | 2026-04-09      |
 +-------------+----------------+-----------------+
 ```
 
@@ -1535,10 +1537,12 @@ LIMIT 3;
 +-----------+----------------+
 | city      | customer_count |
 +-----------+----------------+
-| Bengaluru |              4 |
-| Chennai   |              4 |
-| Kochi     |              3 |
+| Bengaluru |              3 |
+| Chennai   |              3 |
+| Delhi     |              3 |
 +-----------+----------------+
+
+Note: four cities are tied at 3 customers (Bengaluru, Chennai, Delhi, Kochi). Without a deterministic tiebreaker the top-3 selection is non-deterministic — add `, city` to the `ORDER BY` for a stable result.
 ```
 
 ### ✅ Checkpoint
@@ -1561,7 +1565,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Views, indexes, and temp tables are how you preserve query intent and performance against a schema that will outlive every line of application code touching it today.
 > 🎯 **Why this matters now:** Every artifact you create here should have a name a teammate can read in 6 months. No `tmp1`, no `view_v2_final_FINAL`.
 
-Duration: 20 min
+Duration: 20:00
 
 ### 10.1 — A VIEW: a saved query that looks like a table
 
@@ -1599,13 +1603,13 @@ ORDER BY revenue DESC;
 +-------------+------------+
 | category    | revenue    |
 +-------------+------------+
-| Electronics | 1483158.00 |
-| Furniture   |  118989.00 |
-| Footwear    |   45487.00 |
-| Apparel     |   45371.00 |
-| Home        |   24571.00 |
-| Fitness     |   25586.00 |
-| Stationery  |    8197.00 |
+| Electronics | 1394734.00 |
+| Furniture   |  139476.00 |
+| Apparel     |   64133.00 |
+| Fitness     |   56467.00 |
+| Footwear    |   55984.00 |
+| Home        |   46161.00 |
+| Stationery  |   13820.00 |
 +-------------+------------+
 ```
 
@@ -1639,11 +1643,11 @@ ORDER BY t.total_spent DESC;
 +-------------+----------------+-------------+
 | customer_id | full_name      | total_spent |
 +-------------+----------------+-------------+
-|           1 | Asha Sharma    |   299588.00 |
-|           4 | Arjun Reddy    |   198494.00 |
-|           3 | Priya Patel    |   188795.00 |
-|          18 | Suresh Iyengar |   188394.00 |
-|          22 | Deepak Nair    |   116386.00 |
+|           1 | Asha Sharma    |   317478.00 |
+|          30 | Tara Bhat      |   203293.00 |
+|           4 | Arjun Reddy    |   197292.00 |
+|           3 | Priya Patel    |   129286.00 |
+|           9 | Anjali Desai   |   105687.00 |
 +-------------+----------------+-------------+
 ```
 
@@ -1682,7 +1686,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Real data is always dirty. Cleaning is not a one-time event — it is a habit baked into every load.
 > 🎯 **Why this matters now:** Every cleaning rule below should land in your pipeline as a reusable view or stored function, not a one-off script.
 
-Duration: 25 min
+Duration: 25:00
 
 ### 11.1 — Find the dirty rows
 
@@ -1863,7 +1867,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Window functions and recursive CTEs feel like dark magic — until you write three of each. After that they are the most expressive tools in your kit.
 > 🎯 **Why this matters now:** Read every example below twice. The unknown becomes obvious only on the second pass.
 
-Duration: 35 min
+Duration: 35:00
 
 ### 12.1 — Window functions: aggregate without collapsing rows
 
@@ -1923,12 +1927,12 @@ ORDER BY p.category, revenue_rank;
 +-------------+---------------------+------------+--------------+
 | category    | product_name        | revenue    | revenue_rank |
 +-------------+---------------------+------------+--------------+
-| Apparel     | Denim Jeans         |   30583.00 |            1 |
-| Apparel     | Cotton T-Shirt      |   14788.00 |            2 |
+| Apparel     | Denim Jeans         |   35980.00 |            1 |
+| Apparel     | Cotton T-Shirt      |   28153.00 |            2 |
 | Electronics | Laptop Pro 14       | 1259986.00 |            1 |
-| Electronics | Mechanical Keyboard |   54989.00 |            2 |
-| Electronics | USB-C Hub           |   24990.00 |            3 |
-| Electronics | Wireless Mouse      |   13287.00 |            4 |
+| Electronics | Mechanical Keyboard |   59988.00 |            2 |
+| Electronics | USB-C Hub           |   47481.00 |            3 |
+| Electronics | Wireless Mouse      |   27279.00 |            4 |
 +-------------+---------------------+------------+--------------+
 ```
 
@@ -2005,11 +2009,11 @@ LIMIT 5;
 +-------------+----------------+-------------+--------------+
 | customer_id | full_name      | revenue     | pct_of_total |
 +-------------+----------------+-------------+--------------+
-|           1 | Asha Sharma    |   299588.00 |        16.95 |
-|           4 | Arjun Reddy    |   198494.00 |        11.23 |
-|           3 | Priya Patel    |   188795.00 |        10.68 |
-|          18 | Suresh Iyengar |   188394.00 |        10.65 |
-|          22 | Deepak Nair    |   116386.00 |         6.59 |
+|           1 | Asha Sharma    |   317478.00 |        17.93 |
+|          30 | Tara Bhat      |   203293.00 |        11.48 |
+|           4 | Arjun Reddy    |   197292.00 |        11.14 |
+|           3 | Priya Patel    |   129286.00 |         7.30 |
+|           9 | Anjali Desai   |   105687.00 |         5.97 |
 +-------------+----------------+-------------+--------------+
 ```
 
@@ -2071,7 +2075,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Optimization is the *third* step of "make it work, make it right, make it fast" — and it only pays off when you measure. Knuth's quote is permission to ignore performance until your slow query is *proven* slow.
 > 🎯 **Why this matters now:** Every optimization claim below must be backed by an EXPLAIN. No guesses, no folklore.
 
-Duration: 25 min
+Duration: 25:00
 
 ### 13.1 — Reading EXPLAIN
 
@@ -2191,7 +2195,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** The capstone is one continuous run from raw → star schema → daily summary → indexed performance. Stop debating, start running. Ship the pipeline first, refine the SQL second.
 > 🎯 **Why this matters now:** This step is the portfolio piece you show in interviews. Type every line, run every query, save the final SQL to a file.
 
-Duration: 40 min
+Duration: 40:00
 
 The scenario: HitaVir Tech needs a daily sales report. You will (1) stage extra raw data, (2) clean it, (3) build a star schema, (4) compare to snowflake, (5) materialize a `daily_sales_summary`, (6) add a window-function running total, (7) tune with EXPLAIN.
 
@@ -2331,26 +2335,28 @@ SELECT COUNT(*) AS fact_rows FROM fact_sales;
 +-----------+
 | fact_rows |
 +-----------+
-|       163 |
+|       162 |
 +-----------+
 ```
 
 ### 14.5 — Snowflake comparison (~150 words)
 
-The schema you just built is a **star**: `fact_sales` joins directly to `dim_customer` and `dim_product`, each one hop away. Under a **snowflake**, `dim_product` would split further — its `category` column becomes its own dimension `dim_category`, joined from `dim_product` via a foreign key. The tables look like this:
+The schema you just built is a **star**: `fact_sales` joins directly to `dim_customer` and `dim_product`, each one hop away from the fact. Under a **snowflake**, dimensions are normalized further — `dim_product` splits, with its `category` column extracted into its own dimension `dim_category` joined from `dim_product` via a foreign key. The same idea applies to `dim_customer`, where `city` could become `dim_city` joined from `dim_customer`. The contrast looks like this:
 
 ```
         STAR                           SNOWFLAKE
 
-   dim_customer                    dim_customer
+   dim_customer                    dim_customer --> dim_city
         |                                |
         |                                |
         v                                v
    fact_sales <-- dim_product       fact_sales <-- dim_product --> dim_category
-                                                       (category)    (category_name)
+                                                       (category_id)   (category_name)
 ```
 
-**Trade-off in one sentence:** snowflake saves storage and enforces normalization, but every analytical query pays an extra join — in OLAP that join cost almost always loses, which is why production warehouses default to star.
+A snowflake reduces storage (one row per category instead of repeating "Electronics" on every product) and lets you change a category name in exactly one place — clean third-normal-form discipline.
+
+**Trade-off in one sentence:** snowflake saves storage and enforces normalization, but every analytical query pays an extra join per snowflaked dimension — and in OLAP that join cost almost always outweighs the storage win, which is why production warehouses default to star.
 
 ### 14.6 — Daily sales summary
 
@@ -2447,7 +2453,7 @@ GROUP BY fs.order_date;
 -- type = range, key = idx_fact_sales_date
 ```
 
-**Commentary:** the `type` column drops from `ALL` (full scan) to `range` (index range scan). On 163 rows this is invisible; on 100M rows the same change is the difference between a 30-second dashboard query and a 30-minute one.
+**Commentary:** the `type` column drops from `ALL` (full scan) to `range` (index range scan). On 162 rows this is invisible; on 100M rows the same change is the difference between a 30-second dashboard query and a 30-minute one.
 
 ### ✅ Checkpoint
 
@@ -2470,7 +2476,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** A simple SQL convention applied everywhere outperforms a clever one applied somewhere. Reliability is the goal; simplicity is the path.
 > 🎯 **Why this matters now:** Print this list. Tape it next to your monitor. Every PR you review for the rest of your career uses it as a checklist.
 
-Duration: 10 min
+Duration: 10:00
 
 ### Naming
 - `snake_case` for everything: tables, columns, indexes, views.
@@ -2524,7 +2530,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** Debugging at 2 AM is no time to look up syntax. The errors below are the same ones you will hit for the rest of your career — recognize them on sight.
 > 🎯 **Why this matters now:** Force the errors below on purpose, in your own console, today. Pattern recognition only sticks after you have caused the problem.
 
-Duration: 15 min
+Duration: 15:00
 
 ### 16.1 — `Error 1054: Unknown column 'x'`
 
@@ -2615,7 +2621,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** SQL never lives alone. Every Data Engineering tool eventually wraps SQL — and the engineer who can read both layers ships features the rest cannot.
 > 🎯 **Why this matters now:** Each snippet below is the smallest working version. Type it; do not just read it. The integration only sticks when your machine has actually executed it.
 
-Duration: 15 min
+Duration: 15:00
 
 ### 17.1 — Python (`pymysql` + pandas)
 
@@ -2769,7 +2775,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** These five challenges are your standard. Every SQL hire at HitaVir Tech can solve all five in 30 minutes. Walk past one and you have lowered the bar.
 > 🎯 **Why this matters now:** Solve each challenge yourself first. Open the solution only after you have a runnable answer — even a wrong one.
 
-Duration: 25 min
+Duration: 25:00
 
 ### Challenge 1: Filtering + aggregation
 
@@ -2803,7 +2809,7 @@ WHERE o.status = 'DELIVERED'
 +-------------+---------------+
 | order_count | gross_revenue |
 +-------------+---------------+
-|          30 |     441480.00 |
+|          29 |     588666.00 |
 +-------------+---------------+
 ```
 
@@ -2847,11 +2853,13 @@ ORDER BY total_spent DESC;
 +-------------+----------------+-------------+
 | customer_id | full_name      | total_spent |
 +-------------+----------------+-------------+
-|           1 | Asha Sharma    |   299588.00 |
-|           4 | Arjun Reddy    |   198494.00 |
-|           3 | Priya Patel    |   188795.00 |
-|          18 | Suresh Iyengar |   188394.00 |
-|          22 | Deepak Nair    |   116386.00 |
+|           1 | Asha Sharma    |   317478.00 |
+|          30 | Tara Bhat      |   203293.00 |
+|           4 | Arjun Reddy    |   197292.00 |
+|           3 | Priya Patel    |   129286.00 |
+|           9 | Anjali Desai   |   105687.00 |
+|           7 | Sneha Nair     |   102879.00 |
+|           2 | Ravi Kumar     |   102090.00 |
 +-------------+----------------+-------------+
 ```
 
@@ -2912,11 +2920,11 @@ LIMIT 5;
 +-------------+----------------+--------------+-----------------+
 | customer_id | full_name      | top_order_id | top_order_total |
 +-------------+----------------+--------------+-----------------+
-|           1 | Asha Sharma    |            1 |        96296.00 |
-|           2 | Ravi Kumar     |           28 |         5097.00 |
+|           1 | Asha Sharma    |           98 |        96297.00 |
+|           2 | Ravi Kumar     |           56 |        94998.00 |
 |           3 | Priya Patel    |           71 |        94998.00 |
 |           4 | Arjun Reddy    |           13 |        93498.00 |
-|           5 | Kavya Iyer     |           24 |         8295.00 |
+|           5 | Kavya Iyer     |           51 |        12999.00 |
 +-------------+----------------+--------------+-----------------+
 ```
 
@@ -3037,13 +3045,13 @@ ORDER BY category_share_pct DESC;
 +-------------+---------------------+---------------------+------------------+--------------------+
 | category    | top_product         | top_product_revenue | category_revenue | category_share_pct |
 +-------------+---------------------+---------------------+------------------+--------------------+
-| Electronics | Laptop Pro 14       |          1259986.00 |       1483158.00 |              84.81 |
-| Furniture   | Office Chair        |           103992.00 |        118989.00 |               6.80 |
-| Footwear    | Running Shoes       |            45487.00 |         45487.00 |               2.60 |
-| Apparel     | Denim Jeans         |            30583.00 |         45371.00 |               2.59 |
-| Fitness     | Dumbbell Pair 5kg   |            17493.00 |         25586.00 |               1.46 |
-| Home        | Coffee Mug Set      |            10387.00 |         24571.00 |               1.40 |
-| Stationery  | Notebook A4         |             4977.00 |          8197.00 |               0.47 |
+| Electronics | Laptop Pro 14       |          1259986.00 |       1394734.00 |              78.76 |
+| Furniture   | Office Chair        |           116991.00 |        139476.00 |               7.88 |
+| Apparel     | Denim Jeans         |            35980.00 |         64133.00 |               3.62 |
+| Fitness     | Dumbbell Pair 5kg   |            32487.00 |         56467.00 |               3.19 |
+| Footwear    | Running Shoes       |            55984.00 |         55984.00 |               3.16 |
+| Home        | Coffee Mug Set      |            23171.00 |         46161.00 |               2.61 |
+| Stationery  | Notebook A4         |             7562.00 |         13820.00 |               0.78 |
 +-------------+---------------------+---------------------+------------------+--------------------+
 ```
 
@@ -3068,7 +3076,7 @@ You can now:
 > 💡 **HitaVir Tech connection:** You have the SQL. Now bring the data — to a real warehouse, in a real model, on a real schedule.
 > 🎯 **Why this matters now:** Pick one warehouse and one modeling pattern. Go deep on both before sampling the next.
 
-Duration: 5 min
+Duration: 5:00
 
 ### Cloud data warehouses to learn next
 
