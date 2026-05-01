@@ -1,3 +1,11 @@
+summary: SQL for Data Engineering - Beginner to Expert
+id: sql-for-data-engineering
+categories: SQL, Data Engineering, MySQL
+tags: sql, mysql, etl, data-engineering, beginner, expert
+status: Published
+authors: HitaVirTech
+Feedback Link: https://github.com/hitavir25/codelabs/issues
+
 # SQL for Data Engineering: Beginner to Expert
 **Author:** HitaVir Tech
 **Last updated:** 2026-05-02
