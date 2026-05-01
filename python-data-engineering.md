@@ -90,6 +90,28 @@ You will see these words throughout the codelab. Read them once now; they will s
 
 > **HitaVir Tech says:** "Python is not just a programming language — it is the glue that holds modern data platforms together. Master it, and every data tool becomes accessible to you."
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Explain why Python is the **#1 language** in Data Engineering
+- Define every term in the Glossary (script, variable, ETL, DataFrame, etc.) in plain English
+- Describe what you will build by the end of this codelab — a real Sales ETL Pipeline
+- Estimate your study plan around the ~5–7 hour total duration
+
+### PEP 8 — The Style Promise You Make Today
+
+This codelab is built on top of **PEP 8**, the universal Python Style Guide. From this page onward, you commit to:
+
+- Treating PEP 8 not as a suggestion but as the **bare minimum of professionalism**
+- Writing code that humans (your teammates) can read first, machines second
+- Running `black` and `flake8` on every script before you call it "done"
+
+> **Inspiration for the road ahead:**
+>
+> *"Programs must be written for people to read, and only incidentally for machines to execute."*
+> — Harold Abelson, *Structure and Interpretation of Computer Programs*
+
 ## Prerequisites
 Duration: 3:00
 
@@ -110,6 +132,27 @@ This codelab assumes **zero Python experience and zero programming background**.
 - Understanding of what data and files are (you already do — every Excel sheet is data!)
 
 > **HitaVir Tech says:** "If you can use a calculator and save a file, you are ready to learn Python. Everything else, we teach you step by step."
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- List the **hardware and software prerequisites** (Windows 10/11, 2 GB free disk, internet)
+- Explain that **no prior programming knowledge** is required to start
+- Recognise that the only "must-have" skills are using a computer and saving a file
+
+### PEP 8 — Set Yourself Up for Strict Style From Day One
+
+Before you write a single line of Python, decide that **every** file you create in this codelab will follow PEP 8. The earliest habits are the strongest.
+
+- Plan to indent with **4 spaces** (never tabs)
+- Plan to keep lines **≤ 88 characters** wide (the Black formatter default)
+- Plan to install **`black`** and **`flake8`** in the very next page
+
+> **Inspiration for the road ahead:**
+>
+> *"The expert in anything was once a beginner."*
+> — Helen Hayes
 
 ## Environment Setup
 Duration: 10:00
@@ -342,6 +385,32 @@ python-de-learning/
 ```
 
 If any box is unchecked, revisit the step above before moving on.
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- **Install Python** with PATH enabled and verify with `python --version`
+- Use **pip** to install third-party libraries
+- **Install VS Code**, the Python extension, and switch to **Dark+ (default dark)** theme
+- Create a **virtual environment** (`venv`) and activate it
+- Run `pip install pandas` inside the venv without errors
+- Recreate this entire setup on any new Windows machine
+
+### PEP 8 — Configure Your Editor to Enforce Style Automatically
+
+A great environment is one where **PEP 8 is enforced for you, every save**. Set this up *now* — never type indentation by hand again.
+
+- In VS Code, set **Editor: Tab Size = 4** and **Insert Spaces = true**
+- Search settings for **Render Whitespace** → set to `all` (so tabs vs. spaces are visible)
+- Install the **Black Formatter** and **Flake8** extensions
+- Enable **Format On Save** with Black as the default formatter
+- Group your imports: stdlib → third-party → local, **one blank line between groups**
+
+> **Inspiration for the road ahead:**
+>
+> *"Give me six hours to chop down a tree, and I will spend the first four sharpening the axe."*
+> — Abraham Lincoln
 
 ## PEP 8 — Python's Style Guide for Professional Code
 Duration: 15:00
@@ -825,6 +894,29 @@ flake8 assignment_00_pep8.py
 
 **Stretch goal:** Add type hints (`list[dict]`, `int`, etc.) and run `mypy` to confirm they are correct.
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Explain what **PEP 8** is, who wrote it (Guido van Rossum, 2001), and why it is universal
+- Apply all **7 Pillars** of PEP 8 (indentation, line length, imports, naming, whitespace, comments, recommendations)
+- Pick the right naming style: `snake_case`, `PascalCase`, `UPPER_SNAKE`, `_private`
+- Run `black` to auto-format and `flake8` to lint until **flake8 prints nothing**
+- Recognise the **engineering practices beyond PEP 8** — type hints, docstrings, single responsibility, no magic numbers
+
+### Your Lifetime PEP 8 Commitment
+
+From this page on, every single Python file you write in this codelab — and beyond — will be:
+
+- Auto-formatted with **`black`** before commit
+- Lint-clean under **`flake8`** (zero warnings)
+- Reviewed against the **PEP 8 Cheat Card** above
+
+> **Inspiration for the road ahead:**
+>
+> *"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."*
+> — Martin Fowler
+
 ## Python Basics — Variables and Data Types
 Duration: 12:00
 
@@ -1139,6 +1231,34 @@ Last error     : None
 
 **Stretch goal:** Read each value with `input()` and convert the strings to the right types before printing.
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Define **variables** and assign values of the **5 core data types** — `str`, `int`, `float`, `bool`, `None`
+- Use `type()` to inspect a value and convert types with `int()`, `float()`, `str()`
+- Apply **arithmetic, comparison, logical, membership, and identity operators**
+- Build readable strings with **f-strings** (`f"Total: {x:,}"`) and format numbers (`{x:.2f}`, `{x:,}`)
+- Read user input with `input()` and convert it to the right type
+
+### PEP 8 — Style Rules to Apply Strictly to Variables and Types
+
+Professional Python coders **never** name a variable like `TotalRecords` or `data1`. Apply these rules every single time you declare a value:
+
+- **Variable names** → `snake_case` (e.g., `total_records`, `pipeline_name`) — never `camelCase` or `PascalCase`
+- **Constants** → `UPPER_SNAKE_CASE` (e.g., `MAX_RETRIES = 3`)
+- **Be descriptive** — `customer_email`, never `x` or `tmp`
+- **Spaces around `=`** for normal assignment: `total = 1500` (not `total=1500`)
+- **No spaces around `=`** in function default args: `def f(x=10):` (not `def f(x = 10):`)
+- **Prefer "double quotes"** for strings (Black's standard)
+- **Prefer f-strings** over `+` concatenation or `%` formatting
+- **Use `is None` / `is not None`** — never `== None`
+
+> **Inspiration for the road ahead:**
+>
+> *"Simple is better than complex. Complex is better than complicated."*
+> — Tim Peters, *The Zen of Python*
+
 ## Control Flow — Making Decisions
 Duration: 12:00
 
@@ -1387,6 +1507,34 @@ Valid: 3 | Skipped: 4
 | `while` | Repeat until a condition flips | Retry until connected |
 | `break` | Stop early | Stop on a sentinel value |
 | `continue` | Skip this iteration | Skip invalid rows, keep looping |
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Branch logic with **`if` / `elif` / `else`** based on data quality, environment, and thresholds
+- Loop over a list of rows with **`for ... in`**
+- Use **`for ... in range(n)`** for fixed-count batches
+- Repeat work until a condition flips with **`while`** (e.g., retry until connected)
+- Stop early with **`break`** and skip an iteration with **`continue`**
+- Combine conditions with **`and`, `or`, `not`** for pipeline gating
+
+### PEP 8 — Style Rules to Apply Strictly to Control Flow
+
+Bad indentation in a `for` or `if` block does not just look ugly — it can change the meaning of your program. Apply these rules every single time you write a control-flow block:
+
+- **Indent block contents with exactly 4 spaces** (never tabs, never 2 spaces)
+- One **blank line** before and after each logical block to aid readability
+- Use **`is None`** for null checks, never `== None`
+- Use **`if not records:`** to check for empty collections, never `if len(records) == 0:`
+- Use **`if x in {a, b, c}:`** for multi-value membership instead of chained `or`
+- Use **`enumerate(items)`** when you need both index and value — never `range(len(items))`
+- Avoid deeply nested blocks (more than 3 levels) — extract into a helper function instead
+
+> **Inspiration for the road ahead:**
+>
+> *"Flat is better than nested. Sparse is better than dense."*
+> — Tim Peters, *The Zen of Python*
 
 ## Functions — Reusable Code
 Duration: 18:00
@@ -2149,6 +2297,35 @@ Refunds: $35.99
 
 **Stretch goal:** Add a `@timer` decorator from the codelab and apply it to `summarize`. Also add type hints (e.g., `def calculate_total(price: float, quantity: int, tax_rate: float = 0.18) -> float:`).
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Define and call functions with **positional, default, `*args`, and `**kwargs`** parameters
+- Return single or multiple values (tuples) from a function
+- Understand **local vs. global scope** and avoid mutating globals
+- Write **`lambda`** expressions for simple one-liners (with `sorted`, `map`, `filter`)
+- Build and apply **decorators** (`@timer`, `@retry`) to wrap reusable behaviour
+- Compose small, single-purpose functions into a working **pipeline**
+
+### PEP 8 — Style Rules to Apply Strictly to Functions
+
+A function is the unit of reusable code in Python. Sloppy function signatures are a tell-tale sign of an amateur. Apply these rules every single time you write `def`:
+
+- **Function names** → `snake_case` (e.g., `extract_records`, `validate_row`) — never `CamelCase`
+- **Two blank lines** between top-level function definitions
+- **One blank line** between methods inside a class
+- **No spaces around `=`** in keyword/default arguments: `def f(x, y=10):`
+- Every public function gets a **docstring** (triple-quoted) explaining purpose, args, returns
+- Add **type hints**: `def total(price: float, qty: int) -> float:`
+- Each function should do **one job** — if it does two, split it
+- Keep functions **under ~50 lines** — if it does not fit on one screen, refactor
+
+> **Inspiration for the road ahead:**
+>
+> *"The function of good software is to make the complex appear to be simple."*
+> — Grady Booch
+
 ## Data Structures
 Duration: 12:00
 
@@ -2470,6 +2647,33 @@ Top customer: Alice ($3,800.00)
 - [ ] Numbers formatted with thousands separator and 2 decimals
 
 **Stretch goal:** Replace the manual loops with `defaultdict(float)` and a dictionary comprehension. Then replace the `for`-loop top-customer logic with `max(revenue_by_customer.items(), key=lambda x: x[1])`.
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Choose the **right structure** — list (ordered, mutable), tuple (locked), set (unique), dict (key→value)
+- Build and slice lists, sort them, append/extend, list of dicts (a CSV in memory)
+- Look up dictionary values safely with `.get(key, default)`
+- Use **sets** for deduplication and fast `in` membership tests
+- Use **tuples** for fixed configs like `(host, port)`
+- Iterate dict pairs with `.items()`, keys with `.keys()`, values with `.values()`
+
+### PEP 8 — Style Rules to Apply Strictly to Data Structures
+
+Real pipeline code lives or dies on how cleanly your data structures are written. Apply these rules every single time:
+
+- For multi-line literals, add a **trailing comma** so diffs show one-line additions only
+- Use **dict / list comprehensions** when they fit on one readable line — otherwise use a `for` loop
+- Use **`if not records:`** for empty checks, never `len(records) == 0`
+- Prefer **double quotes** consistently for keys: `{"name": "Alice"}`
+- Avoid mutable default arguments — never `def f(x=[]):` (subtle bug); use `def f(x=None):` then assign inside
+- Pick **`defaultdict`** or **`Counter`** from `collections` over manual `if key in d:` checks
+
+> **Inspiration for the road ahead:**
+>
+> *"Bad programmers worry about the code. Good programmers worry about data structures and their relationships."*
+> — Linus Torvalds
 
 ## File Handling — CSV, JSON, and Text
 Duration: 14:00
@@ -2825,6 +3029,33 @@ python file_logs.py
 
 **Stretch goal:** Also write a `rejected_records.csv` containing every skipped row with a new column `reason` explaining why it was rejected.
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Read CSV files with `csv.reader` and `csv.DictReader`
+- Write CSV files with `csv.writer` and `csv.DictWriter` (header + rows)
+- Read and write **JSON** with `json.load`, `json.loads`, `json.dump`, `json.dumps`
+- Use the **`with open(...)` context manager** so files always close
+- Set the right **encoding** (`encoding="utf-8"`) and `newline=""` on Windows
+- Append to **log/text files** for audit trails
+
+### PEP 8 — Style Rules to Apply Strictly to File I/O
+
+Files are the boundary of every pipeline. Boundary code that breaks PEP 8 turns into the world's worst on-call ticket. Apply these rules every single time you touch a file:
+
+- **Always** use `with open(...) as f:` — never manual `open()` then `f.close()`
+- Always pass **`encoding="utf-8"`** explicitly (Windows defaults bite)
+- Group imports correctly — `csv`, `json`, `pathlib` are stdlib (Group 1)
+- Prefer **`pathlib.Path`** over `os.path` string-joining (modern + cross-platform)
+- Use `json.dump(obj, f, indent=2)` so output is **diff-friendly**
+- Keep file paths in **constants at the top**: `INPUT_PATH = Path("data/sales.csv")`
+
+> **Inspiration for the road ahead:**
+>
+> *"Data is the new oil. It is valuable, but if unrefined it cannot really be used."*
+> — Clive Humby
+
 ## Error Handling and Logging
 Duration: 10:00
 
@@ -3073,6 +3304,34 @@ python error_handling.py
 
 **Stretch goal:** Add the `@retry(max_attempts=3)` decorator from the codelab and apply it to `safe_read_csv` so flaky network-mounted files get retried automatically.
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Catch errors with **`try` / `except`** using **specific** exception classes
+- Distinguish `ValueError`, `KeyError`, `FileNotFoundError`, `TypeError`, etc.
+- Use **`else`** and **`finally`** clauses correctly
+- Configure the **`logging`** module with levels (DEBUG / INFO / WARNING / ERROR / CRITICAL)
+- Write logs to **both file and console** simultaneously
+- Replace every `print()` in production code with `logger.info()` / `logger.error()`
+
+### PEP 8 — Style Rules to Apply Strictly to Errors and Logging
+
+Silent failures destroy data pipelines. Apply these rules every single time you handle an exception:
+
+- **Never** write a bare `except:` — it swallows `KeyboardInterrupt` and hides bugs
+- Catch the **most specific** exception you can: `except ValueError:` not `except Exception:`
+- Re-raise with `raise` (no argument) to preserve the traceback
+- Use **`logging`**, not `print`, for anything resembling status
+- Configure `logger = logging.getLogger(__name__)` at the **top of every module**
+- Log **WHY** not just WHAT: `logger.warning("Skipped row %d: invalid price %s", i, val)`
+- Add docstrings that mention **`Raises:`** for any exception your function intentionally throws
+
+> **Inspiration for the road ahead:**
+>
+> *"Errors should never pass silently. Unless explicitly silenced."*
+> — Tim Peters, *The Zen of Python*
+
 ## Working with pandas
 Duration: 15:00
 
@@ -3251,6 +3510,34 @@ Top 3 by revenue:
 - [ ] No `SettingWithCopyWarning` in the output (use `df = df.copy()` after filtering)
 
 **Stretch goal:** Add a `pivot_table` showing regions as rows and dates as columns, with `total` as the cell values. Save it as `pivot_report.csv`.
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Create a **DataFrame** from a CSV with `pd.read_csv`
+- Inspect data with `head()`, `tail()`, `info()`, `describe()`, `shape`, `dtypes`
+- Clean missing data with `dropna`, `fillna`, and boolean indexing
+- Add and transform columns with `df["new"] = ...` or `df.assign(...)`
+- **Aggregate** with `groupby(...).agg(...)` for sums, means, counts
+- Sort with `sort_values(...)`, slice top-N with `.head(N)`, write with `to_csv`
+
+### PEP 8 — Style Rules to Apply Strictly to pandas Code
+
+pandas one-liners look elegant in tutorials and unreadable in production. Apply these rules every single time you write a DataFrame chain:
+
+- **Break long chains** across multiple lines using `(` `)` parentheses for line continuation
+- Each method on its **own line**, indented one level
+- Always **`df = df.copy()`** after a filter to avoid `SettingWithCopyWarning`
+- Use **double quotes** for column names: `df["price"]`, never `df['price']` mixing
+- Prefer **`.assign()`** for adding columns in a chain (no inplace mutation)
+- Never set `inplace=True` — always reassign: `df = df.dropna()`
+- Constants at top: `INPUT_FILE = "sales.csv"`, `MIN_PRICE = 0`
+
+> **Inspiration for the road ahead:**
+>
+> *"Without data, you're just another person with an opinion."*
+> — W. Edwards Deming
 
 ## Data Engineering Mini Project — Complete ETL Pipeline
 Duration: 20:00
@@ -3689,6 +3976,34 @@ pipeline_project/
 cd ~/python-de-learning
 ```
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Build a complete **Extract → Transform → Load** pipeline from scratch
+- Structure a project with `input/`, `output/`, `logs/` folders
+- Drive behaviour from a **CONFIG dict** — no magic numbers in code
+- Validate every record at the boundary, log rejections with reasons
+- Write both **`cleaned.csv`** and a JSON **summary report**
+- Make the pipeline **idempotent** — running twice produces identical output
+
+### PEP 8 — Style Rules to Apply Strictly to ETL Pipelines
+
+Capstone code is what hiring managers read first. Apply these rules every single time you ship a pipeline:
+
+- **Imports at top**, grouped (stdlib → third-party → local) with one blank line between groups
+- Constants in **`UPPER_SNAKE_CASE`** at module top (e.g., `INPUT_PATH`, `MAX_QUANTITY`)
+- One **`def`** per pipeline stage: `extract()`, `transform()`, `load()` — single responsibility
+- **Docstrings** on every stage explaining args, returns, raises
+- **Type hints** everywhere: `def transform(records: list[dict]) -> list[dict]:`
+- An `if __name__ == "__main__":` guard at the bottom
+- Run **`black .`** and **`flake8 .`** before committing — zero warnings is the bar
+
+> **Inspiration for the road ahead:**
+>
+> *"First, solve the problem. Then, write the code."*
+> — John Johnson
+
 ## Intermediate Concepts
 Duration: 12:00
 
@@ -3883,6 +4198,33 @@ python intermediate.py
 
 **Stretch goal:** Make the class iterable by adding `__iter__` so you can write `for sale in aggregator:` to walk through every recorded sale.
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Replace verbose loops with **list / dict / set comprehensions**
+- Use **`lambda`** with `sorted`, `max`, `filter`, `map` for one-liners
+- Define **classes** with `__init__`, methods, and `__str__`
+- Group state and behaviour together (Object-Oriented Programming basics)
+- Iterate custom objects by adding **`__iter__`**
+
+### PEP 8 — Style Rules to Apply Strictly to Comprehensions, Lambdas, and Classes
+
+Pythonic code is judged at this level. Apply these rules every single time:
+
+- **Class names** → `PascalCase` (e.g., `SalesAggregator`, `ETLPipeline`)
+- **Method names** → `snake_case` (e.g., `add_sale`, `revenue_by_region`)
+- **One blank line** between methods, **two blank lines** between top-level classes
+- **Lambdas only for trivial one-liners** — anything bigger gets a `def`
+- Comprehensions only when they fit **on one readable line** — otherwise use a regular `for` loop
+- **Magic methods** (`__init__`, `__str__`, `__iter__`) follow the dunder naming convention
+- Private attributes use **a single leading underscore**: `self._cache`
+
+> **Inspiration for the road ahead:**
+>
+> *"Beautiful is better than ugly. Readability counts."*
+> — Tim Peters, *The Zen of Python*
+
 ## Best Practices and Project Structure
 Duration: 6:00
 
@@ -3997,6 +4339,34 @@ hitavir-data-project/
 
 > **HitaVir Tech says:** "Code is read 10× more than it is written. Follow naming conventions, write docstrings, and organize your projects. Your future self and your teammates will thank you."
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Lay out a Data Engineering project the way real teams do (`src/`, `tests/`, `data/`, `logs/`)
+- Apply naming conventions consistently (snake_case / PascalCase / UPPER_SNAKE)
+- Write **docstrings** on every public function and module
+- Make pipelines **idempotent** — same input, same output, every run
+- Validate at the boundary; trust internal calls
+- Save **rejected records**; never silently drop bad data
+- Manage **secrets** through environment variables, never hardcoded
+
+### PEP 8 — The Style Rules That Define a Professional
+
+These are the rules every Data Engineering team enforces in code review. Apply them every single time:
+
+- **Imports** at the top of every file, grouped (stdlib → third-party → local), one blank line between groups
+- **Constants** in `UPPER_SNAKE_CASE` at module top — never magic numbers buried in code
+- **No bare `except:`** — always specific exceptions, always log them
+- **F-strings** over `%` and `.format()` (Python 3.6+ standard)
+- **`pathlib`** over `os.path` string-joining
+- **`black`** + **`flake8`** clean before every commit — zero warnings is the contract
+
+> **Inspiration for the road ahead:**
+>
+> *"Make it work, make it right, make it fast."*
+> — Kent Beck
+
 ## Debugging and Troubleshooting
 Duration: 6:00
 
@@ -4052,6 +4422,31 @@ ValueError: could not convert string to float: 'abc'
 ```
 
 > **HitaVir Tech says:** "Every bug is a lesson. Read the error message carefully — Python tells you exactly what went wrong and on which line. The traceback is your best debugging friend."
+
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Recognise the **8 most common Python errors** by their names (`ModuleNotFoundError`, `KeyError`, `IndexError`, etc.)
+- Read a **traceback** bottom-up to find the actual line that failed
+- Fix Windows-specific issues (PATH, encoding, line endings, venv activation)
+- Use `os.path.exists()`, `.get(key, default)`, and `len()` checks **before** the failing call
+
+### PEP 8 — Style Rules to Apply Strictly During Debugging
+
+Bugs hide in inconsistent code. Apply these rules every single time you debug:
+
+- Use the **`logging`** module to print debug info — never leave `print()` calls behind
+- Catch **specific** exceptions — `except ValueError as e:` not `except Exception:`
+- Always include the **error variable** in the log: `logger.error("Failed: %s", e)`
+- Re-raise with `raise` (no argument) to preserve the traceback
+- Run **`flake8`** *before* hunting bugs — many "bugs" are linter warnings you ignored
+- Keep a clean repo — `black .` first, *then* debug
+
+> **Inspiration for the road ahead:**
+>
+> *"Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it."*
+> — Brian Kernighan
 
 ## Python Interview Questions for Data Engineering
 Duration: 12:00
@@ -4273,6 +4668,32 @@ df["region_avg"] = df.groupby("region")["revenue"].transform("mean")
 
 > **HitaVir Tech says:** "These 25 questions cover 90% of what you will face in a Python Data Engineering interview. But knowing the answer is not enough — practice explaining them out loud. An interview is a conversation, not a written exam."
 
+### What You Have Learnt on This Page
+
+By the end of this page you should be able to confidently:
+
+- Answer the **25 most-asked Python DE interview questions** with concrete examples
+- Walk through trade-offs (list vs. tuple, `==` vs. `is`, append vs. extend)
+- Explain pandas operations (`groupby`, `merge`, `apply`, `pivot_table`) under pressure
+- Demonstrate production-grade thinking — error handling, logging, idempotency
+- Handle **secrets** correctly (`.env`, env vars, never in code)
+
+### PEP 8 — Style Rules to Apply Strictly in the Interview Itself
+
+Whiteboards and shared editors are where interviewers judge your discipline. Apply these rules every single time:
+
+- Indent with **4 spaces** even on a whiteboard — never sloppy 2-space pseudocode
+- Name functions and variables in **`snake_case`** out loud as you write
+- Open every function with a one-line docstring: `"""Return the top customer."""`
+- Verbalize **type hints** when you write a signature
+- Catch a **specific** exception, not `except Exception:` — interviewers notice
+- After "I'm done", say: *"In production I'd run this through `black` and `flake8`."*
+
+> **Inspiration for the road ahead:**
+>
+> *"Talk is cheap. Show me the code."*
+> — Linus Torvalds
+
 ## Summary and Next Steps
 Duration: 3:00
 
@@ -4344,6 +4765,32 @@ Congratulations! You have completed **Python for Data Engineering** by **HitaVir
 ```
 
 > **HitaVir Tech says:** "You now have the Python foundation that every data engineer needs. The language is your tool — data is your mission. Go build pipelines that move data, transform businesses, and create value."
+
+### What You Have Learnt Across This Codelab
+
+By finishing this codelab you have proven you can confidently:
+
+- Set up a **professional Python environment** on Windows (Python, pip, VS Code, venv)
+- Apply **PEP 8** rigorously across every concept — variables, control flow, functions, files
+- Use **all 5 core data types** and **all 4 data structures** fluently
+- Build **production-grade ETL pipelines** with logging, error handling, and config
+- Wield **pandas** for cleaning, transformation, and aggregation at scale
+- Write **OOP, comprehensions, lambdas, decorators** — the Pythonic toolbox
+- Speak about your code in interviews using DE-specific examples
+
+### PEP 8 — Your Lifelong Engineering Habit
+
+This is not the end of the style journey — it is the start. From this codelab onward, **every** repo you push to GitHub, **every** PR you open, **every** notebook you share will be:
+
+- **`black`-formatted** before commit (no exceptions)
+- **`flake8`-clean** with zero warnings
+- Documented with **docstrings** and **type hints**
+- Free of magic numbers, bare excepts, and hardcoded secrets
+
+> **Inspiration for the road ahead:**
+>
+> *"The journey of a thousand miles begins with a single step. You have just taken thousands."*
+> — Adapted from Lao Tzu
 
 ## Congratulations
 Duration: 1:00
@@ -4426,5 +4873,30 @@ python-de-learning/
 When all 10 boxes are ticked, you have a portfolio of working pipeline code you can show in any DE interview.
 
 Keep coding, keep building pipelines, and keep growing with HitaVir Tech!
+
+### What You Have Learnt — and What You Carry Forward
+
+You now own a complete portfolio of working Data Engineering code:
+
+- A production-quality **ETL pipeline** with logging, validation, and reporting
+- **10 hands-on assignments** covering every Python concept used in the field
+- A **virtual environment** and project structure you can reuse for any new pipeline
+- **PEP 8 muscle memory** — you no longer think about indentation, naming, or imports
+
+### PEP 8 — One Final Promise to Yourself
+
+Before you close this codelab, commit out loud:
+
+- *"I will never push code that has not been formatted with `black`."*
+- *"I will never push code that has not been linted with `flake8`."*
+- *"I will write docstrings and type hints — every function, every time."*
+- *"I will treat every code review as a chance to learn, not a defence."*
+
+> **Inspiration for the road ahead:**
+>
+> *"The only way to learn a new programming language is by writing programs in it."*
+> — Dennis Ritchie, creator of C
+>
+> You did exactly that. Now go build pipelines that move the world.
 
 **Happy engineering!**
