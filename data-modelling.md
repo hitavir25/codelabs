@@ -1313,7 +1313,7 @@ Duration: 5:00
 ## Data Modelling Interview Questions
 Duration: 15:00
 
-These questions are frequently asked at companies hiring Data Engineers through **LinkedIn, Naukri, Indeed, Glassdoor** and at institutes like **Simplilearn, Intellipaat, Great Learning, Scaler Academy, DataCamp, and Coursera**.
+These questions are frequently asked in Data Engineering interviews across the industry.
 
 Questions marked with **[MOST ASKED]** are tested in 80%+ of interviews. Focus on these first.
 
@@ -1405,7 +1405,77 @@ Questions marked with **[MOST ASKED]** are tested in 80%+ of interviews. Focus o
 
 > **HitaVir Tech Interview Insight:** "For architect-level interviews, they want to hear your THOUGHT PROCESS, not just the answer. Walk them through: requirements, constraints, trade-offs, alternatives considered, and why you chose your approach. Questions Q7, Q8, and Q16 are asked in almost every Data Engineering interview — practice explaining them out loud until you can answer in 60 seconds."
 
-## Summary and Next Steps
+## Trade-offs in Data Modelling
+Duration: 5:00
+
+Every modelling decision involves a trade-off. Understanding these trade-offs is what separates a junior data engineer from a senior architect.
+
+### Normalization vs Denormalization
+
+- **Normalize** when data integrity matters most (OLTP, source systems, transactional apps)
+- **Denormalize** when query speed matters most (OLAP, dashboards, reporting)
+- **Trade-off:** Storage and redundancy vs query performance and simplicity
+- **Industry practice:** Normalize at source, denormalize at the warehouse. Never apply the same strategy to both.
+
+### Star Schema vs Snowflake Schema
+
+- **Star** when analysts write queries and dashboard speed is critical (95% of cases)
+- **Snowflake** when storage is extremely expensive or dimensions are very large with frequent updates
+- **Trade-off:** Query speed and simplicity vs storage savings and normalized integrity
+- **Industry practice:** Default to star. Only snowflake if you can measure a concrete storage problem.
+
+### Wide Tables vs Normalized Tables
+
+- **Wide tables** (100+ columns, fully denormalized) for ML feature stores and single-query analytics
+- **Normalized tables** for flexible, maintainable, reusable models
+- **Trade-off:** Query convenience vs maintainability and update complexity
+- **Industry practice:** Use wide tables in the Gold layer for specific use cases (ML serving, executive dashboards). Keep Silver layer normalized.
+
+### Surrogate Keys vs Natural Keys
+
+- **Surrogate keys** for data warehouse dimensions (always)
+- **Natural keys** only in source systems and staging layers
+- **Trade-off:** Query performance and SCD support vs business meaning and traceability
+- **Industry practice:** Use surrogate keys as the primary/foreign key. Keep natural key as a separate column for source traceability.
+
+### SCD Type 1 vs Type 2
+
+- **Type 1** (overwrite) when history does not matter (error corrections, non-critical attributes)
+- **Type 2** (versioned rows) when historical analysis is required (address changes, status changes, pricing)
+- **Trade-off:** Simplicity and storage vs complete audit trail and historical accuracy
+- **Industry practice:** Default to Type 2 for any attribute that could be used in time-based analysis. Use Type 1 only for data corrections.
+
+### Kimball vs Inmon
+
+- **Kimball** for agile teams, fast delivery, self-service analytics
+- **Inmon** for large regulated enterprises, strict governance, single source of truth
+- **Trade-off:** Speed to value vs enterprise consistency and governance
+- **Industry practice:** Most modern companies use a hybrid — Kimball-style star schemas with Inmon-level governance and conformed dimensions.
+
+### Pre-aggregation vs Raw Grain
+
+- **Pre-aggregate** for dashboards that need sub-second response (daily summaries, monthly KPIs)
+- **Keep raw grain** for ad-hoc analysis and drill-down capability
+- **Trade-off:** Dashboard speed vs analytical flexibility
+- **Industry practice:** Store raw grain in fact tables. Create pre-aggregated Gold views or materialized views for dashboards. Never throw away granular data.
+
+### Partitioning: Too Many vs Too Few
+
+- **Over-partitioning** (partition by hour on a daily-loaded table) creates millions of small files and degrades performance
+- **Under-partitioning** (no partitioning on a billion-row table) causes full table scans
+- **Trade-off:** Query pruning efficiency vs file management overhead
+- **Industry practice:** Partition fact tables by date (daily or monthly). Only add second-level partitioning if queries consistently filter by that column. Monitor partition sizes — aim for 100MB-1GB per partition in cloud warehouses.
+
+### Single Model vs Multiple Models
+
+- **Single unified model** for consistency across the enterprise
+- **Multiple domain-specific models** for team autonomy and speed
+- **Trade-off:** Enterprise consistency vs team independence
+- **Industry practice:** Use conformed dimensions (shared date, customer, product dimensions) across domains. Allow domain teams to own their fact tables and Gold layer aggregations. This is the data mesh philosophy applied to modelling.
+
+> **HitaVir Tech says:** "There is no perfect data model — there are only trade-offs. The best data engineers do not memorize patterns; they understand trade-offs deeply enough to make the right choice for each situation. When an interviewer asks 'how would you model X?' — they are testing whether you can articulate the trade-offs, not whether you know the textbook answer."
+
+## Summary
 Duration: 3:00
 
 Congratulations! You have completed **Data Modelling for Data Engineering** by **HitaVir Tech**!
