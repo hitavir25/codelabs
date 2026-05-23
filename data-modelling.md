@@ -316,6 +316,10 @@ CREATE TABLE employees (
 
 BCNF handles rare edge cases where 3NF still has anomalies. In practice, most 3NF designs already satisfy BCNF.
 
+### Normalization Journey
+
+![Normalization Flow](assets/diagrams/normalization-flow.svg)
+
 ### Normalization Summary
 
 | Form | Rule | Eliminates |
@@ -592,6 +596,8 @@ The **Snowflake Schema** extends the star schema by **normalizing dimension tabl
 
 ### Structure
 
+![Snowflake Schema](assets/diagrams/snowflake-schema.svg)
+
 In a snowflake schema, dimensions are **normalized into sub-tables**:
 
 | Level 1 (Fact) | Level 2 (Dimension) | Level 3 (Sub-dimension) |
@@ -629,6 +635,8 @@ Dimensions like `dim_product` are split into: **product --> category --> departm
 Duration: 8:00
 
 Fact tables are the heart of every data warehouse. They store the **measurable events** of the business.
+
+![Fact Table Types](assets/diagrams/fact-table-types.svg)
 
 ### Three Types of Fact Tables
 
@@ -719,6 +727,8 @@ CREATE TABLE fact_claim_lifecycle (
 Duration: 15:00
 
 Dimension tables provide the **descriptive context** for facts. The biggest challenge is handling changes over time — this is where **Slowly Changing Dimensions (SCD)** come in.
+
+![Dimension Types](assets/diagrams/dimension-types.svg)
 
 ### Types of Dimensions
 
@@ -920,38 +930,7 @@ Two legendary approaches to data warehouse architecture.
 
 **Ralph Kimball's approach:** Build dimensional data marts first, then integrate them into an enterprise warehouse.
 
-**Kimball Flow:**
-
-| Step | Component |
-|------|-----------|
-| 1 | Source Systems |
-| 2 | ETL Process |
-| 3a | Sales Data Mart (Star Schema) |
-| 3b | Finance Data Mart (Star Schema) |
-| 3c | HR Data Mart (Star Schema) |
-| 3d | Marketing Data Mart (Star Schema) |
-| 4 | Enterprise Data Warehouse (Conformed Dimensions emerge from marts) |
-
-**Key principles:**
-- Build around business processes (sales, orders, claims)
-- Use star schemas
-- Conformed dimensions shared across marts
-- Faster to deliver value
-
-### Inmon (Top-Down)
-
-**Bill Inmon's approach:** Build a centralized, normalized enterprise data warehouse first, then create data marts from it.
-
-**Inmon Flow:**
-
-| Step | Component |
-|------|-----------|
-| 1 | Source Systems |
-| 2 | ETL Process |
-| 3 | **Enterprise Data Warehouse (Normalized, 3NF)** |
-| 4a | Sales Data Mart (derived from DW) |
-| 4b | Finance Data Mart (derived from DW) |
-| 4c | HR Data Mart (derived from DW) |
+![Kimball vs Inmon](assets/diagrams/kimball-vs-inmon.svg)
 
 **Key principles:**
 - Single source of truth first
