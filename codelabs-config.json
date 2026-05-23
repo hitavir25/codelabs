@@ -10,5 +10,6 @@
   "aws-analytics-fundamentals-part1": { "unlocked": true, "order": 9 },
   "aws-analytics-fundamentals-part2": { "unlocked": true, "order": 10 },
   "azure-analytics-fundamentals-part1": { "unlocked": true, "order": 11 },
-  "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 12 }
+  "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 12 },
+  "data-modelling": { "unlocked": false, "order": 13 }
 }
