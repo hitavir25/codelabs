@@ -127,9 +127,17 @@ jobs:
           done
           echo 'Build complete'
 
-      - name: Inject step-lock script
+      - name: Copy assets into _site
         run: |
           cp assets/step-lock.js _site/step-lock.js
+          if [ -d "assets/diagrams" ]; then
+            mkdir -p _site/assets/diagrams
+            cp assets/diagrams/* _site/assets/diagrams/
+            echo "Copied $(ls assets/diagrams/ | wc -l) diagram files"
+          fi
+
+      - name: Inject step-lock script
+        run: |
           for dir in _site/*/; do
             if [ -f "${dir}index.html" ]; then
               sed -i 's|</body>|<script src="../step-lock.js"></script>\n</body>|' "${dir}index.html"

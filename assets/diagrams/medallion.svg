@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" font-family="Google Sans, Segoe UI, Arial, sans-serif">
+  <defs>
+    <filter id="s" x="-4%" y="-4%" width="108%" height="116%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+    </filter>
+  </defs>
+  <rect width="800" height="240" rx="12" fill="#f8f9fa"/>
+  <text x="400" y="28" text-anchor="middle" font-size="14" font-weight="600" fill="#5f6368">MEDALLION ARCHITECTURE (Bronze / Silver / Gold)</text>
+
+  <!-- Bronze -->
+  <rect x="40" y="50" width="210" height="140" rx="10" fill="#78909c" filter="url(#s)"/>
+  <text x="145" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="white">BRONZE</text>
+  <text x="145" y="98" text-anchor="middle" font-size="11" fill="#cfd8dc">Raw Layer</text>
+  <line x1="60" y1="106" x2="230" y2="106" stroke="#90a4ae" stroke-width="1"/>
+  <text x="145" y="124" text-anchor="middle" font-size="11" fill="white">Raw ingestion</text>
+  <text x="145" y="140" text-anchor="middle" font-size="11" fill="white">As-is from source</text>
+  <text x="145" y="156" text-anchor="middle" font-size="11" fill="white">No transformation</text>
+  <text x="145" y="176" text-anchor="middle" font-size="10" fill="#cfd8dc">Schema-on-read</text>
+
+  <!-- Arrow 1 -->
+  <polygon points="260,120 282,110 282,130" fill="#9aa0a6"/>
+  <line x1="260" y1="120" x2="282" y2="120" stroke="#9aa0a6" stroke-width="2"/>
+
+  <!-- Silver -->
+  <rect x="295" y="50" width="210" height="140" rx="10" fill="#90a4ae" filter="url(#s)"/>
+  <text x="400" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="white">SILVER</text>
+  <text x="400" y="98" text-anchor="middle" font-size="11" fill="#eceff1">Cleansed Layer</text>
+  <line x1="315" y1="106" x2="485" y2="106" stroke="#b0bec5" stroke-width="1"/>
+  <text x="400" y="124" text-anchor="middle" font-size="11" fill="white">Cleaned, validated</text>
+  <text x="400" y="140" text-anchor="middle" font-size="11" fill="white">Deduplicated</text>
+  <text x="400" y="156" text-anchor="middle" font-size="11" fill="white">Standardized</text>
+  <text x="400" y="176" text-anchor="middle" font-size="10" fill="#eceff1">Enforced schema</text>
+
+  <!-- Arrow 2 -->
+  <polygon points="515,120 537,110 537,130" fill="#9aa0a6"/>
+  <line x1="515" y1="120" x2="537" y2="120" stroke="#9aa0a6" stroke-width="2"/>
+
+  <!-- Gold -->
+  <rect x="550" y="50" width="210" height="140" rx="10" fill="#f9a825" filter="url(#s)"/>
+  <text x="655" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#3e2723">GOLD</text>
+  <text x="655" y="98" text-anchor="middle" font-size="11" fill="#5d4037">Business Layer</text>
+  <line x1="570" y1="106" x2="740" y2="106" stroke="#fbc02d" stroke-width="1"/>
+  <text x="655" y="124" text-anchor="middle" font-size="11" fill="#3e2723">Aggregated, enriched</text>
+  <text x="655" y="140" text-anchor="middle" font-size="11" fill="#3e2723">Star schemas</text>
+  <text x="655" y="156" text-anchor="middle" font-size="11" fill="#3e2723">Business-ready KPIs</text>
+  <text x="655" y="176" text-anchor="middle" font-size="10" fill="#5d4037">Dashboards + Reports</text>
+
+  <!-- Data quality arrow -->
+  <text x="400" y="218" text-anchor="middle" font-size="11" fill="#9aa0a6">Data Quality Increases  ----------------------------------------></text>
+  <text x="400" y="235" text-anchor="middle" font-size="10" fill="#bdbdbd">HitaVir Tech</text>
+</svg>

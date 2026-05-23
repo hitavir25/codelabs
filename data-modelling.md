@@ -52,13 +52,7 @@ This is the most comprehensive data modelling tutorial you will find — built f
 
 ### Where Data Modelling Fits
 
-| Step | Component | Description |
-|------|-----------|-------------|
-| 1 | **Business Requirements** | What does the business need? |
-| 2 | **DATA MODEL (Blueprint)** | **You are learning THIS** |
-| 3 | **ETL / ELT Pipelines** | Move and transform data |
-| 4 | **Data Warehouse / Lake** | Store processed data |
-| 5 | **Dashboards and Reports** | Deliver insights to users |
+![Data Model Flow](assets/diagrams/data-model-flow.svg)
 
 > **HitaVir Tech says:** "I have seen companies spend millions on Snowflake and Databricks licenses, only to get terrible performance because nobody designed the data model properly. Tools are only as good as the model underneath them."
 
@@ -69,13 +63,7 @@ There are three levels of data modelling, each with increasing detail.
 
 ### The Three Levels
 
-| Level | Model | Key Question | Details | Audience |
-|-------|-------|-------------|---------|----------|
-| 1 | **CONCEPTUAL** | "What data exists?" | Business-focused, no technical details | Business stakeholders |
-| 2 | **LOGICAL** | "How is data organized?" | Tables, columns, relationships, keys | Data architects, analysts |
-| 3 | **PHYSICAL** | "How is data stored?" | Data types, indexes, partitions, storage | Data engineers, DBAs |
-
-The flow goes: **Conceptual** (high level) --> **Logical** (structure) --> **Physical** (implementation).
+![Three Levels of Data Modelling](assets/diagrams/three-levels.svg)
 
 ### Conceptual Data Model
 
@@ -204,12 +192,7 @@ OLAP Query (complex, millions of rows):
 
 ### Banking Example
 
-| | OLTP (Core Banking) | --- ETL ---> | OLAP (Analytics Warehouse) |
-|---|---|---|---|
-| **Tables** | accounts, transactions, customers, branches | | fact_transactions, dim_customer, dim_branch, dim_product, dim_date |
-| **Structure** | Normalized (3NF) | | Denormalized (Star Schema) |
-| **Optimized for** | Fast writes | | Fast reads |
-| **Data scope** | Current state | | Historical analysis |
+![OLTP vs OLAP](assets/diagrams/oltp-vs-olap.svg)
 
 > **HitaVir Tech says:** "As a Data Engineer, you pull data FROM OLTP systems and model it INTO OLAP systems. Your job is the bridge between the two worlds."
 
@@ -416,19 +399,7 @@ The **Star Schema** is the most popular data warehouse modelling pattern. It is 
 
 ### Structure
 
-The star schema has **one central fact table** connected to **multiple dimension tables**:
-
-| Dimension | Key | Columns | Connects to |
-|-----------|-----|---------|-------------|
-| **dim_customer** | customer_key | name, segment, city, state | fact_sales.customer_key |
-| **dim_product** | product_key | product_name, category, brand | fact_sales.product_key |
-| **dim_store** | store_key | store_name, region, state | fact_sales.store_key |
-| **dim_date** | date_key | full_date, day_of_week, month, quarter, year, is_holiday | fact_sales.date_key |
-
-| Fact Table: **fact_sales** | |
-|---|---|
-| **Foreign Keys** | customer_key, product_key, store_key, date_key |
-| **Measures** | quantity, unit_price, total_amount, discount, profit |
+![Star Schema](assets/diagrams/star-schema.svg)
 
 ### Key Concepts
 
@@ -810,14 +781,7 @@ VALUES
 
 **Result:**
 
-| customer_key | cust_id | city | effective_date | expiry_date | is_current |
-|-------------|---------|------|---------------|------------|------------|
-| 1 | C001 | **Mumbai** | 2025-01-01 | 2026-03-14 | **FALSE** |
-| 4 | C001 | **Pune** | 2026-03-15 | 9999-12-31 | **TRUE** |
-
-- Sales **before** March 2026 link to key=1 (Mumbai)
-- Sales **after** March 2026 link to key=4 (Pune)
-- **History is fully preserved!**
+![SCD Type 2 Example](assets/diagrams/scd-type2.svg)
 
 **Use case:** Customer address changes, employee department transfers, product price changes — any time you need historical analysis.
 
@@ -1018,13 +982,7 @@ The **Data Lakehouse** combines the best of data lakes (raw storage, flexibility
 
 ### Medallion Architecture
 
-| Layer | Name | Data Quality | What Happens | Who Uses It |
-|-------|------|-------------|-------------|-------------|
-| **BRONZE** | Raw | As-is from source | Raw ingestion, no transformation | Data engineers |
-| --> | | | | |
-| **SILVER** | Cleansed | Validated | Cleaned, deduplicated, standardized | Data engineers, analysts |
-| --> | | | | |
-| **GOLD** | Business-Ready | Aggregated | Star schemas, business metrics, KPIs | Business users, dashboards |
+![Medallion Architecture](assets/diagrams/medallion.svg)
 
 ### Bronze Layer (Raw)
 
@@ -1116,15 +1074,7 @@ Duration: 8:00
 
 ### Three Building Blocks
 
-| Component | Type | Contains | Example |
-|-----------|------|----------|---------|
-| **HUB (Customer)** | Business Key | customer_id, load_date, source | Unique customer identifiers |
-| **HUB (Order)** | Business Key | order_id, load_date, source | Unique order identifiers |
-| **LINK (CustOrder)** | Relationship | hub_customer_hash, hub_order_hash | Customer-to-Order relationship |
-| **SATELLITE (Cust_Detail)** | Attributes | name, email, city, segment | Customer descriptive data (with history) |
-| **SATELLITE (Order_Detail)** | Attributes | amount, status, ship_date | Order descriptive data (with history) |
-
-**How they connect:** HUB (Customer) --> LINK (CustOrder) <-- HUB (Order). Each HUB has one or more SATELLITES attached.
+![Data Vault](assets/diagrams/data-vault.svg)
 
 ### Hubs — Business Keys
 
