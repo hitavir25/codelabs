@@ -86,16 +86,7 @@ The **how** — defines tables, columns, primary keys, foreign keys, and relatio
 
 **Example — Order entity expanded:**
 
-| Key | Column | Description |
-|-----|--------|-------------|
-| PK | order_id | Unique order identifier |
-| FK | customer_id | Links to customer table |
-| FK | product_id | Links to product table |
-| | order_date | When the order was placed |
-| | quantity | Number of items |
-| | unit_price | Price per item |
-| | total_amount | Total order value |
-| | order_status | Current status of the order |
+![ORDER Logical Model](assets/diagrams/logical-model-order.svg)
 
 **When to use:** Database design phase, team alignment on structure, documentation.
 
@@ -124,14 +115,7 @@ CREATE TABLE orders (
 
 ### Comparison
 
-| Aspect | Conceptual | Logical | Physical |
-|--------|-----------|---------|----------|
-| Detail level | High-level | Medium | Very detailed |
-| Audience | Business users | Architects | Engineers/DBAs |
-| Contains columns? | No | Yes | Yes + data types |
-| Contains indexes? | No | No | Yes |
-| Platform specific? | No | No | Yes |
-| Created by | Business analysts | Data architects | Data engineers |
+![Model Comparison](assets/diagrams/model-comparison.svg)
 
 > **HitaVir Tech says:** "In enterprise projects, you always start with conceptual, refine to logical, then implement physical. Skipping steps is how data platforms become unmaintainable."
 
@@ -311,22 +295,11 @@ BCNF handles rare edge cases where 3NF still has anomalies. In practice, most 3N
 
 ### Normalization Summary
 
-| Form | Rule | Eliminates |
-|------|------|-----------|
-| 1NF | Atomic values, no repeating groups | Multi-valued columns |
-| 2NF | No partial dependencies | Redundancy from composite keys |
-| 3NF | No transitive dependencies | Redundancy between non-key columns |
-| BCNF | Every determinant is a candidate key | Remaining anomalies |
+![Normalization Summary](assets/diagrams/normalization-summary.svg)
 
 ### When to Use Normalization
 
-| Scenario | Normalize? |
-|----------|-----------|
-| OLTP / transactional database | Yes (3NF) |
-| Data warehouse fact tables | No (denormalize) |
-| Data warehouse dimension tables | Partially |
-| Application backend | Yes (3NF) |
-| Reporting layer | No (denormalize) |
+![When to Normalize](assets/diagrams/normalize-when.svg)
 
 > **HitaVir Tech says:** "Normalize for OLTP (where data is written), denormalize for OLAP (where data is read). This is the golden rule of data modelling that separates juniors from seniors in interviews."
 
@@ -375,13 +348,7 @@ WHERE order_date >= '2025-01-01';
 
 ### When to Denormalize
 
-| Denormalize When | Do NOT Denormalize When |
-|-----------------|----------------------|
-| Building a data warehouse | Building a transactional system |
-| Read-heavy workload (90% reads) | Write-heavy workload |
-| Query performance is critical | Data integrity is the top priority |
-| Users need fast dashboards | Application needs real-time updates |
-| Data is loaded in batches | Data changes frequently |
+![When to Denormalize](assets/diagrams/denormalize-when.svg)
 
 > **HitaVir Tech says:** "Normalization and denormalization are not enemies — they are tools for different jobs. Normalize your source systems, denormalize your warehouse. That is the Data Engineering way."
 
