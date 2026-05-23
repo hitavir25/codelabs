@@ -177,18 +177,7 @@ OLAP Query (complex, millions of rows):
 
 ### Comparison Table
 
-| Feature | OLTP | OLAP |
-|---------|------|------|
-| **Purpose** | Run the business | Analyze the business |
-| **Operations** | INSERT, UPDATE, DELETE | SELECT (mostly reads) |
-| **Query type** | Simple, single-row | Complex, multi-table JOINs |
-| **Data volume per query** | Few rows | Millions of rows |
-| **Normalization** | Highly normalized (3NF) | Denormalized (Star/Snowflake) |
-| **Users** | Thousands (app users) | Hundreds (analysts, managers) |
-| **Response time** | Milliseconds | Seconds to minutes |
-| **Data freshness** | Real-time | Near real-time to batch |
-| **Example systems** | MySQL, PostgreSQL, Oracle | Snowflake, BigQuery, Redshift |
-| **Model type** | ER Model (normalized) | Dimensional Model (star schema) |
+![OLTP vs OLAP Comparison](assets/diagrams/oltp-vs-olap-table.svg)
 
 ### Banking Example
 
@@ -610,15 +599,7 @@ Dimensions like `dim_product` are split into: **product --> category --> departm
 
 ### Star vs Snowflake Comparison
 
-| Feature | Star Schema | Snowflake Schema |
-|---------|------------|-----------------|
-| Dimension structure | Flat (denormalized) | Normalized (sub-tables) |
-| Number of JOINs | Fewer | More |
-| Query performance | Faster (fewer JOINs) | Slower (more JOINs) |
-| Storage | More (redundancy) | Less (no redundancy) |
-| Complexity | Simpler | More complex |
-| ETL complexity | Simpler | More complex |
-| Industry preference | Preferred in most DW | Used when storage is critical |
+![Star vs Snowflake](assets/diagrams/star-vs-snowflake.svg)
 
 ### When to Use Snowflake Schema
 
@@ -834,13 +815,7 @@ CREATE TABLE dim_customer_scd6 (
 
 ### SCD Comparison
 
-| Type | History | Storage | Complexity | Use Case |
-|------|---------|---------|-----------|----------|
-| Type 0 | None (fixed) | Minimal | None | Birth date, SSN |
-| Type 1 | None (overwrite) | Same | Low | Error corrections |
-| Type 2 | Full history | Grows | Medium | Address, status changes |
-| Type 3 | Current + previous | +1 column | Low | When 1 level of history is enough |
-| Type 6 | Full + current | Grows + columns | High | When you need everything |
+![SCD Types Comparison](assets/diagrams/scd-comparison.svg)
 
 ### SCD Type 2 with MERGE (Databricks/Spark SQL)
 
@@ -1105,15 +1080,7 @@ CREATE TABLE sat_customer_details (
 
 ### Data Vault vs Star Schema
 
-| Feature | Data Vault | Star Schema |
-|---------|-----------|-------------|
-| Purpose | Integration and history | Reporting and analytics |
-| Complexity | High | Medium |
-| Flexibility | Very flexible | Moderate |
-| Auditability | Full | Limited |
-| Query performance | Slower (many JOINs) | Faster (fewer JOINs) |
-| Best layer | Silver/integration | Gold/presentation |
-| Industry use | Banking, insurance, govt | Retail, analytics, BI |
+![Data Vault vs Star Schema](assets/diagrams/dv-vs-star.svg)
 
 > **HitaVir Tech says:** "Data Vault is used as the integration layer (Silver), and then star schemas are built on top for reporting (Gold). They are complementary, not competing approaches."
 
