@@ -601,14 +601,9 @@ Dimensions like `dim_product` are split into: **product --> category --> departm
 
 ![Star vs Snowflake](assets/diagrams/star-vs-snowflake.svg)
 
-### When to Use Snowflake Schema
+### When to Use Which Schema
 
-| Use Snowflake When | Use Star When |
-|-------------------|---------------|
-| Storage costs are very high | Query speed is the priority |
-| Dimension data changes frequently | Simplicity is valued |
-| Data governance requires normalization | Analysts write their own queries |
-| Dimension tables are very large | Dashboard performance matters |
+![When to Use](assets/diagrams/snowflake-when.svg)
 
 > **HitaVir Tech says:** "In 95% of modern data warehouses, star schema wins. Cloud storage is cheap. Query performance is expensive. Star schema trades a bit of storage for dramatically faster queries. Always start with star unless you have a specific reason for snowflake."
 
@@ -695,12 +690,7 @@ CREATE TABLE fact_claim_lifecycle (
 
 ### Choosing the Right Fact Table
 
-| Question | Transaction | Periodic Snapshot | Accumulating Snapshot |
-|----------|------------|------------------|---------------------|
-| How many rows per entity? | Many (one per event) | One per period | One per lifecycle |
-| Does the row get updated? | Never | Replaced each period | Updated at milestones |
-| Tracks individual events? | Yes | No (aggregated) | Yes (lifecycle) |
-| Time span per row | Point in time | Fixed period | Variable duration |
+![Fact Table Chooser](assets/diagrams/fact-table-chooser.svg)
 
 > **HitaVir Tech Interview Insight:** "In interviews, they will ask: 'What type of fact table would you use for insurance claims?' The answer is accumulating snapshot — because a claim goes through multiple stages (filed, assessed, approved, paid) and you want to track the full lifecycle in one row."
 
@@ -713,12 +703,7 @@ Dimension tables provide the **descriptive context** for facts. The biggest chal
 
 ### Types of Dimensions
 
-| Type | Description | Example |
-|------|-------------|---------|
-| **Regular** | Standard descriptive attributes | Customer name, product category |
-| **Junk** | Combines low-cardinality flags into one table | Is_online, is_promotion, payment_type |
-| **Degenerate** | Dimension value stored in fact table (no dim table) | Order number, invoice number |
-| **Role-playing** | Same dimension used multiple times | dim_date as order_date, ship_date, delivery_date |
+![Dimension Types Table](assets/diagrams/dimension-types-table.svg)
 
 ### Slowly Changing Dimensions (SCD)
 
@@ -860,10 +845,7 @@ Duration: 5:00
 
 ### What Are They?
 
-| Key Type | Definition | Example |
-|----------|-----------|---------|
-| **Natural key** | A real-world business identifier | Employee ID: `EMP-2345`, Email: `alice@mail.com` |
-| **Surrogate key** | A system-generated meaningless integer | `customer_key = 1001` (auto-increment) |
+![Surrogate vs Natural Keys](assets/diagrams/surrogate-vs-natural.svg)
 
 ### Why Surrogate Keys in Data Warehouses?
 
@@ -915,17 +897,7 @@ Two legendary approaches to data warehouse architecture.
 
 ### Comparison
 
-| Feature | Kimball (Bottom-Up) | Inmon (Top-Down) |
-|---------|-------------------|-----------------|
-| Start point | Business process | Enterprise model |
-| Central warehouse | Emerges from marts | Built first |
-| Normalization | Denormalized (star) | Normalized (3NF) |
-| Time to first delivery | Weeks/months | Months/years |
-| Complexity | Lower | Higher |
-| Cost | Lower initially | Higher initially |
-| Flexibility | Easier to extend | Harder to change |
-| Industry adoption | More common | Large enterprises |
-| Best for | Mid-size, agile teams | Large regulated orgs |
+![Kimball vs Inmon Table](assets/diagrams/kimball-inmon-table.svg)
 
 > **HitaVir Tech says:** "In the real world, most modern companies use a hybrid approach — Kimball-style star schemas for analytics, with Inmon-level governance. Know both, but start with Kimball for practical projects."
 
