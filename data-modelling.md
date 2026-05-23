@@ -23,14 +23,7 @@ This is the most comprehensive data modelling tutorial you will find — built f
 
 ### Why Data Modelling Matters in Data Engineering
 
-| Without Good Modelling | With Good Modelling |
-|----------------------|-------------------|
-| Queries take minutes/hours | Queries run in seconds |
-| Duplicate data everywhere | Single source of truth |
-| Reports give wrong numbers | Accurate, consistent metrics |
-| Adding new data breaks everything | Schema evolves gracefully |
-| Storage costs spiral | Optimized storage |
-| Team cannot understand the data | Self-documenting structure |
+![Good vs Bad Modelling](assets/diagrams/good-vs-bad-modelling.svg)
 
 ### Benefits of Good Data Modelling
 
@@ -1099,19 +1092,7 @@ HitaVir Insurance needs to:
 
 ### Source Systems and Data Flow
 
-| Source System | Technology | Data |
-|-------------|-----------|------|
-| Policy Admin | Oracle DB | Policies, premiums, coverage |
-| Claims System | SQL Server | Claims, assessments, payments |
-| Customer CRM | Salesforce | Customer profiles, contacts |
-
-**Data flows through the Medallion Architecture:**
-
-| Layer | What Happens |
-|-------|-------------|
-| **Bronze** (Raw Ingestion) | All three sources land as raw tables |
-| **Silver** (Cleansed) | Cleaned, validated, deduplicated, standardized |
-| **Gold** (Star Schemas) | Fact and dimension tables for analytics |
+![Case Study Sources](assets/diagrams/case-study-sources.svg)
 
 ### Gold Layer — Star Schema Design
 
@@ -1330,57 +1311,99 @@ Duration: 5:00
 > **HitaVir Tech Best Practice:** "Document your grain statement for every fact table. Example: 'One row per product per order per day.' If you cannot state the grain in one sentence, your model needs work."
 
 ## Data Modelling Interview Questions
-Duration: 10:00
+Duration: 15:00
 
-These questions are asked at companies hiring Data Engineers through LinkedIn, Naukri, and at top training institutes worldwide.
+These questions are frequently asked at companies hiring Data Engineers through **LinkedIn, Naukri, Indeed, Glassdoor** and at institutes like **Simplilearn, Intellipaat, Great Learning, Scaler Academy, DataCamp, and Coursera**.
 
-### Beginner Level
+Questions marked with **[MOST ASKED]** are tested in 80%+ of interviews. Focus on these first.
 
-**Q1: What is the difference between a fact table and a dimension table?**
+### Beginner Level (Freshers and Junior DE)
 
-**Answer:** A fact table stores measurable business events (sales, transactions, claims) with numeric metrics like amount, quantity, and profit. A dimension table stores descriptive context (who, what, where, when) like customer names, product categories, and dates. Facts contain foreign keys to dimensions, forming the star schema.
+**Q1: What is the difference between a fact table and a dimension table? [MOST ASKED]**
 
-**Q2: What is a star schema?**
+**Answer:** A fact table stores measurable business events (sales, transactions, claims) with numeric metrics like amount, quantity, and profit. A dimension table stores descriptive context (who, what, where, when) like customer names, product categories, and dates. Facts contain foreign keys that reference dimension table primary keys, forming the star schema. Think of facts as "what happened" and dimensions as "the context around what happened."
 
-**Answer:** A star schema is a data warehouse modelling pattern with a central fact table connected to surrounding dimension tables via foreign keys. It is called "star" because the diagram resembles a star. It is optimized for fast analytical queries by denormalizing dimensions.
+**Q2: What is a star schema? Why is it called "star"? [MOST ASKED]**
 
-**Q3: What is normalization? Why is it used?**
+**Answer:** A star schema is a data warehouse modelling pattern with a central fact table connected to surrounding dimension tables via foreign keys. It is called "star" because the diagram resembles a star — the fact table is the center, and dimension tables radiate outward like star points. It is the industry standard because it is optimized for fast analytical queries through denormalized dimensions that minimize JOINs.
 
-**Answer:** Normalization organizes data to eliminate redundancy and prevent update/delete anomalies. It is used in OLTP (transactional) systems where data integrity is critical. The common forms are 1NF (atomic values), 2NF (no partial dependencies), 3NF (no transitive dependencies).
+**Q3: What is normalization? Explain 1NF, 2NF, 3NF. [MOST ASKED]**
 
-### Intermediate Level
+**Answer:** Normalization organizes data to eliminate redundancy and prevent anomalies. **1NF:** Every column contains atomic (single) values — no repeating groups or comma-separated lists. **2NF:** Must be in 1NF + every non-key column depends on the entire primary key (no partial dependencies). **3NF:** Must be in 2NF + no transitive dependencies (no non-key column depending on another non-key column). Used in OLTP systems where data integrity is critical.
 
-**Q4: Explain SCD Type 2 with an example.**
+**Q4: What is the difference between OLTP and OLAP? [MOST ASKED]**
 
-**Answer:** SCD Type 2 preserves full history by inserting a new row when a dimension attribute changes. The old row is expired (expiry_date set to yesterday, is_current set to FALSE), and a new row is inserted with the current values (expiry_date 9999-12-31, is_current TRUE). A new surrogate key is generated for each version. Example: when a customer moves from Mumbai to Pune, both the Mumbai and Pune records exist, and historical sales are correctly linked to the city at the time of the sale.
+**Answer:** OLTP (Online Transaction Processing) handles day-to-day transactions — INSERT, UPDATE, DELETE on individual records with millisecond response time. Uses normalized (3NF) models. Examples: banking systems, e-commerce. OLAP (Online Analytical Processing) handles analytics and reporting — complex SELECT queries scanning millions of rows. Uses denormalized (star schema) models. Examples: Snowflake, BigQuery. Data Engineers build the ETL bridge between OLTP and OLAP.
 
-**Q5: What is the difference between Kimball and Inmon approaches?**
+**Q5: What is the grain of a fact table? Why is it important?**
 
-**Answer:** Kimball (bottom-up) builds dimensional data marts first using star schemas, then integrates them. Faster delivery, simpler, preferred for agile teams. Inmon (top-down) builds a centralized normalized (3NF) enterprise warehouse first, then derives data marts. More comprehensive, better governance, preferred for large regulated enterprises.
+**Answer:** Grain defines the level of detail per row in a fact table — what exactly one row represents. Example: "one row per product per order per day." It is the FIRST decision in dimensional modelling because it determines what questions the model can answer. Wrong grain leads to duplicate metrics, wrong aggregations, and models that cannot answer business questions. Always state the grain before designing any fact table.
 
-**Q6: What is the Medallion Architecture?**
+**Q6: What is a surrogate key? Why use it instead of natural keys? [MOST ASKED]**
 
-**Answer:** A three-layer data lakehouse architecture: Bronze (raw data, as-is from source), Silver (cleaned, validated, deduplicated), Gold (business-ready, star schemas, aggregated). Popularized by Databricks. Each layer increases data quality and decreases data volume.
+**Answer:** A surrogate key is a system-generated meaningless integer (auto-increment) used as the primary key in dimension tables. Natural keys are real-world business identifiers like employee_id or email. Surrogate keys are preferred because: (1) integer JOINs are 3-5x faster than string JOINs, (2) business keys can change (company merges, system migrations), (3) different source systems may use different IDs for the same entity, (4) SCD Type 2 requires new keys for each version.
 
-### Advanced / Architect Level
+### Intermediate Level (2-5 years experience)
 
-**Q7: How would you design a data model for a real-time fraud detection system?**
+**Q7: Explain SCD Type 2 with an example. [MOST ASKED — CRITICAL]**
 
-**Answer:** Use a lambda architecture with separate batch and speed layers. The batch layer uses a star schema with fact_transactions and dimensions. The speed layer uses a streaming fact table (Kafka + Spark Structured Streaming) with pre-computed features. Implement a wide denormalized table for ML feature serving with sub-second lookups. Partition by date, cluster by account_id. Use materialized views for aggregated fraud signals.
+**Answer:** SCD Type 2 preserves full history by inserting a new row when a tracked dimension attribute changes. When customer Priya moves from Mumbai to Pune: (1) Expire the old row — set `expiry_date = yesterday`, `is_current = FALSE`. (2) Insert a new row — with `city = 'Pune'`, `expiry_date = '9999-12-31'`, `is_current = TRUE`, and a NEW surrogate key. Now historical sales JOIN to key=1 (Mumbai period) and future sales JOIN to key=4 (Pune period). History is fully preserved. This is the most frequently asked data modelling interview question.
 
-**Q8: Explain Data Vault and when you would use it over Star Schema.**
+**Q8: What is the difference between Kimball and Inmon? [MOST ASKED]**
 
-**Answer:** Data Vault uses Hubs (business keys), Links (relationships), and Satellites (descriptive attributes with history). Use it when you need full auditability, multiple source integration, and flexible schema evolution — common in banking, insurance, and government. Star Schema is used on top of Data Vault as the presentation layer for BI tools.
+**Answer:** **Kimball** (bottom-up): Build dimensional data marts first using star schemas, then integrate them with conformed dimensions. Faster delivery (weeks), simpler, preferred for agile teams. **Inmon** (top-down): Build a centralized normalized (3NF) enterprise data warehouse first, then derive data marts from it. Takes longer (months), more comprehensive governance, preferred for large regulated enterprises. Most modern companies use a hybrid approach.
 
-**Q9: How do you handle late-arriving facts and dimensions?**
+**Q9: What is the Medallion Architecture? [MOST ASKED for Databricks roles]**
 
-**Answer:** For late-arriving facts: insert with the dimension key that was current at the time of the event (use effective_date/expiry_date to find the right SCD Type 2 version). For late-arriving dimensions: create a placeholder row with default values (e.g., "Unknown Customer"), then update it when the real dimension data arrives. Use an "inferred member" flag to track placeholder rows.
+**Answer:** A three-layer data lakehouse architecture: **Bronze** (raw data, as-is from source, append-only), **Silver** (cleaned, validated, deduplicated, standardized, enforced schema), **Gold** (business-ready, star schemas, aggregated KPIs, dashboards). Popularized by Databricks. Each layer increases data quality. Data Engineers build the transformations between layers.
 
-**Q10: Design a model for a multi-tenant SaaS analytics platform.**
+**Q10: What are the three types of fact tables?**
 
-**Answer:** Use tenant_id as the first column in every table and as the partition key. Each tenant's data is physically isolated via partitioning. Shared dimensions (like dim_date) are global. Tenant-specific dimensions include tenant_id. Implement row-level security in the BI tool. Consider separate schemas per tenant for large customers. Use column-level encryption for PII across tenants.
+**Answer:** (1) **Transaction fact** — one row per event (sale, click, claim). Never updated. Most common. (2) **Periodic snapshot** — one row per entity per time period (monthly account balance, daily inventory). Replaced each period. (3) **Accumulating snapshot** — one row per lifecycle (insurance claim going through filed, assessed, approved, paid stages). Updated at each milestone. Choose based on the business process you are modelling.
 
-> **HitaVir Tech Interview Insight:** "For architect-level interviews, they want to hear your THOUGHT PROCESS, not just the answer. Walk them through: requirements, constraints, trade-offs, alternatives considered, and why you chose your approach."
+**Q11: What is a junk dimension? A degenerate dimension?**
+
+**Answer:** **Junk dimension:** Combines multiple low-cardinality flags/indicators into a single dimension table instead of cluttering the fact table. Example: `dim_transaction_flags` combining `is_online`, `is_promotion`, `payment_type`. **Degenerate dimension:** A dimension attribute stored directly in the fact table with no corresponding dimension table. Example: `order_number` or `invoice_id` in the fact table — unique per transaction, no descriptive attributes to justify a separate table.
+
+**Q12: What is the difference between star schema and snowflake schema?**
+
+**Answer:** Star schema has flat, denormalized dimensions (one table per dimension). Snowflake schema normalizes dimensions into sub-tables (product has a separate category table, which has a separate department table). Star is preferred in 95% of warehouses because: fewer JOINs, faster queries, simpler for analysts. Snowflake saves storage but adds complexity. Cloud storage is cheap; query performance is expensive.
+
+**Q13: How do you handle NULL values in a data warehouse?**
+
+**Answer:** Never use NULL for dimension foreign keys — instead, create a "Unknown" or "Not Applicable" row in each dimension (typically surrogate key = -1 or 0). For measures in fact tables, use 0 or NULL depending on business meaning — "no sale" is 0, "data not available" is NULL. Document your NULL strategy per column. Use `COALESCE()` in queries to handle NULLs.
+
+### Advanced Level (5+ years, Architect roles)
+
+**Q14: How would you design a data model for a real-time fraud detection system?**
+
+**Answer:** Use a lambda architecture with batch and speed layers. Batch layer: star schema with `fact_transactions` and dimensions, partitioned by date, clustered by `account_id`. Speed layer: streaming fact table (Kafka + Spark Structured Streaming) with pre-computed features. Create a wide denormalized table for ML feature serving with sub-second lookups. Use materialized views for aggregated fraud signals. Separate the feature store from the analytical warehouse.
+
+**Q15: Explain Data Vault 2.0. When would you use it?**
+
+**Answer:** Data Vault uses three building blocks: **Hubs** (unique business keys that never change), **Links** (relationships between hubs), **Satellites** (descriptive attributes with full history, tracked via hash_diff). Use it when you need: full auditability (banking, insurance), multiple source system integration, flexible schema evolution, and regulatory compliance. Data Vault is the integration/Silver layer; Star Schema is built on top for Gold/reporting.
+
+**Q16: How do you handle late-arriving facts and dimensions? [MOST ASKED for Senior roles]**
+
+**Answer:** **Late-arriving facts:** Insert with the dimension surrogate key that was current at the event time. Use `effective_date/expiry_date` from SCD Type 2 to find the correct version: `WHERE event_date BETWEEN effective_date AND expiry_date`. **Late-arriving dimensions:** Create a placeholder "inferred member" row with default values (name = "Unknown"), flag it with `is_inferred = TRUE`. When the real data arrives, update the placeholder. This is critical for data quality in batch pipelines.
+
+**Q17: What is a conformed dimension? Why does it matter?**
+
+**Answer:** A conformed dimension is a dimension table shared across multiple fact tables and data marts with the same keys, attributes, and values. Example: `dim_date` and `dim_customer` used in both the Sales mart and Finance mart. Without conformed dimensions, different teams get different answers to the same question. Kimball's methodology requires conformed dimensions for enterprise consistency.
+
+**Q18: How do you decide the grain of a fact table for a new business process?**
+
+**Answer:** Follow this process: (1) Interview business users — what questions do they need to answer? (2) Identify the business process (sales, claims, shipments). (3) Declare the grain in one sentence: "One row per [entity] per [time period] per [event]." (4) Verify by asking: "Can I answer all required business questions at this grain?" (5) If not, go more granular. (6) Never aggregate at the fact level — aggregations belong in Gold layer views. Start with the most atomic grain possible.
+
+**Q19: Design a model for a multi-tenant SaaS analytics platform.**
+
+**Answer:** Use `tenant_id` as the first column in every table and as the partition key. Physical isolation via partitioning. Shared dimensions (dim_date) are global. Tenant-specific dimensions include tenant_id. Row-level security in the BI tool. Separate schemas for large customers. Column-level encryption for PII. Consider separate Delta Lake paths per tenant for complete isolation.
+
+**Q20: What is the role of data modelling in a modern data lakehouse?**
+
+**Answer:** In a lakehouse, data modelling happens at the Gold layer. Bronze is schema-on-read (no modelling). Silver enforces schema and data quality. Gold is where you design star schemas, define business metrics, create aggregation layers, and optimize for BI tools. The key difference from traditional warehouses: schema evolution is easier (Delta Lake supports column addition), partitioning replaces indexing, and MERGE replaces traditional SCD logic.
+
+> **HitaVir Tech Interview Insight:** "For architect-level interviews, they want to hear your THOUGHT PROCESS, not just the answer. Walk them through: requirements, constraints, trade-offs, alternatives considered, and why you chose your approach. Questions Q7, Q8, and Q16 are asked in almost every Data Engineering interview — practice explaining them out loud until you can answer in 60 seconds."
 
 ## Summary and Next Steps
 Duration: 3:00
@@ -1389,37 +1412,7 @@ Congratulations! You have completed **Data Modelling for Data Engineering** by *
 
 ### What You Mastered
 
-| Module | Key Concepts |
-|--------|-------------|
-| Fundamentals | Conceptual, logical, physical models |
-| OLTP vs OLAP | Transactional vs analytical modelling |
-| Normalization | 1NF, 2NF, 3NF, BCNF |
-| Denormalization | Performance optimization for warehouses |
-| Star Schema | Fact tables, dimension tables, grain |
-| Snowflake Schema | Normalized dimensions, trade-offs |
-| Fact Table Types | Transaction, periodic snapshot, accumulating |
-| SCD Types | Type 0, 1, 2, 3, 6 with SQL and PySpark |
-| Keys | Surrogate vs natural keys |
-| Warehouse Approaches | Kimball vs Inmon |
-| Lakehouse | Medallion architecture (Bronze/Silver/Gold) |
-| Data Vault | Hubs, links, satellites |
-| Cloud Modelling | Snowflake, Databricks, Redshift, BigQuery |
-| Performance | Partitioning, clustering, Z-ORDER |
-| Enterprise Project | Full insurance claims data platform |
-| Best Practices | Naming, governance, documentation |
-| Interview Prep | 10 questions across all levels |
-
-### Career Roadmap
-
-| Step | Skill | Status |
-|------|-------|--------|
-| 1 | **Data Modelling** | You are here! |
-| 2 | SQL Mastery (Joins, Window Functions, CTEs) | Next |
-| 3 | Cloud Data Warehousing (Snowflake / BigQuery / Redshift) | |
-| 4 | Databricks + PySpark | |
-| 5 | Apache Airflow (Orchestration) | |
-| 6 | dbt (Data Transformation) | |
-| 7 | **Senior Data Engineer / Data Architect** | Goal |
+![What You Mastered](assets/diagrams/what-you-mastered.svg)
 
 > **HitaVir Tech says:** "Data modelling is the most underrated skill in Data Engineering. Tools change every year. Cloud platforms evolve every quarter. But a well-designed data model lasts for decades. Master this, and you will always be in demand."
 
