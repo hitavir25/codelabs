@@ -1010,14 +1010,7 @@ gold_daily_sales = (spark.read.table("silver.cleaned_sales")
 
 ### Layer Comparison
 
-| Feature | Bronze | Silver | Gold |
-|---------|--------|--------|------|
-| Data quality | Raw, as-is | Cleaned, validated | Business-ready |
-| Schema | Schema-on-read | Enforced schema | Star schema |
-| Users | Data engineers | Data engineers, analysts | Business users, dashboards |
-| Updates | Append-only | Overwrite/merge | Overwrite/merge |
-| Storage format | Delta/Parquet | Delta | Delta |
-| Partitioning | By ingestion date | By business date | By business dimensions |
+![Layer Comparison](assets/diagrams/layer-comparison.svg)
 
 > **HitaVir Tech says:** "Medallion architecture is the industry standard for Databricks, Azure Synapse, and modern data lakehouses. If you are interviewing for any cloud data engineering role, you MUST know Bronze-Silver-Gold."
 
@@ -1091,13 +1084,7 @@ Each cloud platform has specific modelling considerations.
 
 ### Platform Comparison
 
-| Feature | Snowflake | Databricks | Redshift | BigQuery |
-|---------|-----------|-----------|----------|----------|
-| Storage | Columnar, compressed | Delta Lake (Parquet) | Columnar, compressed | Columnar, compressed |
-| Partitioning | Auto (micro-partitions) | Manual (Delta) | Distribution keys | Auto + manual |
-| Clustering | Cluster keys | Z-ORDER | Sort keys | Clustering columns |
-| Format | Internal | Delta/Parquet/ORC | Internal | Internal |
-| Best for | Multi-workload | ML + Engineering | AWS-native analytics | Google ecosystem |
+![Cloud Platforms](assets/diagrams/cloud-platforms.svg)
 
 ### Partitioning Strategies
 
@@ -1153,16 +1140,7 @@ ZORDER BY (customer_id, product_id);
 
 ### Performance Optimization Checklist
 
-| Technique | What It Does | Platform |
-|-----------|-------------|----------|
-| Partitioning | Splits table by column value | All |
-| Clustering | Co-locates related rows | Snowflake, BigQuery |
-| Z-ORDER | Multi-column clustering | Databricks |
-| Sort keys | Orders data on disk | Redshift |
-| Compression | Reduces storage and I/O | All |
-| Materialized views | Pre-computed query results | Snowflake, Redshift, BigQuery |
-| Caching | Stores query results in memory | All |
-| Column pruning | Only reads needed columns | All (columnar) |
+![Performance Optimization](assets/diagrams/perf-optimization.svg)
 
 > **HitaVir Tech Best Practice:** "Always partition fact tables by date. Always cluster/sort by your most common WHERE clause columns. These two rules alone solve 80% of performance problems."
 
@@ -1404,29 +1382,11 @@ Duration: 5:00
 
 ### Top Data Modelling Mistakes
 
-| Mistake | Impact | Fix |
-|---------|--------|-----|
-| Wrong grain | Duplicate metrics, wrong aggregations | Define grain FIRST before anything else |
-| No surrogate keys | Slow JOINs, SCD impossible | Always add integer surrogate keys |
-| Over-normalization in DW | Too many JOINs, slow queries | Denormalize for analytics |
-| Missing date dimension | Cannot analyze by time periods | Always create a full dim_date |
-| No SCD strategy | Lost history, wrong analysis | Default to SCD Type 2 |
-| Poor naming | Confusion, maintenance nightmare | Use consistent prefixes: `dim_`, `fact_` |
-| No partitioning | Full table scans on large tables | Partition facts by date |
-| Ignoring NULL handling | Wrong counts and aggregations | Define NULL strategy per column |
+![Common Mistakes](assets/diagrams/common-mistakes.svg)
 
 ### Naming Conventions
 
-| Object | Convention | Example |
-|--------|-----------|---------|
-| Fact tables | `fact_` prefix | `fact_sales`, `fact_claims` |
-| Dimension tables | `dim_` prefix | `dim_customer`, `dim_date` |
-| Surrogate keys | `_key` suffix | `customer_key`, `product_key` |
-| Natural keys | `_id` suffix | `customer_id`, `order_id` |
-| Date columns | Descriptive name | `order_date`, `ship_date` |
-| Metrics | Business term | `total_amount`, `quantity`, `profit` |
-| Boolean flags | `is_` prefix | `is_current`, `is_active`, `is_fraud` |
-| Staging tables | `stg_` prefix | `stg_raw_orders` |
+![Naming Conventions](assets/diagrams/naming-conventions.svg)
 
 > **HitaVir Tech Best Practice:** "Document your grain statement for every fact table. Example: 'One row per product per order per day.' If you cannot state the grain in one sentence, your model needs work."
 
