@@ -54,18 +54,18 @@ This is the most comprehensive data modelling tutorial you will find — built f
 
 ```
   Business Requirements
-         │
-         ▼
-  ┌──────────────┐
-  │ DATA MODEL   │  ◀── You are learning THIS
-  │ (Blueprint)  │
-  └──────┬───────┘
-         │
-         ▼
-  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-  │  ETL / ELT   │────▶│  Data Ware-  │────▶│  Dashboards  │
-  │  Pipelines   │     │  house/Lake  │     │  & Reports   │
-  └──────────────┘     └──────────────┘     └──────────────┘
+         |
+         v
+  +----------------+
+  | DATA MODEL     | <-- You are learning THIS
+  | (Blueprint)    |
+  +-------+--------+
+          |
+          v
+  +------------+     +-------------+     +------------+
+  | ETL / ELT  |---->| Data Ware-  |---->| Dashboards |
+  | Pipelines  |     | house/Lake  |     | & Reports  |
+  +------------+     +-------------+     +------------+
 ```
 
 > **HitaVir Tech says:** "I have seen companies spend millions on Snowflake and Databricks licenses, only to get terrible performance because nobody designed the data model properly. Tools are only as good as the model underneath them."
@@ -78,28 +78,28 @@ There are three levels of data modelling, each with increasing detail.
 ### The Three Levels
 
 ```
-  ┌─────────────────────────────────────────────┐
-  │         CONCEPTUAL MODEL                    │
-  │  "What data exists?"                        │
-  │  Business-focused, no technical details     │
-  │  Audience: Business stakeholders            │
-  └───────────────────┬─────────────────────────┘
-                      │
-                      ▼
-  ┌─────────────────────────────────────────────┐
-  │           LOGICAL MODEL                     │
-  │  "How is data organized?"                   │
-  │  Tables, columns, relationships, keys       │
-  │  Audience: Data architects, analysts        │
-  └───────────────────┬─────────────────────────┘
-                      │
-                      ▼
-  ┌─────────────────────────────────────────────┐
-  │          PHYSICAL MODEL                     │
-  │  "How is data stored?"                      │
-  │  Data types, indexes, partitions, storage   │
-  │  Audience: Data engineers, DBAs             │
-  └─────────────────────────────────────────────┘
+  +---------------------------------------------+
+  |         CONCEPTUAL MODEL                    |
+  |  "What data exists?"                        |
+  |  Business-focused, no technical details     |
+  |  Audience: Business stakeholders            |
+  +---------------------+-----------------------+
+                        |
+                        v
+  +---------------------------------------------+
+  |           LOGICAL MODEL                     |
+  |  "How is data organized?"                   |
+  |  Tables, columns, relationships, keys       |
+  |  Audience: Data architects, analysts        |
+  +---------------------+-----------------------+
+                        |
+                        v
+  +---------------------------------------------+
+  |          PHYSICAL MODEL                     |
+  |  "How is data stored?"                      |
+  |  Data types, indexes, partitions, storage   |
+  |  Audience: Data engineers, DBAs             |
+  +---------------------------------------------+
 ```
 
 ### Conceptual Data Model
@@ -109,13 +109,9 @@ The **what** — identifies entities and relationships at the highest level. No 
 **Example — E-commerce system:**
 
 ```
-  ┌──────────┐       ┌──────────┐       ┌──────────┐
-  │ CUSTOMER │──has──▶│  ORDER   │──has──▶│  PRODUCT │
-  └──────────┘       └──────────┘       └──────────┘
-       │                                      │
-       └──────────writes────▶┌──────────┐     │
-                             │  REVIEW  │◀────┘
-                             └──────────┘
+  CUSTOMER ---has---> ORDER ---has---> PRODUCT
+     |                                    |
+     +--------writes-----> REVIEW <-------+
 ```
 
 **When to use:** Early project planning, business requirement gathering, stakeholder communication.
@@ -128,7 +124,7 @@ The **how** — defines tables, columns, primary keys, foreign keys, and relatio
 
 ```
   ORDER
-  ──────────────────
+  ------------------
   PK  order_id
   FK  customer_id
   FK  product_id
@@ -236,13 +232,13 @@ OLAP Query (complex, millions of rows):
 
 ```
 OLTP (Core Banking):                OLAP (Analytics Warehouse):
-┌──────────────┐                    ┌──────────────────┐
-│ accounts     │                    │ fact_transactions │
-│ transactions │  ──── ETL ────▶    │ dim_customer      │
-│ customers    │                    │ dim_branch        │
-│ branches     │                    │ dim_product       │
-└──────────────┘                    │ dim_date          │
-                                    └──────────────────┘
++----------------+                  +--------------------+
+| accounts       |                  | fact_transactions  |
+| transactions   |  --- ETL --->    | dim_customer       |
+| customers      |                  | dim_branch         |
+| branches       |                  | dim_product        |
++----------------+                  | dim_date           |
+                                    +--------------------+
   Normalized (3NF)                    Denormalized (Star)
   Fast writes                         Fast reads
   Current state                       Historical analysis
@@ -260,18 +256,16 @@ Normalization organizes data to **eliminate redundancy** and **ensure data integ
 **Without normalization (one messy table):**
 
 ```
-┌────────┬──────────┬───────────┬────────────┬──────────┬───────────┐
-│order_id│cust_name │cust_email │product_name│prod_cat  │amount     │
-├────────┼──────────┼───────────┼────────────┼──────────┼───────────┤
-│1       │Alice     │alice@mail │Laptop      │Electronics│999.99    │
-│2       │Alice     │alice@mail │Mouse       │Electronics│29.99     │
-│3       │Bob       │bob@mail   │Laptop      │Electronics│999.99    │
-└────────┴──────────┴───────────┴────────────┴──────────┴───────────┘
+order_id | cust_name | cust_email  | product_name | prod_cat    | amount
+---------|-----------|-------------|--------------|-------------|--------
+1        | Alice     | alice@mail  | Laptop       | Electronics | 999.99
+2        | Alice     | alice@mail  | Mouse        | Electronics | 29.99
+3        | Bob       | bob@mail    | Laptop       | Electronics | 999.99
 
 Problems:
 - Alice's email is stored TWICE (update anomaly)
 - Laptop info repeated for every order (redundancy)
-- Delete order 3 → lose Bob entirely (delete anomaly)
+- Delete order 3 -> lose Bob entirely (delete anomaly)
 ```
 
 ### First Normal Form (1NF)
@@ -281,12 +275,10 @@ Problems:
 **Before 1NF (violating):**
 
 ```
-┌────────┬──────────┬──────────────────────┐
-│ emp_id │ name     │ phone_numbers        │
-├────────┼──────────┼──────────────────────┤
-│ 1      │ Alice    │ 9876543210, 911234   │  ← Multiple values!
-│ 2      │ Bob      │ 8765432109           │
-└────────┴──────────┴──────────────────────┘
+emp_id | name  | phone_numbers           <-- Multiple values!
+-------|-------|----------------------
+1      | Alice | 9876543210, 911234      <-- VIOLATION: not atomic!
+2      | Bob   | 8765432109
 ```
 
 **After 1NF:**
@@ -312,15 +304,14 @@ INSERT INTO employee_phones VALUES
 **Before 2NF (composite key with partial dependency):**
 
 ```
-┌──────────┬────────────┬───────────┬────────────┐
-│student_id│ course_id  │student_name│course_name │
-├──────────┼────────────┼───────────┼────────────┤
-│ 1        │ CS101      │ Alice     │ Python     │  ← student_name depends
-│ 1        │ CS102      │ Alice     │ SQL        │    only on student_id
-│ 2        │ CS101      │ Bob       │ Python     │    (partial dependency!)
-└──────────┴────────────┴───────────┴────────────┘
+student_id | course_id | student_name | course_name
+-----------|-----------|--------------|------------
+1          | CS101     | Alice        | Python       <-- student_name depends
+1          | CS102     | Alice        | SQL              only on student_id
+2          | CS101     | Bob          | Python           (partial dependency!)
+
 PK = (student_id, course_id)
-student_name depends only on student_id → partial dependency → NOT 2NF
+student_name depends only on student_id -> partial dependency -> NOT 2NF
 ```
 
 **After 2NF (split into separate tables):**
@@ -352,13 +343,11 @@ CREATE TABLE enrollments (
 **Before 3NF:**
 
 ```
-┌──────────┬───────────┬─────────┬──────────────┐
-│ emp_id   │ emp_name  │ dept_id │ dept_name    │
-├──────────┼───────────┼─────────┼──────────────┤
-│ 1        │ Alice     │ 10      │ Engineering  │ ← dept_name depends
-│ 2        │ Bob       │ 10      │ Engineering  │   on dept_id, NOT emp_id
-│ 3        │ Charlie   │ 20      │ Marketing    │   (transitive dependency!)
-└──────────┴───────────┴─────────┴──────────────┘
+emp_id | emp_name | dept_id | dept_name
+-------|----------|---------|-------------
+1      | Alice    | 10      | Engineering   <-- dept_name depends
+2      | Bob      | 10      | Engineering       on dept_id, NOT emp_id
+3      | Charlie  | 20      | Marketing         (transitive dependency!)
 ```
 
 **After 3NF:**
@@ -467,37 +456,33 @@ The **Star Schema** is the most popular data warehouse modelling pattern. It is 
 ### Structure
 
 ```
-                    ┌──────────────┐
-                    │ dim_customer │
-                    │──────────────│
-                    │ customer_key │
-                    │ name         │
-                    │ segment      │
-                    │ city         │
-                    └──────┬───────┘
-                           │
-  ┌──────────────┐   ┌─────┴──────────┐   ┌──────────────┐
-  │  dim_product  │   │  fact_sales    │   │  dim_store    │
-  │──────────────│   │────────────────│   │──────────────│
-  │ product_key  │───│ customer_key   │───│ store_key    │
-  │ product_name │   │ product_key    │   │ store_name   │
-  │ category     │   │ store_key      │   │ region       │
-  │ brand        │   │ date_key       │   │ state        │
-  └──────────────┘   │ quantity       │   └──────────────┘
-                     │ unit_price     │
-                     │ total_amount   │
-                     │ discount       │
-  ┌──────────────┐   │ profit         │
-  │  dim_date    │───│                │
-  │──────────────│   └────────────────┘
-  │ date_key     │
-  │ full_date    │
-  │ day_of_week  │
-  │ month        │
-  │ quarter      │
-  │ year         │
-  │ is_holiday   │
-  └──────────────┘
+                   dim_customer
+                   +--------------+
+                   | customer_key |
+                   | name         |
+                   | segment      |
+                   | city         |
+                   +------+-------+
+                          |
+  dim_product        fact_sales         dim_store
+  +--------------+   +----------------+   +--------------+
+  | product_key  |---| customer_key   |---| store_key    |
+  | product_name |   | product_key    |   | store_name   |
+  | category     |   | store_key      |   | region       |
+  | brand        |   | date_key       |   | state        |
+  +--------------+   | quantity       |   +--------------+
+                     | unit_price     |
+                     | total_amount   |
+  dim_date           | discount       |
+  +--------------+   | profit         |
+  | date_key     |---+                |
+  | full_date    |   +----------------+
+  | day_of_week  |
+  | month        |
+  | quarter      |
+  | year         |
+  | is_holiday   |
+  +--------------+
 ```
 
 ### Key Concepts
@@ -509,7 +494,7 @@ The **Star Schema** is the most popular data warehouse modelling pattern. It is 
 | **Measure** | Numeric values you aggregate | Revenue, quantity, profit |
 | **Grain** | The level of detail per row | One row per order line item |
 | **Surrogate key** | Auto-generated integer PK | `customer_key = 1001` |
-| **Foreign key** | Links fact to dimension | `fact.customer_key → dim.customer_key` |
+| **Foreign key** | Links fact to dimension | `fact.customer_key -> dim.customer_key` |
 
 ### Hands-On: Build a Retail Star Schema
 
@@ -692,20 +677,14 @@ The **Snowflake Schema** extends the star schema by **normalizing dimension tabl
 ### Structure
 
 ```
-                         ┌──────────┐
-                         │ country  │
-                         └────┬─────┘
-                              │
-  ┌──────────┐         ┌─────┴──────┐
-  │ category │         │ dim_store  │
-  └────┬─────┘         └─────┬──────┘
-       │                     │
-  ┌────┴──────────┐    ┌─────┴──────────┐
-  │ dim_product   │    │  fact_sales    │
-  └───────────────┘    └────────────────┘
+                        country
+                          |
+  category           dim_store
+     |                   |
+  dim_product ---- fact_sales
 ```
 
-Dimensions like `dim_product` are split: `product → category → department`. This saves storage but adds JOINs.
+Dimensions like `dim_product` are split: `product > category > department`. This saves storage but adds JOINs.
 
 ### Star vs Snowflake Comparison
 
@@ -887,12 +866,10 @@ VALUES
 **Result:**
 
 ```
-┌──────────────┬─────────┬────────┬────────────┬────────────┬────────┐
-│ customer_key │ cust_id │ city   │ effective  │ expiry     │current │
-├──────────────┼─────────┼────────┼────────────┼────────────┼────────┤
-│ 1            │ C001    │ Mumbai │ 2025-01-01 │ 2026-03-14 │ FALSE  │
-│ 4            │ C001    │ Pune   │ 2026-03-15 │ 9999-12-31 │ TRUE   │
-└──────────────┴─────────┴────────┴────────────┴────────────┴────────┘
+customer_key | cust_id | city   | effective  | expiry     | current
+-------------|---------|--------|------------|------------|--------
+1            | C001    | Mumbai | 2025-01-01 | 2026-03-14 | FALSE
+4            | C001    | Pune   | 2026-03-15 | 9999-12-31 | TRUE
 
 Now: Sales before March 2026 link to key=1 (Mumbai)
      Sales after March 2026 link to key=4 (Pune)
@@ -1038,20 +1015,20 @@ Two legendary approaches to data warehouse architecture.
 
 ```
 Source Systems
-    │
-    ▼
-┌─────────────────┐
-│ ETL Process     │
-└───────┬─────────┘
-        │
-        ├──▶ Sales Data Mart (Star Schema)
-        ├──▶ Finance Data Mart (Star Schema)
-        ├──▶ HR Data Mart (Star Schema)
-        └──▶ Marketing Data Mart (Star Schema)
-                    │
-                    ▼
-          Enterprise Data Warehouse
-          (Conformed Dimensions)
+    |
+    v
++------------------+
+| ETL Process      |
++--------+---------+
+         |
+         +---> Sales Data Mart (Star Schema)
+         +---> Finance Data Mart (Star Schema)
+         +---> HR Data Mart (Star Schema)
+         +---> Marketing Data Mart (Star Schema)
+                     |
+                     v
+           Enterprise Data Warehouse
+           (Conformed Dimensions)
 ```
 
 **Key principles:**
@@ -1066,21 +1043,21 @@ Source Systems
 
 ```
 Source Systems
-    │
-    ▼
-┌─────────────────┐
-│ ETL Process     │
-└───────┬─────────┘
-        │
-        ▼
-┌─────────────────────────────┐
-│ Enterprise Data Warehouse   │
-│ (Normalized, 3NF)           │
-└───────────┬─────────────────┘
-            │
-            ├──▶ Sales Data Mart
-            ├──▶ Finance Data Mart
-            └──▶ HR Data Mart
+    |
+    v
++------------------+
+| ETL Process      |
++--------+---------+
+         |
+         v
++-------------------------------+
+| Enterprise Data Warehouse     |
+| (Normalized, 3NF)             |
++---------------+---------------+
+                |
+                +---> Sales Data Mart
+                +---> Finance Data Mart
+                +---> HR Data Mart
 ```
 
 **Key principles:**
@@ -1113,18 +1090,16 @@ The **Data Lakehouse** combines the best of data lakes (raw storage, flexibility
 ### Medallion Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                    MEDALLION ARCHITECTURE                       │
-│                                                                 │
-│  ┌───────────┐     ┌────────────┐     ┌──────────────┐         │
-│  │  BRONZE   │────▶│  SILVER    │────▶│    GOLD      │         │
-│  │  (Raw)    │     │ (Cleansed) │     │  (Business)  │         │
-│  └───────────┘     └────────────┘     └──────────────┘         │
-│                                                                 │
-│  Raw ingestion      Cleaned,           Aggregated,              │
-│  As-is from         validated,         business-ready,          │
-│  source systems     deduplicated       star schemas             │
-└─────────────────────────────────────────────────────────────────┘
+  MEDALLION ARCHITECTURE
+
+  +-----------+      +------------+      +--------------+
+  |  BRONZE   |----->|  SILVER    |----->|    GOLD      |
+  |  (Raw)    |      | (Cleansed) |      |  (Business)  |
+  +-----------+      +------------+      +--------------+
+
+  Raw ingestion       Cleaned,            Aggregated,
+  As-is from          validated,          business-ready,
+  source systems      deduplicated        star schemas
 ```
 
 ### Bronze Layer (Raw)
@@ -1218,16 +1193,12 @@ Duration: 8:00
 ### Three Building Blocks
 
 ```
-  ┌────────┐         ┌────────┐
-  │  HUB   │────────▶│  LINK  │◀────────┌────────┐
-  │Customer│         │CustOrder│         │  HUB   │
-  └───┬────┘         └────────┘         │ Order  │
-      │                                  └───┬────┘
-      ▼                                      ▼
-  ┌────────────┐                        ┌────────────┐
-  │ SATELLITE  │                        │ SATELLITE  │
-  │ Cust_Detail│                        │Order_Detail│
-  └────────────┘                        └────────────┘
+  HUB              LINK              HUB
+  (Customer) ----> (CustOrder) <---- (Order)
+      |                                |
+      v                                v
+  SATELLITE                       SATELLITE
+  (Cust_Detail)                   (Order_Detail)
 ```
 
 ### Hubs — Business Keys
@@ -1391,27 +1362,28 @@ HitaVir Insurance needs to:
 ### Source Systems
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ Policy Admin    │    │ Claims System   │    │ Customer CRM    │
-│ (Oracle DB)     │    │ (SQL Server)    │    │ (Salesforce)    │
-└───────┬─────────┘    └───────┬─────────┘    └───────┬─────────┘
-        │                      │                      │
-        └──────────────────────┼──────────────────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   Bronze Layer      │
-                    │   (Raw Ingestion)   │
-                    └──────────┬──────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   Silver Layer      │
-                    │   (Cleansed)        │
-                    └──────────┬──────────┘
-                               │
-                    ┌──────────▼──────────┐
-                    │   Gold Layer        │
-                    │   (Star Schemas)    │
-                    └─────────────────────┘
+  Policy Admin      Claims System       Customer CRM
+  (Oracle DB)       (SQL Server)        (Salesforce)
+       |                 |                   |
+       +-----------------+-------------------+
+                         |
+                         v
+               +--------------------+
+               | Bronze Layer       |
+               | (Raw Ingestion)    |
+               +---------+----------+
+                         |
+                         v
+               +--------------------+
+               | Silver Layer       |
+               | (Cleansed)         |
+               +---------+----------+
+                         |
+                         v
+               +--------------------+
+               | Gold Layer         |
+               | (Star Schemas)     |
+               +--------------------+
 ```
 
 ### Gold Layer — Star Schema Design
@@ -1732,23 +1704,23 @@ Congratulations! You have completed **Data Modelling for Data Engineering** by *
 
 ```
 Data Modelling (you are here!)
-    │
-    ▼
+    |
+    v
 SQL Mastery (Joins, Window Functions, CTEs)
-    │
-    ▼
+    |
+    v
 Cloud Data Warehousing (Snowflake / BigQuery / Redshift)
-    │
-    ▼
+    |
+    v
 Databricks + PySpark
-    │
-    ▼
+    |
+    v
 Apache Airflow (Orchestration)
-    │
-    ▼
+    |
+    v
 dbt (Data Transformation)
-    │
-    ▼
+    |
+    v
 Senior Data Engineer / Data Architect
 ```
 
