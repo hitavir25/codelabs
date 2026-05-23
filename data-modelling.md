@@ -52,21 +52,13 @@ This is the most comprehensive data modelling tutorial you will find — built f
 
 ### Where Data Modelling Fits
 
-```
-  Business Requirements
-         |
-         v
-  +----------------+
-  | DATA MODEL     | <-- You are learning THIS
-  | (Blueprint)    |
-  +-------+--------+
-          |
-          v
-  +------------+     +-------------+     +------------+
-  | ETL / ELT  |---->| Data Ware-  |---->| Dashboards |
-  | Pipelines  |     | house/Lake  |     | & Reports  |
-  +------------+     +-------------+     +------------+
-```
+| Step | Component | Description |
+|------|-----------|-------------|
+| 1 | **Business Requirements** | What does the business need? |
+| 2 | **DATA MODEL (Blueprint)** | **You are learning THIS** |
+| 3 | **ETL / ELT Pipelines** | Move and transform data |
+| 4 | **Data Warehouse / Lake** | Store processed data |
+| 5 | **Dashboards and Reports** | Deliver insights to users |
 
 > **HitaVir Tech says:** "I have seen companies spend millions on Snowflake and Databricks licenses, only to get terrible performance because nobody designed the data model properly. Tools are only as good as the model underneath them."
 
@@ -77,30 +69,13 @@ There are three levels of data modelling, each with increasing detail.
 
 ### The Three Levels
 
-```
-  +---------------------------------------------+
-  |         CONCEPTUAL MODEL                    |
-  |  "What data exists?"                        |
-  |  Business-focused, no technical details     |
-  |  Audience: Business stakeholders            |
-  +---------------------+-----------------------+
-                        |
-                        v
-  +---------------------------------------------+
-  |           LOGICAL MODEL                     |
-  |  "How is data organized?"                   |
-  |  Tables, columns, relationships, keys       |
-  |  Audience: Data architects, analysts        |
-  +---------------------+-----------------------+
-                        |
-                        v
-  +---------------------------------------------+
-  |          PHYSICAL MODEL                     |
-  |  "How is data stored?"                      |
-  |  Data types, indexes, partitions, storage   |
-  |  Audience: Data engineers, DBAs             |
-  +---------------------------------------------+
-```
+| Level | Model | Key Question | Details | Audience |
+|-------|-------|-------------|---------|----------|
+| 1 | **CONCEPTUAL** | "What data exists?" | Business-focused, no technical details | Business stakeholders |
+| 2 | **LOGICAL** | "How is data organized?" | Tables, columns, relationships, keys | Data architects, analysts |
+| 3 | **PHYSICAL** | "How is data stored?" | Data types, indexes, partitions, storage | Data engineers, DBAs |
+
+The flow goes: **Conceptual** (high level) --> **Logical** (structure) --> **Physical** (implementation).
 
 ### Conceptual Data Model
 
@@ -108,11 +83,12 @@ The **what** — identifies entities and relationships at the highest level. No 
 
 **Example — E-commerce system:**
 
-```
-  CUSTOMER ---has---> ORDER ---has---> PRODUCT
-     |                                    |
-     +--------writes-----> REVIEW <-------+
-```
+| Entity | Relationship | Entity |
+|--------|-------------|--------|
+| **CUSTOMER** | --has--> | **ORDER** |
+| **ORDER** | --has--> | **PRODUCT** |
+| **CUSTOMER** | --writes--> | **REVIEW** |
+| **PRODUCT** | --receives--> | **REVIEW** |
 
 **When to use:** Early project planning, business requirement gathering, stakeholder communication.
 
@@ -122,18 +98,16 @@ The **how** — defines tables, columns, primary keys, foreign keys, and relatio
 
 **Example — Order entity expanded:**
 
-```
-  ORDER
-  ------------------
-  PK  order_id
-  FK  customer_id
-  FK  product_id
-      order_date
-      quantity
-      unit_price
-      total_amount
-      order_status
-```
+| Key | Column | Description |
+|-----|--------|-------------|
+| PK | order_id | Unique order identifier |
+| FK | customer_id | Links to customer table |
+| FK | product_id | Links to product table |
+| | order_date | When the order was placed |
+| | quantity | Number of items |
+| | unit_price | Price per item |
+| | total_amount | Total order value |
+| | order_status | Current status of the order |
 
 **When to use:** Database design phase, team alignment on structure, documentation.
 
@@ -230,19 +204,12 @@ OLAP Query (complex, millions of rows):
 
 ### Banking Example
 
-```
-OLTP (Core Banking):                OLAP (Analytics Warehouse):
-+----------------+                  +--------------------+
-| accounts       |                  | fact_transactions  |
-| transactions   |  --- ETL --->    | dim_customer       |
-| customers      |                  | dim_branch         |
-| branches       |                  | dim_product        |
-+----------------+                  | dim_date           |
-                                    +--------------------+
-  Normalized (3NF)                    Denormalized (Star)
-  Fast writes                         Fast reads
-  Current state                       Historical analysis
-```
+| | OLTP (Core Banking) | --- ETL ---> | OLAP (Analytics Warehouse) |
+|---|---|---|---|
+| **Tables** | accounts, transactions, customers, branches | | fact_transactions, dim_customer, dim_branch, dim_product, dim_date |
+| **Structure** | Normalized (3NF) | | Denormalized (Star Schema) |
+| **Optimized for** | Fast writes | | Fast reads |
+| **Data scope** | Current state | | Historical analysis |
 
 > **HitaVir Tech says:** "As a Data Engineer, you pull data FROM OLTP systems and model it INTO OLAP systems. Your job is the bridge between the two worlds."
 
@@ -255,18 +222,17 @@ Normalization organizes data to **eliminate redundancy** and **ensure data integ
 
 **Without normalization (one messy table):**
 
-```
-order_id | cust_name | cust_email  | product_name | prod_cat    | amount
----------|-----------|-------------|--------------|-------------|--------
-1        | Alice     | alice@mail  | Laptop       | Electronics | 999.99
-2        | Alice     | alice@mail  | Mouse        | Electronics | 29.99
-3        | Bob       | bob@mail    | Laptop       | Electronics | 999.99
+| order_id | cust_name | cust_email | product_name | prod_cat | amount |
+|----------|-----------|------------|-------------|----------|--------|
+| 1 | Alice | alice@mail | Laptop | Electronics | 999.99 |
+| 2 | Alice | alice@mail | Mouse | Electronics | 29.99 |
+| 3 | Bob | bob@mail | Laptop | Electronics | 999.99 |
 
-Problems:
-- Alice's email is stored TWICE (update anomaly)
-- Laptop info repeated for every order (redundancy)
-- Delete order 3 -> lose Bob entirely (delete anomaly)
-```
+**Problems with this design:**
+
+- Alice's email is stored **TWICE** (update anomaly)
+- Laptop info **repeated** for every order (redundancy)
+- Delete order 3 and you **lose Bob entirely** (delete anomaly)
 
 ### First Normal Form (1NF)
 
@@ -274,12 +240,10 @@ Problems:
 
 **Before 1NF (violating):**
 
-```
-emp_id | name  | phone_numbers           <-- Multiple values!
--------|-------|----------------------
-1      | Alice | 9876543210, 911234      <-- VIOLATION: not atomic!
-2      | Bob   | 8765432109
-```
+| emp_id | name | phone_numbers |
+|--------|------|---------------|
+| 1 | Alice | **9876543210, 911234** -- VIOLATION: not atomic! |
+| 2 | Bob | 8765432109 |
 
 **After 1NF:**
 
@@ -303,16 +267,13 @@ INSERT INTO employee_phones VALUES
 
 **Before 2NF (composite key with partial dependency):**
 
-```
-student_id | course_id | student_name | course_name
------------|-----------|--------------|------------
-1          | CS101     | Alice        | Python       <-- student_name depends
-1          | CS102     | Alice        | SQL              only on student_id
-2          | CS101     | Bob          | Python           (partial dependency!)
+| student_id | course_id | student_name | course_name |
+|-----------|-----------|--------------|-------------|
+| 1 | CS101 | Alice | Python |
+| 1 | CS102 | Alice | SQL |
+| 2 | CS101 | Bob | Python |
 
-PK = (student_id, course_id)
-student_name depends only on student_id -> partial dependency -> NOT 2NF
-```
+**PK** = (student_id, course_id). But `student_name` depends **only** on `student_id` -- partial dependency -- **NOT 2NF!**
 
 **After 2NF (split into separate tables):**
 
@@ -342,13 +303,13 @@ CREATE TABLE enrollments (
 
 **Before 3NF:**
 
-```
-emp_id | emp_name | dept_id | dept_name
--------|----------|---------|-------------
-1      | Alice    | 10      | Engineering   <-- dept_name depends
-2      | Bob      | 10      | Engineering       on dept_id, NOT emp_id
-3      | Charlie  | 20      | Marketing         (transitive dependency!)
-```
+| emp_id | emp_name | dept_id | dept_name |
+|--------|----------|---------|-----------|
+| 1 | Alice | 10 | Engineering |
+| 2 | Bob | 10 | Engineering |
+| 3 | Charlie | 20 | Marketing |
+
+`dept_name` depends on `dept_id`, **NOT** on `emp_id` -- this is a **transitive dependency** -- NOT 3NF!
 
 **After 3NF:**
 
@@ -455,35 +416,19 @@ The **Star Schema** is the most popular data warehouse modelling pattern. It is 
 
 ### Structure
 
-```
-                   dim_customer
-                   +--------------+
-                   | customer_key |
-                   | name         |
-                   | segment      |
-                   | city         |
-                   +------+-------+
-                          |
-  dim_product        fact_sales         dim_store
-  +--------------+   +----------------+   +--------------+
-  | product_key  |---| customer_key   |---| store_key    |
-  | product_name |   | product_key    |   | store_name   |
-  | category     |   | store_key      |   | region       |
-  | brand        |   | date_key       |   | state        |
-  +--------------+   | quantity       |   +--------------+
-                     | unit_price     |
-                     | total_amount   |
-  dim_date           | discount       |
-  +--------------+   | profit         |
-  | date_key     |---+                |
-  | full_date    |   +----------------+
-  | day_of_week  |
-  | month        |
-  | quarter      |
-  | year         |
-  | is_holiday   |
-  +--------------+
-```
+The star schema has **one central fact table** connected to **multiple dimension tables**:
+
+| Dimension | Key | Columns | Connects to |
+|-----------|-----|---------|-------------|
+| **dim_customer** | customer_key | name, segment, city, state | fact_sales.customer_key |
+| **dim_product** | product_key | product_name, category, brand | fact_sales.product_key |
+| **dim_store** | store_key | store_name, region, state | fact_sales.store_key |
+| **dim_date** | date_key | full_date, day_of_week, month, quarter, year, is_holiday | fact_sales.date_key |
+
+| Fact Table: **fact_sales** | |
+|---|---|
+| **Foreign Keys** | customer_key, product_key, store_key, date_key |
+| **Measures** | quantity, unit_price, total_amount, discount, profit |
 
 ### Key Concepts
 
@@ -676,15 +621,15 @@ The **Snowflake Schema** extends the star schema by **normalizing dimension tabl
 
 ### Structure
 
-```
-                        country
-                          |
-  category           dim_store
-     |                   |
-  dim_product ---- fact_sales
-```
+In a snowflake schema, dimensions are **normalized into sub-tables**:
 
-Dimensions like `dim_product` are split: `product > category > department`. This saves storage but adds JOINs.
+| Level 1 (Fact) | Level 2 (Dimension) | Level 3 (Sub-dimension) |
+|---------------|-------------------|----------------------|
+| **fact_sales** | dim_product | category, department |
+| **fact_sales** | dim_store | city, state, country |
+| **fact_sales** | dim_customer | segment, region |
+
+Dimensions like `dim_product` are split into: **product --> category --> department**. This saves storage but adds more JOINs.
 
 ### Star vs Snowflake Comparison
 
@@ -865,16 +810,14 @@ VALUES
 
 **Result:**
 
-```
-customer_key | cust_id | city   | effective  | expiry     | current
--------------|---------|--------|------------|------------|--------
-1            | C001    | Mumbai | 2025-01-01 | 2026-03-14 | FALSE
-4            | C001    | Pune   | 2026-03-15 | 9999-12-31 | TRUE
+| customer_key | cust_id | city | effective_date | expiry_date | is_current |
+|-------------|---------|------|---------------|------------|------------|
+| 1 | C001 | **Mumbai** | 2025-01-01 | 2026-03-14 | **FALSE** |
+| 4 | C001 | **Pune** | 2026-03-15 | 9999-12-31 | **TRUE** |
 
-Now: Sales before March 2026 link to key=1 (Mumbai)
-     Sales after March 2026 link to key=4 (Pune)
-     History is fully preserved!
-```
+- Sales **before** March 2026 link to key=1 (Mumbai)
+- Sales **after** March 2026 link to key=4 (Pune)
+- **History is fully preserved!**
 
 **Use case:** Customer address changes, employee department transfers, product price changes — any time you need historical analysis.
 
@@ -1013,23 +956,17 @@ Two legendary approaches to data warehouse architecture.
 
 **Ralph Kimball's approach:** Build dimensional data marts first, then integrate them into an enterprise warehouse.
 
-```
-Source Systems
-    |
-    v
-+------------------+
-| ETL Process      |
-+--------+---------+
-         |
-         +---> Sales Data Mart (Star Schema)
-         +---> Finance Data Mart (Star Schema)
-         +---> HR Data Mart (Star Schema)
-         +---> Marketing Data Mart (Star Schema)
-                     |
-                     v
-           Enterprise Data Warehouse
-           (Conformed Dimensions)
-```
+**Kimball Flow:**
+
+| Step | Component |
+|------|-----------|
+| 1 | Source Systems |
+| 2 | ETL Process |
+| 3a | Sales Data Mart (Star Schema) |
+| 3b | Finance Data Mart (Star Schema) |
+| 3c | HR Data Mart (Star Schema) |
+| 3d | Marketing Data Mart (Star Schema) |
+| 4 | Enterprise Data Warehouse (Conformed Dimensions emerge from marts) |
 
 **Key principles:**
 - Build around business processes (sales, orders, claims)
@@ -1041,24 +978,16 @@ Source Systems
 
 **Bill Inmon's approach:** Build a centralized, normalized enterprise data warehouse first, then create data marts from it.
 
-```
-Source Systems
-    |
-    v
-+------------------+
-| ETL Process      |
-+--------+---------+
-         |
-         v
-+-------------------------------+
-| Enterprise Data Warehouse     |
-| (Normalized, 3NF)             |
-+---------------+---------------+
-                |
-                +---> Sales Data Mart
-                +---> Finance Data Mart
-                +---> HR Data Mart
-```
+**Inmon Flow:**
+
+| Step | Component |
+|------|-----------|
+| 1 | Source Systems |
+| 2 | ETL Process |
+| 3 | **Enterprise Data Warehouse (Normalized, 3NF)** |
+| 4a | Sales Data Mart (derived from DW) |
+| 4b | Finance Data Mart (derived from DW) |
+| 4c | HR Data Mart (derived from DW) |
 
 **Key principles:**
 - Single source of truth first
@@ -1089,18 +1018,13 @@ The **Data Lakehouse** combines the best of data lakes (raw storage, flexibility
 
 ### Medallion Architecture
 
-```
-  MEDALLION ARCHITECTURE
-
-  +-----------+      +------------+      +--------------+
-  |  BRONZE   |----->|  SILVER    |----->|    GOLD      |
-  |  (Raw)    |      | (Cleansed) |      |  (Business)  |
-  +-----------+      +------------+      +--------------+
-
-  Raw ingestion       Cleaned,            Aggregated,
-  As-is from          validated,          business-ready,
-  source systems      deduplicated        star schemas
-```
+| Layer | Name | Data Quality | What Happens | Who Uses It |
+|-------|------|-------------|-------------|-------------|
+| **BRONZE** | Raw | As-is from source | Raw ingestion, no transformation | Data engineers |
+| --> | | | | |
+| **SILVER** | Cleansed | Validated | Cleaned, deduplicated, standardized | Data engineers, analysts |
+| --> | | | | |
+| **GOLD** | Business-Ready | Aggregated | Star schemas, business metrics, KPIs | Business users, dashboards |
 
 ### Bronze Layer (Raw)
 
@@ -1192,14 +1116,15 @@ Duration: 8:00
 
 ### Three Building Blocks
 
-```
-  HUB              LINK              HUB
-  (Customer) ----> (CustOrder) <---- (Order)
-      |                                |
-      v                                v
-  SATELLITE                       SATELLITE
-  (Cust_Detail)                   (Order_Detail)
-```
+| Component | Type | Contains | Example |
+|-----------|------|----------|---------|
+| **HUB (Customer)** | Business Key | customer_id, load_date, source | Unique customer identifiers |
+| **HUB (Order)** | Business Key | order_id, load_date, source | Unique order identifiers |
+| **LINK (CustOrder)** | Relationship | hub_customer_hash, hub_order_hash | Customer-to-Order relationship |
+| **SATELLITE (Cust_Detail)** | Attributes | name, email, city, segment | Customer descriptive data (with history) |
+| **SATELLITE (Order_Detail)** | Attributes | amount, status, ship_date | Order descriptive data (with history) |
+
+**How they connect:** HUB (Customer) --> LINK (CustOrder) <-- HUB (Order). Each HUB has one or more SATELLITES attached.
 
 ### Hubs — Business Keys
 
@@ -1359,32 +1284,21 @@ HitaVir Insurance needs to:
 - Generate regulatory reports
 - Provide self-service analytics
 
-### Source Systems
+### Source Systems and Data Flow
 
-```
-  Policy Admin      Claims System       Customer CRM
-  (Oracle DB)       (SQL Server)        (Salesforce)
-       |                 |                   |
-       +-----------------+-------------------+
-                         |
-                         v
-               +--------------------+
-               | Bronze Layer       |
-               | (Raw Ingestion)    |
-               +---------+----------+
-                         |
-                         v
-               +--------------------+
-               | Silver Layer       |
-               | (Cleansed)         |
-               +---------+----------+
-                         |
-                         v
-               +--------------------+
-               | Gold Layer         |
-               | (Star Schemas)     |
-               +--------------------+
-```
+| Source System | Technology | Data |
+|-------------|-----------|------|
+| Policy Admin | Oracle DB | Policies, premiums, coverage |
+| Claims System | SQL Server | Claims, assessments, payments |
+| Customer CRM | Salesforce | Customer profiles, contacts |
+
+**Data flows through the Medallion Architecture:**
+
+| Layer | What Happens |
+|-------|-------------|
+| **Bronze** (Raw Ingestion) | All three sources land as raw tables |
+| **Silver** (Cleansed) | Cleaned, validated, deduplicated, standardized |
+| **Gold** (Star Schemas) | Fact and dimension tables for analytics |
 
 ### Gold Layer — Star Schema Design
 
@@ -1702,27 +1616,15 @@ Congratulations! You have completed **Data Modelling for Data Engineering** by *
 
 ### Career Roadmap
 
-```
-Data Modelling (you are here!)
-    |
-    v
-SQL Mastery (Joins, Window Functions, CTEs)
-    |
-    v
-Cloud Data Warehousing (Snowflake / BigQuery / Redshift)
-    |
-    v
-Databricks + PySpark
-    |
-    v
-Apache Airflow (Orchestration)
-    |
-    v
-dbt (Data Transformation)
-    |
-    v
-Senior Data Engineer / Data Architect
-```
+| Step | Skill | Status |
+|------|-------|--------|
+| 1 | **Data Modelling** | You are here! |
+| 2 | SQL Mastery (Joins, Window Functions, CTEs) | Next |
+| 3 | Cloud Data Warehousing (Snowflake / BigQuery / Redshift) | |
+| 4 | Databricks + PySpark | |
+| 5 | Apache Airflow (Orchestration) | |
+| 6 | dbt (Data Transformation) | |
+| 7 | **Senior Data Engineer / Data Architect** | Goal |
 
 > **HitaVir Tech says:** "Data modelling is the most underrated skill in Data Engineering. Tools change every year. Cloud platforms evolve every quarter. But a well-designed data model lasts for decades. Master this, and you will always be in demand."
 
