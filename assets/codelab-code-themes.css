@@ -1,0 +1,348 @@
+/* ============================================================
+   HitaVir Tech — code/output themes for codelabs
+   ------------------------------------------------------------
+   Restyles claat code + output blocks to look like the real tool
+   each codelab teaches. Pure presentation: code stays real,
+   selectable, copy-pasteable text.
+
+   claat markup this targets:
+     command cell -> <pre><code class="language-xxx"> ... </code></pre>
+     output cell  -> <pre><code> ... </code></pre>   (no language)
+     inline code  -> bare <code> (left untouched)
+
+   Themes (scoped by the codelab id on <google-codelab id="...">):
+     • default                       -> Databricks notebook
+     • git-github-basics-gitbash     -> Git Bash terminal
+     • linux-basics                  -> Linux (Ubuntu) terminal
+     • sql-for-data-engineering      -> MySQL Workbench
+
+   claat runs Google prettify with a DARK token palette (near-white
+   text, pink keywords, green strings). Dark themes keep those
+   colours; the light theme (MySQL Workbench) overrides them.
+   ============================================================ */
+
+google-codelab-step {
+  counter-reset: cmd;
+}
+
+/* ---- shared cell container ---- */
+google-codelab-step pre {
+  position: relative;
+  margin: 22px 0;
+  padding: 0;
+  border: 1px solid #cfd8dc;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(60, 64, 67, 0.12);
+  overflow: hidden;
+}
+
+google-codelab-step pre > code {
+  display: block;
+  margin: 0;
+  padding: 34px 16px 14px 16px;
+  font-family: "Roboto Mono", "Source Code Pro", "Consolas", monospace;
+  font-size: 13px;
+  line-height: 1.55;
+  background: transparent;
+  border: 0;
+  white-space: pre;
+  overflow-x: auto;
+}
+
+/* ============================================================
+   DEFAULT THEME — Databricks notebook (python & everything else)
+   ============================================================ */
+google-codelab-step pre:has(> code[class*="language-"]) {
+  counter-increment: cmd;
+  border-color: #2b3038;
+  background: #1e2127;
+}
+google-codelab-step pre:has(> code[class*="language-"]) > code {
+  background: #1e2127;
+  border-left: 3px solid #1a73e8;
+  padding-left: 14px;
+  color: #f1f3f4;
+}
+google-codelab-step pre:has(> code[class*="language-"])::before {
+  content: "Cmd " counter(cmd);
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 24px;
+  display: flex; align-items: center; padding: 0 12px;
+  font: 600 11px/24px "Roboto Mono", monospace;
+  letter-spacing: 0.3px;
+  color: #c7ccd1; background: #2a2e35;
+  border-bottom: 1px solid #3a3f47;
+}
+google-codelab-step pre:has(> code[class*="language-"])::after {
+  content: "\25B6 Run";
+  position: absolute; top: 0; right: 0; height: 24px;
+  display: flex; align-items: center; padding: 0 12px;
+  font: 600 10px/24px "Roboto", "Segoe UI", sans-serif;
+  color: #5bd97f;
+}
+google-codelab-step pre:has(> code:not([class])) {
+  border-color: #d7e0d7; background: #f7faf7;
+}
+google-codelab-step pre:has(> code:not([class]))::before {
+  content: "\25BC Output";
+  position: absolute; top: 0; left: 0; right: 0; height: 22px;
+  display: flex; align-items: center; padding: 0 12px;
+  font: 600 10px/22px "Roboto", "Segoe UI", sans-serif;
+  letter-spacing: 0.3px;
+  color: #137333; background: #e8f3ea;
+  border-bottom: 1px solid #d4e8d8;
+}
+google-codelab-step pre:has(> code:not([class])) > code {
+  padding-top: 32px;
+  border-left: 3px solid #34a853;
+  padding-left: 14px;
+  background: #f7faf7;
+}
+google-codelab-step pre:has(> code:not([class])) > code,
+google-codelab-step pre:has(> code:not([class])) > code span {
+  color: #1d3b22 !important;
+}
+
+/* ============================================================
+   GIT BASH TERMINAL  (id: git-github-basics-gitbash)
+   dark MinTTY window, monochrome light text, MINGW64 title bar.
+   ============================================================ */
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step pre {
+  border-color: #000000;
+  background: #0c0c0c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code[class*="language-"]) {
+  background: #0c0c0c;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code {
+  background: #0c0c0c;
+  border-left: 0;
+  padding: 36px 16px 16px 16px;
+  color: #d4d4d4;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code[class*="language-"])::before {
+  content: "MINGW64:/c/Users/hitavir";
+  top: 0; left: 0; right: 0; height: 28px;
+  padding: 0 12px 0 64px;
+  font: 600 11px/28px "Segoe UI", "Roboto", sans-serif;
+  letter-spacing: 0.2px;
+  color: #c9c9c9; background: #2b2b2b;
+  border-bottom: 1px solid #1a1a1a;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code[class*="language-"])::after {
+  content: ""; top: 10px; left: 16px; right: auto;
+  width: 9px; height: 9px; border-radius: 50%;
+  padding: 0; background: #ff5f56;
+  box-shadow: 16px 0 #ffbd2e, 32px 0 #27c93f;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code span {
+  color: #d4d4d4 !important;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code:not([class])) {
+  border-color: #000000; background: #111111;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code:not([class]))::before {
+  content: "output"; height: 20px; padding: 0 12px;
+  font: 600 9px/20px "Segoe UI", sans-serif;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #6f6f6f; background: #161616;
+  border-bottom: 1px solid #050505;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code:not([class])) > code {
+  padding-top: 28px; border-left: 0; background: #111111;
+}
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code:not([class])) > code,
+google-codelab[id="git-github-basics-gitbash"] google-codelab-step
+  pre:has(> code:not([class])) > code span {
+  color: #cfcfcf !important;
+}
+
+/* ============================================================
+   LINUX TERMINAL  (id: linux-basics)
+   Ubuntu aubergine window, monochrome light text.
+   ============================================================ */
+google-codelab[id="linux-basics"] google-codelab-step pre {
+  border-color: #1d0617;
+  background: #300a24;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code[class*="language-"]) {
+  background: #300a24;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code {
+  background: #300a24;
+  border-left: 0;
+  padding: 38px 16px 16px 16px;
+  color: #eeeeec;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code[class*="language-"])::before {
+  content: "hitavir@ubuntu: ~";
+  top: 0; left: 0; right: 0; height: 30px;
+  padding: 0 12px 0 66px;
+  font: 600 11px/30px "Ubuntu", "Segoe UI", "Roboto", sans-serif;
+  color: #d7d2d6; background: #3b1230;
+  border-bottom: 1px solid #20071a;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code[class*="language-"])::after {
+  content: ""; top: 11px; left: 16px; right: auto;
+  width: 9px; height: 9px; border-radius: 50%;
+  padding: 0; background: #ed5f5b;
+  box-shadow: 16px 0 #e6a23c, 32px 0 #57c75e;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code span {
+  color: #eeeeec !important;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code:not([class])) {
+  border-color: #1d0617; background: #380d2a;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code:not([class]))::before {
+  content: "output"; height: 20px; padding: 0 12px;
+  font: 600 9px/20px "Ubuntu", "Segoe UI", sans-serif;
+  letter-spacing: 1px; text-transform: uppercase;
+  color: #b08aa6; background: #310a25;
+  border-bottom: 1px solid #20071a;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code:not([class])) > code {
+  padding-top: 28px; border-left: 0; background: #380d2a;
+}
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code:not([class])) > code,
+google-codelab[id="linux-basics"] google-codelab-step
+  pre:has(> code:not([class])) > code span {
+  color: #eeeeec !important;
+}
+
+/* ============================================================
+   MYSQL WORKBENCH  (id: sql-for-data-engineering)
+   light SQL editor (blue keywords) + result-grid output.
+   ============================================================ */
+google-codelab[id="sql-for-data-engineering"] google-codelab-step pre {
+  border-color: #c4cdd6;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(33, 70, 110, 0.14);
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) {
+  background: #ffffff;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code {
+  background: #ffffff;
+  border-left: 3px solid #2a6fb0;
+  padding: 32px 16px 14px 14px;
+  color: #1a1a1a;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"])::before {
+  content: "SQL Query";
+  top: 0; left: 0; right: 0; height: 26px;
+  padding: 0 12px;
+  font: 600 11px/26px "Segoe UI", "Roboto", sans-serif;
+  letter-spacing: 0.2px;
+  color: #21466e; background: #eef3f8;
+  border-bottom: 1px solid #d6e0ea;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"])::after {
+  content: "\26A1 Run SQL";
+  top: 0; right: 0; height: 26px;
+  display: flex; align-items: center; padding: 0 12px;
+  font: 600 10px/26px "Segoe UI", sans-serif;
+  color: #1f8a3b;
+}
+/* claat's prettify has no SQL grammar, so keywords are NOT reliably
+   detected (it even tags words inside `--` comments). Only colour the
+   tokens prettify gets right — strings and numbers — and keep the rest
+   a clean dark, so nothing is mis-highlighted. */
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .pln,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .pun,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .kwd,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .tag,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .typ {
+  color: #1a1a1a !important;
+  font-weight: 400 !important;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .str,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .atv {
+  color: #1a7f37 !important;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .lit,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .dec {
+  color: #1750eb !important;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .com {
+  color: #8a8a8a !important; font-style: italic;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) {
+  border-color: #b9c8d8; background: #ffffff;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code:not([class]))::before {
+  content: "Result Grid";
+  top: 0; left: 0; right: 0; height: 24px;
+  padding: 0 12px;
+  font: 600 10px/24px "Segoe UI", sans-serif;
+  letter-spacing: 0.3px;
+  color: #ffffff; background: #2a6fb0;
+  border-bottom: 1px solid #235e96;
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code {
+  padding-top: 30px;
+  border-left: 0;
+  line-height: 22px;
+  background: repeating-linear-gradient(
+    #ffffff 0 22px, #eef4fa 22px 44px);
+}
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code,
+google-codelab[id="sql-for-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code span {
+  color: #1f2937 !important;
+}
+
+/* ============================================================
+   Fallback for engines without :has() — clean bordered cell
+   with a coloured accent (no header chrome).
+   ============================================================ */
+@supports not selector(:has(*)) {
+  google-codelab-step pre > code { padding-top: 14px; }
+  google-codelab-step pre > code[class*="language-"] {
+    border-left: 3px solid #1a73e8; background: #1e2127; color: #f1f3f4;
+  }
+  google-codelab-step pre > code:not([class]) {
+    border-left: 3px solid #34a853; background: #f7faf7;
+  }
+}
