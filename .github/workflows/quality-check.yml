@@ -130,21 +130,23 @@ jobs:
       - name: Copy assets into _site
         run: |
           cp assets/step-lock.js _site/step-lock.js
+          cp assets/databricks-notebook.css _site/databricks-notebook.css
           if [ -d "assets/diagrams" ]; then
             mkdir -p _site/assets/diagrams
             cp -r assets/diagrams/* _site/assets/diagrams/
             echo "Copied $(find assets/diagrams -type f | wc -l) diagram files"
           fi
 
-      - name: Inject step-lock script
+      - name: Inject step-lock script and notebook theme
         run: |
           for dir in _site/*/; do
             if [ -f "${dir}index.html" ]; then
+              sed -i 's|</head>|<link rel="stylesheet" href="../databricks-notebook.css">\n</head>|' "${dir}index.html"
               sed -i 's|</body>|<script src="../step-lock.js"></script>\n</body>|' "${dir}index.html"
-              echo "Injected step-lock into ${dir}index.html"
+              echo "Injected step-lock + notebook theme into ${dir}index.html"
             fi
           done
-          echo 'Step-lock script injected into all codelabs'
+          echo 'Step-lock script and Databricks notebook theme injected into all codelabs'
 
       - name: Generate landing pages (current batch + alumni)
         run: |
