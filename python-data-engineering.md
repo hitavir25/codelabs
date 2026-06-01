@@ -319,10 +319,9 @@ cat requirements.txt
 
 ### Step 9 — Verify Everything Works
 
-Create a test file:
+Create a test file named **`test_setup.py`**:
 
-```bash
-cat > test_setup.py << 'EOF'
+```python
 import sys
 import pandas as pd
 import numpy as np
@@ -332,7 +331,6 @@ print(f"pandas version: {pd.__version__}")
 print(f"numpy version: {np.__version__}")
 print("\nHitaVir Tech - Setup Complete!")
 print("You are ready to learn Python for Data Engineering!")
-EOF
 ```
 
 Run it:
@@ -759,9 +757,9 @@ def transform_data(records, threshold=100):
 
 ### Try It — Format the Bad Code Yourself
 
-```bash
-# Save the BAD example into a file:
-cat > bad_style.py << 'PYEOF'
+Save this deliberately messy code as **`bad_style.py`**:
+
+```python
 import pandas as pd,numpy as np,csv,json,logging
 def TransformData( records,Threshold=100 ):
   Cleaned=[]
@@ -772,15 +770,18 @@ def TransformData( records,Threshold=100 ):
       r["total"]=r["price"]*r["qty"];r["category"]="premium"
       Cleaned.append( r )
   return Cleaned
-PYEOF
+```
 
-# Install black and run it:
+Now let the tools fix it for you. Install Black and auto-format the file:
+
+```bash
 pip install black
 black bad_style.py
+```
 
-# Open the file — it has been auto-fixed for indentation, spacing, and line breaks.
-# (Naming and the `==None` are flagged by flake8, not by black.)
+Reopen the file — Black has fixed the indentation, spacing, and line breaks automatically. Naming and the `== None` check are style issues Black does **not** touch, so run Flake8 to flag those:
 
+```bash
 pip install flake8
 flake8 bad_style.py
 ```
@@ -970,8 +971,11 @@ Let us write real Python code. Create a new file for each section.
 
 ### Variables — Storing Data
 
-```bash
-cat > basics_variables.py << 'PYEOF'
+> **How to follow the code in this codelab:** every example shows a **filename in bold** followed by the code. Create a new file with that exact name in your project folder, paste in the code, then run the `Run it:` command shown below it. Working through each file by hand — rather than copy-pasting blindly — is what builds real fluency.
+
+**`basics_variables.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Python Variables
 # ============================================
@@ -1017,7 +1021,6 @@ print(f"Pipeline active: {pipeline_active}")
 # --- None — represents "no value" (NULL in databases) ---
 last_error = None
 print(f"\nLast error: {last_error}")
-PYEOF
 ```
 
 Run it:
@@ -1067,8 +1070,9 @@ An f-string (formatted string) is text starting with `f"..."` that lets you drop
 
 Often a value comes in one type but you need it in another. For example, when reading a CSV, every cell starts as a string `"500"`. Before you can add it, you must convert it to an integer `500`. This is type conversion.
 
-```bash
-cat > basics_types.py << 'PYEOF'
+**`basics_types.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Type Checking & Conversion
 # ============================================
@@ -1102,8 +1106,11 @@ name = "HitaVir Tech"
 records = 5000
 time_taken = 2.3
 print(f"\n{name} processed {records} records in {time_taken}s")
-PYEOF
+```
 
+Run it:
+
+```bash
 python basics_types.py
 ```
 
@@ -1113,8 +1120,9 @@ python basics_types.py
 
 An operator is a symbol that performs an action on values: `+` adds, `==` compares, `and` combines two truths. Operators are how you do math, compare data, and check conditions in your pipeline.
 
-```bash
-cat > basics_operators.py << 'PYEOF'
+**`basics_operators.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Operators
 # ============================================
@@ -1151,8 +1159,11 @@ has_errors = False
 print(f"\nReady to process: {has_data and is_valid}")        # True
 print(f"Any issues: {has_errors or not is_valid}")           # False
 print(f"No errors: {not has_errors}")                        # True
-PYEOF
+```
 
+Run it:
+
+```bash
 python basics_operators.py
 ```
 
@@ -1168,8 +1179,9 @@ python basics_operators.py
 
 ### User Input
 
-```bash
-cat > basics_input.py << 'PYEOF'
+**`basics_input.py`**
+
+```python
 # ============================================
 # HitaVir Tech - User Input
 # ============================================
@@ -1182,8 +1194,11 @@ batch_num = int(batch)  # Convert string → integer
 print(f"\nWelcome to HitaVir Tech, {name}!")
 print(f"You are in Batch {batch_num}")
 print(f"Let's learn Python for Data Engineering!")
-PYEOF
+```
 
+Run it:
+
+```bash
 python basics_input.py
 ```
 
@@ -1278,8 +1293,9 @@ Data pipelines constantly make decisions: Is the data valid? Should we retry? Wh
 
 Real-life analogy: "If it is raining, take an umbrella. Else if it is hot, wear sunglasses. Else, just go."
 
-```bash
-cat > control_if.py << 'PYEOF'
+**`control_if.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Control Flow: if-else
 # ============================================
@@ -1347,8 +1363,11 @@ elif value.replace(".", "", 1).isdigit():
     converted = float(value)
 else:
     print(f"'{value}' is a string (non-numeric)")
-PYEOF
+```
 
+Run it:
+
+```bash
 python control_if.py
 ```
 
@@ -1364,8 +1383,9 @@ Two kinds of loops:
 - **`for` loop** — repeats once for each item in a collection ("for each row in the file…")
 - **`while` loop** — repeats as long as a condition is true ("while not connected, retry…")
 
-```bash
-cat > control_loops.py << 'PYEOF'
+**`control_loops.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Control Flow: Loops
 # ============================================
@@ -1436,8 +1456,11 @@ for record in records:
     print(f"  Added active user: {record['name']}")
 
 print(f"\n  Active users found: {active_users}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python control_loops.py
 ```
 
@@ -1606,8 +1629,9 @@ Let us learn each one with real Data Engineering examples.
 
 ### Part 1 — Basic Functions
 
-```bash
-cat > func_01_basics.py << 'PYEOF'
+**`func_01_basics.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 1: Basic Functions
 # ============================================
@@ -1661,8 +1685,11 @@ def build_record(id, name, amount):
 
 record = build_record(1, "  alice johnson  ", 150.50)
 print(f"\nRecord: {record}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_01_basics.py
 ```
 
@@ -1676,8 +1703,9 @@ A parameter with `=` and a value is **optional** — if the caller does not pass
 
 Calling a function by **naming** the argument: `connect(port=5432)`. Order does not matter, and the code reads more clearly.
 
-```bash
-cat > func_02_defaults_kwargs.py << 'PYEOF'
+**`func_02_defaults_kwargs.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 2: Defaults & Keyword Args
 # ============================================
@@ -1742,8 +1770,11 @@ print(f"Bad call 2: {bad_append('b')}")   # ['a', 'b'] — BUG! List is shared!
 
 print(f"Good call 1: {good_append('a')}") # ['a']
 print(f"Good call 2: {good_append('b')}") # ['b'] — Correct! Fresh list each time
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_02_defaults_kwargs.py
 ```
 
@@ -1755,8 +1786,9 @@ python func_02_defaults_kwargs.py
 
 `*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like a list of files to process.
 
-```bash
-cat > func_03_args.py << 'PYEOF'
+**`func_03_args.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 3: *args
 # ============================================
@@ -1809,8 +1841,11 @@ quarterly_files = [
 # The * unpacks the list into separate arguments:
 process_files(*quarterly_files)
 # Without *, the entire list would be passed as ONE argument
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_03_args.py
 ```
 
@@ -1820,8 +1855,9 @@ python func_03_args.py
 
 `**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any database connection options.
 
-```bash
-cat > func_04_kwargs.py << 'PYEOF'
+**`func_04_kwargs.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 4: **kwargs
 # ============================================
@@ -1927,8 +1963,11 @@ for k, v in config1.items():
 print("\nConfig 2 (with overrides):")
 for k, v in config2.items():
     print(f"  {k}: {v}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_04_kwargs.py
 ```
 
@@ -1944,8 +1983,9 @@ python func_04_kwargs.py
 - **Generator** — a function that yields values one at a time, saving memory for huge datasets.
 - **Decorator** — a function that wraps another function to add behavior (logging, timing, retries).
 
-```bash
-cat > func_05_advanced.py << 'PYEOF'
+**`func_05_advanced.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 5: Advanced Function Types
 # ============================================
@@ -2106,15 +2146,19 @@ print(f"  Result: {result}")
 
 result = slow_query()
 print(f"  Result: {result}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_05_advanced.py
 ```
 
 ### Part 6 — Putting It All Together: Pipeline Functions
 
-```bash
-cat > func_06_pipeline.py << 'PYEOF'
+**`func_06_pipeline.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Part 6: Complete Pipeline Example
 # Using all function types together
@@ -2220,8 +2264,11 @@ for r in data:
     print(f"  {r['product']:>12} | ${r['total']:>10,.2f} | {r['category']}")
 
 print(f"\nPipeline complete!")
-PYEOF
+```
 
+Run it:
+
+```bash
 python func_06_pipeline.py
 ```
 
@@ -2387,8 +2434,9 @@ A **list** is an ordered, changeable sequence. It is the workhorse of data engin
 
 #### Example 1 — Creating and Accessing a List
 
-```bash
-cat > list_access.py << 'PYEOF'
+**`list_access.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Lists: Creating and Accessing
 # ============================================
@@ -2410,15 +2458,19 @@ print(f"Reversed:     {tables[::-1]}")
 # How many items, and does a value exist?
 print(f"Total tables: {len(tables)}")
 print(f"Has 'orders'? {'orders' in tables}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_access.py
 ```
 
 #### Example 2 — Adding Items: `append()`, `insert()`, `extend()`
 
-```bash
-cat > list_add.py << 'PYEOF'
+**`list_add.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Lists: Adding Items
 # ============================================
@@ -2442,15 +2494,19 @@ print(f"extend:       {pipeline_steps}")
 demo = ["a"]
 demo.append(["b", "c"])   # -> ['a', ['b', 'c']]
 print(f"append a list:{demo}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_add.py
 ```
 
 #### Example 3 — Removing Items: `remove()`, `pop()`, `clear()`
 
-```bash
-cat > list_remove.py << 'PYEOF'
+**`list_remove.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Lists: Removing Items
 # ============================================
@@ -2476,15 +2532,19 @@ print(f"del[0]:       {columns}")
 # clear() — empty the whole list.
 columns.clear()
 print(f"clear():      {columns}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_remove.py
 ```
 
 #### Example 4 — Searching and Counting: `index()`, `count()`
 
-```bash
-cat > list_search.py << 'PYEOF'
+**`list_search.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Lists: Searching and Counting
 # ============================================
@@ -2506,15 +2566,19 @@ if "timeout" in status_log:
     print(f"'timeout':    index {status_log.index('timeout')}")
 else:
     print("'timeout':    not found")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_search.py
 ```
 
 #### Example 5 — Reordering: `sort()`, `reverse()`, `copy()`
 
-```bash
-cat > list_reorder.py << 'PYEOF'
+**`list_reorder.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Lists: Sorting, Reversing, Copying
 # ============================================
@@ -2542,8 +2606,11 @@ backup = scores.copy()
 backup.append(100)
 print(f"Original:     {scores}")
 print(f"Copy + 100:   {backup}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_reorder.py
 ```
 
@@ -2551,8 +2618,9 @@ python list_reorder.py
 
 These are **global functions**, not list methods — you pass the list as an argument. The key distinction: `list.sort()` changes the list and returns `None`, while `sorted(list)` leaves the list alone and returns a **new** sorted list.
 
-```bash
-cat > list_builtins.py << 'PYEOF'
+**`list_builtins.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Built-in Functions on Lists
 # ============================================
@@ -2582,8 +2650,11 @@ ages = [30, 25, 35]
 print("\nzip():")
 for name, age in zip(names, ages):
     print(f"  {name} is {age}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_builtins.py
 ```
 
@@ -2604,8 +2675,9 @@ A **tuple** is an ordered sequence that **cannot be changed** after creation. Us
 
 #### Example 1 — Creating and Unpacking a Tuple
 
-```bash
-cat > tuple_basics.py << 'PYEOF'
+**`tuple_basics.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Tuples: Creating and Unpacking
 # ============================================
@@ -2628,15 +2700,19 @@ print(f"{type(not_a_tuple).__name__} vs {type(real_tuple).__name__}")
 
 # Immutability — uncommenting the next line raises a TypeError.
 # db_config[1] = 5433
-PYEOF
+```
 
+Run it:
+
+```bash
 python tuple_basics.py
 ```
 
 #### Example 2 — The Two Tuple Methods: `count()`, `index()`
 
-```bash
-cat > tuple_methods.py << 'PYEOF'
+**`tuple_methods.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Tuples: count() and index()
 # ============================================
@@ -2653,8 +2729,11 @@ print(f"First 'East':  index {regions.index('East')}")
 # not change — coordinates, fixed pairs, credentials.
 point = (12.97, 77.59)   # (latitude, longitude)
 print(f"Coordinates:   {point}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python tuple_methods.py
 ```
 
@@ -2685,8 +2764,9 @@ A **set** stores **unique** values with **no order**. It is the fastest way to d
 
 #### Example 1 — Creating and Adding: `add()`, `update()`
 
-```bash
-cat > set_add.py << 'PYEOF'
+**`set_add.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Sets: Creating and Adding
 # ============================================
@@ -2709,15 +2789,19 @@ print(f"update: {unique_ids}")
 # An EMPTY set must use set() — {} creates an empty dict, not a set.
 empty = set()
 print(f"Empty set type: {type(empty).__name__}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python set_add.py
 ```
 
 #### Example 2 — Removing: `remove()`, `discard()`, `pop()`, `clear()`
 
-```bash
-cat > set_remove.py << 'PYEOF'
+**`set_remove.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Sets: Removing Items
 # ============================================
@@ -2741,15 +2825,19 @@ print(f"pop():        {removed!r}  ->  {active_users}")
 # clear() — empty the set.
 active_users.clear()
 print(f"clear():      {active_users}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python set_remove.py
 ```
 
 #### Example 3 — Set Algebra: `union`, `intersection`, `difference`, `symmetric_difference`
 
-```bash
-cat > set_algebra.py << 'PYEOF'
+**`set_algebra.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Sets: Comparing Two Datasets
 # ============================================
@@ -2770,15 +2858,19 @@ print(f"difference     (-): {db_users - api_users}")
 
 # symmetric_difference — in exactly ONE set, not both.
 print(f"symmetric_diff (^): {db_users ^ api_users}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python set_algebra.py
 ```
 
 #### Example 4 — Relationship Tests: `issubset()`, `issuperset()`, `isdisjoint()`
 
-```bash
-cat > set_relations.py << 'PYEOF'
+**`set_relations.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Sets: Relationship Tests
 # ============================================
@@ -2799,8 +2891,11 @@ print(f"CSV disjoint from orders?{csv_columns.isdisjoint(order_columns)}")
 # Real use: validate that a file has the columns the pipeline needs.
 missing = required_columns - csv_columns
 print(f"Missing columns:         {missing or 'none — file is valid'}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python set_relations.py
 ```
 
@@ -2828,8 +2923,9 @@ A **dictionary** maps **keys to values** and looks up values by key in `O(1)` ti
 
 #### Example 1 — Accessing Data: `get()`, `keys()`, `values()`, `items()`
 
-```bash
-cat > dict_access.py << 'PYEOF'
+**`dict_access.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Dictionaries: Accessing Data
 # ============================================
@@ -2855,15 +2951,19 @@ print(f"Values:  {list(employee.values())}")
 print("Record:")
 for key, value in employee.items():
     print(f"  {key:<12}: {value}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python dict_access.py
 ```
 
 #### Example 2 — Adding and Updating: `update()`, `setdefault()`
 
-```bash
-cat > dict_update.py << 'PYEOF'
+**`dict_update.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Dictionaries: Adding and Updating
 # ============================================
@@ -2884,15 +2984,19 @@ print(f"update:     {config}")
 config.setdefault("host", "ignored")   # key exists -> unchanged
 config.setdefault("ssl", True)         # key new    -> inserted
 print(f"setdefault: {config}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python dict_update.py
 ```
 
 #### Example 3 — Removing Data: `pop()`, `popitem()`, `clear()`
 
-```bash
-cat > dict_remove.py << 'PYEOF'
+**`dict_remove.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Dictionaries: Removing Data
 # ============================================
@@ -2919,15 +3023,19 @@ print(f"del:        {record}")
 # clear() — empty the dictionary.
 record.clear()
 print(f"clear:      {record}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python dict_remove.py
 ```
 
 #### Example 4 — Building and Copying: `fromkeys()`, `copy()`, membership
 
-```bash
-cat > dict_utils.py << 'PYEOF'
+**`dict_utils.py`**
+
+```python
 # ============================================
 # HitaVir Tech - Dictionaries: fromkeys, copy, membership
 # ============================================
@@ -2947,8 +3055,11 @@ clone = original.copy()
 clone["c"] = 3
 print(f"Original:   {original}")
 print(f"Copy:       {clone}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python dict_utils.py
 ```
 
@@ -2958,8 +3069,9 @@ python dict_utils.py
 
 This is the single most common pattern in data engineering. A CSV file, an API response, and a database query result all arrive as a **list of dictionaries**: the list is the rows, each dictionary is one row.
 
-```bash
-cat > list_of_dicts.py << 'PYEOF'
+**`list_of_dicts.py`**
+
+```python
 # ============================================
 # HitaVir Tech - List of Dicts: Filter, Aggregate, Group
 # ============================================
@@ -2995,8 +3107,11 @@ for sale in sales_data:
 print("\nRevenue by region:")
 for region, total in sorted(by_region.items()):
     print(f"  {region:<6}: ${total:,.2f}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python list_of_dicts.py
 ```
 
@@ -3159,8 +3274,9 @@ Every data pipeline starts and ends with a file. You read raw data **from** a fi
 
 ### Create Sample Data Files
 
-```bash
-cat > create_sample_data.py << 'PYEOF'
+**`create_sample_data.py`**
+
+```python
 """
 HitaVir Tech - Create sample data files for practice
 """
@@ -3224,8 +3340,11 @@ with open("pipeline.log", "w") as f:
 print("Created: pipeline.log")
 
 print("\nAll sample files created successfully!")
-PYEOF
+```
 
+Run it:
+
+```bash
 python create_sample_data.py
 ```
 
@@ -3239,8 +3358,9 @@ python create_sample_data.py
 
 `csv.DictReader` reads each row of a CSV as a **dictionary** where the keys are the column names from the header row. Instead of remembering "column 4 is price," you write `row["price"]`. Cleaner, safer, easier.
 
-```bash
-cat > file_csv.py << 'PYEOF'
+**`file_csv.py`**
+
+```python
 """
 HitaVir Tech - CSV File Handling
 """
@@ -3317,8 +3437,11 @@ print(f"Saved {len(cleaned)} records to sales_cleaned.csv")
 # Display results
 total_revenue = sum(r["total"] for r in cleaned)
 print(f"Total revenue: ${total_revenue:,.2f}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python file_csv.py
 ```
 
@@ -3335,8 +3458,9 @@ python file_csv.py
 
 > **JSON ↔ Python dictionary**: JSON is text; a Python dict is in-memory. `json.load()` converts JSON text → Python dict. `json.dump()` does the reverse.
 
-```bash
-cat > file_json.py << 'PYEOF'
+**`file_json.py`**
+
+```python
 """
 HitaVir Tech - JSON File Handling
 """
@@ -3392,8 +3516,11 @@ print("Report saved to pipeline_report.json")
 print(f"\nPipeline Status: {report['status']}")
 print(f"Success Rate: {report['metrics']['success_rate']}%")
 print(f"Revenue: ${report['metrics']['total_revenue']:,.2f}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python file_json.py
 ```
 
@@ -3408,8 +3535,9 @@ python file_json.py
 
 ### Reading Text/Log Files
 
-```bash
-cat > file_logs.py << 'PYEOF'
+**`file_logs.py`**
+
+```python
 """
 HitaVir Tech - Log File Analysis
 """
@@ -3448,8 +3576,11 @@ if errors:
     print(f"\nError details:")
     for err in errors:
         print(f"  {err}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python file_logs.py
 ```
 
@@ -3577,8 +3708,9 @@ Production pipelines must NEVER silently crash. They must **fail gracefully**, l
                   continue program
 ```
 
-```bash
-cat > error_handling.py << 'PYEOF'
+**`error_handling.py`**
+
+```python
 """
 HitaVir Tech - Error Handling & Logging
 """
@@ -3704,8 +3836,11 @@ logger.info(f"Pipeline finished in {duration:.2f}s")
 logger.info("=" * 40)
 
 print(f"\nLog file saved to: etl_pipeline.log")
-PYEOF
+```
 
+Run it:
+
+```bash
 python error_handling.py
 ```
 
@@ -3816,8 +3951,9 @@ A **DataFrame** is the central pandas object — a table with rows, columns, and
 
 One library handles: loading CSVs/Excel/JSON, cleaning nulls, filtering rows, joining tables, grouping/aggregating, and writing the result back out.
 
-```bash
-cat > pandas_basics.py << 'PYEOF'
+**`pandas_basics.py`**
+
+```python
 """
 HitaVir Tech - pandas for Data Engineering
 """
@@ -3912,8 +4048,11 @@ print("Saved: region_report.csv")
 print(f"\nTotal revenue: ${df_clean['total'].sum():,.2f}")
 print(f"Average order value: ${df_clean['total'].mean():,.2f}")
 print(f"Top product: {product_summary.index[0]} (${product_summary.iloc[0]:,.2f})")
-PYEOF
+```
 
+Run it:
+
+```bash
 python pandas_basics.py
 ```
 
@@ -4061,8 +4200,9 @@ mkdir -p pipeline_project/input pipeline_project/output pipeline_project/logs
 
 ### The Pipeline Code
 
-```bash
-cat > pipeline_project/etl_pipeline.py << 'PYEOF'
+**`pipeline_project/etl_pipeline.py`**
+
+```python
 """
 HitaVir Tech - Sales Data ETL Pipeline
 =======================================
@@ -4359,7 +4499,6 @@ def run_pipeline():
 
 if __name__ == "__main__":
     run_pipeline()
-PYEOF
 ```
 
 **What is the if-name-main idiom?**
@@ -4480,8 +4619,9 @@ Duration: 12:00
 
 Comprehensions, lambdas, and classes are the patterns that turn a Python beginner into a productive Data Engineer. They make code shorter, clearer, and reusable.
 
-```bash
-cat > intermediate.py << 'PYEOF'
+**`intermediate.py`**
+
+```python
 """
 HitaVir Tech - Intermediate Python for Data Engineering
 """
@@ -4631,8 +4771,11 @@ except ImportError:
     print("requests not installed — run: pip install requests")
 except Exception as e:
     print(f"API call failed: {e}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python intermediate.py
 ```
 
@@ -4699,8 +4842,9 @@ Duration: 6:00
 
 How real data engineering teams organize their code.
 
-```bash
-cat > best_practices.py << 'PYEOF'
+**`best_practices.py`**
+
+```python
 """
 HitaVir Tech - Python Best Practices for Data Engineering
 """
@@ -4754,8 +4898,11 @@ def process_batch(records, batch_size=500):
 print("Best practices loaded successfully!")
 print(f"Max retries: {MAX_RETRY_COUNT}")
 print(f"Default batch size: {DEFAULT_BATCH_SIZE}")
-PYEOF
+```
 
+Run it:
+
+```bash
 python best_practices.py
 ```
 
