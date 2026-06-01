@@ -2114,19 +2114,20 @@ A function is the unit of reusable code in Python. Sloppy function signatures ar
 > — Grady Booch
 
 ## Data Structures
-Duration: 25:00
+Duration: 32:00
 
 **What is a "data structure"?**
 
-A data structure is a **way of organizing values together** so you can work with them efficiently. Python ships with four built-in ones — list, tuple, set, dictionary. Each is best for a specific job.
+A data structure is a **way of organizing values together** so you can work with them efficiently. Python ships with four built-in collections — list, tuple, set, dictionary — and one more sequence you use constantly: the **string** (a sequence of characters). Each is best for a specific job.
 
 Real-life analogy:
+- **String** — a word spelled out letter by letter (ordered characters, locked)
 - **List** — a numbered to-do list (order matters, can edit, duplicates allowed)
 - **Tuple** — your printed boarding pass (order matters, locked, cannot edit)
 - **Set** — a collection of unique stamps (no duplicates, no order)
 - **Dictionary** — a phone contacts list (look up a number by name)
 
-### Visual Comparison — The Four Built-ins at a Glance
+### Visual Comparison — The Four Collections at a Glance
 
 ```
    LIST  [ ]                          TUPLE  ( )
@@ -2399,6 +2400,209 @@ python list_builtins.py
 ```
 
 > **HitaVir Tech says:** "Interviewers love the `sort()` vs `sorted()` question. `sort()` mutates and returns `None` (so `x = my_list.sort()` is a classic bug — `x` is `None`). `sorted()` returns a new list and works on any iterable."
+
+---
+
+### Strings — Ordered, Immutable Text
+
+A **string** is a sequence of characters written in quotes. Like a list, you can index and slice it; like a tuple, it is **immutable** — so every "change" method hands back a **brand-new string** and leaves the original untouched. Strings are everywhere in data work: names, dates, CSV lines, and log messages all arrive as text.
+
+#### String Methods — Complete Reference
+
+Strings are immutable, so every method below returns a **new** string (or a list / number) — none of them change the original.
+
+| Method | What it does | Returns |
+|--------|--------------|---------|
+| `upper()` / `lower()` | Change case to all upper / lower | new `str` |
+| `title()` / `capitalize()` | Title Case / Sentence case | new `str` |
+| `strip()` / `lstrip()` / `rstrip()` | Trim whitespace (both / left / right) | new `str` |
+| `replace(old, new)` | Replace every `old` with `new` | new `str` |
+| `split(sep)` | Break the text into a list of pieces | `list` |
+| `join(iterable)` | Glue strings together with a separator | new `str` |
+| `find(sub)` | Index of the first match, or `-1` | `int` |
+| `count(sub)` | How many times `sub` appears | `int` |
+| `startswith(s)` / `endswith(s)` | Does it start / end with `s`? | `bool` |
+| `isdigit()` / `isalpha()` / `isalnum()` | Content checks (digits / letters / both) | `bool` |
+
+#### Example 1 — Creating and Accessing a String
+
+**`string_access.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Creating and Accessing
+# ============================================
+
+# A string is text wrapped in quotes — a sequence of characters.
+name = "Python"
+
+# Access one character by position (indexing starts at 0).
+print(f"First letter: {name[0]}")
+print(f"Last letter:  {name[-1]}")
+
+# Slicing — [start:stop:step] returns a NEW piece of the string.
+print(f"First three:  {name[:3]}")
+print(f"Last two:     {name[-2:]}")
+print(f"Reversed:     {name[::-1]}")
+
+# How long is it, and does it contain something?
+print(f"Length:       {len(name)}")
+print(f"Has 'th'?     {'th' in name}")
+```
+
+Run it:
+
+```bash
+python string_access.py
+```
+
+#### Example 2 — Changing Case: `upper()`, `lower()`, `title()`, `capitalize()`
+
+**`string_case.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Changing Case
+# ============================================
+
+text = "hello WORLD"
+
+print(f"upper():      {text.upper()}")        # HELLO WORLD
+print(f"lower():      {text.lower()}")        # hello world
+print(f"title():      {text.title()}")        # Hello World
+print(f"capitalize(): {text.capitalize()}")   # Hello world
+
+# Proof the original never changed (strings are immutable).
+print(f"original:     {text}")
+```
+
+Run it:
+
+```bash
+python string_case.py
+```
+
+#### Example 3 — Cleaning Whitespace: `strip()`, `lstrip()`, `rstrip()`
+
+**`string_clean.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Cleaning Whitespace
+# ============================================
+
+# Messy text often has extra spaces — very common when reading files.
+raw = "   Asha Sharma   "
+
+# Quotes added so you can SEE where the spaces are.
+print(f"strip():  '{raw.strip()}'")     # trims BOTH ends
+print(f"lstrip(): '{raw.lstrip()}'")    # trims the LEFT only
+print(f"rstrip(): '{raw.rstrip()}'")    # trims the RIGHT only
+
+# strip() can also remove specific characters, not just spaces.
+price = "$1500"
+print(f"clean price: {price.strip('$')}")
+```
+
+Run it:
+
+```bash
+python string_clean.py
+```
+
+#### Example 4 — Searching and Replacing: `startswith()`, `find()`, `count()`, `replace()`
+
+**`string_search.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Searching and Replacing
+# ============================================
+
+email = "asha@example.com"
+
+# startswith() / endswith() — quick yes/no checks.
+print(f"Starts with 'asha'? {email.startswith('asha')}")
+print(f"Ends with '.com'?   {email.endswith('.com')}")
+
+# find() — position of the first match, or -1 if it is not there.
+print(f"Position of '@':    {email.find('@')}")
+
+# count() — how many times something appears.
+sentence = "she sells sea shells"
+print(f"Count of 's':       {sentence.count('s')}")
+
+# replace(old, new) — returns a NEW string with the swaps made.
+print(f"replace:            {email.replace('example', 'gmail')}")
+```
+
+Run it:
+
+```bash
+python string_search.py
+```
+
+#### Example 5 — Splitting and Joining: `split()`, `join()`
+
+**`string_split_join.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Splitting and Joining
+# ============================================
+
+# split() — break a string into a LIST of pieces.
+csv_line = "Asha,25,Bangalore"
+parts = csv_line.split(",")
+print(f"split:  {parts}")
+
+# split() with no argument splits on spaces — handy for words.
+sentence = "data is the new oil"
+words = sentence.split()
+print(f"words:  {words}")
+
+# join() — glue a list of strings back into ONE string.
+print(f"join:   {' '.join(words)}")
+
+# You can glue with any separator you like.
+print(f"hyphen: {'-'.join(parts)}")
+```
+
+Run it:
+
+```bash
+python string_split_join.py
+```
+
+#### Example 6 — Checking the Content: `isdigit()`, `isalpha()`, `isalnum()`
+
+**`string_check.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Strings: Checking the Content
+# ============================================
+
+# These return True or False — perfect for validating user input.
+print(f"'12345'.isdigit():  {'12345'.isdigit()}")    # all digits?
+print(f"'Asha'.isalpha():   {'Asha'.isalpha()}")     # all letters?
+print(f"'Asha12'.isalnum(): {'Asha12'.isalnum()}")   # letters/digits?
+
+# Real use: only convert to a number if the text actually looks like one.
+user_input = "42"
+if user_input.isdigit():
+    print(f"Valid number: {int(user_input) + 1}")
+else:
+    print("That is not a whole number")
+```
+
+Run it:
+
+```bash
+python string_check.py
+```
+
+> **HitaVir Tech says:** "Because strings are immutable, `text.upper()` does **not** change `text` — it returns a new string. Beginners often forget to save the result: write `text = text.upper()`, not just `text.upper()`."
 
 ---
 
@@ -2976,8 +3180,9 @@ Top customer: Alice ($3,800.00)
 
 By the end of this page you should be able to confidently:
 
-- Choose the **right structure** — list (ordered, mutable), tuple (locked), set (unique), dict (key→value)
+- Choose the **right structure** — string (text), list (ordered, mutable), tuple (locked), set (unique), dict (key→value)
 - Use every **list** method — `append`, `extend`, `insert`, `remove`, `pop`, `clear`, `index`, `count`, `sort`, `reverse`, `copy` — and know `sort()` mutates while `sorted()` returns a new list
+- Use the everyday **string** methods — `upper`, `lower`, `title`, `strip`, `replace`, `split`, `join`, `find`, `count`, `startswith`, `isdigit` — and remember strings are immutable, so each returns a new string
 - Apply the **built-in functions** that work on any sequence — `len`, `sum`, `min`, `max`, `sorted`, `reversed`, `any`, `all`, `enumerate`, `zip`
 - Use the two **tuple** methods (`count`, `index`) and unpack tuples cleanly
 - Use every **set** method — `add`, `update`, `remove`, `discard`, `pop`, `clear` — plus set algebra (`union`, `intersection`, `difference`, `symmetric_difference`) and relationship tests (`issubset`, `issuperset`, `isdisjoint`)
