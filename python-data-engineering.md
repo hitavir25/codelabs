@@ -39,17 +39,7 @@ A complete **Sales Data ETL Pipeline** for HitaVir Tech:
 
 ### Skills You Will Gain
 
-| Skill | Level |
-|-------|-------|
-| Python syntax, variables, types | Beginner |
-| Control flow (if/else, loops) | Beginner |
-| Functions and modular code | Beginner |
-| Data structures (lists, dicts, sets, tuples) | Beginner |
-| File I/O (CSV, JSON, text) | Intermediate |
-| Error handling and logging | Intermediate |
-| pandas data manipulation | Intermediate |
-| ETL pipeline development | Intermediate |
-| Industry best practices | Intermediate |
+![Skills You Will Gain](assets/diagrams/python-de/01-skills-you-will-gain.svg)
 
 ### Why Python for Data Engineering?
 
@@ -65,24 +55,7 @@ Python is the **number one language** in Data Engineering because:
 
 You will see these words throughout the codelab. Read them once now; they will sink in as you practice.
 
-| Term | Plain-English meaning | Used for in Data Engineering |
-|------|-----------------------|-------------------------------|
-| **Script** | A `.py` file that runs Python code top-to-bottom | Running an ETL job, cleaning a CSV |
-| **Variable** | A named container for a value | Holding a record count, file path, status |
-| **Data type** | The kind of value (number, text, true/false) | Validating that "price" is a number |
-| **Function** | A reusable block of code with a name | `extract()`, `clean()`, `load()` |
-| **Argument** | A value you pass into a function | `read_csv("sales.csv")` — the filename is an argument |
-| **Return value** | What a function gives back to you | A cleaned list, a row count, a DataFrame |
-| **List** | An ordered collection in `[ ]` brackets | A list of rows from a CSV |
-| **Dictionary** | Key-value pairs in `{ }` braces | One row of data, a config file |
-| **Loop** | Repeating an action for each item | Looping over every row in a file |
-| **Library** | Pre-written Python code you import | `pandas`, `csv`, `json`, `logging` |
-| **DataFrame** | A spreadsheet inside Python (from pandas) | The main object data engineers work with |
-| **ETL** | **E**xtract → **T**ransform → **L**oad — the standard pipeline pattern | Reading raw data, cleaning it, saving the clean version |
-| **CSV** | Comma-Separated Values — a plain-text spreadsheet | The most common file format in Data Engineering |
-| **JSON** | JavaScript Object Notation — text format for nested data | API responses, pipeline configs |
-| **Pipeline** | A sequence of steps that move and transform data | Your daily sales-data job |
-| **Log** | A line-by-line record of what your program did | Debugging failures, audit trails |
+![Quick Glossary — Bookmark This](assets/diagrams/python-de/02-quick-glossary-bookmark-this.svg)
 
 ### Estimated Duration
 
@@ -237,18 +210,7 @@ Why dark theme for long study sessions? Less eye strain, better contrast on synt
 
 When you paste any Python code from this codelab into a `.py` file in VS Code, the syntax highlighter colors it like this:
 
-| Token type | Color in Dark+ | Example |
-|------------|----------------|---------|
-| **Keywords** | pink / magenta | `def`, `if`, `for`, `return`, `import`, `class` |
-| **Strings** | orange / salmon | `"HitaVir Tech"`, `'sales.csv'` |
-| **Numbers** | light green | `1500`, `99.7`, `0.05` |
-| **Function names** (definition) | yellow | `extract`, `transform`, `validate_record` |
-| **Function calls** | yellow | `print(...)`, `len(...)` |
-| **Built-ins** | sky blue | `int`, `float`, `str`, `True`, `False`, `None` |
-| **Comments** | green (italic) | `# this is a comment` |
-| **Class names** | teal / mint | `DataPipeline`, `SalesTransformer` |
-| **Operators** | white | `+ - * / = == != < >` |
-| **Decorators** | yellow | `@timer`, `@retry` |
+![What Your Code Will Look Like in VS Code Dark+](assets/diagrams/python-de/03-what-your-code-will-look-like-in-vs-code-dark.svg)
 
 If your code shows up white-on-black with no colors, the Python extension is probably not active — make sure the file is saved with a `.py` extension and the bottom-right of VS Code shows "Python" as the language mode.
 
@@ -363,12 +325,7 @@ python-de-learning/
 
 ### Common Setup Mistakes
 
-| Problem | Fix |
-|---------|-----|
-| `python not found` | Reinstall Python with "Add to PATH" checked |
-| `pip not found` | Run `python -m pip install --upgrade pip` |
-| Wrong Python version | Use `python3` instead of `python` |
-| `venv` activation fails | Use the correct command for your terminal |
+![Common Setup Mistakes](assets/diagrams/python-de/04-common-setup-mistakes.svg)
 
 ### Setup Checkpoint — You Should Now Be Able To...
 
@@ -542,16 +499,7 @@ import pandas, csv, datetime   # mixes stdlib and third-party
 
 > **The naming cheat sheet that fits in your head:**
 
-| Element | Convention | Data Engineering example |
-|---------|------------|---------------------------|
-| Variable | `snake_case` | `total_records`, `customer_id` |
-| Function | `snake_case` | `read_csv()`, `validate_record()` |
-| Class | `PascalCase` | `DataPipeline`, `SalesTransformer` |
-| Constant | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT`, `BATCH_SIZE` |
-| Module / file | `snake_case.py` | `etl_pipeline.py`, `validators.py` |
-| Package / folder | `lowercase` | `src/`, `config/` |
-| Internal (private) | `_leading_underscore` | `_internal_cache`, `_helper()` |
-| Strongly private | `__double_underscore` | `__name_mangled` (advanced) |
+![Pillar 4 — Naming Conventions](assets/diagrams/python-de/05-pillar-4-naming-conventions.svg)
 
 **CORRECT**
 
@@ -619,11 +567,7 @@ records[ 0 ]                         # extra spaces inside brackets
 
 > **Three kinds of comments — know when to use which:**
 
-| Type | Where | Purpose |
-|------|-------|---------|
-| Block comment | Above code, full line(s) starting with `#` | Explain WHY a block exists |
-| Inline comment | After code, 2+ spaces from it, then `#` | Clarify a tricky line |
-| Docstring | First lines of function/class/module, triple-quoted | API contract — args, returns, raises |
+![Pillar 6 — Comments and Docstrings](assets/diagrams/python-de/06-pillar-6-comments-and-docstrings.svg)
 
 ```python
 # CORRECT — block comment explains WHY
@@ -658,28 +602,13 @@ total = price * quantity  # multiply price by quantity
 
 > **The "Pythonic" rules every Data Engineer should know:**
 
-| Topic | CORRECT | WRONG |
-|-------|---------|-------|
-| Compare to None | `if value is None:` | `if value == None:` |
-| Type check | `if isinstance(x, (int, float)):` | `if type(x) == int or type(x) == float:` |
-| Empty check | `if not records:` | `if len(records) == 0:` |
-| Index loop | `for i, record in enumerate(records):` | `for i in range(len(records)):` |
-| Parallel walk | `for name, age in zip(names, ages):` | indexing both lists by `i` |
-| Boolean test | `if is_valid:` | `if is_valid == True:` |
-| String join | `", ".join(items)` | `s = ""; for x in items: s += x + ", "` |
-| Default dict get | `config.get("port", 5432)` | `if "port" in config: ... else: ...` |
+![Pillar 7 — Programming Recommendations](assets/diagrams/python-de/07-pillar-7-programming-recommendations.svg)
 
 ### The PEP 8 Toolchain — Tools That Check (and Fix) Your Code
 
 You do not memorize PEP 8 by heart — you install tools that check (and even fix) it for you.
 
-| Tool | What it does | Install |
-|------|-------------|---------|
-| **`black`** | Auto-formats your code to PEP 8 (opinionated, one true style) | `pip install black` |
-| **`isort`** | Sorts and groups imports correctly | `pip install isort` |
-| **`flake8`** | Reports PEP 8 violations | `pip install flake8` |
-| **`ruff`** | Modern, fast linter+formatter (replaces black + flake8 + isort) | `pip install ruff` |
-| **`mypy`** | Type-checks your annotations | `pip install mypy` |
+![The PEP 8 Toolchain — Tools That Check (and Fix) Your Code](assets/diagrams/python-de/08-the-pep-8-toolchain-tools-that-check-and-fix-you.svg)
 
 **The 60-second setup for any DE project:**
 
@@ -743,17 +672,7 @@ def transform_data(records, threshold=100):
 
 #### What changed?
 
-| Issue in BEFORE | Fix in AFTER |
-|------------------|--------------|
-| Imports on one line, mixed groups | One per line, grouped, alphabetized |
-| `TransformData` (PascalCase) | `transform_data` (snake_case) |
-| `Threshold=100` (mixed case + spaces) | `threshold=100` (snake_case, no space around `=`) |
-| 2-space indent | 4-space indent |
-| `r` is too cryptic | `record` (descriptive) |
-| `==None` | `is None` |
-| `range(len(records))` | direct iteration over `records` |
-| Two statements on one line (`;`) | One per line |
-| No docstring | Docstring describing intent |
+![What changed?](assets/diagrams/python-de/09-what-changed.svg)
 
 ### Try It — Format the Bad Code Yourself
 
@@ -816,18 +735,7 @@ You will see flake8 print the remaining issues — naming and `== None`. Fix tho
 
 PEP 8 is style. These are the **engineering practices** every Data Engineer follows on top of it.
 
-| Practice | Why it matters in DE |
-|----------|----------------------|
-| **Type hints** (`def f(x: int) -> str:`) | Catch type bugs before runtime; IDE autocomplete |
-| **Docstrings on every public function** | New teammates can read the API without reading the body |
-| **One function = one job** (Single Responsibility) | Easier to test, easier to reuse |
-| **No magic numbers** | `THRESHOLD = 100` at the top, not `if x > 100:` buried in code |
-| **Fail loudly, log clearly** | Silent failures destroy trust in pipelines |
-| **Keep functions under ~50 lines** | If it does not fit on one screen, split it |
-| **Pure functions when possible** | Same input, same output, no side effects = trivial to test |
-| **Use `pathlib` over `os.path`** | Modern, cross-platform, readable |
-| **F-strings over `%` and `.format()`** | Readable, fast, the recommended style since Python 3.6 |
-| **Never `except:`; always `except Exception` or specific** | Bare `except` swallows `Ctrl-C` and hides bugs |
+![Best-Practice Standards Beyond PEP 8](assets/diagrams/python-de/10-best-practice-standards-beyond-pep-8.svg)
 
 ### PEP 8 Checkpoint — You Should Now Be Able To...
 
@@ -961,13 +869,7 @@ Let us write real Python code. Create a new file for each section.
 
 ### The Five Core Data Types You Use Every Day in Data Engineering
 
-| Type | Python name | Example | What it represents in DE |
-|------|-------------|---------|--------------------------|
-| **String** | `str` | `"sales_etl"` | Text — names, file paths, log messages, column names |
-| **Integer** | `int` | `15000` | Whole numbers — row counts, IDs, ports, batch sizes |
-| **Float** | `float` | `99.7` | Decimal numbers — prices, percentages, rates |
-| **Boolean** | `bool` | `True` / `False` | Yes/no flags — `is_valid`, `has_errors` |
-| **None** | `NoneType` | `None` | "No value yet" — equivalent to `NULL` in databases |
+![The Five Core Data Types You Use Every Day in Data Engineering](assets/diagrams/python-de/11-the-five-core-data-types-you-use-every-day-in-da.svg)
 
 ### Variables — Storing Data
 
@@ -1045,12 +947,7 @@ An f-string (formatted string) is text starting with `f"..."` that lets you drop
 
 ### Naming Rules for Variables
 
-| Rule | Good | Bad |
-|------|------|-----|
-| Use lowercase with underscores | `total_records` | `TotalRecords`, `totalrecords` |
-| Start with a letter or underscore | `_internal`, `count` | `1count`, `2records` |
-| Be descriptive | `customer_email` | `x`, `tmp`, `data1` |
-| Avoid Python keywords | `pipeline_class` | `class`, `if`, `def` |
+![Naming Rules for Variables](assets/diagrams/python-de/12-naming-rules-for-variables.svg)
 
 ### Type Checking and Conversion
 
@@ -1149,13 +1046,7 @@ python basics_operators.py
 
 #### Operator Cheat Sheet
 
-| Category | Operators | Example | Result |
-|----------|-----------|---------|--------|
-| Arithmetic | `+ - * / // % **` | `7 // 2` | `3` (integer division) |
-| Comparison | `== != > < >= <=` | `5 > 3` | `True` |
-| Logical | `and or not` | `True and False` | `False` |
-| Membership | `in`, `not in` | `"ETL" in "ETL Pipeline"` | `True` |
-| Identity | `is`, `is not` | `value is None` | True/False |
+![Operator Cheat Sheet](assets/diagrams/python-de/13-operator-cheat-sheet.svg)
 
 ### User Input
 
@@ -1454,14 +1345,7 @@ Valid: 3 | Skipped: 4
 
 ### Control-Flow Cheat Sheet
 
-| Pattern | When to use | Example |
-|---------|-------------|---------|
-| `if/elif/else` | Branch logic — one of several paths | Choose DB host based on environment |
-| `for` over a list | Process every item | Loop over CSV rows |
-| `for ... in range()` | A fixed number of iterations | Batch chunks of 500 |
-| `while` | Repeat until a condition flips | Retry until connected |
-| `break` | Stop early | Stop on a sentinel value |
-| `continue` | Skip this iteration | Skip invalid rows, keep looping |
+![Control-Flow Cheat Sheet](assets/diagrams/python-de/14-control-flow-cheat-sheet.svg)
 
 ### What You Have Learnt on This Page
 
@@ -1532,30 +1416,11 @@ def calculate_total(price, quantity):    # def = "define a function"
     return total                          # send the result back
 ```
 
-| Part | Meaning |
-|------|---------|
-| `def` | Keyword that starts a function definition |
-| `calculate_total` | The function's name (use snake_case) |
-| `(price, quantity)` | Parameters — the inputs the function expects |
-| `"""..."""` | Docstring — a description of what the function does |
-| `return total` | The value the caller gets back |
+![The Anatomy of a Function — Visual Breakdown](assets/diagrams/python-de/15-the-anatomy-of-a-function-visual-breakdown.svg)
 
 ### Types of Functions in Python
 
-| Type | Description | Example |
-|------|-------------|---------|
-| Basic function | No parameters, no return | `def greet():` |
-| Parameterized function | Accepts inputs | `def add(a, b):` |
-| Function with return | Sends back a result | `return a + b` |
-| Default parameters | Parameters with fallback values | `def connect(port=5432):` |
-| Keyword arguments | Call by name | `connect(port=3306)` |
-| `*args` | Variable number of positional args | `def func(*args):` |
-| `**kwargs` | Variable number of keyword args | `def func(**kwargs):` |
-| Lambda function | One-line anonymous function | `lambda x: x * 2` |
-| Nested function | Function inside a function | `def outer(): def inner():` |
-| Recursive function | Function that calls itself | `def factorial(n):` |
-| Generator function | Yields values lazily | `def gen(): yield value` |
-| Decorator function | Wraps another function | `@decorator` |
+![Types of Functions in Python](assets/diagrams/python-de/16-types-of-functions-in-python.svg)
 
 Let us learn each one with real Data Engineering examples.
 
@@ -2014,19 +1879,7 @@ python func_06_pipeline.py
 
 ### Function Types Summary
 
-| Type | Syntax | When to Use in Data Engineering |
-|------|--------|----------------------------------|
-| Basic | `def func():` | Simple, single-purpose tasks |
-| With params | `def func(a, b):` | Configurable behavior |
-| With defaults | `def func(a, b=10):` | Sensible fallbacks |
-| `*args` | `def func(*args):` | Unknown number of inputs (file lists, tables) |
-| `**kwargs` | `def func(**kwargs):` | Flexible config options (DB connections, settings) |
-| Combined | `def func(a, *args, **kwargs):` | Maximum flexibility (frameworks, libraries) |
-| Lambda | `lambda x: x * 2` | Quick inline transformations (sort keys, map/filter) |
-| Nested | `def outer(): def inner():` | Factory pattern, closures (custom cleaners) |
-| Recursive | `def func(): func()` | Tree structures, nested JSON flattening |
-| Generator | `def func(): yield x` | Memory-efficient batch processing |
-| Decorator | `@decorator` | Cross-cutting concerns (logging, timing, retry) |
+![Function Types Summary](assets/diagrams/python-de/17-function-types-summary.svg)
 
 ### The argument order rule
 
@@ -2159,19 +2012,7 @@ A **list** is an ordered, changeable sequence. It is the workhorse of data engin
 
 #### List Methods — Complete Reference
 
-| Method | What it does | Returns | Mutates? |
-|--------|--------------|---------|----------|
-| `append(x)` | Add one item to the end | `None` | Yes |
-| `extend(iterable)` | Add all items from an iterable | `None` | Yes |
-| `insert(i, x)` | Insert `x` at index `i` | `None` | Yes |
-| `remove(x)` | Delete the first item equal to `x` | `None` | Yes |
-| `pop(i=-1)` | Remove and return item at `i` (last by default) | the item | Yes |
-| `clear()` | Remove all items | `None` | Yes |
-| `index(x)` | Index of the first item equal to `x` | `int` | No |
-| `count(x)` | Number of times `x` appears | `int` | No |
-| `sort()` | Sort the list in place | `None` | Yes |
-| `reverse()` | Reverse the list in place | `None` | Yes |
-| `copy()` | Return a shallow copy | new `list` | No |
+![List Methods — Complete Reference](assets/diagrams/python-de/18-list-methods-complete-reference.svg)
 
 #### Example 1 — Creating and Accessing a List
 
@@ -2411,18 +2252,7 @@ A **string** is a sequence of characters written in quotes. Like a list, you can
 
 Strings are immutable, so every method below returns a **new** string (or a list / number) — none of them change the original.
 
-| Method | What it does | Returns |
-|--------|--------------|---------|
-| `upper()` / `lower()` | Change case to all upper / lower | new `str` |
-| `title()` / `capitalize()` | Title Case / Sentence case | new `str` |
-| `strip()` / `lstrip()` / `rstrip()` | Trim whitespace (both / left / right) | new `str` |
-| `replace(old, new)` | Replace every `old` with `new` | new `str` |
-| `split(sep)` | Break the text into a list of pieces | `list` |
-| `join(iterable)` | Glue strings together with a separator | new `str` |
-| `find(sub)` | Index of the first match, or `-1` | `int` |
-| `count(sub)` | How many times `sub` appears | `int` |
-| `startswith(s)` / `endswith(s)` | Does it start / end with `s`? | `bool` |
-| `isdigit()` / `isalpha()` / `isalnum()` | Content checks (digits / letters / both) | `bool` |
+![String Methods — Complete Reference](assets/diagrams/python-de/19-string-methods-complete-reference.svg)
 
 #### Example 1 — Creating and Accessing a String
 
@@ -2612,10 +2442,7 @@ A **tuple** is an ordered sequence that **cannot be changed** after creation. Us
 
 #### Tuple Methods — Complete Reference
 
-| Method | What it does | Returns |
-|--------|--------------|---------|
-| `count(x)` | Number of times `x` appears | `int` |
-| `index(x)` | Index of the first item equal to `x` | `int` |
+![Tuple Methods — Complete Reference](assets/diagrams/python-de/20-tuple-methods-complete-reference.svg)
 
 #### Example 1 — Creating and Unpacking a Tuple
 
@@ -2689,22 +2516,7 @@ A **set** stores **unique** values with **no order**. It is the fastest way to d
 
 #### Set Methods — Complete Reference
 
-| Method | What it does | Returns |
-|--------|--------------|---------|
-| `add(x)` | Add one element | `None` |
-| `update(iterable)` | Add many elements | `None` |
-| `remove(x)` | Remove `x` (KeyError if absent) | `None` |
-| `discard(x)` | Remove `x` if present (no error) | `None` |
-| `pop()` | Remove and return an arbitrary element | the element |
-| `clear()` | Remove all elements | `None` |
-| `copy()` | Return a shallow copy | new `set` |
-| `union(*s)` | Items in any set (operator: `\|`) | new `set` |
-| `intersection(*s)` | Items in all sets (operator: `&`) | new `set` |
-| `difference(*s)` | Items in this set only (operator: `-`) | new `set` |
-| `symmetric_difference(s)` | Items in exactly one set (operator: `^`) | new `set` |
-| `issubset(s)` | Is every item also in `s`? | `bool` |
-| `issuperset(s)` | Does this set contain all of `s`? | `bool` |
-| `isdisjoint(s)` | Do the sets share nothing? | `bool` |
+![Set Methods — Complete Reference](assets/diagrams/python-de/21-set-methods-complete-reference.svg)
 
 #### Example 1 — Creating and Adding: `add()`, `update()`
 
@@ -2852,19 +2664,7 @@ A **dictionary** maps **keys to values** and looks up values by key in `O(1)` ti
 
 #### Dict Methods — Complete Reference
 
-| Method | What it does | Returns |
-|--------|--------------|---------|
-| `get(key, default)` | Value for `key`, or `default` if missing | value |
-| `keys()` | View of all keys | view |
-| `values()` | View of all values | view |
-| `items()` | View of all `(key, value)` pairs | view |
-| `update(other)` | Merge another dict / pairs | `None` |
-| `setdefault(key, default)` | Get value, or insert `default` if missing | value |
-| `pop(key, default)` | Remove `key` and return its value | value |
-| `popitem()` | Remove and return the last inserted pair | `(key, value)` |
-| `clear()` | Remove all items | `None` |
-| `copy()` | Return a shallow copy | new `dict` |
-| `fromkeys(keys, value)` | Build a dict from a list of keys | new `dict` |
+![Dict Methods — Complete Reference](assets/diagrams/python-de/22-dict-methods-complete-reference.svg)
 
 #### Example 1 — Accessing Data: `get()`, `keys()`, `values()`, `items()`
 
@@ -3068,15 +2868,7 @@ This table is asked in **every Python interview** for Data Engineering roles. Me
 
 #### Core Comparison
 
-| Feature | List | Tuple | Set | Dictionary |
-|---------|------|-------|-----|------------|
-| **Syntax** | `[1, 2, 3]` | `(1, 2, 3)` | `{1, 2, 3}` | `{"a": 1}` |
-| **Mutable?** | Yes | No | Yes | Yes |
-| **Ordered?** | Yes | Yes | No | Yes (3.7+) |
-| **Duplicates?** | Allowed | Allowed | Not allowed | Keys unique |
-| **Indexing?** | Yes `[0]` | Yes `[0]` | No | By key `["a"]` |
-| **Slicing?** | Yes `[1:3]` | Yes `[1:3]` | No | No |
-| **Use case** | Collections of items | Fixed records | Unique values | Key-value mapping |
+![Core Comparison](assets/diagrams/python-de/23-core-comparison.svg)
 
 #### Performance Comparison (Big-O)
 
@@ -3084,32 +2876,11 @@ This table is asked in **every Python interview** for Data Engineering roles. Me
 
 Big-O describes how much slower an operation gets as your dataset grows. `O(1)` means "instant — the same speed for 10 rows or 10 million." `O(n)` means "scales with size — 10× the data takes 10× longer." For data engineers handling millions of rows, this matters.
 
-| Operation | List | Tuple | Set | Dict |
-|-----------|------|-------|-----|------|
-| Access by index | O(1) | O(1) | N/A | N/A |
-| Access by key | N/A | N/A | N/A | O(1) |
-| Search (`in`) | O(n) | O(n) | **O(1)** | **O(1)** |
-| Append / Add | O(1) | N/A | O(1) | O(1) |
-| Insert at position | O(n) | N/A | N/A | N/A |
-| Delete | O(n) | N/A | O(1) | O(1) |
-| Memory usage | Medium | **Low** | High | High |
+![Performance Comparison (Big-O)](assets/diagrams/python-de/24-performance-comparison-big-o.svg)
 
 #### When to Use What — Data Engineering Guide
 
-| Scenario | Use This | Why |
-|----------|----------|-----|
-| Rows from a CSV file | List of dicts | Each row is a dict, collection is a list |
-| Database connection config | Tuple or dict | Config should not change (tuple) or needs named access (dict) |
-| Column names to process | List | Ordered, may have duplicates |
-| Unique customer IDs | Set | Automatic deduplication, O(1) lookup |
-| API response / JSON data | Dict | Key-value structure matches JSON |
-| Mapping old column names to new | Dict | `{"old_name": "new_name"}` |
-| Batch of records for processing | List of dicts | Industry standard for tabular data |
-| Immutable function return values | Tuple | Cannot be accidentally modified |
-| Checking if value exists in large dataset | Set | O(1) vs O(n) for lists |
-| Environment variables / settings | Dict | Named access: `config["DB_HOST"]` |
-| Coordinates or fixed pairs | Tuple | `(latitude, longitude)` — immutable |
-| Pipeline of transformation steps | List of functions | `[clean, validate, transform]` |
+![When to Use What — Data Engineering Guide](assets/diagrams/python-de/25-when-to-use-what-data-engineering-guide.svg)
 
 #### Quick Memory Aid for Interviews
 
@@ -3393,12 +3164,7 @@ python file_csv.py
 
 #### CSV File Mode Cheat Sheet
 
-| Mode | Meaning | Use it for |
-|------|---------|-----------|
-| `"r"` | Read | Loading existing data |
-| `"w"` | Write (overwrites) | Creating a new output file |
-| `"a"` | Append | Adding new rows to an existing log |
-| `"r+"` | Read + write | Rare in DE — usually avoid |
+![CSV File Mode Cheat Sheet](assets/diagrams/python-de/26-csv-file-mode-cheat-sheet.svg)
 
 ### Reading and Writing JSON Files
 
@@ -3472,12 +3238,7 @@ python file_json.py
 
 #### JSON Function Cheat Sheet
 
-| Function | Direction | Source/Destination |
-|----------|-----------|--------------------|
-| `json.load(file)` | JSON → Python | Read from a file object |
-| `json.loads(string)` | JSON → Python | Read from a string (note the **`s`** = string) |
-| `json.dump(obj, file)` | Python → JSON | Write to a file object |
-| `json.dumps(obj)` | Python → JSON | Convert to a string |
+![JSON Function Cheat Sheet](assets/diagrams/python-de/27-json-function-cheat-sheet.svg)
 
 ### Reading Text/Log Files
 
@@ -3792,25 +3553,11 @@ python error_handling.py
 
 #### Common Python Exceptions in Data Engineering
 
-| Exception | When it happens | How to handle |
-|-----------|-----------------|---------------|
-| `FileNotFoundError` | The path does not exist | Log a warning, return empty data |
-| `ValueError` | Bad type conversion (`int("abc")`) | Skip that record, keep going |
-| `KeyError` | Dict key missing | Use `.get(key, default)` |
-| `TypeError` | Wrong type passed to a function | Validate types before the call |
-| `ZeroDivisionError` | Divide by 0 | Check denominator first |
-| `ConnectionError` | Network or DB unreachable | Retry with backoff |
-| `PermissionError` | Cannot write to file | Log critical, alert team |
+![Common Python Exceptions in Data Engineering](assets/diagrams/python-de/28-common-python-exceptions-in-data-engineering.svg)
 
 #### Logging Levels — When to Use Each
 
-| Level | Meaning | Example |
-|-------|---------|---------|
-| `DEBUG` | Detailed info for developers | "Loaded row 42 with values..." |
-| `INFO` | Normal operation milestones | "Pipeline started", "Loaded 1500 rows" |
-| `WARNING` | Unexpected but not failure | "Skipped 3 invalid records" |
-| `ERROR` | Operation failed but pipeline continues | "Could not write report.json" |
-| `CRITICAL` | Pipeline cannot continue | "Database is unreachable" |
+![Logging Levels — When to Use Each](assets/diagrams/python-de/29-logging-levels-when-to-use-each.svg)
 
 > **HitaVir Tech says:** "In production, errors WILL happen. The question is not if, but when. Good error handling means your pipeline fails gracefully, logs the problem, and makes debugging easy."
 
@@ -4004,23 +3751,7 @@ python pandas_basics.py
 
 ### pandas Cheat Sheet — The 15 Methods You'll Use Daily
 
-| Task | Method | Example |
-|------|--------|---------|
-| Read CSV | `pd.read_csv()` | `pd.read_csv("sales.csv")` |
-| Read JSON | `pd.read_json()` | `pd.read_json("data.json")` |
-| Peek at first rows | `.head()` | `df.head(10)` |
-| Peek at last rows | `.tail()` | `df.tail()` |
-| See column types | `.dtypes` | `df.dtypes` |
-| Summary stats | `.describe()` | `df.describe()` |
-| Count nulls | `.isnull().sum()` | `df.isnull().sum()` |
-| Drop nulls | `.dropna()` | `df.dropna(subset=["price"])` |
-| Fill nulls | `.fillna()` | `df.fillna(0)` |
-| Filter rows | Boolean indexing | `df[df["price"] > 100]` |
-| Add column | Assignment | `df["total"] = df["a"] * df["b"]` |
-| Apply a function | `.apply()` | `df["col"].apply(lambda x: x*2)` |
-| Group + aggregate | `.groupby().agg()` | `df.groupby("region")["sales"].sum()` |
-| Join two tables | `pd.merge()` | `pd.merge(df1, df2, on="id")` |
-| Save CSV | `.to_csv()` | `df.to_csv("out.csv", index=False)` |
+![pandas Cheat Sheet — The 15 Methods You'll Use Daily](assets/diagrams/python-de/30-pandas-cheat-sheet-the-15-methods-you-ll-use-dai.svg)
 
 > **HitaVir Tech says:** "pandas is to data engineers what a stethoscope is to doctors — you cannot work without it. Learn `read_csv`, `groupby`, `merge`, and `apply`, and you can handle 90% of data tasks."
 
@@ -4934,25 +4665,11 @@ Duration: 6:00
 
 ### Common Python Errors and Fixes
 
-| Error | Cause | Fix |
-|-------|-------|-----|
-| `ModuleNotFoundError` | Package not installed | `pip install package_name` |
-| `FileNotFoundError` | Wrong file path | Use `os.path.exists()` to check first |
-| `IndentationError` | Mixed tabs and spaces | Use VS Code's "Convert Indentation" |
-| `TypeError` | Wrong data type | Use `type()` to debug, convert types |
-| `KeyError` | Dict key missing | Use `.get(key, default)` instead of `[key]` |
-| `UnicodeDecodeError` | File encoding issue | Add `encoding="utf-8"` to `open()` |
-| `IndexError` | List index out of range | Check `len(list)` before accessing |
-| `AttributeError` | Calling method that doesn't exist | Check `dir(object)` to see available methods |
+![Common Python Errors and Fixes](assets/diagrams/python-de/31-common-python-errors-and-fixes.svg)
 
 ### Windows-Specific Issues
 
-| Issue | Fix |
-|-------|-----|
-| `python` not found | Use `python3` or reinstall with PATH checked |
-| Path uses backslash | Use forward slashes: `"C:/Users/..."` or raw strings: `r"C:\Users\..."` |
-| Permission denied | Run terminal as Administrator |
-| `venv` won't activate | Use `venv\Scripts\activate` (Command Prompt) or `source venv/Scripts/activate` (Git Bash) |
+![Windows-Specific Issues](assets/diagrams/python-de/32-windows-specific-issues.svg)
 
 ### Debugging Technique — The Print-Statement Trick
 
@@ -5219,14 +4936,7 @@ df["region_avg"] = df.groupby("region")["revenue"].transform("mean")
 
 ### Interview Preparation Tips
 
-| Tip | Why |
-|-----|-----|
-| Always give a **data engineering example** | Shows you understand the domain, not just syntax |
-| Mention **trade-offs** | "Lists are flexible but sets are faster for lookups" |
-| Talk about **production concerns** | Error handling, logging, memory, scalability |
-| Know **pandas deeply** | groupby, merge, apply, pivot_table are asked most |
-| Practice **coding on paper** | Many interviews have whiteboard or live coding rounds |
-| Understand **Big-O basics** | O(1) vs O(n) matters when processing millions of rows |
+![Interview Preparation Tips](assets/diagrams/python-de/33-interview-preparation-tips.svg)
 
 > **HitaVir Tech says:** "These 25 questions cover 90% of what you will face in a Python Data Engineering interview. But knowing the answer is not enough — practice explaining them out loud. An interview is a conversation, not a written exam."
 
@@ -5263,30 +4973,11 @@ Congratulations! You have completed **Python for Data Engineering** by **HitaVir
 
 ### What You Mastered
 
-| Module | Skills |
-|--------|--------|
-| Basics | Variables, types, operators, f-strings |
-| Control Flow | if/else, for/while loops, break/continue |
-| Functions | All 11 function types, decorators, generators |
-| Data Structures | Lists, dicts, sets, tuples, list of dicts |
-| File I/O | CSV read/write, JSON handling, log parsing |
-| Error Handling | try/except, logging, graceful failures |
-| pandas | DataFrames, cleaning, transformation, aggregation |
-| ETL Pipeline | Complete extract-transform-load with reporting |
-| Intermediate | Comprehensions, lambdas, OOP, APIs |
-| Best Practices | Naming, structure, docstrings, secrets |
+![What You Mastered](assets/diagrams/python-de/34-what-you-mastered.svg)
 
 ### What to Learn Next
 
-| Topic | Why |
-|-------|-----|
-| SQL with Python | Database queries using SQLAlchemy |
-| Apache Spark (PySpark) | Big Data processing |
-| Apache Airflow | Pipeline orchestration |
-| Databricks | Cloud data engineering |
-| Docker | Containerize your pipelines |
-| Unit Testing (pytest) | Test your pipeline code |
-| AWS (boto3) | Cloud storage and services |
+![What to Learn Next](assets/diagrams/python-de/35-what-to-learn-next.svg)
 
 ### The Data Engineer Learning Path
 
