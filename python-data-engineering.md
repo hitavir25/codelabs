@@ -2327,7 +2327,7 @@ A function is the unit of reusable code in Python. Sloppy function signatures ar
 > — Grady Booch
 
 ## Data Structures
-Duration: 12:00
+Duration: 25:00
 
 **What is a "data structure"?**
 
@@ -2361,175 +2361,643 @@ Real-life analogy:
 
 Data engineers use these every single day. Master them and you can model almost any data.
 
+The rest of this page walks through **each structure on its own**, with a **separate, runnable example for every built-in method** — no mixing. Type each snippet into its own file and run it. Seeing one method per example is how the muscle memory forms.
+
+---
+
+### Lists — Ordered, Mutable Collections
+
+A **list** is an ordered, changeable sequence. It is the workhorse of data engineering: a batch of rows, a set of column names, a queue of files to process.
+
+#### List Methods — Complete Reference
+
+| Method | What it does | Returns | Mutates? |
+|--------|--------------|---------|----------|
+| `append(x)` | Add one item to the end | `None` | Yes |
+| `extend(iterable)` | Add all items from an iterable | `None` | Yes |
+| `insert(i, x)` | Insert `x` at index `i` | `None` | Yes |
+| `remove(x)` | Delete the first item equal to `x` | `None` | Yes |
+| `pop(i=-1)` | Remove and return item at `i` (last by default) | the item | Yes |
+| `clear()` | Remove all items | `None` | Yes |
+| `index(x)` | Index of the first item equal to `x` | `int` | No |
+| `count(x)` | Number of times `x` appears | `int` | No |
+| `sort()` | Sort the list in place | `None` | Yes |
+| `reverse()` | Reverse the list in place | `None` | Yes |
+| `copy()` | Return a shallow copy | new `list` | No |
+
+#### Example 1 — Creating and Accessing a List
+
 ```bash
-cat > data_structures.py << 'PYEOF'
+cat > list_access.py << 'PYEOF'
 # ============================================
-# HitaVir Tech - Data Structures
+# HitaVir Tech - Lists: Creating and Accessing
 # ============================================
 
-# ====== LISTS ======
-# Ordered, mutable collection — like rows in a table
-print("=" * 50)
-print("LISTS — Ordered Collections")
-print("=" * 50)
-
-# List of database tables to process
+# A list holds an ordered, changeable collection of items.
 tables = ["users", "orders", "products", "payments"]
-print(f"Tables to process: {tables}")
-print(f"First table: {tables[0]}")
-print(f"Last table: {tables[-1]}")
-print(f"Number of tables: {len(tables)}")
 
-# Add and remove items
-tables.append("logs")           # add to the end
-print(f"After append: {tables}")
+# Access by position — indexing starts at 0; negatives count from the end.
+print(f"First table:  {tables[0]}")
+print(f"Last table:   {tables[-1]}")
+print(f"Second table: {tables[1]}")
 
-tables.remove("logs")           # remove a specific value
-print(f"After remove: {tables}")
+# Slicing — [start:stop:step] returns a NEW sub-list.
+print(f"First two:    {tables[:2]}")
+print(f"Last two:     {tables[-2:]}")
+print(f"Every other:  {tables[::2]}")
+print(f"Reversed:     {tables[::-1]}")
 
-# Slicing — get a sub-list using [start:stop]
-print(f"First two: {tables[:2]}")
-print(f"Last two: {tables[-2:]}")
+# How many items, and does a value exist?
+print(f"Total tables: {len(tables)}")
+print(f"Has 'orders'? {'orders' in tables}")
+PYEOF
 
-# Built-ins for numeric lists
+python list_access.py
+```
+
+#### Example 2 — Adding Items: `append()`, `insert()`, `extend()`
+
+```bash
+cat > list_add.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Lists: Adding Items
+# ============================================
+
+pipeline_steps = ["extract", "transform"]
+print(f"Start:        {pipeline_steps}")
+
+# append(x) — add ONE item to the end.
+pipeline_steps.append("load")
+print(f"append:       {pipeline_steps}")
+
+# insert(i, x) — add ONE item at a specific position.
+pipeline_steps.insert(0, "validate")
+print(f"insert:       {pipeline_steps}")
+
+# extend(iterable) — add MANY items from another iterable.
+pipeline_steps.extend(["archive", "notify"])
+print(f"extend:       {pipeline_steps}")
+
+# Common trap: append() with a list NESTS it; extend() MERGES it.
+demo = ["a"]
+demo.append(["b", "c"])   # -> ['a', ['b', 'c']]
+print(f"append a list:{demo}")
+PYEOF
+
+python list_add.py
+```
+
+#### Example 3 — Removing Items: `remove()`, `pop()`, `clear()`
+
+```bash
+cat > list_remove.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Lists: Removing Items
+# ============================================
+
+columns = ["id", "name", "temp", "email", "debug"]
+print(f"Start:        {columns}")
+
+# remove(x) — delete the FIRST matching value (ValueError if absent).
+columns.remove("temp")
+print(f"remove:       {columns}")
+
+# pop(i) — remove AND return the item at index i (default: last).
+last = columns.pop()
+print(f"pop():        {last!r}  ->  {columns}")
+
+first = columns.pop(0)
+print(f"pop(0):       {first!r}  ->  {columns}")
+
+# del — delete by index or slice (returns nothing).
+del columns[0]
+print(f"del[0]:       {columns}")
+
+# clear() — empty the whole list.
+columns.clear()
+print(f"clear():      {columns}")
+PYEOF
+
+python list_remove.py
+```
+
+#### Example 4 — Searching and Counting: `index()`, `count()`
+
+```bash
+cat > list_search.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Lists: Searching and Counting
+# ============================================
+
+status_log = ["ok", "ok", "fail", "ok", "fail", "ok"]
+
+# count(x) — how many times a value appears.
+print(f"'ok' count:   {status_log.count('ok')}")
+print(f"'fail' count: {status_log.count('fail')}")
+
+# index(x) — position of the FIRST match (ValueError if absent).
+print(f"First 'fail': index {status_log.index('fail')}")
+
+# index(x, start) — search from a given position onward.
+print(f"Next 'fail':  index {status_log.index('fail', 3)}")
+
+# Always check membership before index() to avoid a crash.
+if "timeout" in status_log:
+    print(f"'timeout':    index {status_log.index('timeout')}")
+else:
+    print("'timeout':    not found")
+PYEOF
+
+python list_search.py
+```
+
+#### Example 5 — Reordering: `sort()`, `reverse()`, `copy()`
+
+```bash
+cat > list_reorder.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Lists: Sorting, Reversing, Copying
+# ============================================
+
+scores = [85, 92, 78, 95, 88]
+
+# sort() — sorts IN PLACE (changes the original, returns None).
+scores.sort()
+print(f"Ascending:    {scores}")
+
+scores.sort(reverse=True)
+print(f"Descending:   {scores}")
+
+# sort(key=...) — sort by a custom rule.
+words = ["python", "sql", "spark", "go"]
+words.sort(key=len)
+print(f"By length:    {words}")
+
+# reverse() — reverse the order IN PLACE.
+words.reverse()
+print(f"Reversed:     {words}")
+
+# copy() — a shallow copy so the original is left untouched.
+backup = scores.copy()
+backup.append(100)
+print(f"Original:     {scores}")
+print(f"Copy + 100:   {backup}")
+PYEOF
+
+python list_reorder.py
+```
+
+#### Example 6 — Built-in Functions That Work on Lists
+
+These are **global functions**, not list methods — you pass the list as an argument. The key distinction: `list.sort()` changes the list and returns `None`, while `sorted(list)` leaves the list alone and returns a **new** sorted list.
+
+```bash
+cat > list_builtins.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Built-in Functions on Lists
+# ============================================
+
 scores = [85, 92, 78, 95, 88, 76, 91]
-print(f"\nScores: {scores}")
-print(f"Average: {sum(scores) / len(scores):.1f}")
-print(f"Max: {max(scores)}")
-print(f"Min: {min(scores)}")
-print(f"Sorted: {sorted(scores)}")
 
-# ====== TUPLES ======
-# Ordered, immutable — like a fixed record
-print(f"\n{'=' * 50}")
-print("TUPLES — Immutable Records")
-print("=" * 50)
+print(f"len()      count:        {len(scores)}")
+print(f"sum()      total:        {sum(scores)}")
+print(f"min()      lowest:       {min(scores)}")
+print(f"max()      highest:      {max(scores)}")
+print(f"sorted()   new sorted:   {sorted(scores)}")
+print(f"reversed() new reversed: {list(reversed(scores))}")
 
-# Database connection config (should not change)
+# any() / all() — boolean checks across the whole list.
+flags = [True, True, False]
+print(f"any()  at least one True? {any(flags)}")
+print(f"all()  every item True?   {all(flags)}")
+
+# enumerate() — index AND value together (ideal for numbered loops).
+print("\nenumerate():")
+for index, score in enumerate(scores[:3], start=1):
+    print(f"  Row {index}: {score}")
+
+# zip() — pair up two lists element by element.
+names = ["Alice", "Bob", "Carol"]
+ages = [30, 25, 35]
+print("\nzip():")
+for name, age in zip(names, ages):
+    print(f"  {name} is {age}")
+PYEOF
+
+python list_builtins.py
+```
+
+> **HitaVir Tech says:** "Interviewers love the `sort()` vs `sorted()` question. `sort()` mutates and returns `None` (so `x = my_list.sort()` is a classic bug — `x` is `None`). `sorted()` returns a new list and works on any iterable."
+
+---
+
+### Tuples — Ordered, Immutable Records
+
+A **tuple** is an ordered sequence that **cannot be changed** after creation. Use it for fixed records: coordinates, RGB colors, database credentials. Because it is immutable, it has only **two** methods.
+
+#### Tuple Methods — Complete Reference
+
+| Method | What it does | Returns |
+|--------|--------------|---------|
+| `count(x)` | Number of times `x` appears | `int` |
+| `index(x)` | Index of the first item equal to `x` | `int` |
+
+#### Example 1 — Creating and Unpacking a Tuple
+
+```bash
+cat > tuple_basics.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Tuples: Creating and Unpacking
+# ============================================
+
+# A tuple is an ordered, IMMUTABLE collection.
 db_config = ("prod-db.hitavir.tech", 5432, "hitavir_prod")
-host, port, database = db_config  # Tuple unpacking
-print(f"Host: {host}")
-print(f"Port: {port}")
-print(f"Database: {database}")
 
-# Coordinates, pairs, fixed mappings
-column_mapping = [
-    ("first_name", "fname"),
-    ("last_name", "lname"),
-    ("email_address", "email"),
-]
-print("\nColumn mapping:")
-for old_name, new_name in column_mapping:
-    print(f"  {old_name} → {new_name}")
+# Access by index, exactly like a list.
+print(f"Host: {db_config[0]}")
+print(f"Port: {db_config[1]}")
 
-# ====== DICTIONARIES ======
-# Key-value pairs — like a row in a database
-print(f"\n{'=' * 50}")
-print("DICTIONARIES — Key-Value Data")
-print("=" * 50)
+# Tuple unpacking — assign every item to a variable in one line.
+host, port, database = db_config
+print(f"Unpacked -> {host} : {port} / {database}")
 
-# A single record (like one row from a database)
+# A single-item tuple NEEDS a trailing comma.
+not_a_tuple = ("solo")     # this is just a string
+real_tuple = ("solo",)     # this is a tuple
+print(f"{type(not_a_tuple).__name__} vs {type(real_tuple).__name__}")
+
+# Immutability — uncommenting the next line raises a TypeError.
+# db_config[1] = 5433
+PYEOF
+
+python tuple_basics.py
+```
+
+#### Example 2 — The Two Tuple Methods: `count()`, `index()`
+
+```bash
+cat > tuple_methods.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Tuples: count() and index()
+# ============================================
+
+regions = ("North", "South", "North", "East", "North", "West")
+
+# count(x) — how many times a value appears.
+print(f"'North' count: {regions.count('North')}")
+
+# index(x) — position of the first match.
+print(f"First 'East':  index {regions.index('East')}")
+
+# Why tuples? They are lighter than lists and protect data that must
+# not change — coordinates, fixed pairs, credentials.
+point = (12.97, 77.59)   # (latitude, longitude)
+print(f"Coordinates:   {point}")
+PYEOF
+
+python tuple_methods.py
+```
+
+---
+
+### Sets — Unordered Collections of Unique Values
+
+A **set** stores **unique** values with **no order**. It is the fastest way to deduplicate data and to test membership (`O(1)`), and it gives you mathematical set operations for free.
+
+#### Set Methods — Complete Reference
+
+| Method | What it does | Returns |
+|--------|--------------|---------|
+| `add(x)` | Add one element | `None` |
+| `update(iterable)` | Add many elements | `None` |
+| `remove(x)` | Remove `x` (KeyError if absent) | `None` |
+| `discard(x)` | Remove `x` if present (no error) | `None` |
+| `pop()` | Remove and return an arbitrary element | the element |
+| `clear()` | Remove all elements | `None` |
+| `copy()` | Return a shallow copy | new `set` |
+| `union(*s)` | Items in any set (operator: `\|`) | new `set` |
+| `intersection(*s)` | Items in all sets (operator: `&`) | new `set` |
+| `difference(*s)` | Items in this set only (operator: `-`) | new `set` |
+| `symmetric_difference(s)` | Items in exactly one set (operator: `^`) | new `set` |
+| `issubset(s)` | Is every item also in `s`? | `bool` |
+| `issuperset(s)` | Does this set contain all of `s`? | `bool` |
+| `isdisjoint(s)` | Do the sets share nothing? | `bool` |
+
+#### Example 1 — Creating and Adding: `add()`, `update()`
+
+```bash
+cat > set_add.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Sets: Creating and Adding
+# ============================================
+
+# A set stores UNIQUE values. Building one from a list deduplicates it.
+raw_ids = [101, 102, 101, 103, 102, 104]
+unique_ids = set(raw_ids)
+print(f"Raw:    {raw_ids}")
+print(f"Unique: {unique_ids}")
+
+# add(x) — insert ONE value (duplicates are silently ignored).
+unique_ids.add(105)
+unique_ids.add(101)        # already present -> no effect
+print(f"add:    {unique_ids}")
+
+# update(iterable) — insert MANY values at once.
+unique_ids.update([106, 107, 108])
+print(f"update: {unique_ids}")
+
+# An EMPTY set must use set() — {} creates an empty dict, not a set.
+empty = set()
+print(f"Empty set type: {type(empty).__name__}")
+PYEOF
+
+python set_add.py
+```
+
+#### Example 2 — Removing: `remove()`, `discard()`, `pop()`, `clear()`
+
+```bash
+cat > set_remove.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Sets: Removing Items
+# ============================================
+
+active_users = {"alice", "bob", "charlie", "diana", "eve"}
+print(f"Start:        {active_users}")
+
+# discard(x) — remove if present; does NOTHING if missing (safe).
+active_users.discard("bob")
+active_users.discard("zoe")     # not there -> no error
+print(f"discard:      {active_users}")
+
+# remove(x) — remove if present; raises KeyError if missing (strict).
+active_users.remove("alice")
+print(f"remove:       {active_users}")
+
+# pop() — remove and return an ARBITRARY item (a set has no order).
+removed = active_users.pop()
+print(f"pop():        {removed!r}  ->  {active_users}")
+
+# clear() — empty the set.
+active_users.clear()
+print(f"clear():      {active_users}")
+PYEOF
+
+python set_remove.py
+```
+
+#### Example 3 — Set Algebra: `union`, `intersection`, `difference`, `symmetric_difference`
+
+```bash
+cat > set_algebra.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Sets: Comparing Two Datasets
+# ============================================
+
+# Which users are in the database vs the API?
+db_users = {"alice", "bob", "charlie", "diana"}
+api_users = {"charlie", "diana", "eve", "frank"}
+
+# union — everyone in EITHER set.
+print(f"union          (|): {db_users | api_users}")
+print(f"union method      : {db_users.union(api_users)}")
+
+# intersection — only those in BOTH.
+print(f"intersection   (&): {db_users & api_users}")
+
+# difference — in DB but NOT in API.
+print(f"difference     (-): {db_users - api_users}")
+
+# symmetric_difference — in exactly ONE set, not both.
+print(f"symmetric_diff (^): {db_users ^ api_users}")
+PYEOF
+
+python set_algebra.py
+```
+
+#### Example 4 — Relationship Tests: `issubset()`, `issuperset()`, `isdisjoint()`
+
+```bash
+cat > set_relations.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Sets: Relationship Tests
+# ============================================
+
+required_columns = {"id", "name", "email"}
+csv_columns = {"id", "name", "email", "phone", "address"}
+order_columns = {"order_id", "total"}
+
+# issubset() — are all required columns present in the CSV?
+print(f"Required subset of CSV?  {required_columns.issubset(csv_columns)}")
+
+# issuperset() — does the CSV contain every required column?
+print(f"CSV superset of required?{csv_columns.issuperset(required_columns)}")
+
+# isdisjoint() — do two sets share NO items?
+print(f"CSV disjoint from orders?{csv_columns.isdisjoint(order_columns)}")
+
+# Real use: validate that a file has the columns the pipeline needs.
+missing = required_columns - csv_columns
+print(f"Missing columns:         {missing or 'none — file is valid'}")
+PYEOF
+
+python set_relations.py
+```
+
+---
+
+### Dictionaries — Key-Value Mappings
+
+A **dictionary** maps **keys to values** and looks up values by key in `O(1)` time. It is the natural fit for a single record, a JSON object, or any named configuration.
+
+#### Dict Methods — Complete Reference
+
+| Method | What it does | Returns |
+|--------|--------------|---------|
+| `get(key, default)` | Value for `key`, or `default` if missing | value |
+| `keys()` | View of all keys | view |
+| `values()` | View of all values | view |
+| `items()` | View of all `(key, value)` pairs | view |
+| `update(other)` | Merge another dict / pairs | `None` |
+| `setdefault(key, default)` | Get value, or insert `default` if missing | value |
+| `pop(key, default)` | Remove `key` and return its value | value |
+| `popitem()` | Remove and return the last inserted pair | `(key, value)` |
+| `clear()` | Remove all items | `None` |
+| `copy()` | Return a shallow copy | new `dict` |
+| `fromkeys(keys, value)` | Build a dict from a list of keys | new `dict` |
+
+#### Example 1 — Accessing Data: `get()`, `keys()`, `values()`, `items()`
+
+```bash
+cat > dict_access.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Dictionaries: Accessing Data
+# ============================================
+
 employee = {
     "id": 101,
     "name": "Priya Sharma",
     "department": "Data Engineering",
     "salary": 85000,
-    "skills": ["Python", "SQL", "Spark"],
-    "is_active": True
 }
 
-print(f"Name: {employee['name']}")
-print(f"Department: {employee['department']}")
-print(f"Skills: {', '.join(employee['skills'])}")
+# Direct access with [] — raises KeyError if the key is missing.
+print(f"Name:    {employee['name']}")
 
-# Safe access with .get() — returns a default if the key is missing
+# get(key, default) — safe access; returns the default instead of crashing.
 print(f"Manager: {employee.get('manager', 'Not assigned')}")
 
-# Iterate over a dictionary
-print("\nEmployee record:")
+# keys() / values() / items() — views you can loop over.
+print(f"Keys:    {list(employee.keys())}")
+print(f"Values:  {list(employee.values())}")
+
+# items() is the standard way to iterate a dictionary.
+print("Record:")
 for key, value in employee.items():
-    print(f"  {key}: {value}")
+    print(f"  {key:<12}: {value}")
+PYEOF
 
-# Pipeline configuration (common in real projects)
-pipeline_config = {
-    "name": "sales_etl",
-    "source": {
-        "type": "postgres",
-        "host": "db.hitavir.tech",
-        "port": 5432
-    },
-    "destination": {
-        "type": "s3",
-        "bucket": "hitavir-warehouse"
-    },
-    "schedule": "0 6 * * *",
-    "retry_count": 3
-}
+python dict_access.py
+```
 
-print(f"\nPipeline: {pipeline_config['name']}")
-print(f"Source: {pipeline_config['source']['type']}://{pipeline_config['source']['host']}")
-print(f"Destination: {pipeline_config['destination']['type']}://{pipeline_config['destination']['bucket']}")
+#### Example 2 — Adding and Updating: `update()`, `setdefault()`
 
-# ====== SETS ======
-# Unique values only — great for deduplication
-print(f"\n{'=' * 50}")
-print("SETS — Unique Values")
-print("=" * 50)
+```bash
+cat > dict_update.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Dictionaries: Adding and Updating
+# ============================================
 
-raw_emails = [
-    "alice@hitavir.tech", "bob@hitavir.tech",
-    "alice@hitavir.tech", "charlie@hitavir.tech",
-    "bob@hitavir.tech", "diana@hitavir.tech"
-]
+config = {"host": "localhost", "port": 5432}
+print(f"Start:      {config}")
 
-unique_emails = set(raw_emails)
-print(f"Raw count: {len(raw_emails)}")
-print(f"Unique count: {len(unique_emails)}")
-print(f"Duplicates removed: {len(raw_emails) - len(unique_emails)}")
+# [] assignment — change an existing key or add a new one.
+config["port"] = 5433          # update existing
+config["timeout"] = 30         # add new
+print(f"[] set:     {config}")
 
-# Set operations — comparing two datasets
-db_users = {"alice", "bob", "charlie", "diana"}
-api_users = {"charlie", "diana", "eve", "frank"}
+# update() — merge another dict (or key/value pairs) in one call.
+config.update({"user": "admin", "retries": 3})
+print(f"update:     {config}")
 
-print(f"\nIn DB only: {db_users - api_users}")
-print(f"In API only: {api_users - db_users}")
-print(f"In both: {db_users & api_users}")
-print(f"In either: {db_users | api_users}")
+# setdefault(key, default) — return the value, OR insert it if missing.
+config.setdefault("host", "ignored")   # key exists -> unchanged
+config.setdefault("ssl", True)         # key new    -> inserted
+print(f"setdefault: {config}")
+PYEOF
 
-# ====== LIST OF DICTIONARIES ======
-# The most common data structure in data engineering
-print(f"\n{'=' * 50}")
-print("LIST OF DICTS — The Data Engineering Standard")
-print("=" * 50)
+python dict_update.py
+```
+
+#### Example 3 — Removing Data: `pop()`, `popitem()`, `clear()`
+
+```bash
+cat > dict_remove.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Dictionaries: Removing Data
+# ============================================
+
+record = {"id": 1, "name": "Alice", "temp": "x", "debug": True}
+print(f"Start:      {record}")
+
+# pop(key) — remove a key and return its value.
+name = record.pop("name")
+print(f"pop:        {name!r}  ->  {record}")
+
+# pop(key, default) — safe pop that won't crash on a missing key.
+missing = record.pop("ghost", "not found")
+print(f"pop ghost:  {missing!r}")
+
+# popitem() — remove and return the LAST inserted (key, value) pair.
+last_pair = record.popitem()
+print(f"popitem:    {last_pair}  ->  {record}")
+
+# del — delete a key by name.
+del record["temp"]
+print(f"del:        {record}")
+
+# clear() — empty the dictionary.
+record.clear()
+print(f"clear:      {record}")
+PYEOF
+
+python dict_remove.py
+```
+
+#### Example 4 — Building and Copying: `fromkeys()`, `copy()`, membership
+
+```bash
+cat > dict_utils.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - Dictionaries: fromkeys, copy, membership
+# ============================================
+
+# fromkeys(keys, value) — build a dict from a list of keys.
+columns = ["id", "name", "email"]
+schema = dict.fromkeys(columns, "string")
+print(f"fromkeys:   {schema}")
+
+# Membership (in) tests KEYS by default — a fast O(1) lookup.
+print(f"'name' in schema?  {'name' in schema}")
+print(f"'phone' in schema? {'phone' in schema}")
+
+# copy() — a shallow copy so edits don't touch the original.
+original = {"a": 1, "b": 2}
+clone = original.copy()
+clone["c"] = 3
+print(f"Original:   {original}")
+print(f"Copy:       {clone}")
+PYEOF
+
+python dict_utils.py
+```
+
+---
+
+### List of Dictionaries — The Data Engineering Standard
+
+This is the single most common pattern in data engineering. A CSV file, an API response, and a database query result all arrive as a **list of dictionaries**: the list is the rows, each dictionary is one row.
+
+```bash
+cat > list_of_dicts.py << 'PYEOF'
+# ============================================
+# HitaVir Tech - List of Dicts: Filter, Aggregate, Group
+# ============================================
+
+from collections import defaultdict
 
 sales_data = [
-    {"date": "2026-04-01", "product": "Laptop", "amount": 999.99, "region": "North"},
-    {"date": "2026-04-01", "product": "Mouse", "amount": 29.99, "region": "South"},
-    {"date": "2026-04-02", "product": "Keyboard", "amount": 79.99, "region": "North"},
-    {"date": "2026-04-02", "product": "Monitor", "amount": 449.99, "region": "East"},
-    {"date": "2026-04-03", "product": "Laptop", "amount": 999.99, "region": "West"},
+    {"date": "2026-04-01", "product": "Laptop", "amount": 999.99,
+     "region": "North"},
+    {"date": "2026-04-01", "product": "Mouse", "amount": 29.99,
+     "region": "South"},
+    {"date": "2026-04-02", "product": "Keyboard", "amount": 79.99,
+     "region": "North"},
+    {"date": "2026-04-02", "product": "Monitor", "amount": 449.99,
+     "region": "East"},
+    {"date": "2026-04-03", "product": "Laptop", "amount": 999.99,
+     "region": "West"},
 ]
 
-# Filter: keep only sales above $100
+# Filter — keep only sales above $100 (list comprehension).
 big_sales = [s for s in sales_data if s["amount"] > 100]
 print(f"Sales > $100: {len(big_sales)}")
 
-# Aggregate: total revenue
+# Aggregate — total revenue (generator expression into sum()).
 total_revenue = sum(s["amount"] for s in sales_data)
 print(f"Total revenue: ${total_revenue:,.2f}")
 
-# Group by region using a defaultdict
-from collections import defaultdict
+# Group by region — defaultdict avoids manual "if key in dict" checks.
 by_region = defaultdict(float)
 for sale in sales_data:
     by_region[sale["region"]] += sale["amount"]
 
 print("\nRevenue by region:")
 for region, total in sorted(by_region.items()):
-    print(f"  {region}: ${total:,.2f}")
+    print(f"  {region:<6}: ${total:,.2f}")
 PYEOF
 
-python data_structures.py
+python list_of_dicts.py
 ```
 
 > **HitaVir Tech says:** "A list of dictionaries is the bread and butter of data engineering. It is how APIs return data, how you process CSV rows, and how you pass data between pipeline stages. Master this pattern."
@@ -2653,11 +3121,12 @@ Top customer: Alice ($3,800.00)
 By the end of this page you should be able to confidently:
 
 - Choose the **right structure** — list (ordered, mutable), tuple (locked), set (unique), dict (key→value)
-- Build and slice lists, sort them, append/extend, list of dicts (a CSV in memory)
-- Look up dictionary values safely with `.get(key, default)`
-- Use **sets** for deduplication and fast `in` membership tests
-- Use **tuples** for fixed configs like `(host, port)`
-- Iterate dict pairs with `.items()`, keys with `.keys()`, values with `.values()`
+- Use every **list** method — `append`, `extend`, `insert`, `remove`, `pop`, `clear`, `index`, `count`, `sort`, `reverse`, `copy` — and know `sort()` mutates while `sorted()` returns a new list
+- Apply the **built-in functions** that work on any sequence — `len`, `sum`, `min`, `max`, `sorted`, `reversed`, `any`, `all`, `enumerate`, `zip`
+- Use the two **tuple** methods (`count`, `index`) and unpack tuples cleanly
+- Use every **set** method — `add`, `update`, `remove`, `discard`, `pop`, `clear` — plus set algebra (`union`, `intersection`, `difference`, `symmetric_difference`) and relationship tests (`issubset`, `issuperset`, `isdisjoint`)
+- Use every **dict** method — `get`, `keys`, `values`, `items`, `update`, `setdefault`, `pop`, `popitem`, `clear`, `copy`, `fromkeys`
+- Combine them into the **list-of-dicts** pattern to filter, aggregate, and group real data
 
 ### PEP 8 — Style Rules to Apply Strictly to Data Structures
 
