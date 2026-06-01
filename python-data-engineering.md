@@ -977,50 +977,42 @@ Let us write real Python code. Create a new file for each section.
 
 ```python
 # ============================================
-# HitaVir Tech - Python Variables
+# HitaVir Tech - Python Variables & Data Types
 # ============================================
-# This script shows the five core data types
-# you will use in every data pipeline.
+# A variable is a labelled box that stores a value.
+# Below we describe one person using all five core types.
 
-# --- Strings — text data (names, cities, log messages) ---
-pipeline_name = "HitaVir Sales ETL"
-data_source = "postgres"
-status = "running"
+# --- String (str): text, always written inside quotes ---
+name = "Asha"
+city = "Bangalore"
 
-print(f"Pipeline: {pipeline_name}")
-print(f"Source: {data_source}")
-print(f"Status: {status}")
+print(f"Name: {name}")
+print(f"City: {city}")
 
-# --- Integers — whole numbers (counts, IDs, ports) ---
-total_records = 15000
-batch_size = 500
-port = 5432
+# --- Integer (int): whole numbers, no decimal point ---
+age = 25
+birth_year = 2001
 
-print(f"\nTotal records: {total_records}")
-print(f"Batch size: {batch_size}")
-print(f"Database port: {port}")
+print(f"\nAge: {age}")
+print(f"Born in: {birth_year}")
 
-# --- Floats — decimal numbers (percentages, measurements) ---
-success_rate = 99.7
-processing_time = 3.45
-data_quality_score = 0.95
+# --- Float (float): numbers that have a decimal point ---
+height_m = 1.65
+wallet = 250.75
 
-print(f"\nSuccess rate: {success_rate}%")
-print(f"Processing time: {processing_time}s")
-print(f"Quality score: {data_quality_score}")
+print(f"\nHeight: {height_m} m")
+print(f"Money in wallet: {wallet}")
 
-# --- Booleans — True/False (flags, conditions) ---
-is_production = True
-has_errors = False
-pipeline_active = True
+# --- Boolean (bool): a yes/no answer, either True or False ---
+is_student = True
+has_license = False
 
-print(f"\nProduction mode: {is_production}")
-print(f"Has errors: {has_errors}")
-print(f"Pipeline active: {pipeline_active}")
+print(f"\nIs a student? {is_student}")
+print(f"Has a driving licence? {has_license}")
 
-# --- None — represents "no value" (NULL in databases) ---
-last_error = None
-print(f"\nLast error: {last_error}")
+# --- None: 'no value yet', like a blank field on a form ---
+middle_name = None
+print(f"\nMiddle name: {middle_name}")
 ```
 
 Run it:
@@ -1032,28 +1024,24 @@ python basics_variables.py
 **Expected output:**
 
 ```
-Pipeline: HitaVir Sales ETL
-Source: postgres
-Status: running
+Name: Asha
+City: Bangalore
 
-Total records: 15000
-Batch size: 500
-Database port: 5432
+Age: 25
+Born in: 2001
 
-Success rate: 99.7%
-Processing time: 3.45s
-Quality score: 0.95
+Height: 1.65 m
+Money in wallet: 250.75
 
-Production mode: True
-Has errors: False
-Pipeline active: True
+Is a student? True
+Has a driving licence? False
 
-Last error: None
+Middle name: None
 ```
 
 **What is an f-string?**
 
-An f-string (formatted string) is text starting with `f"..."` that lets you drop variables straight into the text using `{ }`. Example: `f"Total: {total_records}"` becomes `"Total: 15000"`. This is the modern, recommended way to build strings in Python.
+An f-string (formatted string) is text starting with `f"..."` that lets you drop variables straight into the text using `{ }`. Example: `f"Age: {age}"` becomes `"Age: 25"`. This is the modern, recommended way to build strings in Python.
 
 ### Naming Rules for Variables
 
@@ -1068,44 +1056,38 @@ An f-string (formatted string) is text starting with `f"..."` that lets you drop
 
 **What is type conversion?**
 
-Often a value comes in one type but you need it in another. For example, when reading a CSV, every cell starts as a string `"500"`. Before you can add it, you must convert it to an integer `500`. This is type conversion.
+Often a value comes in one type but you need it in another. The most common case: anything a user types, or any value read from a file, arrives as **text**. Before you can do maths with `"25"`, you must convert it to the number `25`. That is type conversion.
 
 **`basics_types.py`**
 
 ```python
 # ============================================
-# HitaVir Tech - Type Checking & Conversion
+# HitaVir Tech - Checking and Converting Types
 # ============================================
 
-# --- Check the type of a variable ---
-record_count = 1500
-pipeline_name = "ETL Pipeline"
-is_active = True
+# --- type() tells you what kind of value you have ---
+age = 25
+name = "Asha"
+is_student = True
 
-print(f"type of record_count: {type(record_count)}")   # <class 'int'>
-print(f"type of pipeline_name: {type(pipeline_name)}") # <class 'str'>
-print(f"type of is_active: {type(is_active)}")         # <class 'bool'>
+print(f"age is a {type(age)}")               # <class 'int'>
+print(f"name is a {type(name)}")             # <class 'str'>
+print(f"is_student is a {type(is_student)}")  # <class 'bool'>
 
-# --- String to integer (e.g., reading CSV columns) ---
-raw_value = "2500"            # CSV cells are always strings
-numeric_value = int(raw_value)
-print(f"\nConverted '{raw_value}' to integer: {numeric_value}")
+# --- Text to integer: needed when a number arrives as text ---
+typed_age = "25"            # this is text, not a number
+real_age = int(typed_age)   # convert text -> integer
+print(f"\nNext year you will be {real_age + 1}")
 
-# --- Integer to string (e.g., building log messages) ---
-count = 1500
-message = "Processed " + str(count) + " records"
+# --- Number to text: so you can join it into a sentence ---
+apples = 7
+message = "I have " + str(apples) + " apples"
 print(message)
 
-# --- String to float (e.g., parsing decimal data) ---
-price_str = "29.99"
-price = float(price_str)
-print(f"Price: ${price}")
-
-# --- f-strings: the recommended way to build strings ---
-name = "HitaVir Tech"
-records = 5000
-time_taken = 2.3
-print(f"\n{name} processed {records} records in {time_taken}s")
+# --- Text to float: for prices or measurements ---
+price_text = "49.99"
+price = float(price_text)
+print(f"Price with tax: {price * 1.1:.2f}")
 ```
 
 Run it:
@@ -1127,38 +1109,36 @@ An operator is a symbol that performs an action on values: `+` adds, `==` compar
 # HitaVir Tech - Operators
 # ============================================
 
-# --- Arithmetic operators (math) ---
-total = 1000 + 500       # Addition           → 1500
-remaining = 1000 - 300   # Subtraction        → 700
-total_size = 500 * 3     # Multiplication     → 1500
-avg = 1500 / 3           # Division (float)   → 500.0
-batches = 1500 // 500    # Floor division     → 3
-leftover = 1500 % 500    # Modulo (remainder) → 0
-squared = 2 ** 10        # Exponentiation     → 1024
+# --- Arithmetic operators: everyday maths ---
+slices = 8 + 4         # add: two pizzas             -> 12
+left = 10 - 3          # subtract: ate 3 sweets      -> 7
+ticket_cost = 3 * 250  # multiply: 3 movie tickets   -> 750
+each_pays = 1000 / 4   # divide (gives a decimal)    -> 250.0
+full_boxes = 26 // 6   # floor division: whole boxes -> 4
+eggs_left = 26 % 6     # modulo: the remainder       -> 2
+area = 5 ** 2          # power: 5 squared            -> 25
 
-print(f"Total: {total}")
-print(f"Remaining: {remaining}")
-print(f"Total size: {total_size}")
-print(f"Average: {avg}")
-print(f"Batches needed: {batches}")
-print(f"Leftover records: {leftover}")
-print(f"2^10 = {squared}")
+print(f"Total slices: {slices}")
+print(f"Sweets left: {left}")
+print(f"Ticket cost: {ticket_cost}")
+print(f"Each person pays: {each_pays}")
+print(f"Full boxes of 6: {full_boxes}")
+print(f"Eggs left over: {eggs_left}")
+print(f"5 squared: {area}")
 
-# --- Comparison operators (used in data validation) ---
-row_count = 1500
-threshold = 1000
-print(f"\nRow count > threshold: {row_count > threshold}")   # True
-print(f"Row count == 1500: {row_count == 1500}")             # True
-print(f"Row count != 0: {row_count != 0}")                   # True
+# --- Comparison operators: ask a question, get True or False ---
+age = 20
+print(f"\nOld enough to vote (>= 18)? {age >= 18}")  # True
+print(f"Is exactly 20? {age == 20}")                 # True
+print(f"Is not a teenager (!= 13)? {age != 13}")     # True
 
-# --- Logical operators (used in pipeline conditions) ---
-has_data = True
-is_valid = True
-has_errors = False
+# --- Logical operators: combine yes/no conditions ---
+is_weekend = True
+is_sunny = False
 
-print(f"\nReady to process: {has_data and is_valid}")        # True
-print(f"Any issues: {has_errors or not is_valid}")           # False
-print(f"No errors: {not has_errors}")                        # True
+print(f"\nGo to the beach? {is_weekend and is_sunny}")  # False
+print(f"Do something today? {is_weekend or is_sunny}")  # True
+print(f"Stay indoors? {not is_sunny}")                  # True
 ```
 
 Run it:
@@ -1183,17 +1163,19 @@ python basics_operators.py
 
 ```python
 # ============================================
-# HitaVir Tech - User Input
+# HitaVir Tech - Getting Input From the User
 # ============================================
 
-# input() always returns a string — convert if you need a number
-name = input("Enter your name: ")
-batch = input("Enter your batch number: ")
-batch_num = int(batch)  # Convert string → integer
+# input() shows a question and waits for the user to type something.
+# Whatever they type always comes back as text (a string).
+name = input("What is your name? ")
+age_text = input("How old are you? ")
 
-print(f"\nWelcome to HitaVir Tech, {name}!")
-print(f"You are in Batch {batch_num}")
-print(f"Let's learn Python for Data Engineering!")
+# Convert the age text to a number so we can do maths with it.
+age = int(age_text)
+
+print(f"\nHello, {name}!")
+print(f"Next year you will be {age + 1} years old.")
 ```
 
 Run it:
@@ -1297,72 +1279,44 @@ Real-life analogy: "If it is raining, take an umbrella. Else if it is hot, wear 
 
 ```python
 # ============================================
-# HitaVir Tech - Control Flow: if-else
+# HitaVir Tech - Control Flow: if / elif / else
 # ============================================
 
-# --- Data Quality Check ---
-# Reject the batch if more than 5% of rows have null values
-null_percentage = 0.03  # 3% nulls
-threshold = 0.05        # 5% max allowed
+# --- Example 1: Did the student pass? (simple if / else) ---
+score = 72
 
-if null_percentage <= threshold:
-    print("PASS: Data quality check passed")
-    print(f"  Null rate: {null_percentage:.1%} (threshold: {threshold:.1%})")
+if score >= 40:
+    print(f"Score {score}: PASS")
 else:
-    print("FAIL: Data quality check failed")
-    print(f"  Null rate: {null_percentage:.1%} exceeds threshold: {threshold:.1%}")
+    print(f"Score {score}: FAIL")
 
-# --- Pipeline Status Router ---
-# An API or service typically returns a status code; we route the response
-print("\n--- Pipeline Status Router ---")
-status_code = 200
+# --- Example 2: Turn a score into a grade (if / elif / else) ---
+# Python checks each condition top to bottom and stops at the FIRST
+# one that is True.
+print("\n--- Grade ---")
+marks = 85
 
-if status_code == 200:
-    print("SUCCESS: Pipeline completed normally")
-elif status_code == 202:
-    print("ACCEPTED: Pipeline queued for processing")
-elif status_code == 400:
-    print("ERROR: Bad request - check input data")
-elif status_code == 500:
-    print("CRITICAL: Server error - alert on-call engineer")
+if marks >= 90:
+    grade = "A"
+elif marks >= 75:
+    grade = "B"
+elif marks >= 50:
+    grade = "C"
 else:
-    print(f"UNKNOWN: Unexpected status code {status_code}")
+    grade = "Fail"
 
-# --- Environment Selector ---
-# Pick the right database based on dev/staging/prod environment
-print("\n--- Environment Selector ---")
-env = "production"
+print(f"Marks {marks} -> Grade {grade}")
 
-if env == "development":
-    db_host = "localhost"
-    log_level = "DEBUG"
-elif env == "staging":
-    db_host = "staging-db.hitavir.tech"
-    log_level = "INFO"
-elif env == "production":
-    db_host = "prod-db.hitavir.tech"
-    log_level = "WARNING"
+# --- Example 3: Decide what to do based on the weather ---
+print("\n--- What to do today ---")
+weather = "rainy"
+
+if weather == "rainy":
+    print("Take an umbrella")
+elif weather == "sunny":
+    print("Wear sunglasses")
 else:
-    db_host = "localhost"
-    log_level = "DEBUG"
-
-print(f"Environment: {env}")
-print(f"Database: {db_host}")
-print(f"Log level: {log_level}")
-
-# --- Data Type Validator ---
-# Decide whether a value is an integer, float, or string
-print("\n--- Data Type Validator ---")
-value = "12345"
-
-if value.isdigit():
-    print(f"'{value}' is a valid integer")
-    converted = int(value)
-elif value.replace(".", "", 1).isdigit():
-    print(f"'{value}' is a valid float")
-    converted = float(value)
-else:
-    print(f"'{value}' is a string (non-numeric)")
+    print("Looks like a normal day, just head out")
 ```
 
 Run it:
@@ -1390,72 +1344,50 @@ Two kinds of loops:
 # HitaVir Tech - Control Flow: Loops
 # ============================================
 
-# --- for loop: Process a batch of records ---
-# enumerate() gives us the index AND the value at the same time
-print("--- Processing Transaction Batch ---")
-transactions = [150.00, 230.50, 45.99, 1200.00, 89.95, 567.25]
+# --- for loop: do something once for EACH item in a list ---
+print("--- Greeting friends ---")
+friends = ["Asha", "Ravi", "Meena", "John"]
 
+for friend in friends:
+    print(f"Hello, {friend}!")
+
+# --- for loop with range(): repeat a fixed number of times ---
+# range(1, 6) gives the numbers 1, 2, 3, 4, 5 (6 is not included).
+print("\n--- The 7 times table ---")
+for number in range(1, 6):
+    print(f"7 x {number} = {7 * number}")
+
+# --- Adding things up inside a loop ---
+print("\n--- Total shopping bill ---")
+prices = [120, 75, 200, 50]
 total = 0
-for i, amount in enumerate(transactions, 1):
-    total += amount
-    print(f"  Transaction {i}: ${amount:>10.2f}  |  Running total: ${total:>10.2f}")
+for price in prices:
+    total += price          # add each price to the running total
+print(f"Total to pay: {total}")
 
-print(f"\n  Batch total: ${total:.2f}")
-print(f"  Average: ${total / len(transactions):.2f}")
-
-# --- for loop with range(): Batch processing ---
-# range(start, stop, step) generates numbers — used to slice big datasets
-print("\n--- Batch Processing Simulation ---")
-total_records = 1500
-batch_size = 500
-
-for batch_num in range(0, total_records, batch_size):
-    end = min(batch_num + batch_size, total_records)
-    print(f"  Processing records {batch_num + 1} to {end}...")
-
-print("  All batches processed!")
-
-# --- while loop: Retry logic ---
-# Keep trying until we connect (or hit the max retry limit)
-print("\n--- Connection Retry Logic ---")
-max_retries = 3
-attempt = 0
-connected = False
-
-while attempt < max_retries and not connected:
-    attempt += 1
-    print(f"  Attempt {attempt}/{max_retries}: Connecting to database...")
-    if attempt == 3:
-        connected = True
-        print("  Connected successfully!")
-
-if not connected:
-    print("  FAILED: Could not connect after max retries")
+# --- while loop: keep repeating WHILE a condition is true ---
+# Count down from 3, like a rocket launch.
+print("\n--- Countdown ---")
+count = 3
+while count > 0:
+    print(f"{count}...")
+    count -= 1              # subtract 1 each time, or it loops forever!
+print("Lift off!")
 
 # --- break and continue ---
-# break = stop the loop immediately
-# continue = skip to the next iteration
-print("\n--- Data Filtering with break/continue ---")
-records = [
-    {"id": 1, "name": "Alice", "status": "active"},
-    {"id": 2, "name": "Bob", "status": "inactive"},
-    {"id": 3, "name": "Charlie", "status": "active"},
-    {"id": 4, "name": "STOP", "status": "signal"},
-    {"id": 5, "name": "Diana", "status": "active"},
-]
+# break    = stop the loop right now
+# continue = skip the rest of THIS turn and go to the next item
+print("\n--- Checking the shopping list ---")
+shopping = ["milk", "eggs", "candy", "bread", "END", "rice"]
 
-active_users = []
-for record in records:
-    if record["name"] == "STOP":
-        print(f"  Stop signal received at record {record['id']}")
-        break  # exit the loop entirely
-    if record["status"] != "active":
-        print(f"  Skipping inactive user: {record['name']}")
-        continue  # skip this record, move to next
-    active_users.append(record["name"])
-    print(f"  Added active user: {record['name']}")
-
-print(f"\n  Active users found: {active_users}")
+for item in shopping:
+    if item == "END":
+        print("Reached the end marker. Stopping.")
+        break               # leave the loop completely
+    if item == "candy":
+        print("Skipping candy (too much sugar!)")
+        continue            # jump straight to the next item
+    print(f"Buying: {item}")
 ```
 
 Run it:
@@ -1636,55 +1568,45 @@ Let us learn each one with real Data Engineering examples.
 # HitaVir Tech - Part 1: Basic Functions
 # ============================================
 
-# --- 1A. Function with no parameters, no return ---
-def print_pipeline_header():
-    """Print a standard header for pipeline output."""
-    print("=" * 50)
-    print("  HitaVir Tech - Data Pipeline")
-    print("=" * 50)
+# --- 1A. A function with no inputs and no return value ---
+def say_hello():
+    """Print a friendly greeting."""
+    print("Hello and welcome!")
 
-print_pipeline_header()  # We "call" the function by writing its name + ()
+say_hello()   # "call" the function by writing its name followed by ()
 
-# --- 1B. Function with parameters ---
-def greet_engineer(name):
-    """Greet a data engineer by name."""
-    print(f"Welcome to HitaVir Tech, {name}!")
+# --- 1B. A function that takes an input (a parameter) ---
+def greet(name):
+    """Greet a person by name."""
+    print(f"Hello, {name}!")
 
-greet_engineer("Alice")
-greet_engineer("Bob")
+greet("Asha")
+greet("Ravi")
 
-# --- 1C. Function with return value ---
-def calculate_total(price, quantity):
-    """Calculate total amount for an order."""
-    total = price * quantity
-    return total
+# --- 1C. A function that returns a value ---
+def add(a, b):
+    """Add two numbers and hand the result back."""
+    return a + b
 
-result = calculate_total(999.99, 3)
-print(f"\nOrder total: ${result:,.2f}")
+answer = add(5, 3)
+print(f"5 + 3 = {answer}")
 
-# --- 1D. Function returning multiple values ---
-# Python lets you return a tuple of values, then unpack them on the caller side
-def get_pipeline_stats(total, failed):
-    """Return multiple statistics from a pipeline run."""
-    success = total - failed
-    rate = (success / total) * 100
-    return success, failed, rate    # Returns a tuple
+# --- 1D. A function that returns MORE THAN ONE value ---
+# Python sends them back as a tuple, which you can unpack.
+def min_and_max(numbers):
+    """Return both the smallest and the largest number."""
+    return min(numbers), max(numbers)
 
-s, f, r = get_pipeline_stats(10000, 23)
-print(f"\nPipeline: {s} success, {f} failed, {r:.1f}% rate")
+lowest, highest = min_and_max([7, 2, 9, 4])
+print(f"Lowest: {lowest}, Highest: {highest}")
 
-# --- 1E. Function returning a dictionary (a record) ---
-def build_record(id, name, amount):
-    """Build a standardized data record."""
-    return {
-        "id": id,
-        "name": name.strip().title(),
-        "amount": round(amount, 2),
-        "status": "valid" if amount > 0 else "invalid"
-    }
+# --- 1E. A function that returns a dictionary (a small record) ---
+def make_student(name, age):
+    """Build a student record as a dictionary."""
+    return {"name": name, "age": age, "is_adult": age >= 18}
 
-record = build_record(1, "  alice johnson  ", 150.50)
-print(f"\nRecord: {record}")
+student = make_student("Meena", 20)
+print(f"Student: {student}")
 ```
 
 Run it:
@@ -1711,65 +1633,46 @@ Calling a function by **naming** the argument: `connect(port=5432)`. Order does 
 # ============================================
 
 # --- 2A. Default parameters ---
-# port, database, and timeout all have defaults — host is required
-def connect_database(host, port=5432, database="hitavir_db", timeout=30):
-    """Connect to database with sensible defaults."""
-    print(f"Connecting to {database} at {host}:{port} (timeout: {timeout}s)")
-    return True
+# size and milk have defaults, so only 'drink' is required.
+def order_coffee(drink, size="medium", milk=True):
+    """Print a coffee order, filling in sensible defaults."""
+    milk_text = "with milk" if milk else "black"
+    print(f"One {size} {drink}, {milk_text}")
 
 print("--- Default Parameters ---")
-# All defaults used:
-connect_database("prod-db.hitavir.tech")
+order_coffee("latte")                       # uses both defaults
+order_coffee("espresso", size="small")      # override one default
+order_coffee("americano", "large", False)   # override all of them
 
-# Override some defaults:
-connect_database("staging-db.hitavir.tech", port=5433, database="staging_db")
+# --- 2B. Keyword arguments (call by naming each value) ---
+def book_room(name, nights, room="single"):
+    """Book a hotel room for a guest."""
+    print(f"\n{name} booked a {room} room for {nights} night(s)")
 
-# Override all:
-connect_database("dev-db.hitavir.tech", 3306, "dev_db", 10)
-
-# --- 2B. Keyword arguments (call by name) ---
-def create_pipeline(name, source, destination, schedule="daily", retries=3):
-    """Create a pipeline configuration."""
-    print(f"\n  Pipeline: {name}")
-    print(f"  Source: {source} → Destination: {destination}")
-    print(f"  Schedule: {schedule} | Retries: {retries}")
-
-print("\n--- Keyword Arguments ---")
-
-# Positional (order matters):
-create_pipeline("ETL-1", "postgres", "s3")
-
-# Keyword (order does NOT matter):
-create_pipeline(
-    destination="bigquery",
-    name="ETL-2",
-    source="mysql",
-    schedule="hourly",
-    retries=5
-)
-
-# Mix positional + keyword (positional must come first):
-create_pipeline("ETL-3", "api", "redshift", retries=10)
+print("--- Keyword Arguments ---")
+# Positional: the ORDER of the values matters.
+book_room("Asha", 2)
+# Keyword: name each value, so the order no longer matters.
+book_room(nights=3, name="Ravi", room="double")
 
 # --- 2C. Mutable default argument trap (a famous Python gotcha) ---
-# WRONG — the same list is reused across every call!
-def bad_append(item, lst=[]):
-    lst.append(item)
-    return lst
+# WRONG — the same list is shared and reused on every call!
+def bad_add_item(item, cart=[]):
+    cart.append(item)
+    return cart
 
-# CORRECT — use None and create the list inside the function
-def good_append(item, lst=None):
-    if lst is None:
-        lst = []
-    lst.append(item)
-    return lst
+# CORRECT — default to None, then create a fresh list inside.
+def good_add_item(item, cart=None):
+    if cart is None:
+        cart = []
+    cart.append(item)
+    return cart
 
 print("\n--- Mutable Default Trap ---")
-print(f"Bad call 1: {bad_append('a')}")   # ['a']
-print(f"Bad call 2: {bad_append('b')}")   # ['a', 'b'] — BUG! List is shared!
-
-print(f"Good call 1: {good_append('a')}") # ['a']
-print(f"Good call 2: {good_append('b')}") # ['b'] — Correct! Fresh list each time
+print(f"Bad call 1:  {bad_add_item('apple')}")    # ['apple']
+print(f"Bad call 2:  {bad_add_item('banana')}")   # ['apple', 'banana'] BUG!
+print(f"Good call 1: {good_add_item('apple')}")   # ['apple']
+print(f"Good call 2: {good_add_item('banana')}")  # ['banana'] correct!
 ```
 
 Run it:
@@ -1784,7 +1687,7 @@ python func_02_defaults_kwargs.py
 
 **What does *args mean?**
 
-`*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like a list of files to process.
+`*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like adding up any number of prices in a shopping cart.
 
 **`func_03_args.py`**
 
@@ -1793,54 +1696,41 @@ python func_02_defaults_kwargs.py
 # HitaVir Tech - Part 3: *args
 # ============================================
 
-# --- 3A. Basic *args ---
-def sum_all(*numbers):
-    """Sum any number of values."""
-    print(f"  Received {len(numbers)} args: {numbers}")
+# --- 3A. *args lets a function take ANY number of values ---
+def add_all(*numbers):
+    """Add up however many numbers are passed in."""
+    print(f"  Got {len(numbers)} numbers: {numbers}")
     return sum(numbers)
 
 print("--- *args Basics ---")
-print(f"Sum of 1,2,3: {sum_all(1, 2, 3)}")
-print(f"Sum of 10,20,30,40,50: {sum_all(10, 20, 30, 40, 50)}")
-print(f"Sum of single: {sum_all(100)}")
-print(f"Sum of nothing: {sum_all()}")
+print(f"Sum of 1,2,3:       {add_all(1, 2, 3)}")
+print(f"Sum of 10,20,30,40: {add_all(10, 20, 30, 40)}")
+print(f"Sum of one number:  {add_all(100)}")
+print(f"Sum of nothing:     {add_all()}")
 
-# --- 3B. *args in data engineering: process multiple files ---
-def process_files(*filepaths):
-    """Process any number of data files."""
-    print(f"\n--- Processing {len(filepaths)} files ---")
-    results = []
-    for i, filepath in enumerate(filepaths, 1):
-        result = {"file": filepath, "status": "processed", "rows": i * 100}
-        results.append(result)
-        print(f"  [{i}] {filepath} → {result['rows']} rows")
-    return results
+# --- 3B. A real-world use: total an any-size shopping cart ---
+def cart_total(*prices):
+    """Return the total bill for any number of item prices."""
+    return sum(prices)
 
-process_files("sales_jan.csv", "sales_feb.csv", "sales_mar.csv")
-process_files("users.csv")  # Works with any count
+print(f"\nSmall cart total: {cart_total(120, 75)}")
+print(f"Big cart total:   {cart_total(120, 75, 200, 50, 30)}")
 
-# --- 3C. Combining regular params + *args ---
-def run_pipeline(pipeline_name, *tables):
-    """Run a pipeline on one or more tables."""
-    print(f"\n--- Pipeline: {pipeline_name} ---")
-    print(f"  Tables to process: {list(tables)}")
-    for table in tables:
-        print(f"  Processing table: {table}")
+# --- 3C. Combine a normal parameter with *args ---
+def greet_all(greeting, *names):
+    """Greet everyone using the same greeting."""
+    for name in names:
+        print(f"{greeting}, {name}!")
 
-run_pipeline("Daily ETL", "users", "orders", "products", "payments")
-run_pipeline("Hourly Sync", "events")
+print()
+greet_all("Hello", "Asha", "Ravi", "Meena")
 
-# --- 3D. Unpacking a list into *args ---
-quarterly_files = [
-    "q1_sales.csv",
-    "q2_sales.csv",
-    "q3_sales.csv",
-    "q4_sales.csv"
-]
+# --- 3D. Unpacking a list into *args with the * symbol ---
+friends = ["Sara", "Tom", "Leo"]
 
-# The * unpacks the list into separate arguments:
-process_files(*quarterly_files)
-# Without *, the entire list would be passed as ONE argument
+# The * spreads the list out into separate arguments:
+greet_all("Hi", *friends)
+# Without *, the whole list would arrive as ONE argument.
 ```
 
 Run it:
@@ -1853,7 +1743,7 @@ python func_03_args.py
 
 **What does \*\*kwargs mean?**
 
-`**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any database connection options.
+`**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any number of profile details.
 
 **`func_04_kwargs.py`**
 
@@ -1862,107 +1752,45 @@ python func_03_args.py
 # HitaVir Tech - Part 4: **kwargs
 # ============================================
 
-# --- 4A. Basic **kwargs ---
-def print_config(**settings):
-    """Print any configuration key-value pairs."""
-    print(f"  Received {len(settings)} settings:")
-    for key, value in settings.items():
+# --- 4A. **kwargs collects any number of NAMED values into a dict ---
+def print_details(**info):
+    """Print whatever details are passed in."""
+    print(f"  Got {len(info)} details:")
+    for key, value in info.items():
         print(f"    {key} = {value}")
 
 print("--- **kwargs Basics ---")
-print_config(host="localhost", port=5432, database="hitavir_db")
+print_details(name="Asha", age=25, city="Bangalore")
 print()
-print_config(name="ETL Pipeline", version="2.0", author="HitaVir Tech", debug=True)
+print_details(product="Book", price=299)
 
-# --- 4B. **kwargs for flexible database connection ---
-def connect(**connection_params):
-    """Connect to any database with flexible parameters."""
-    db_type = connection_params.get("type", "postgres")
-    host = connection_params.get("host", "localhost")
-    port = connection_params.get("port", 5432)
-    database = connection_params.get("database", "default")
-    username = connection_params.get("username", "admin")
-    ssl = connection_params.get("ssl", False)
+# --- 4B. Combine a normal parameter, *args, and **kwargs ---
+# The order is always: normal params, then *args, then **kwargs.
+def party(host, *guests, **details):
+    """Describe a party: who hosts, who comes, and the extra details."""
+    print(f"\n  Host: {host}")
+    print(f"  Guests: {list(guests)}")
+    for key, value in details.items():
+        print(f"  {key}: {value}")
 
-    print(f"\n  Connecting: {db_type}://{username}@{host}:{port}/{database}")
-    print(f"  SSL: {'enabled' if ssl else 'disabled'}")
-    return True
+party("Asha", "Ravi", "Meena", date="Saturday", theme="retro")
 
-print("\n--- Flexible Database Connection ---")
-connect(type="postgres", host="prod-db.hitavir.tech", database="analytics", ssl=True)
-connect(type="mysql", host="mysql.hitavir.tech", port=3306, database="reporting")
-connect()  # Uses all defaults
+# --- 4C. Unpacking a dictionary into **kwargs with ** ---
+profile = {"name": "Ravi", "age": 30, "city": "Pune"}
 
-# --- 4C. Combining regular params, *args, and **kwargs ---
-def execute_query(query, *params, **options):
-    """Execute a database query with parameters and options.
+# ** spreads the dict into name=..., age=..., city=...
+print()
+print_details(**profile)
 
-    Args:
-        query (str): SQL query string
-        *params: Query parameters (for parameterized queries)
-        **options: Execution options (timeout, retries, etc.)
-    """
-    timeout = options.get("timeout", 30)
-    retries = options.get("retries", 3)
-    log_query = options.get("log", True)
+# --- 4D. Defaults + overrides: a flexible settings builder ---
+def make_settings(**overrides):
+    """Start from default settings, then apply any overrides."""
+    settings = {"theme": "light", "font_size": 14, "autosave": True}
+    settings.update(overrides)
+    return settings
 
-    print(f"\n  Query: {query}")
-    print(f"  Params: {params}")
-    print(f"  Timeout: {timeout}s | Retries: {retries} | Logging: {log_query}")
-
-print("\n--- Combined: regular + *args + **kwargs ---")
-execute_query(
-    "SELECT * FROM users WHERE region = %s AND status = %s",
-    "North", "active",              # *args — query params
-    timeout=60, retries=5, log=True # **kwargs — options
-)
-
-execute_query("SELECT COUNT(*) FROM orders")  # No args or kwargs
-
-# --- 4D. Unpacking a dictionary into **kwargs ---
-prod_config = {
-    "type": "postgres",
-    "host": "prod-db.hitavir.tech",
-    "port": 5432,
-    "database": "hitavir_prod",
-    "username": "etl_service",
-    "ssl": True
-}
-
-# The ** unpacks the dict into keyword arguments:
-connect(**prod_config)
-
-# --- 4E. Building a flexible pipeline config ---
-def create_pipeline_config(name, source, destination, **overrides):
-    """Create a pipeline config with default values and optional overrides."""
-    config = {
-        "name": name,
-        "source": source,
-        "destination": destination,
-        "batch_size": 1000,
-        "retries": 3,
-        "timeout": 300,
-        "log_level": "INFO",
-        "notify_on_failure": True
-    }
-    # Override any defaults with provided kwargs
-    config.update(overrides)
-    return config
-
-print("\n--- Flexible Pipeline Config ---")
-config1 = create_pipeline_config("Sales ETL", "postgres", "s3")
-config2 = create_pipeline_config(
-    "Real-time Events", "kafka", "bigquery",
-    batch_size=100, timeout=30, log_level="DEBUG"
-)
-
-print("Config 1 (defaults):")
-for k, v in config1.items():
-    print(f"  {k}: {v}")
-
-print("\nConfig 2 (with overrides):")
-for k, v in config2.items():
-    print(f"  {k}: {v}")
+print(f"\nDefault settings: {make_settings()}")
+print(f"Custom settings:  {make_settings(theme='dark', font_size=18)}")
 ```
 
 Run it:
@@ -1990,162 +1818,103 @@ python func_04_kwargs.py
 # HitaVir Tech - Part 5: Advanced Function Types
 # ============================================
 
-# --- 5A. Lambda Functions (anonymous, one-line) ---
-print("=" * 50)
+# --- 5A. Lambda: a tiny one-line function with no name ---
+print("=" * 40)
 print("LAMBDA FUNCTIONS")
-print("=" * 50)
+print("=" * 40)
 
-# Regular function:
-def double(x):
+def double(x):                   # the normal way
     return x * 2
 
-# Lambda equivalent:
-double_lambda = lambda x: x * 2
+double_lambda = lambda x: x * 2   # the exact same thing, as a lambda
 
-print(f"Regular: {double(5)}")       # 10
-print(f"Lambda: {double_lambda(5)}") # 10
+print(f"Normal: {double(5)}")
+print(f"Lambda: {double_lambda(5)}")
 
-# Lambdas shine with sort, map, filter:
-sales = [
-    {"product": "Laptop", "revenue": 4999.95},
-    {"product": "Mouse", "revenue": 149.95},
-    {"product": "Monitor", "revenue": 899.98},
-    {"product": "Keyboard", "revenue": 239.97},
+# Lambdas are most useful with sorted(), filter() and map().
+students = [
+    {"name": "Asha", "grade": 85},
+    {"name": "Ravi", "grade": 72},
+    {"name": "Meena", "grade": 91},
 ]
 
-# Sort by revenue (descending):
-sorted_sales = sorted(sales, key=lambda x: x["revenue"], reverse=True)
-print("\nSales by revenue (descending):")
-for s in sorted_sales:
-    print(f"  {s['product']:>10}: ${s['revenue']:>10,.2f}")
+# Sort students by grade, highest first.
+ranked = sorted(students, key=lambda s: s["grade"], reverse=True)
+print("\nRanked by grade:")
+for s in ranked:
+    print(f"  {s['name']}: {s['grade']}")
 
-# filter() — keep only items matching a condition:
-big_sales = list(filter(lambda x: x["revenue"] > 500, sales))
-print(f"\nBig sales (>$500): {[s['product'] for s in big_sales]}")
+# filter() — keep only the items that pass a test.
+scores = [30, 60, 45, 90, 50, 75]
+passed = list(filter(lambda n: n >= 50, scores))
+print(f"\nPass marks (>= 50): {passed}")
 
-# map() — apply a function to every item:
-prices = [100, 200, 300, 400, 500]
-with_tax = list(map(lambda p: round(p * 1.18, 2), prices))
-print(f"\nPrices with 18% tax: {with_tax}")
+# map() — apply the same change to every item.
+prices = [100, 200, 300]
+with_tax = list(map(lambda p: p * 1.1, prices))
+print(f"Prices with 10% tax: {with_tax}")
 
-# --- 5B. Nested Functions (a function inside a function) ---
-print(f"\n{'=' * 50}")
+# --- 5B. Nested function: a function defined inside another ---
+print(f"\n{'=' * 40}")
 print("NESTED FUNCTIONS")
-print("=" * 50)
+print("=" * 40)
 
-def create_data_cleaner(null_replacement="N/A", trim=True):
-    """Create a customized data cleaning function."""
+def make_multiplier(factor):
+    """Build and return a function that multiplies by 'factor'."""
+    def multiply(number):
+        return number * factor      # 'factor' is remembered from outside
+    return multiply
 
-    def clean(value):
-        """Inner function that does the actual cleaning."""
-        if value is None or value == "":
-            return null_replacement
-        if trim and isinstance(value, str):
-            return value.strip().title()
-        return value
+double_it = make_multiplier(2)
+triple_it = make_multiplier(3)
+print(f"double_it(10) = {double_it(10)}")
+print(f"triple_it(10) = {triple_it(10)}")
 
-    return clean  # Return the inner function
-
-# Create specialized cleaners:
-name_cleaner = create_data_cleaner(null_replacement="Unknown")
-code_cleaner = create_data_cleaner(null_replacement="NONE", trim=False)
-
-raw_names = ["  alice  ", None, "BOB SMITH", "", "  charlie  "]
-cleaned = [name_cleaner(n) for n in raw_names]
-print(f"Raw:     {raw_names}")
-print(f"Cleaned: {cleaned}")
-
-# --- 5C. Recursive Functions ---
-print(f"\n{'=' * 50}")
+# --- 5C. Recursive function: a function that calls itself ---
+print(f"\n{'=' * 40}")
 print("RECURSIVE FUNCTIONS")
-print("=" * 50)
+print("=" * 40)
 
-def flatten_nested_data(data, prefix=""):
-    """Flatten a nested dictionary (common in JSON/API data)."""
-    flat = {}
-    for key, value in data.items():
-        full_key = f"{prefix}{key}" if not prefix else f"{prefix}.{key}"
-        if isinstance(value, dict):
-            flat.update(flatten_nested_data(value, full_key))  # Recursive call
-        else:
-            flat[full_key] = value
-    return flat
+def factorial(n):
+    """factorial(4) means 4 * 3 * 2 * 1."""
+    if n <= 1:                      # base case: when to STOP calling itself
+        return 1
+    return n * factorial(n - 1)     # the function calls itself
 
-# Nested API response:
-api_response = {
-    "user": {
-        "name": "Alice",
-        "address": {
-            "city": "Bangalore",
-            "state": "Karnataka",
-            "country": "India"
-        },
-        "scores": {
-            "python": 95,
-            "sql": 88
-        }
-    },
-    "status": "active"
-}
+print(f"factorial(5) = {factorial(5)}")
 
-flat = flatten_nested_data(api_response)
-print("Flattened JSON:")
-for key, value in flat.items():
-    print(f"  {key}: {value}")
-
-# --- 5D. Generator Functions (memory-efficient) ---
-print(f"\n{'=' * 50}")
+# --- 5D. Generator: hands back values one at a time (saves memory) ---
+print(f"\n{'=' * 40}")
 print("GENERATOR FUNCTIONS")
-print("=" * 50)
+print("=" * 40)
 
-def read_in_batches(data, batch_size):
-    """Yield data in batches — memory efficient for large datasets."""
-    for i in range(0, len(data), batch_size):
-        batch = data[i:i + batch_size]
-        yield batch  # yield pauses and returns one batch at a time
+def squares_up_to(n):
+    """Yield 1*1, 2*2, ... n*n, one value at a time."""
+    for i in range(1, n + 1):
+        yield i * i                 # 'yield' pauses and returns one value
 
-all_records = list(range(1, 16))  # 15 records
-print(f"Total records: {all_records}")
+print("Squares:", end=" ")
+for value in squares_up_to(5):
+    print(value, end=" ")
+print()
 
-for batch_num, batch in enumerate(read_in_batches(all_records, batch_size=4), 1):
-    print(f"  Batch {batch_num}: {batch}")
-
-# Generators do NOT load all data at once — perfect for millions of rows
-
-# --- 5E. Decorator Functions ---
-print(f"\n{'=' * 50}")
+# --- 5E. Decorator: wraps a function to add extra behaviour ---
+print(f"\n{'=' * 40}")
 print("DECORATOR FUNCTIONS")
-print("=" * 50)
+print("=" * 40)
 
-import time
-
-def timer(func):
-    """Decorator that measures how long a function takes."""
+def shout(func):
+    """Make whatever text a function returns LOUD."""
     def wrapper(*args, **kwargs):
-        start = time.time()
         result = func(*args, **kwargs)
-        duration = time.time() - start
-        print(f"  [{func.__name__}] completed in {duration:.4f}s")
-        return result
+        return result.upper() + "!"
     return wrapper
 
-@timer
-def process_data(records):
-    """Simulate processing data."""
-    total = sum(records)
-    return total
+@shout
+def greet(name):
+    return f"hello {name}"
 
-@timer
-def slow_query():
-    """Simulate a slow database query."""
-    time.sleep(0.1)
-    return "query result"
-
-result = process_data([1, 2, 3, 4, 5])
-print(f"  Result: {result}")
-
-result = slow_query()
-print(f"  Result: {result}")
+print(greet("asha"))   # -> HELLO ASHA!
 ```
 
 Run it:
@@ -2160,110 +1929,81 @@ python func_05_advanced.py
 
 ```python
 # ============================================
-# HitaVir Tech - Part 6: Complete Pipeline Example
-# Using all function types together
+# HitaVir Tech - Part 6: Putting It All Together
+# A mini 3-step process that uses every idea so far
 # ============================================
 
-import time
+# We will process a list of students in three steps:
+#   1) load the data   2) transform it   3) show the result
+# This is exactly the shape of a real data pipeline.
 
-# --- Decorator for logging each pipeline step ---
+# --- A decorator that announces each step ---
 def log_step(func):
-    """Decorator: log the start and end of each pipeline step."""
+    """Print a line before and after the function runs."""
     def wrapper(*args, **kwargs):
         print(f"\n[START] {func.__name__}")
-        start = time.time()
         result = func(*args, **kwargs)
-        elapsed = time.time() - start
-        print(f"[DONE]  {func.__name__} ({elapsed:.3f}s)")
+        print(f"[DONE]  {func.__name__}")
         return result
     return wrapper
 
-# --- Extract: uses default params ---
+# --- Step 1: load (uses a default parameter) ---
 @log_step
-def extract(source, limit=None):
-    """Extract data from source."""
-    data = [
-        {"id": 1, "product": "Laptop", "price": 999.99, "quantity": 5},
-        {"id": 2, "product": "Mouse", "price": 29.99, "quantity": 100},
-        {"id": 3, "product": "Keyboard", "price": 79.99, "quantity": 50},
-        {"id": 4, "product": "Monitor", "price": 449.99, "quantity": 10},
-        {"id": 5, "product": "Headphones", "price": 149.99, "quantity": 30},
+def load_students(limit=None):
+    """Return a small list of student records."""
+    students = [
+        {"name": "Asha", "marks": [85, 90, 88]},
+        {"name": "Ravi", "marks": [70, 65, 80]},
+        {"name": "Meena", "marks": [95, 92, 99]},
+        {"name": "John", "marks": [40, 55, 48]},
     ]
     if limit:
-        data = data[:limit]
-    print(f"  Loaded {len(data)} records from {source}")
-    return data
+        students = students[:limit]
+    print(f"  Loaded {len(students)} students")
+    return students
 
-# --- Transform: uses *args for multiple transform steps ---
+# --- Step 2: transform (uses *args to apply many steps) ---
 @log_step
-def transform(records, *steps):
-    """Apply multiple transform steps to records."""
-    for step_func in steps:
-        records = step_func(records)
-    return records
+def transform(students, *steps):
+    """Run each transform step on the students, in order."""
+    for step in steps:
+        students = step(students)
+    return students
 
-# Individual transform functions (passed as *args):
-def add_total(records):
-    """Add total column."""
-    for r in records:
-        r["total"] = round(r["price"] * r["quantity"], 2)
-    print(f"  Added 'total' column to {len(records)} records")
-    return records
+def add_average(students):
+    """Add each student's average mark."""
+    for s in students:
+        s["average"] = round(sum(s["marks"]) / len(s["marks"]), 1)
+    print("  Added 'average'")
+    return students
 
-def add_category(records):
-    """Add price category."""
-    for r in records:
-        r["category"] = "Premium" if r["price"] >= 200 else "Standard"
-    print(f"  Added 'category' column to {len(records)} records")
-    return records
+def add_result(students):
+    """Add a Pass/Fail result based on the average."""
+    for s in students:
+        s["result"] = "Pass" if s["average"] >= 50 else "Fail"
+    print("  Added 'result'")
+    return students
 
-def filter_valid(records):
-    """Keep only records with positive quantity."""
-    valid = [r for r in records if r["quantity"] > 0]
-    print(f"  Filtered: {len(valid)}/{len(records)} records valid")
-    return valid
-
-# --- Load: uses **kwargs for flexible options ---
+# --- Step 3: show (uses **kwargs for optional settings) ---
 @log_step
-def load(records, destination, **options):
-    """Load records to destination with flexible options."""
-    format_type = options.get("format", "csv")
-    compress = options.get("compress", False)
-    partition_by = options.get("partition_by", None)
+def show(students, **options):
+    """Print a report. Options control what is shown."""
+    only_pass = options.get("only_pass", False)
+    for s in students:
+        if only_pass and s["result"] != "Pass":
+            continue
+        print(f"  {s['name']:<6} avg={s['average']:<5} {s['result']}")
 
-    print(f"  Destination: {destination}")
-    print(f"  Format: {format_type} | Compressed: {compress}")
-    if partition_by:
-        print(f"  Partitioned by: {partition_by}")
-    print(f"  Loaded {len(records)} records")
-    return True
+# --- Run the three steps together ---
+print("=" * 40)
+print("  HitaVir Tech - Student Report")
+print("=" * 40)
 
-# --- Run the pipeline ---
-print("=" * 50)
-print("  HitaVir Tech - Complete Pipeline")
-print("=" * 50)
+data = load_students()
+data = transform(data, add_average, add_result)
+show(data, only_pass=False)
 
-# Extract with defaults
-data = extract("postgres://hitavir-db/sales")
-
-# Transform with multiple *args steps
-data = transform(data, add_total, add_category, filter_valid)
-
-# Load with **kwargs options
-load(
-    data,
-    "s3://hitavir-warehouse/output/",
-    format="parquet",
-    compress=True,
-    partition_by="category"
-)
-
-# Display results
-print(f"\n--- Final Data ---")
-for r in data:
-    print(f"  {r['product']:>12} | ${r['total']:>10,.2f} | {r['category']}")
-
-print(f"\nPipeline complete!")
+print("\nAll done!")
 ```
 
 Run it:
@@ -2442,22 +2182,22 @@ A **list** is an ordered, changeable sequence. It is the workhorse of data engin
 # ============================================
 
 # A list holds an ordered, changeable collection of items.
-tables = ["users", "orders", "products", "payments"]
+groceries = ["milk", "eggs", "bread", "apples"]
 
 # Access by position — indexing starts at 0; negatives count from the end.
-print(f"First table:  {tables[0]}")
-print(f"Last table:   {tables[-1]}")
-print(f"Second table: {tables[1]}")
+print(f"First item:   {groceries[0]}")
+print(f"Last item:    {groceries[-1]}")
+print(f"Second item:  {groceries[1]}")
 
 # Slicing — [start:stop:step] returns a NEW sub-list.
-print(f"First two:    {tables[:2]}")
-print(f"Last two:     {tables[-2:]}")
-print(f"Every other:  {tables[::2]}")
-print(f"Reversed:     {tables[::-1]}")
+print(f"First two:    {groceries[:2]}")
+print(f"Last two:     {groceries[-2:]}")
+print(f"Every other:  {groceries[::2]}")
+print(f"Reversed:     {groceries[::-1]}")
 
 # How many items, and does a value exist?
-print(f"Total tables: {len(tables)}")
-print(f"Has 'orders'? {'orders' in tables}")
+print(f"Total items:  {len(groceries)}")
+print(f"Has 'eggs'?   {'eggs' in groceries}")
 ```
 
 Run it:
@@ -2475,25 +2215,25 @@ python list_access.py
 # HitaVir Tech - Lists: Adding Items
 # ============================================
 
-pipeline_steps = ["extract", "transform"]
-print(f"Start:        {pipeline_steps}")
+todo = ["wake up", "brush teeth"]
+print(f"Start:        {todo}")
 
 # append(x) — add ONE item to the end.
-pipeline_steps.append("load")
-print(f"append:       {pipeline_steps}")
+todo.append("eat breakfast")
+print(f"append:       {todo}")
 
 # insert(i, x) — add ONE item at a specific position.
-pipeline_steps.insert(0, "validate")
-print(f"insert:       {pipeline_steps}")
+todo.insert(0, "switch off alarm")
+print(f"insert:       {todo}")
 
 # extend(iterable) — add MANY items from another iterable.
-pipeline_steps.extend(["archive", "notify"])
-print(f"extend:       {pipeline_steps}")
+todo.extend(["go to work", "have lunch"])
+print(f"extend:       {todo}")
 
 # Common trap: append() with a list NESTS it; extend() MERGES it.
 demo = ["a"]
 demo.append(["b", "c"])   # -> ['a', ['b', 'c']]
-print(f"append a list:{demo}")
+print(f"append a list: {demo}")
 ```
 
 Run it:
@@ -2839,25 +2579,25 @@ python set_remove.py
 
 ```python
 # ============================================
-# HitaVir Tech - Sets: Comparing Two Datasets
+# HitaVir Tech - Sets: Comparing Two Groups
 # ============================================
 
-# Which users are in the database vs the API?
-db_users = {"alice", "bob", "charlie", "diana"}
-api_users = {"charlie", "diana", "eve", "frank"}
+# Which students are in the chess club vs the coding club?
+chess_club = {"Asha", "Ravi", "Meena", "Diana"}
+coding_club = {"Meena", "Diana", "Eve", "Frank"}
 
-# union — everyone in EITHER set.
-print(f"union          (|): {db_users | api_users}")
-print(f"union method      : {db_users.union(api_users)}")
+# union — everyone in EITHER club.
+print(f"In any club    (|): {chess_club | coding_club}")
+print(f"union method      : {chess_club.union(coding_club)}")
 
-# intersection — only those in BOTH.
-print(f"intersection   (&): {db_users & api_users}")
+# intersection — only students in BOTH clubs.
+print(f"In both clubs  (&): {chess_club & coding_club}")
 
-# difference — in DB but NOT in API.
-print(f"difference     (-): {db_users - api_users}")
+# difference — in chess club but NOT in coding club.
+print(f"Only chess     (-): {chess_club - coding_club}")
 
-# symmetric_difference — in exactly ONE set, not both.
-print(f"symmetric_diff (^): {db_users ^ api_users}")
+# symmetric_difference — in exactly ONE club, not both.
+print(f"In just one    (^): {chess_club ^ coding_club}")
 ```
 
 Run it:
@@ -2875,22 +2615,23 @@ python set_algebra.py
 # HitaVir Tech - Sets: Relationship Tests
 # ============================================
 
-required_columns = {"id", "name", "email"}
-csv_columns = {"id", "name", "email", "phone", "address"}
-order_columns = {"order_id", "total"}
+# A recipe needs some ingredients; our kitchen has these on the shelf.
+needed = {"flour", "sugar", "eggs"}
+pantry = {"flour", "sugar", "eggs", "salt", "butter"}
+cleaning = {"soap", "sponge"}
 
-# issubset() — are all required columns present in the CSV?
-print(f"Required subset of CSV?  {required_columns.issubset(csv_columns)}")
+# issubset() — are ALL the needed ingredients on the shelf?
+print(f"Have everything needed?  {needed.issubset(pantry)}")
 
-# issuperset() — does the CSV contain every required column?
-print(f"CSV superset of required?{csv_columns.issuperset(required_columns)}")
+# issuperset() — does the pantry cover every needed ingredient?
+print(f"Pantry covers the recipe?{pantry.issuperset(needed)}")
 
-# isdisjoint() — do two sets share NO items?
-print(f"CSV disjoint from orders?{csv_columns.isdisjoint(order_columns)}")
+# isdisjoint() — do two sets share NOTHING in common?
+print(f"Food vs cleaning overlap?{needed.isdisjoint(cleaning)}")
 
-# Real use: validate that a file has the columns the pipeline needs.
-missing = required_columns - csv_columns
-print(f"Missing columns:         {missing or 'none — file is valid'}")
+# A handy follow-up: what (if anything) are we missing?
+missing = needed - pantry
+print(f"Missing ingredients:     {missing or 'none — ready to bake!'}")
 ```
 
 Run it:
@@ -2968,22 +2709,22 @@ python dict_access.py
 # HitaVir Tech - Dictionaries: Adding and Updating
 # ============================================
 
-config = {"host": "localhost", "port": 5432}
-print(f"Start:      {config}")
+settings = {"sound": "on", "level": 1}
+print(f"Start:      {settings}")
 
 # [] assignment — change an existing key or add a new one.
-config["port"] = 5433          # update existing
-config["timeout"] = 30         # add new
-print(f"[] set:     {config}")
+settings["level"] = 2            # update existing key
+settings["player"] = "Asha"      # add a brand new key
+print(f"[] set:     {settings}")
 
 # update() — merge another dict (or key/value pairs) in one call.
-config.update({"user": "admin", "retries": 3})
-print(f"update:     {config}")
+settings.update({"difficulty": "easy", "lives": 3})
+print(f"update:     {settings}")
 
 # setdefault(key, default) — return the value, OR insert it if missing.
-config.setdefault("host", "ignored")   # key exists -> unchanged
-config.setdefault("ssl", True)         # key new    -> inserted
-print(f"setdefault: {config}")
+settings.setdefault("sound", "off")   # key exists -> left unchanged
+settings.setdefault("paused", False)  # key is new -> inserted
+print(f"setdefault: {settings}")
 ```
 
 Run it:
