@@ -408,19 +408,31 @@ Python uses indentation to know what code is "inside" a function, loop, or `if`.
 
 ```python
 def transform(records):
-    for record in records:
-        if record["valid"]:
-            record["total"] = record["price"] * record["quantity"]
-    return records
+    for record in records:          # level 1  ->  4 spaces
+        if record["valid"]:         # level 2  ->  8 spaces  (4 + 4)
+            record["seen"] = True   # level 3  ->  12 spaces (4 + 4 + 4)
+    return records                  # back to level 1  ->  4 spaces
 ```
 
-**WRONG — 2 spaces (works but breaks the standard)**
+**Count the spaces on the left edge of each line** — every new level adds **exactly 4 more spaces** (4 → 8 → 12 → 16 …):
+
+```text
+def transform(records):           <- 0 spaces  (top level)
+....for record in records:        <- 4 spaces  (level 1)
+........if record["valid"]:       <- 8 spaces  (level 2)
+............record["seen"] = True <- 12 spaces (level 3)
+....return records                <- 4 spaces  (back to level 1)
+
+(each dot "." above marks one space)
+```
+
+**WRONG — 2 spaces (the ONLY change is the indent width)**
 
 ```python
 def transform(records):
-  for record in records:
-    if record["valid"]:
-      record["total"] = record["price"] * record["quantity"]
+  for record in records:        # 2 spaces, not 4
+    if record["valid"]:         # 4 spaces, not 8
+      record["seen"] = True     # 6 spaces, not 12
   return records
 ```
 
@@ -455,14 +467,16 @@ result = pd.merge(sales_df, customer_df, left_on="customer_id", right_on="id", h
 
 ```python
 result = pd.merge(
-    sales_df,
-    customer_df,
-    left_on="customer_id",
+    sales_df,                    # each wrapped line -> indent 4 spaces
+    customer_df,                 # 1 space after every comma, 0 before
+    left_on="customer_id",       # 0 spaces around = (keyword argument)
     right_on="id",
     how="left",
     validate="many_to_one",
-)
+)                                # closing ) lines up with the start
 ```
+
+**Spacing rules at work here:** the opening `(` ends the first line, each argument sits on its own line indented **4 spaces**, keyword `=` gets **0 spaces** around it, and the closing `)` drops back to **0 spaces** (column 0) to mark the end.
 
 ### Pillar 3 — Imports
 
@@ -475,17 +489,19 @@ result = pd.merge(
 **CORRECT — three groups, separated by blank lines**
 
 ```python
-import csv
+import csv                              # Group 1: standard library
 import json
 import logging
 from datetime import datetime
 
-import numpy as np
+import numpy as np                      # Group 2: third-party
 import pandas as pd
 
-from src.extract import extract_csv
+from src.extract import extract_csv     # Group 3: your local modules
 from src.transform import clean_records
 ```
+
+**Vertical spacing here is exact:** **1 blank line** between each of the three groups (you can see the two gaps above), and **0 blank lines** between imports inside the same group.
 
 **WRONG — common beginner mistakes**
 
@@ -506,14 +522,18 @@ import pandas, csv, datetime   # mixes stdlib and third-party
 ```python
 MAX_BATCH_SIZE = 1000   # constant — UPPER_SNAKE_CASE
 
+
 def calculate_total(price, quantity):   # function — snake_case
     return price * quantity
+
 
 class SalesPipeline:                    # class — PascalCase
     def __init__(self, source_path):
         self.source_path = source_path
         self._records_cache = []        # internal — leading underscore
 ```
+
+(Note the **2 blank lines** before the `def` and the `class` — that is the same top-level spacing rule from Pillar 5, applied here.)
 
 **WRONG**
 
@@ -529,38 +549,72 @@ class sales_pipeline:         # snake_case belongs to functions/vars
 
 ### Pillar 5 — Whitespace
 
-> **Where to use spaces (and where NOT to):**
+This is the pillar people get wrong most often, so here are the **exact space counts**. Memorise these eight and you will never guess again:
+
+```text
++------------------------------------------------+-------------------------+
+|  WHERE                                         |  HOW MANY SPACES        |
++------------------------------------------------+-------------------------+
+|  Indentation, per level                        |  4   (never tabs)       |
+|  Each side of a binary operator  = + - * /     |  1 before, 1 after      |
+|     %  < >  == != and or ...                   |                         |
+|  After a comma  ,                              |  1 after, 0 before      |
+|  After a colon  :  in a dict                   |  1 after, 0 before      |
+|  Around  =  in a keyword arg / default         |  0   (port=5432)        |
+|  Around  =  in an annotated default            |  1   (port: int = 5432) |
+|  Just inside  ( )  [ ]  { }                    |  0                      |
+|  Before an inline  #  comment                  |  2   (then 1 after #)   |
++------------------------------------------------+-------------------------+
+```
+
+**The caret picture — one space on each side of every operator:**
+
+```text
+price * quantity
+     ^ ^
+     | +--- 1 space AFTER the operator
+     +----- 1 space BEFORE the operator
+```
+
+**CORRECT — count the spaces in each line:**
 
 ```python
-# CORRECT — spaces around binary operators
+# 1 space on EACH side of every binary operator ( * and + here)
 total = price * quantity + tax
 
-# CORRECT — space after every comma
+# 1 space AFTER each comma, 0 spaces before it
 process(records, batch_size, retries)
 
-# CORRECT — spaces around assignment in normal code
+# 1 space on each side of = in a normal assignment
 threshold = 0.05
 
-# CORRECT — NO spaces around = in keyword arguments / defaults
+
+# 0 spaces around = for a default value (no type annotation)
 def connect(host, port=5432):
     pass
 
+
+# 0 spaces around = when passing keyword arguments
 connect(host="localhost", port=5432)
 
-# CORRECT — NO spaces inside brackets
+# 0 spaces just inside ( ) [ ] { }; 1 space after the dict colon
 records[0]
 {"key": "value"}
+
+# 1 space around = BECAUSE the parameter is annotated (the nuance!)
+def connect_v2(host: str, port: int = 5432):
+    pass
 ```
 
 ```python
-# WRONG — common whitespace mistakes
-total=price*quantity+tax            # missing spaces around operators
-process(records,batch_size,retries) # missing spaces after commas
-threshold=0.05                       # missing spaces around =
-def connect(host, port = 5432):     # extra spaces around = in default
+# WRONG — every line breaks a space-count rule
+total=price*quantity+tax            # 0 spaces around operators (need 1)
+process(records,batch_size,retries) # 0 spaces after commas (need 1)
+threshold=0.05                      # 0 spaces around = (need 1)
+def connect(host, port = 5432):     # 2 spaces around default = (need 0)
     pass
-records[ 0 ]                         # extra spaces inside brackets
-{ "key" : "value" }                  # extra spaces inside braces
+records[ 0 ]                        # 1 space inside [ ] (need 0)
+{ "key" : "value" }                 # spaces inside { } and before : (need 0)
 ```
 
 ### Pillar 6 — Comments and Docstrings
@@ -569,8 +623,14 @@ records[ 0 ]                         # extra spaces inside brackets
 
 ![Pillar 6 — Comments and Docstrings](assets/diagrams/python-de/06-pillar-6-comments-and-docstrings.svg)
 
+**The spacing rules for comments themselves (with exact counts):**
+
+- **Block comment:** `#` then **1 space**, then the text — `# like this`.
+- **Inline comment:** **2 spaces** before the `#`, then **1 space** after it — `code()  # like this`.
+- Never `#no space` (that is `E265`) and never `code() # one space` before the `#` (that is `E261`).
+
 ```python
-# CORRECT — block comment explains WHY
+# CORRECT — block comment: 1 space after the #, explains WHY
 # Group every order by region and sum the revenue.
 # Used by the daily executive dashboard.
 revenue_by_region = df.groupby("region")["total"].sum()
@@ -591,10 +651,14 @@ def validate_record(record, rules):
 ```
 
 ```python
-# CORRECT — inline comment explains WHY, not WHAT
+# CORRECT — inline comment: 2 spaces before #, 1 space after #
 total = price * quantity  # tax added later by enrichment step
+#                       ^^ exactly 2 spaces here, then "# "
 
-# WRONG — useless restatement of the code
+# WRONG — only 1 space before the # (flake8 E261)
+total = price * quantity # tax added later
+
+# WRONG — useless restatement of the code (correct spacing, bad content)
 total = price * quantity  # multiply price by quantity
 ```
 
@@ -646,29 +710,31 @@ def TransformData( records,Threshold=100 ):
   return Cleaned
 ```
 
-**AFTER — PEP 8 compliant**
+**AFTER — PEP 8 compliant** (every space is deliberate)
 
 ```python
-import csv
+import csv                  # one import per line, stdlib group
 import json
 import logging
 
-import numpy as np
+import numpy as np          # 1 blank line above: stdlib -> third-party
 import pandas as pd
 
 
-def transform_data(records, threshold=100):
+def transform_data(records, threshold=100):   # 0 spaces around default =
     """Filter premium records and compute totals."""
-    cleaned = []
+    cleaned = []                              # 4-space indent (level 1)
     for record in records:
-        if record["price"] is None:
-            continue
-        if record["price"] > threshold:
+        if record["price"] is None:           # is None, not == None
+            continue                          # 8-space indent (level 2)
+        if record["price"] > threshold:       # 1 space around > and =
             record["total"] = record["price"] * record["qty"]
-            record["category"] = "premium"
+            record["category"] = "premium"    # 12-space indent (level 3)
             cleaned.append(record)
     return cleaned
 ```
+
+**Notice the vertical spacing too:** **1 blank line** splits the standard-library imports from the third-party ones, and **2 blank lines** sit between the imports and the `def` (the PEP 8 rule for every top-level function or class).
 
 #### What changed?
 
@@ -730,6 +796,108 @@ You will see flake8 print the remaining issues — naming and `== None`. Fix tho
 |  Lint         | run `flake8 .` or `ruff check .`         |
 +----------------------------------------------------------+
 ```
+
+### The Complete PEP 8 Standard — One Annotated File
+
+Here is **every rule from this whole page, working together in a single, runnable, `flake8`-clean file.** Read it top to bottom: each comment names the rule and the **exact number of spaces** involved. Save it as `pep8_reference.py`, run it, and keep it as your personal cheat file.
+
+**`pep8_reference.py`**
+
+```python
+"""Complete PEP 8 reference - one fully annotated file.
+
+A tiny HitaVir Tech pricing pipeline that demonstrates EVERY core PEP 8
+rule in one place. Each inline comment names the rule and the exact
+number of spaces involved. The whole file is flake8-clean.
+"""
+
+# IMPORTS: 3 groups, 1 blank line between groups, one name per line.
+import json                          # Group 1 - standard library
+from datetime import datetime
+
+# import pandas as pd                # Group 2 - third-party libraries
+# from etl.transform import clean    # Group 3 - your own local modules
+
+
+# CONSTANTS: UPPER_SNAKE_CASE, 1 space on each side of  = .
+DEFAULT_TAX_RATE = 0.18
+MAX_BATCH_SIZE = 1000
+
+
+# 2 blank lines (above) separate every top-level def / class.
+def calculate_total(
+    price: float,
+    quantity: int,
+    tax_rate: float = DEFAULT_TAX_RATE,   # annotated default -> spaces OK
+) -> float:
+    """Return the taxed total for one line item.
+
+    Args:
+        price (float): Unit price.          (1 space after the colon)
+        quantity (int): Number of units.
+        tax_rate (float): Tax fraction; defaults to 0.18.
+
+    Returns:
+        float: price * quantity * (1 + tax_rate), rounded to 2dp.
+    """
+    subtotal = price * quantity          # 1 space around  =  and  *
+    return round(subtotal * (1 + tax_rate), 2)   # 1 space after ,
+
+
+def is_valid(record: dict) -> bool:
+    """Return True only when the record has a positive price."""
+    if record.get("price") is None:      # `is None`, never  == None
+        return False
+    if not isinstance(record["price"], (int, float)):  # not type() ==
+        return False
+    return record["price"] > 0           # 1 space around  >
+
+
+class SalesPipeline:
+    """Turn raw rows into priced, validated records."""
+
+    def __init__(self, source_name: str) -> None:
+        self.source_name = source_name   # 1 space around = (assignment)
+        self._rows: list[dict] = []      # _underscore = internal use
+
+    def add(self, record: dict) -> None:
+        """Store one raw record (1 blank line above each method)."""
+        self._rows.append(record)
+
+    def run(self) -> list[dict]:
+        """Price every valid row, then return the clean list."""
+        cleaned = []
+        for record in self._rows:        # for-each, not range(len(...))
+            if not is_valid(record):     # `if not x`, not  len(x) == 0
+                continue
+            record["total"] = calculate_total(
+                record["price"],         # wrapped args -> indent 4 spaces
+                record["quantity"],
+            )
+            cleaned.append(record)
+        return cleaned
+
+
+# The guard: 1 space on each side of  ==  (never ==None or =="x").
+if __name__ == "__main__":
+    pipeline = SalesPipeline(source_name="orders.csv")  # 0 spaces around =
+    pipeline.add({"price": 100, "quantity": 3})   # 1 space after : and ,
+    pipeline.add({"price": None, "quantity": 1})  # this row gets filtered
+    priced = pipeline.run()
+
+    stamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+    print(f"[{stamp}] priced {len(priced)} record(s)")
+    print(json.dumps(priced, indent=2))   # 2 spaces before this # comment
+```
+
+Run it, then prove it is clean:
+
+```bash
+python pep8_reference.py
+flake8 pep8_reference.py     # prints nothing = perfect PEP 8
+```
+
+**This one file demonstrates all of it:** a module docstring, three import groups (1 blank line apart), `UPPER_SNAKE_CASE` constants, 2 blank lines between top-level definitions, 1 blank line between methods, `snake_case` functions, `PascalCase` class, a `_leading_underscore` internal attribute, type hints, 4-space indentation, 1 space around operators, 0 spaces around keyword `=`, 1 space after every comma, `is None`, `isinstance`, `if not x`, for-each iteration (never `range(len(...))`), and correctly spaced comments. **If you can read and reproduce this file, you have mastered PEP 8.**
 
 ### Best-Practice Standards Beyond PEP 8
 
