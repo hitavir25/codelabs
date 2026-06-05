@@ -1548,11 +1548,25 @@ python func_02_defaults_kwargs.py
 
 > **HitaVir Tech says:** "Default parameters are everywhere in data engineering. Database connections, API timeouts, retry counts — they all have sensible defaults that you override when needed."
 
-### Part 3 — `*args` (Variable Positional Arguments)
+### Part 3 — `*args` (Accept Any Number of Positional Values)
 
-**What does *args mean?**
+**The one-line idea:** `*args` lets a function accept **any number of positional arguments**. Python *packs* them all into a single **tuple** named `args`.
 
-`*args` lets a function accept **any number of positional arguments**. Inside the function, `args` is a tuple of all of them. Useful when you do not know upfront how many inputs there will be — like adding up any number of prices in a shopping cart.
+**Why you need it:** Often you do not know how many values the caller will hand you. A shopping cart might have 1 item or 50. A logger might receive 1 message or 10. Instead of writing `add(a, b, c, d, ...)` for every possible count, you write **one** parameter, `*args`, and it catches them all.
+
+**How to read it:** the magic is the `*`, not the word `args`. `*numbers`, `*prices`, `*rows` all work exactly the same way. By long-standing tradition we write `*args` when the values have no special name.
+
+**Mental model — the `*` *packs* loose values into one tuple:**
+
+```
+        add_all( 10 ,  20 ,  30 )
+                  \    |    /
+                   \   |   /
+                 the * packs them
+                       |
+                       v
+            numbers = (10, 20, 30)   <-- a tuple, inside the function
+```
 
 **`func_03_args.py`**
 
@@ -1561,41 +1575,49 @@ python func_02_defaults_kwargs.py
 # HitaVir Tech - Part 3: *args
 # ============================================
 
-# --- 3A. *args lets a function take ANY number of values ---
+# --- 3A. *args accepts ANY number of positional values ---
 def add_all(*numbers):
     """Add up however many numbers are passed in."""
-    print(f"  Got {len(numbers)} numbers: {numbers}")
+    print(f"  Got {len(numbers)} number(s): {numbers}")
     return sum(numbers)
 
-print("--- *args Basics ---")
-print(f"Sum of 1,2,3:       {add_all(1, 2, 3)}")
-print(f"Sum of 10,20,30,40: {add_all(10, 20, 30, 40)}")
-print(f"Sum of one number:  {add_all(100)}")
-print(f"Sum of nothing:     {add_all()}")
 
-# --- 3B. A real-world use: total an any-size shopping cart ---
+print("--- 3A. *args Basics ---")
+print(f"Sum of 1, 2, 3:        {add_all(1, 2, 3)}")
+print(f"Sum of 10, 20, 30, 40: {add_all(10, 20, 30, 40)}")
+print(f"Sum of one number:     {add_all(100)}")
+print(f"Sum of nothing:        {add_all()}")
+
+
+# --- 3B. Real-world use: total a cart of any size ---
 def cart_total(*prices):
     """Return the total bill for any number of item prices."""
     return sum(prices)
 
-print(f"\nSmall cart total: {cart_total(120, 75)}")
-print(f"Big cart total:   {cart_total(120, 75, 200, 50, 30)}")
 
-# --- 3C. Combine a normal parameter with *args ---
+print("\n--- 3B. Any-size shopping cart ---")
+print(f"Small cart: {cart_total(120, 75)}")
+print(f"Big cart:   {cart_total(120, 75, 200, 50, 30)}")
+
+
+# --- 3C. Mix a normal parameter with *args ---
+# The normal parameter comes FIRST; then *args mops up the rest.
 def greet_all(greeting, *names):
-    """Greet everyone using the same greeting."""
+    """Greet everyone using the same greeting word."""
     for name in names:
         print(f"{greeting}, {name}!")
 
-print()
+
+print("\n--- 3C. One greeting, many names ---")
 greet_all("Hello", "Asha", "Ravi", "Meena")
 
-# --- 3D. Unpacking a list into *args with the * symbol ---
+
+# --- 3D. The * also UNPACKS a list back into separate values ---
 friends = ["Sara", "Tom", "Leo"]
 
-# The * spreads the list out into separate arguments:
-greet_all("Hi", *friends)
-# Without *, the whole list would arrive as ONE argument.
+print("\n--- 3D. Unpacking a list with * ---")
+greet_all("Hi", *friends)        # * spreads the list: "Sara", "Tom", "Leo"
+# Without the *, the whole list would arrive as ONE single argument.
 ```
 
 Run it:
@@ -1604,11 +1626,32 @@ Run it:
 python func_03_args.py
 ```
 
-### Part 4 — `**kwargs` (Variable Keyword Arguments)
+**The `*` does two opposite jobs — remember both:**
 
-**What does \*\*kwargs mean?**
+- In a function **definition** (`def add_all(*numbers)`) the `*` **packs** many values *into* a tuple.
+- In a function **call** (`greet_all("Hi", *friends)`) the `*` **unpacks** a list *into* separate values.
 
-`**kwargs` lets a function accept **any number of keyword arguments**. Inside the function, `kwargs` is a dictionary. Use this when you want maximum flexibility — for example, accepting any number of profile details.
+> **Try it yourself:** Write a function `longest(*words)` that returns the longest word it is given. Test it with `longest("data", "engineering", "python")`. (Hint: `max(words, key=len)`.)
+
+### Part 4 — `**kwargs` (Accept Any Number of Named Values)
+
+**The one-line idea:** `**kwargs` is the twin of `*args`. Where `*args` collects loose *positional* values into a **tuple**, `**kwargs` collects any number of **named** (keyword) values into a **dictionary** named `kwargs`.
+
+**Why you need it:** It gives a function maximum flexibility. A profile builder might receive `name=` and `age=` today, and `city=` and `phone=` tomorrow. With `**kwargs` the function happily accepts whatever named values arrive — no need to list them in advance.
+
+**How to read it:** two stars `**` means "named values"; the name `kwargs` (short for *keyword arguments*) is just convention. `**options`, `**details`, `**config` all behave identically.
+
+**Mental model — the `**` *packs* named values into one dict:**
+
+```
+   print_details( name="Asha" ,  age=25 ,  city="Pune" )
+                       \           |          /
+                        \          |         /
+                        the ** packs them by name
+                                   |
+                                   v
+        info = {"name": "Asha", "age": 25, "city": "Pune"}   <-- a dict
+```
 
 **`func_04_kwargs.py`**
 
@@ -1619,42 +1662,48 @@ python func_03_args.py
 
 # --- 4A. **kwargs collects any number of NAMED values into a dict ---
 def print_details(**info):
-    """Print whatever details are passed in."""
-    print(f"  Got {len(info)} details:")
+    """Print whatever named details are passed in."""
+    print(f"  Got {len(info)} detail(s):")
     for key, value in info.items():
         print(f"    {key} = {value}")
 
-print("--- **kwargs Basics ---")
+
+print("--- 4A. **kwargs Basics ---")
 print_details(name="Asha", age=25, city="Bangalore")
 print()
 print_details(product="Book", price=299)
 
-# --- 4B. Combine a normal parameter, *args, and **kwargs ---
-# The order is always: normal params, then *args, then **kwargs.
+
+# --- 4B. Mix normal params, *args, and **kwargs (always this order) ---
 def party(host, *guests, **details):
-    """Describe a party: who hosts, who comes, and the extra details."""
-    print(f"\n  Host: {host}")
+    """Describe a party: the host, the guests, and the extra details."""
+    print(f"\n  Host:   {host}")
     print(f"  Guests: {list(guests)}")
     for key, value in details.items():
         print(f"  {key}: {value}")
 
+
+print("\n--- 4B. Everything together ---")
 party("Asha", "Ravi", "Meena", date="Saturday", theme="retro")
 
-# --- 4C. Unpacking a dictionary into **kwargs with ** ---
+
+# --- 4C. The ** also UNPACKS a dict back into named values ---
 profile = {"name": "Ravi", "age": 30, "city": "Pune"}
 
-# ** spreads the dict into name=..., age=..., city=...
-print()
-print_details(**profile)
+print("\n--- 4C. Unpacking a dict with ** ---")
+print_details(**profile)        # same as name="Ravi", age=30, city="Pune"
 
-# --- 4D. Defaults + overrides: a flexible settings builder ---
+
+# --- 4D. A flexible settings builder: defaults + overrides ---
 def make_settings(**overrides):
     """Start from default settings, then apply any overrides."""
     settings = {"theme": "light", "font_size": 14, "autosave": True}
     settings.update(overrides)
     return settings
 
-print(f"\nDefault settings: {make_settings()}")
+
+print("\n--- 4D. Defaults with overrides ---")
+print(f"Default settings: {make_settings()}")
 print(f"Custom settings:  {make_settings(theme='dark', font_size=18)}")
 ```
 
@@ -1664,133 +1713,388 @@ Run it:
 python func_04_kwargs.py
 ```
 
+**One picture to lock it in — `*` vs `**`:**
+
+```
+   *args    ->  loose values     ->  packed into a TUPLE   ->  args  = (1, 2, 3)
+   **kwargs ->  name=value pairs ->  packed into a DICT    ->  kwargs = {"a": 1, "b": 2}
+```
+
+> **Try it yourself:** Write `build_url(base, **params)` that returns `base` followed by `?key=value&key=value` for every item in `params`. Test it with `build_url("/search", q="python", page=2)`. (Hint: loop over `params.items()`.)
+
 > **HitaVir Tech says:** "`*args` and `**kwargs` are the backbone of flexible Python code. Every major framework uses them — Django, Flask, pandas, Spark. When you see `**options` or `*args` in library docs, you now know exactly what they mean."
 
-### Part 5 — Advanced Function Types
+### Part 5 — Lambda Functions (Tiny One-Line Functions)
 
-**Quick definitions before we dive in:**
+**What is a lambda?** A `lambda` is a **small, unnamed function written on a single line**. It does exactly one thing and hands back the result automatically — no `def`, and no `return` keyword needed.
 
-- **Lambda** — a one-line, unnamed function. Useful as a tiny "throwaway" function passed to `sorted`, `map`, etc.
-- **Nested function** — a function defined inside another function. Used to "build" customized helpers.
-- **Recursive function** — a function that calls itself. Used for tree/JSON-like nested structures.
-- **Generator** — a function that yields values one at a time, saving memory for huge datasets.
-- **Decorator** — a function that wraps another function to add behavior (logging, timing, retries).
+**Why does it exist?** Sometimes you need a throwaway function for one quick job — "sort by this field", "keep only these rows", "multiply each by that". Writing a full `def` for a one-off feels heavy. A lambda lets you write the logic right where you use it.
 
-**`func_05_advanced.py`**
+**Syntax breakdown:**
+
+```
+        lambda  x  :  x * 2
+          |     |        |
+          |     |        +-- the result (returned automatically)
+          |     +----------- the input (parameter)
+          +----------------- the keyword that says "tiny function"
+```
+
+Read it as: *"a function that takes `x` and gives back `x * 2`."* These two are identical:
+
+```python
+def double(x):
+    return x * 2
+
+# The lambda version does the SAME job in one line:  lambda x: x * 2
+```
+
+Lambdas shine when you pass them **straight into** another function. The three classic partners are `sorted()`, `filter()`, and `map()`.
+
+**`func_05_lambda.py`**
 
 ```python
 # ============================================
-# HitaVir Tech - Part 5: Advanced Function Types
+# HitaVir Tech - Part 5: Lambda Functions
 # ============================================
 
-# --- 5A. Lambda: a tiny one-line function with no name ---
-print("=" * 40)
-print("LAMBDA FUNCTIONS")
-print("=" * 40)
-
-def double(x):                   # the normal way
-    return x * 2
-
-double_lambda = lambda x: x * 2   # the exact same thing, as a lambda
-
-print(f"Normal: {double(5)}")
-print(f"Lambda: {double_lambda(5)}")
-
-# Lambdas are most useful with sorted(), filter() and map().
+# --- 5A. sorted(): sort a list of records by a chosen field ---
 students = [
     {"name": "Asha", "grade": 85},
     {"name": "Ravi", "grade": 72},
     {"name": "Meena", "grade": 91},
 ]
 
-# Sort students by grade, highest first.
-ranked = sorted(students, key=lambda s: s["grade"], reverse=True)
-print("\nRanked by grade:")
-for s in ranked:
-    print(f"  {s['name']}: {s['grade']}")
+# key=... tells sorted() WHICH value to sort on.
+ranked = sorted(students, key=lambda student: student["grade"], reverse=True)
 
-# filter() — keep only the items that pass a test.
+print("--- 5A. sorted(): ranked by grade (highest first) ---")
+for student in ranked:
+    print(f"  {student['name']}: {student['grade']}")
+
+# --- 5B. filter(): keep only the items that pass a test ---
 scores = [30, 60, 45, 90, 50, 75]
-passed = list(filter(lambda n: n >= 50, scores))
-print(f"\nPass marks (>= 50): {passed}")
+passed = list(filter(lambda mark: mark >= 50, scores))
 
-# map() — apply the same change to every item.
+print("\n--- 5B. filter(): keep marks >= 50 ---")
+print(f"  Passing marks: {passed}")
+
+# --- 5C. map(): apply the same change to every item ---
 prices = [100, 200, 300]
-with_tax = list(map(lambda p: p * 1.1, prices))
-print(f"Prices with 10% tax: {with_tax}")
+with_tax = list(map(lambda price: round(price * 1.18, 2), prices))
 
-# --- 5B. Nested function: a function defined inside another ---
-print(f"\n{'=' * 40}")
-print("NESTED FUNCTIONS")
-print("=" * 40)
+print("\n--- 5C. map(): add 18% tax to every price ---")
+print(f"  Prices with tax: {with_tax}")
 
-def make_multiplier(factor):
-    """Build and return a function that multiplies by 'factor'."""
-    def multiply(number):
-        return number * factor      # 'factor' is remembered from outside
-    return multiply
+# --- 5D. A lambda can take more than one input ---
+# (Shown named here only so you can SEE the two parameters clearly.)
+full_name = lambda first, last: f"{first} {last}".title()
 
-double_it = make_multiplier(2)
-triple_it = make_multiplier(3)
-print(f"double_it(10) = {double_it(10)}")
-print(f"triple_it(10) = {triple_it(10)}")
-
-# --- 5C. Recursive function: a function that calls itself ---
-print(f"\n{'=' * 40}")
-print("RECURSIVE FUNCTIONS")
-print("=" * 40)
-
-def factorial(n):
-    """factorial(4) means 4 * 3 * 2 * 1."""
-    if n <= 1:                      # base case: when to STOP calling itself
-        return 1
-    return n * factorial(n - 1)     # the function calls itself
-
-print(f"factorial(5) = {factorial(5)}")
-
-# --- 5D. Generator: hands back values one at a time (saves memory) ---
-print(f"\n{'=' * 40}")
-print("GENERATOR FUNCTIONS")
-print("=" * 40)
-
-def squares_up_to(n):
-    """Yield 1*1, 2*2, ... n*n, one value at a time."""
-    for i in range(1, n + 1):
-        yield i * i                 # 'yield' pauses and returns one value
-
-print("Squares:", end=" ")
-for value in squares_up_to(5):
-    print(value, end=" ")
-print()
-
-# --- 5E. Decorator: wraps a function to add extra behaviour ---
-print(f"\n{'=' * 40}")
-print("DECORATOR FUNCTIONS")
-print("=" * 40)
-
-def shout(func):
-    """Make whatever text a function returns LOUD."""
-    def wrapper(*args, **kwargs):
-        result = func(*args, **kwargs)
-        return result.upper() + "!"
-    return wrapper
-
-@shout
-def greet(name):
-    return f"hello {name}"
-
-print(greet("asha"))   # -> HELLO ASHA!
+print("\n--- 5D. A two-argument lambda ---")
+print(f"  {full_name('grace', 'hopper')}")
 ```
 
 Run it:
 
 ```bash
-python func_05_advanced.py
+python func_05_lambda.py
 ```
 
-### Part 6 — Putting It All Together: Pipeline Functions
+> **PEP 8 watch-out (rule E731):** A lambda is for *passing in*, not for *naming*. Example 5D names a lambda only so you can see its two parameters — but in real code, the moment a tiny function needs a name, use a normal `def` instead:
+>
+> ```python
+> def full_name(first, last):
+>     return f"{first} {last}".title()
+> ```
+>
+> A `def` shows a real name in error messages and reads more clearly. **Rule of thumb:** keep lambdas anonymous and inline (inside `sorted`/`filter`/`map`); reach for `def` the instant you want to reuse it.
 
-**`func_06_pipeline.py`**
+> **Try it yourself:** Given `words = ["data", "ai", "engineering", "ml"]`, use `sorted()` with a lambda to sort the words by **length**, shortest first. (Hint: `key=lambda w: len(w)`.)
+
+### Part 6 — Recursion (A Function That Calls Itself)
+
+**What is recursion?** A **recursive function is a function that calls itself** to solve a smaller version of the same problem — again and again — until the problem is small enough to answer directly.
+
+**Real-life analogy:** You are standing in a queue and want to know your position. You ask the person in front, "What number are you?" They ask the person in front of *them*, and so on. The very first person knows they are number 1 (nobody ahead). That answer travels back down the line, each person adding 1.
+
+**Every recursive function needs two parts:**
+
+1. **Base case** — the simplest version, where the function **stops** calling itself and returns an answer directly. *Without this, it never stops and crashes.*
+2. **Recursive case** — the function calls itself on a **smaller** input, stepping toward the base case.
+
+**Mental model — `factorial(4)` unwinds, then folds back up:**
+
+```
+   factorial(4)
+     = 4 * factorial(3)
+            = 3 * factorial(2)
+                   = 2 * factorial(1)
+                          = 1          <-- BASE CASE: stop here
+                   = 2 * 1   = 2
+            = 3 * 2          = 6
+     = 4 * 6                 = 24       <-- answers travel back up
+```
+
+**`func_06_recursion.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 6: Recursion
+# ============================================
+
+# --- 6A. Countdown: the simplest recursion to "see" ---
+def countdown(n):
+    """Print n, n-1, ... down to 1, then 'Lift off!'."""
+    if n == 0:                    # BASE CASE: stop calling ourselves
+        print("Lift off!")
+        return
+    print(n)
+    countdown(n - 1)              # RECURSIVE CASE: a smaller problem
+
+
+print("--- 6A. Countdown ---")
+countdown(3)
+
+
+# --- 6B. Factorial: 5! = 5 * 4 * 3 * 2 * 1 ---
+def factorial(n):
+    """Return n! — the product of all whole numbers from 1 to n."""
+    if n <= 1:                    # BASE CASE
+        return 1
+    return n * factorial(n - 1)   # RECURSIVE CASE
+
+
+print("\n--- 6B. Factorial ---")
+print(f"factorial(5) = {factorial(5)}")
+
+
+# --- 6C. Add up a list by peeling off one item at a time ---
+def sum_list(numbers):
+    """Return the total of a list, using recursion."""
+    if not numbers:               # BASE CASE: an empty list sums to 0
+        return 0
+    first, rest = numbers[0], numbers[1:]
+    return first + sum_list(rest)
+
+
+print("\n--- 6C. Sum a list ---")
+print(f"sum_list([10, 20, 30, 40]) = {sum_list([10, 20, 30, 40])}")
+
+
+# --- 6D. Real data engineering case: total a NESTED structure ---
+# JSON payloads and folder trees are nested, so recursion fits naturally.
+def deep_sum(data):
+    """Sum every number inside a list, even deeply nested lists."""
+    total = 0
+    for item in data:
+        if isinstance(item, list):
+            total += deep_sum(item)   # dive into the sub-list
+        else:
+            total += item
+    return total
+
+
+nested = [1, [2, 3, [4, 5]], 6, [7, [8, 9]]]
+print("\n--- 6D. Sum a deeply nested list ---")
+print(f"deep_sum({nested}) = {deep_sum(nested)}")
+```
+
+Run it:
+
+```bash
+python func_06_recursion.py
+```
+
+> **Common trap — the forgotten base case:** If a recursive function never reaches its base case, it calls itself forever. Python protects you by stopping at roughly 1,000 nested calls and raising `RecursionError: maximum recursion depth exceeded`. If you see that error, your base case is missing or never true. **Checklist for every recursive function:** (1) Is there a base case? (2) Does each call get *closer* to it?
+
+> **Try it yourself:** Write `power(base, exponent)` recursively so that `power(2, 5)` returns `32`. (Hint: base case is `exponent == 0` → return `1`; otherwise return `base * power(base, exponent - 1)`.)
+
+### Part 7 — Generators (Produce Values One at a Time)
+
+**What is a generator?** A **generator is a function that produces a stream of values lazily — one at a time, only when asked** — instead of building a whole list in memory at once. The magic word is `yield`.
+
+**`return` vs `yield` — the key difference:**
+
+- `return` hands back **one** value and the function is **finished**.
+- `yield` hands back **one** value and **pauses** the function, remembering exactly where it stopped. The next time you ask, it **resumes** right after the `yield`.
+
+**Why it matters for data engineering:** Imagine a 50 GB log file. A normal function that builds a list would try to load all 50 GB into memory and crash. A generator reads and hands back **one line at a time**, so memory stays tiny no matter how big the file is. This is how real pipelines stream millions of rows.
+
+```
+   Normal list  ->  [■■■■■■■■■■]  all 10 values built and stored at once
+   Generator    ->   ■ . . . . .  give 1, pause, give 1, pause, ...
+                      (only one value lives in memory at a time)
+```
+
+**`func_07_generators.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 7: Generators
+# ============================================
+
+# --- 7A. A basic generator with yield ---
+def squares_up_to(n):
+    """Yield 1*1, 2*2, ... n*n — one value at a time."""
+    for i in range(1, n + 1):
+        yield i * i               # pause here and hand back ONE value
+
+
+print("--- 7A. Squares, one at a time ---")
+for value in squares_up_to(5):
+    print(value, end=" ")
+print()
+
+
+# --- 7B. Generators are lazy: nothing runs until you ask ---
+gen = squares_up_to(3)            # NOT run yet — no squares produced
+print("\n--- 7B. Pulling values by hand with next() ---")
+print(next(gen))                  # 1  -> runs up to the first yield
+print(next(gen))                  # 4  -> resumes, runs to the next yield
+print(next(gen))                  # 9
+
+
+# --- 7C. Stream a "big file" without loading it all at once ---
+def clean_rows(rows):
+    """Pretend to stream rows from a huge file, one at a time."""
+    for row in rows:
+        # In real life this would read one line from disk right here.
+        yield row.strip().upper()
+
+
+big_file = ["  alice  ", "  bob  ", "  carol  "]
+print("\n--- 7C. Streaming + cleaning rows ---")
+for clean_row in clean_rows(big_file):
+    print(f"  {clean_row}")
+
+
+# --- 7D. Generator expression: a one-line generator ---
+# Like a list comprehension but with () instead of [] — and it stays lazy,
+# so it never builds a million-item list in memory.
+total = sum(n * n for n in range(1, 1_000_001))
+print("\n--- 7D. Generator expression ---")
+print(f"Sum of the first million squares: {total}")
+```
+
+Run it:
+
+```bash
+python func_07_generators.py
+```
+
+> **HitaVir Tech says:** "Generators are the secret to processing data bigger than your computer's memory. When a senior engineer says 'stream it, don't load it,' they mean *use a generator*. `pandas.read_csv(..., chunksize=...)` and reading a file line by line are generators under the hood."
+
+> **Try it yourself:** Write a generator `even_numbers(limit)` that yields `0, 2, 4, ...` up to (but not including) `limit`. Loop over `even_numbers(10)` and print each value. (Hint: `for i in range(0, limit, 2): yield i`.)
+
+### Part 8 — Decorators (Wrap a Function to Add Behaviour)
+
+Decorators feel like magic at first, so we build up to them in three small steps.
+
+**Step 1 — Functions are objects.** In Python a function is just a value, like a number or a string. You can store it in a variable, and you can pass it to another function.
+
+**Step 2 — A function can return a function (a "closure").** A function defined *inside* another function remembers the variables from where it was born — even after the outer function has finished. That remembered, returned inner function is called a **closure**. This is the engine that makes decorators work.
+
+**Step 3 — A decorator is a function that takes a function, wraps it in extra behaviour, and returns the wrapped version.** The `@name` line above a `def` is just a friendly shortcut.
+
+**Mental model — `@shout` is shorthand:**
+
+```
+   @shout                          shout(func) builds and returns a wrapper:
+   def greet(name): ...
+                                    +--------------------------------+
+   is EXACTLY the same as:          |  wrapper:                      |
+                                    |    1. (optional) do something  |
+   greet = shout(greet)             |    2. call the ORIGINAL func   |
+                                    |    3. (optional) tweak result  |
+                                    +--------------------------------+
+```
+
+**Why data engineers love them:** add logging, timing, retries, or caching to *any* function by writing one `@line` — without ever touching that function's own code.
+
+**`func_08_decorators.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 8: Decorators
+# ============================================
+import functools
+import time
+
+
+# --- 8A. Build-up: a closure remembers the value it was built with ---
+def make_multiplier(factor):
+    """Return a new function that multiplies its input by 'factor'."""
+    def multiply(number):
+        return number * factor    # 'factor' is remembered from outside
+    return multiply
+
+
+double_it = make_multiplier(2)
+triple_it = make_multiplier(3)
+print("--- 8A. Closures ---")
+print(f"double_it(10) = {double_it(10)}")
+print(f"triple_it(10) = {triple_it(10)}")
+
+
+# --- 8B. A first decorator: SHOUT whatever text a function returns ---
+def shout(func):
+    """Wrap a function so its text result comes back LOUD."""
+    @functools.wraps(func)        # keep the original name and docstring
+    def wrapper(*args, **kwargs):
+        result = func(*args, **kwargs)
+        return result.upper() + "!"
+    return wrapper
+
+
+@shout
+def greet(name):
+    """Return a friendly greeting."""
+    return f"hello {name}"
+
+
+print("\n--- 8B. The @shout decorator ---")
+print(greet("asha"))              # -> HELLO ASHA!
+
+
+# --- 8C. A genuinely useful decorator: time how long a function runs ---
+def timer(func):
+    """Print how many seconds the wrapped function took to run."""
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.perf_counter()
+        result = func(*args, **kwargs)
+        elapsed = time.perf_counter() - start
+        print(f"  [{func.__name__}] took {elapsed:.4f}s")
+        return result
+    return wrapper
+
+
+@timer
+def crunch_numbers(limit):
+    """Add up every number from 0 to limit - 1."""
+    return sum(range(limit))
+
+
+print("\n--- 8C. The @timer decorator ---")
+answer = crunch_numbers(1_000_000)
+print(f"  Result: {answer}")
+```
+
+Run it:
+
+```bash
+python func_08_decorators.py
+```
+
+> **Best practice — always use `@functools.wraps`:** Without it, the wrapped function forgets its real name and docstring (`greet.__name__` would wrongly say `"wrapper"`). One line — `@functools.wraps(func)` above the inner `wrapper` — preserves them. Every professional decorator includes it.
+
+> **Try it yourself:** Write a decorator `announce` that prints `"Calling <name>..."` *before* the function runs and `"Done."` *after*. Apply it with `@announce` to a small function and call it. (Hint: copy the shape of `@timer`, printing before and after `func(*args, **kwargs)`.)
+
+### Part 9 — Putting It All Together: Pipeline Functions
+
+This final example stitches together everything from Parts 1–8 — default parameters, `*args`, `**kwargs`, and a decorator — into the exact shape of a real data pipeline: **load → transform → show**.
+
+**`func_09_pipeline.py`**
 
 ```python
 # ============================================
@@ -1874,7 +2178,7 @@ print("\nAll done!")
 Run it:
 
 ```bash
-python func_06_pipeline.py
+python func_09_pipeline.py
 ```
 
 ### Function Types Summary
@@ -1902,17 +2206,63 @@ def pipeline(name, mode="batch", *sources, notify=True, **options):
 
 **The scenario:** Three teams keep re-writing the same validators. Build them once, write proper docstrings, and ship a single toolkit file everyone can import.
 
+**What you will practise:** default parameters, `*args`, docstrings, and clean PEP 8 style.
+
 **Tasks:**
 
 1. Create `assignment_03_functions.py`.
-2. Implement these four functions, each with a docstring and snake_case name:
+2. Implement these four functions, each with a docstring and a `snake_case` name:
 
-   - `validate_email(email)` -> returns `True` if the string contains `@` and `.` (after the `@`), else `False`.
-   - `clean_name(name)` -> returns a stripped, title-cased version. If `None` or empty, return `"Unknown"`.
-   - `calculate_total(price, quantity, tax_rate=0.18)` -> returns `round(price * quantity * (1 + tax_rate), 2)`. Default tax 18%.
-   - `summarize(*amounts, label="Total")` -> prints `"{label}: ${sum:,.2f}"` for any number of amounts.
+   - `validate_email(email)` → returns `True` if the string contains `@` **and** a `.` after the `@`, else `False`.
+   - `clean_name(name)` → returns a stripped, title-cased version. If `None` or empty, return `"Unknown"`.
+   - `calculate_total(price, quantity, tax_rate=0.18)` → returns `round(price * quantity * (1 + tax_rate), 2)`. Default tax is 18%.
+   - `summarize(*amounts, label="Total")` → prints `"{label}: ${sum:,.2f}"` for any number of amounts.
 
-3. Below the functions, add a `if __name__ == "__main__":` block that calls each function with at least 3 different inputs and prints the results.
+3. Below the functions, add an `if __name__ == "__main__":` block that calls each function with at least 3 different inputs and prints the results.
+
+**Starter template — copy this and fill in the `# TODO` lines:**
+
+```python
+# ============================================
+# HitaVir Tech - Assignment 3: Validation Toolkit
+# ============================================
+
+def validate_email(email):
+    """Return True if email has '@' and a '.' after the '@'."""
+    # TODO: check that "@" is in email, then that "." appears after it.
+    return False
+
+
+def clean_name(name):
+    """Return a stripped, title-cased name, or 'Unknown' if empty."""
+    # TODO: if name is falsy (None or ""), return "Unknown".
+    # TODO: otherwise return name.strip().title()
+    return "Unknown"
+
+
+def calculate_total(price, quantity, tax_rate=0.18):
+    """Return the price * quantity total, tax included, rounded to 2dp."""
+    # TODO: return round(price * quantity * (1 + tax_rate), 2)
+    return 0.0
+
+
+def summarize(*amounts, label="Total"):
+    """Print 'label: $sum' for any number of amounts."""
+    # TODO: total = sum(amounts); then print(f"{label}: ${total:,.2f}")
+    pass
+
+
+if __name__ == "__main__":
+    # Call each function at least 3 times and print the results.
+    print(validate_email("alice@hitavir.tech"))
+    # TODO: add the rest of your test calls here.
+```
+
+**Step-by-step hints (open one only if you get stuck):**
+
+- *Hint for `validate_email`:* `at = email.find("@")` gives the position of `@` (or `-1` if missing). The email is valid when `at != -1` and `"." in email[at:]`.
+- *Hint for `clean_name`:* an empty string and `None` are both *falsy*, so `if not name:` catches both cases.
+- *Hint for `summarize`:* `*amounts` packs every value into a tuple, so `sum(amounts)` just works.
 
 **Sample output:**
 
@@ -1935,7 +2285,37 @@ Refunds: $35.99
 - [ ] All functions called at least 3 times each
 - [ ] Code passes `flake8 assignment_03_functions.py` with zero warnings
 
-**Stretch goal:** Add a `@timer` decorator from the codelab and apply it to `summarize`. Also add type hints (e.g., `def calculate_total(price: float, quantity: int, tax_rate: float = 0.18) -> float:`).
+**Stretch goal:** Add the `@timer` decorator from Part 8 and apply it to `summarize`. Also add type hints, e.g. `def calculate_total(price: float, quantity: int, tax_rate: float = 0.18) -> float:`.
+
+### Assignment 3B — The Four Power Tools (Lambda, Recursion, Generator, Decorator)
+
+**Goal:** Use each of the four advanced function types **once**, in a tiny, friendly task. This is a confidence-builder — every part comes with a hint.
+
+**The scenario:** You are tidying a list of order amounts for a HitaVir Tech report.
+
+**Tasks — create `assignment_03b_power_tools.py` and complete each one:**
+
+1. **Lambda + `sorted`:** Given `orders = [("Asha", 250), ("Ravi", 90), ("Meena", 400)]`, sort them by the amount (the second item), **highest first**, and print the result.
+   *Hint:* `sorted(orders, key=lambda item: item[1], reverse=True)`.
+
+2. **Recursion:** Write `count_down(n)` that prints `n, n-1, ... 1` and then `"Done!"`, calling itself each time.
+   *Hint:* base case is `if n == 0: print("Done!"); return`.
+
+3. **Generator:** Write `running_total(amounts)` that `yield`s the cumulative total after each amount. For `[100, 50, 25]` it should yield `100`, then `150`, then `175`.
+   *Hint:* keep a `total = 0`, add each amount, then `yield total`.
+
+4. **Decorator:** Write a `@banner` decorator that prints a line of `=` before and after the function it wraps, then apply it to a small `report()` function.
+   *Hint:* copy the shape of `@timer` from Part 8, printing `"=" * 30` before and after `func(*args, **kwargs)`.
+
+**Success criteria:**
+
+- [ ] A `lambda` used as a `sort` key
+- [ ] A recursive function with a clear base case
+- [ ] A generator that uses `yield`
+- [ ] A working `@decorator` applied with `@`
+- [ ] Code passes `flake8 assignment_03b_power_tools.py` with zero warnings
+
+**Stretch goal:** Combine them — decorate a function that loops over `running_total(...)` with your `@banner`, and `sorted(..., key=lambda ...)` the results inside it.
 
 ### What You Have Learnt on This Page
 
@@ -1945,7 +2325,9 @@ By the end of this page you should be able to confidently:
 - Return single or multiple values (tuples) from a function
 - Understand **local vs. global scope** and avoid mutating globals
 - Write **`lambda`** expressions for simple one-liners (with `sorted`, `map`, `filter`)
-- Build and apply **decorators** (`@timer`, `@retry`) to wrap reusable behaviour
+- Write **recursive** functions with a clear base case (factorial, nested data)
+- Build **generators** with `yield` to stream large data one value at a time
+- Build and apply **decorators** (`@timer`, `@shout`) to wrap reusable behaviour
 - Compose small, single-purpose functions into a working **pipeline**
 
 ### PEP 8 — Style Rules to Apply Strictly to Functions
@@ -5076,8 +5458,11 @@ python-de-learning/
 ├── func_02_defaults_kwargs.py
 ├── func_03_args.py
 ├── func_04_kwargs.py
-├── func_05_advanced.py
-├── func_06_pipeline.py
+├── func_05_lambda.py
+├── func_06_recursion.py
+├── func_07_generators.py
+├── func_08_decorators.py
+├── func_09_pipeline.py
 ├── data_structures.py
 ├── create_sample_data.py
 ├── file_csv.py

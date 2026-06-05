@@ -11,7 +11,8 @@
      inline code  -> bare <code> (left untouched)
 
    Themes (scoped by the codelab id on <google-codelab id="...">):
-     • default                       -> Databricks notebook
+     • default                       -> Databricks notebook (light output)
+     • python-data-engineering       -> Databricks notebook (full dark cell)
      • git-github-basics-gitbash     -> Git Bash terminal
      • linux-basics                  -> Linux (Ubuntu) terminal
      • sql-for-data-engineering      -> MySQL Workbench
@@ -331,6 +332,122 @@ google-codelab[id="sql-for-data-engineering"] google-codelab-step
 google-codelab[id="sql-for-data-engineering"] google-codelab-step
   pre:has(> code:not([class])) > code span {
   color: #1f2937 !important;
+}
+
+/* ============================================================
+   DATABRICKS NOTEBOOK — PYTHON  (id: python-data-engineering)
+   The full, authentic dark Databricks cell:
+     • run header  ->  "▶ Cmd N" on the left, "✓ took <1s" on the right
+     • editor body ->  VS Code / Databricks token palette
+                       (blue keywords, peach strings, green comments)
+     • result cell ->  dark output box (not the light default), like the
+                       real notebook result area.
+   Higher specificity (id selector) cleanly overrides the default theme.
+   ============================================================ */
+
+/* ---- command + output shells ---- */
+google-codelab[id="python-data-engineering"] google-codelab-step pre {
+  border-color: #33373e;
+  background: #1e2127;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- command cell (the editor) ---- */
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) {
+  background: #1e2127;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code {
+  background: #1e2127;
+  border-left: 0;
+  padding: 38px 18px 16px 18px;
+  color: #d4d4d4;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* run header: ▶ Cmd N  .............  ✓ took <1s */
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"])::before {
+  content: "\25B6  Cmd " counter(cmd);
+  top: 0; left: 0; right: 0; height: 30px;
+  display: flex; align-items: center; padding: 0 14px;
+  font: 600 11px/30px "Roboto Mono", "Consolas", monospace;
+  letter-spacing: 0.3px;
+  color: #9aa4af;
+  background: linear-gradient(#262a31, #21252b);
+  border-bottom: 1px solid #34a853;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"])::after {
+  content: "\2713 took <1s";
+  top: 0; right: 0; height: 30px;
+  display: flex; align-items: center; padding: 0 14px;
+  font: 600 10px/30px "Roboto", "Segoe UI", sans-serif;
+  letter-spacing: 0.2px;
+  color: #5bd97f;
+}
+
+/* Databricks / VS Code token palette (applied by prettify at runtime) */
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .kwd {
+  color: #4ea0f5 !important;   /* def, return, for, if, lambda, import */
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .str,
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .atv {
+  color: #ce9178 !important;   /* "strings" and f-strings */
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .com {
+  color: #6a9955 !important;   /* # comments */
+  font-style: italic;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .lit,
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .dec {
+  color: #b5cea8 !important;   /* numbers */
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .typ,
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .tag {
+  color: #4ec9b0 !important;   /* type / class names */
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .pln,
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code[class*="language-"]) > code .pun {
+  color: #d4d4d4 !important;   /* identifiers + punctuation */
+}
+
+/* ---- result cell: dark Databricks output (overrides light default) ---- */
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) {
+  border-color: #33373e; background: #181a1f;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code:not([class]))::before {
+  content: "\25BC Output";
+  top: 0; left: 0; right: 0; height: 24px;
+  display: flex; align-items: center; padding: 0 14px;
+  font: 600 10px/24px "Roboto", "Segoe UI", sans-serif;
+  letter-spacing: 0.3px;
+  color: #9aa4af; background: #202329;
+  border-bottom: 1px solid #2c3036;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code {
+  padding-top: 32px; border-left: 0; background: #181a1f;
+}
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code,
+google-codelab[id="python-data-engineering"] google-codelab-step
+  pre:has(> code:not([class])) > code span {
+  color: #d4d4d4 !important;
 }
 
 /* ============================================================
