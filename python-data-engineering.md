@@ -5709,66 +5709,90 @@ Pythonic code is judged at this level. Apply these rules every single time:
 > — Tim Peters, *The Zen of Python*
 
 ## Best Practices and Project Structure
-Duration: 6:00
+Duration: 10:00
 
-How real data engineering teams organize their code.
+How real data engineering teams organize, style, and enforce their code.
+
+The example below is a **model module** — every line earns its place and it follows every standard it teaches: imports grouped (stdlib then third-party), `UPPER_SNAKE_CASE` constants, `snake_case` functions, a `PascalCase` class, full **type hints**, a docstring on every public object, and — per habit #4 below — it **logs instead of printing**.
 
 **`best_practices.py`**
 
 ```python
-"""
-HitaVir Tech - Python Best Practices for Data Engineering
+"""HitaVir Tech - Python Best Practices for Data Engineering.
+
+A model module: grouped imports, UPPER_SNAKE_CASE constants, snake_case
+functions, PascalCase classes, full type hints, and a docstring on every
+public object. It also follows habit #4 - it logs instead of printing.
 """
 
-# ====== NAMING CONVENTIONS ======
-# Variables and functions: snake_case
-pipeline_name = "sales_etl"
-total_record_count = 1500
+# ===== IMPORTS: stdlib first, then third-party, 1 blank line between groups =====
+import logging
 
-def calculate_success_rate(total, failed):
+import pandas as pd
+
+# ===== CONSTANTS: UPPER_SNAKE_CASE, declared once at the top of the module =====
+DEFAULT_BATCH_SIZE = 1000
+MAX_RETRY_COUNT = 3
+
+logger = logging.getLogger(__name__)
+
+
+# ===== FUNCTIONS: snake_case names, type hints in and out, a docstring each =====
+def calculate_success_rate(total: int, failed: int) -> float:
+    """Return the percentage of records that succeeded, from 0 to 100."""
+    if total == 0:
+        return 0.0
     return round((total - failed) / total * 100, 2)
 
-# Classes: PascalCase
-class DataPipeline:
-    pass
 
-class SalesTransformer:
-    pass
-
-# Constants: UPPER_SNAKE_CASE
-MAX_RETRY_COUNT = 3
-DEFAULT_BATCH_SIZE = 1000
-DATABASE_TIMEOUT = 30
-
-# ====== DOCSTRINGS ======
-# A docstring describes what a function does, its arguments, and what it returns.
-# Tools like VS Code, Sphinx, and your future self all read these.
-def process_batch(records, batch_size=500):
-    """
-    Process records in batches.
+def split_into_batches(
+    records: list[dict], batch_size: int = DEFAULT_BATCH_SIZE
+) -> list[list[dict]]:
+    """Split a list of records into fixed-size batches.
 
     Args:
-        records (list): List of dictionaries containing record data.
-        batch_size (int): Number of records per batch. Defaults to 500.
+        records: The rows to split.
+        batch_size: Maximum rows per batch. Defaults to DEFAULT_BATCH_SIZE.
 
     Returns:
-        list: Processed records.
+        A list of batches, each a list of records.
 
     Raises:
         ValueError: If records is empty.
     """
     if not records:
-        raise ValueError("Records list cannot be empty")
+        raise ValueError("records list cannot be empty")
 
-    processed = []
-    for i in range(0, len(records), batch_size):
-        batch = records[i:i + batch_size]
-        processed.extend(batch)
-    return processed
+    batches = [
+        records[start:start + batch_size]
+        for start in range(0, len(records), batch_size)
+    ]
+    logger.info("Split %d records into %d batch(es)", len(records), len(batches))
+    return batches
 
-print("Best practices loaded successfully!")
-print(f"Max retries: {MAX_RETRY_COUNT}")
-print(f"Default batch size: {DEFAULT_BATCH_SIZE}")
+
+# ===== CLASSES: PascalCase names, one clear responsibility each =====
+class SalesTransformer:
+    """Adds a calculated 'revenue' column to raw sales rows."""
+
+    def transform(self, sales: pd.DataFrame) -> pd.DataFrame:
+        """Return a copy of `sales` with revenue = price * quantity."""
+        result = sales.copy()
+        result["revenue"] = (result["price"] * result["quantity"]).round(2)
+        return result
+
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+    rows = [{"id": n} for n in range(2500)]
+    batches = split_into_batches(rows)
+    logger.info("First batch holds %d rows", len(batches[0]))
+    logger.info("Success rate: %.1f%%", calculate_success_rate(2500, 25))
+
+    sales = pd.DataFrame({"price": [100.0, 250.0], "quantity": [2, 1]})
+    enriched = SalesTransformer().transform(sales)
+    logger.info("Revenue column built:\n%s", enriched)
 ```
 
 Run it:
@@ -5776,6 +5800,10 @@ Run it:
 ```bash
 python best_practices.py
 ```
+
+> **Note on type hints:** `total: int`, `-> float`, and `list[list[dict]]` are **type hints**. Python does not enforce them at runtime, but they document intent, power editor autocomplete, and let tools like `mypy` catch bugs before you run the code. Every professional Data Engineering codebase uses them.
+
+> **Pro tip — logging uses `%`, not f-strings.** Notice `logger.info("Split %d records ...", len(records), ...)` passes the values as *arguments* instead of building an f-string. This is the one place professionals prefer `%`-style: the message is only assembled if that log level is actually active, so a silenced `DEBUG` line costs nothing. Everywhere else, f-strings still win.
 
 ### Professional Project Structure
 
@@ -5785,6 +5813,8 @@ hitavir-data-project/
 ├── requirements.txt           ← Package dependencies
 ├── .gitignore                 ← Files to exclude from Git
 ├── setup.py                   ← Package configuration
+├── pyproject.toml             ← PEP 8 / formatter / linter config
+├── .pre-commit-config.yaml    ← Auto-run style checks before every commit
 │
 ├── src/                       ← Source code
 │   ├── __init__.py
@@ -5811,6 +5841,68 @@ hitavir-data-project/
 └── logs/                      ← Log files (gitignored)
 ```
 
+### PEP 8 as a Project Standard — Automate It
+
+On a real team, **style is never debated in code review** — it is enforced automatically so everyone's code looks the same. You configure the rules once, at the project root, and the tools apply PEP 8 for you on every save and every commit.
+
+**Step 1 — Put the rules in `pyproject.toml`** (one config the whole team shares):
+
+```toml
+# pyproject.toml — project-wide PEP 8 configuration
+[tool.black]
+line-length = 88                    # the PEP 8 line-length we all agree on
+
+[tool.isort]
+profile = "black"                   # sort imports in a black-compatible order
+
+[tool.ruff]
+line-length = 88
+# Ruff is the modern all-in-one: it LINTS and FORMATS in one fast tool,
+# replacing flake8 + isort + black. It reads this same pyproject.toml.
+```
+
+**Step 2 — Run the tools.** Use the classic trio, or the modern single tool:
+
+```bash
+# Classic trio
+black .          # auto-format to PEP 8
+isort .          # group + sort imports
+flake8 .         # report any remaining style problems
+
+# Modern single tool (recommended)
+ruff format .    # format (like black)
+ruff check .     # lint (like flake8 + isort), add --fix to auto-fix
+```
+
+**Step 3 — Make it automatic with a pre-commit hook** so unstyled code can never be committed:
+
+```yaml
+# .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.0
+    hooks:
+      - id: ruff          # lint on every commit
+      - id: ruff-format   # format on every commit
+```
+
+```bash
+pip install pre-commit
+pre-commit install       # now the hooks run automatically on `git commit`
+```
+
+**The PEP 8 standards these tools enforce for you:**
+
+- **4-space** indentation, never tabs
+- Lines **≤ 88 characters** (the `black`/`ruff` default)
+- Imports **grouped** (stdlib → third-party → local) and alphabetised
+- **`snake_case`** for functions/variables, **`PascalCase`** for classes, **`UPPER_SNAKE_CASE`** for constants
+- One space around operators; no space just inside brackets
+- **Two blank lines** between top-level functions/classes, one between methods
+- A **docstring** on every public module, function, and class
+
+> **HitaVir Tech says:** "Configure PEP 8 once, then forget about it. When `ruff` (or `black` + `flake8`) runs on every commit, style stops being a human job — and code review can focus on logic, not commas. See the **PEP 8 — Python's Style Guide** section earlier in this codelab for the rules themselves."
+
 ### The 10 Habits of Good Data Engineers
 
 1. **Use virtual environments** — never install libraries globally
@@ -5832,7 +5924,8 @@ By the end of this page you should be able to confidently:
 
 - Lay out a Data Engineering project the way real teams do (`src/`, `tests/`, `data/`, `logs/`)
 - Apply naming conventions consistently (snake_case / PascalCase / UPPER_SNAKE)
-- Write **docstrings** on every public function and module
+- Write **docstrings** and **type hints** on every public function and module
+- Enforce **PEP 8 automatically** with `pyproject.toml`, `ruff`/`black`+`flake8`, and a **pre-commit** hook
 - Make pipelines **idempotent** — same input, same output, every run
 - Validate at the boundary; trust internal calls
 - Save **rejected records**; never silently drop bad data
@@ -5847,7 +5940,8 @@ These are the rules every Data Engineering team enforces in code review. Apply t
 - **No bare `except:`** — always specific exceptions, always log them
 - **F-strings** over `%` and `.format()` (Python 3.6+ standard)
 - **`pathlib`** over `os.path` string-joining
-- **`black`** + **`flake8`** clean before every commit — zero warnings is the contract
+- **Type hints** on every public function — `def clean(rows: list[dict]) -> pd.DataFrame:`
+- **`ruff`** (or **`black`** + **`flake8`**) clean before every commit — zero warnings is the contract
 
 > **Inspiration for the road ahead:**
 >
