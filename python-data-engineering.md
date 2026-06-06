@@ -4194,110 +4194,287 @@ A **DataFrame** is the central pandas object — a table with rows, columns, and
 
 One library handles: loading CSVs/Excel/JSON, cleaning nulls, filtering rows, joining tables, grouping/aggregating, and writing the result back out.
 
-**`pandas_basics.py`**
+We will learn pandas the same way a real data engineer works — **one step at a time**. Every data job follows the same six steps, and we give each step its own tiny file so you can run it, read the output, and understand it before moving on.
+
+### The pandas Workflow — Six Small Steps
+
+```
+   Part 1        Part 2        Part 3        Part 4         Part 5         Part 6
+   LOAD     ->   EXPLORE  ->   CLEAN    ->   TRANSFORM ->   AGGREGATE  ->  SAVE
+   read_csv      describe()    dropna()      new columns    groupby()      to_csv()
+   the CSV       isnull()      filter rows   price * qty    sum/mean       write file
+```
+
+> **How to read this section:** type each small file, run it, and look at what prints. Do not rush to the next part until the current one makes sense. Every part stands on its own and can be run by itself.
+
+### Part 1 — Load a CSV into a DataFrame
+
+**The one-line idea:** `pd.read_csv("file.csv")` reads a CSV file from disk and hands you back a **DataFrame** — a table you can work with in Python.
+
+Once you have a DataFrame, four tiny tools tell you what you are holding:
+
+- `df.shape` — how big is it? Returns `(rows, columns)`
+- `df.columns` — what are the column names?
+- `df.dtypes` — what type is each column (text, integer, float)?
+- `df.head()` — show me the first 5 rows
+
+**`pandas_01_load.py`**
 
 ```python
-"""
-HitaVir Tech - pandas for Data Engineering
-"""
+# ============================================
+# HitaVir Tech - Part 1: Load a CSV
+# ============================================
 import pandas as pd
 
-# --- READ CSV INTO DATAFRAME ---
-print("=" * 60)
-print("LOADING DATA WITH PANDAS")
-print("=" * 60)
-
+# Read the CSV file into a DataFrame (a table).
 df = pd.read_csv("sales_raw.csv")
 
-print(f"Shape: {df.shape[0]} rows x {df.shape[1]} columns")
-print(f"\nColumn names: {list(df.columns)}")
-print(f"\nData types:\n{df.dtypes}")
-print(f"\nFirst 5 rows:")
+# How big is the table? .shape returns (rows, columns).
+rows, columns = df.shape
+print(f"The table has {rows} rows and {columns} columns")
+
+# What are the column names?
+print(f"Columns: {list(df.columns)}")
+
+# What type is each column? (object = text, int64 = whole, float64 = decimal)
+print("\nColumn types:")
+print(df.dtypes)
+
+# Show the first 5 rows so we can eyeball the data.
+print("\nFirst 5 rows:")
 print(df.head())
-
-# --- EXPLORE DATA ---
-# describe() gives min/max/mean for every numeric column
-# isnull().sum() counts missing values per column
-print(f"\n{'=' * 60}")
-print("DATA EXPLORATION")
-print("=" * 60)
-
-print("\nBasic statistics:")
-print(df.describe())
-
-print(f"\nMissing values per column:")
-print(df.isnull().sum())
-
-print(f"\nUnique products: {df['product'].nunique()}")
-print(f"Unique regions: {df['region'].nunique()}")
-print(f"Date range: {df['date'].min()} to {df['date'].max()}")
-
-# --- CLEAN DATA ---
-print(f"\n{'=' * 60}")
-print("DATA CLEANING")
-print("=" * 60)
-
-# Remove rows with missing customer or product
-df_clean = df.dropna(subset=["customer", "product"])
-print(f"After dropping nulls: {len(df_clean)} rows (was {len(df)})")
-
-# Remove invalid data (using boolean indexing)
-df_clean = df_clean[df_clean["quantity"] > 0]
-df_clean = df_clean[df_clean["price"] > 0]
-print(f"After removing invalid: {len(df_clean)} rows")
-
-# --- TRANSFORM DATA ---
-print(f"\n{'=' * 60}")
-print("DATA TRANSFORMATION")
-print("=" * 60)
-
-# Add calculated columns
-df_clean = df_clean.copy()
-df_clean["total"] = (df_clean["price"] * df_clean["quantity"]).round(2)
-df_clean["price_category"] = df_clean["price"].apply(
-    lambda p: "Premium" if p >= 200 else ("Mid" if p >= 50 else "Budget")
-)
-
-print(df_clean[["order_id", "product", "price", "quantity", "total", "price_category"]])
-
-# --- AGGREGATE DATA ---
-# groupby + agg = SQL's GROUP BY + COUNT/SUM/AVG
-print(f"\n{'=' * 60}")
-print("DATA AGGREGATION")
-print("=" * 60)
-
-# Revenue by region
-print("\nRevenue by Region:")
-region_summary = df_clean.groupby("region")["total"].agg(["sum", "count", "mean"]).round(2)
-region_summary.columns = ["revenue", "orders", "avg_order"]
-print(region_summary)
-
-# Revenue by product
-print("\nRevenue by Product:")
-product_summary = df_clean.groupby("product")["total"].sum().sort_values(ascending=False)
-print(product_summary)
-
-# --- SAVE OUTPUT ---
-print(f"\n{'=' * 60}")
-print("SAVING RESULTS")
-print("=" * 60)
-
-df_clean.to_csv("sales_pandas_cleaned.csv", index=False)
-print("Saved: sales_pandas_cleaned.csv")
-
-region_summary.to_csv("region_report.csv")
-print("Saved: region_report.csv")
-
-print(f"\nTotal revenue: ${df_clean['total'].sum():,.2f}")
-print(f"Average order value: ${df_clean['total'].mean():,.2f}")
-print(f"Top product: {product_summary.index[0]} (${product_summary.iloc[0]:,.2f})")
 ```
 
 Run it:
 
 ```bash
-python pandas_basics.py
+python pandas_01_load.py
 ```
+
+> **Try it yourself:** swap `df.head()` for `df.tail(3)` to see the **last** 3 rows. `head` and `tail` are the first things every data engineer runs on a new file.
+
+### Part 2 — Explore Your Data
+
+Before you change a single value, you **look** at the data. This is called *profiling*. Three methods answer the questions you always ask first:
+
+- `df.describe()` — min, max, mean, and count for every **numeric** column
+- `df.isnull().sum()` — how many **missing** values are in each column?
+- `df["col"].nunique()` — how many **distinct** values does a column have?
+
+**`pandas_02_explore.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 2: Explore the Data
+# ============================================
+import pandas as pd
+
+df = pd.read_csv("sales_raw.csv")
+
+# describe() summarises every numeric column at once.
+print("Numeric summary (min, max, mean, ...):")
+print(df.describe())
+
+# isnull() marks each cell True if it is empty; .sum() counts the Trues.
+print("\nMissing values per column:")
+print(df.isnull().sum())
+
+# nunique() counts how many DIFFERENT values a column holds.
+print(f"\nDistinct products: {df['product'].nunique()}")
+print(f"Distinct regions:  {df['region'].nunique()}")
+
+# min() and max() on a date column give you the date range.
+print(f"Dates from {df['date'].min()} to {df['date'].max()}")
+```
+
+Run it:
+
+```bash
+python pandas_02_explore.py
+```
+
+> **Why this matters:** the `isnull().sum()` line is how you discover dirty data. If `customer` shows 2 missing values, you now know Part 3 has work to do.
+
+### Part 3 — Clean Messy Data
+
+Real data always has problems: blank cells, zero prices, negative quantities. Cleaning means **removing the rows you cannot trust**. Two tools do almost all of it:
+
+- `df.dropna(subset=[...])` — drop rows that are **empty** in the listed columns
+- **Boolean indexing** — `df[df["price"] > 0]` keeps only the rows where the condition is `True`
+
+**Mental model — boolean indexing keeps the True rows:**
+
+```
+   df["quantity"] > 0   ->   [ True, True, False, True ]
+                                 |     |     |      |
+   df[ ...the mask... ]   keeps row1, row2,  drop,  row4
+```
+
+**`pandas_03_clean.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 3: Clean the Data
+# ============================================
+import pandas as pd
+
+df = pd.read_csv("sales_raw.csv")
+print(f"Started with {len(df)} rows")
+
+# 1. Drop rows missing a customer OR a product (we cannot use those).
+df = df.dropna(subset=["customer", "product"])
+print(f"After dropping empty rows: {len(df)} rows")
+
+# 2. Keep only sensible numbers: quantity and price must be positive.
+df = df[df["quantity"] > 0]
+df = df[df["price"] > 0]
+print(f"After removing invalid numbers: {len(df)} rows")
+
+# 3. .copy() makes df our own clean table (avoids a pandas warning later).
+df = df.copy()
+print("\nClean data is ready for the next step.")
+```
+
+Run it:
+
+```bash
+python pandas_03_clean.py
+```
+
+> **Why `.copy()`?** After filtering, pandas is unsure whether `df` is the original table or a slice of it. Calling `.copy()` says "this is now its own table" and silences the famous `SettingWithCopyWarning`.
+
+### Part 4 — Transform: Add New Columns
+
+Transforming means **building new columns** from the ones you already have. The most common transform is arithmetic across two columns, and the second most common is turning a number into a category.
+
+- `df["total"] = df["price"] * df["quantity"]` — pandas multiplies **row by row** automatically
+- `df["col"].apply(some_function)` — run your own function on every value in a column
+
+**`pandas_04_transform.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 4: Add New Columns
+# ============================================
+import pandas as pd
+
+
+def price_band(price):
+    """Turn a price into a simple category label."""
+    if price >= 200:
+        return "Premium"
+    if price >= 50:
+        return "Mid"
+    return "Budget"
+
+
+# Steps from Parts 1-3, condensed into 4 lines.
+df = pd.read_csv("sales_raw.csv")
+df = df.dropna(subset=["customer", "product"])
+df = df[(df["quantity"] > 0) & (df["price"] > 0)]
+df = df.copy()
+
+# New column 1: total = price * quantity, rounded to 2 decimals.
+df["total"] = (df["price"] * df["quantity"]).round(2)
+
+# New column 2: a category label, built by our price_band() function.
+df["price_band"] = df["price"].apply(price_band)
+
+# Show just the columns we care about.
+print(df[["order_id", "product", "price", "quantity", "total", "price_band"]])
+```
+
+Run it:
+
+```bash
+python pandas_04_transform.py
+```
+
+> **Note on style:** we used a named function `price_band()` instead of a long inline `lambda`. PEP 8 prefers a real `def` whenever the logic has more than one branch — it is easier to read and to test.
+
+### Part 5 — Aggregate with `groupby`
+
+Aggregation answers **"what is the total/average per group?"** — revenue per region, orders per product. If you know SQL, `groupby` is exactly `GROUP BY`.
+
+- `df.groupby("region")["total"].sum()` — one number per region
+- `df.groupby("region")["total"].agg(["sum", "count", "mean"])` — several numbers at once
+
+**`pandas_05_aggregate.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 5: Group and Summarise
+# ============================================
+import pandas as pd
+
+# Steps from Parts 1-4, condensed.
+df = pd.read_csv("sales_raw.csv")
+df = df.dropna(subset=["customer", "product"])
+df = df[(df["quantity"] > 0) & (df["price"] > 0)].copy()
+df["total"] = (df["price"] * df["quantity"]).round(2)
+
+# Revenue, order count, and average order value PER region.
+by_region = df.groupby("region")["total"].agg(["sum", "count", "mean"]).round(2)
+by_region.columns = ["revenue", "orders", "avg_order"]
+print("Revenue by region:")
+print(by_region)
+
+# Total revenue PER product, biggest first.
+by_product = df.groupby("product")["total"].sum().sort_values(ascending=False)
+print("\nRevenue by product (highest first):")
+print(by_product)
+```
+
+Run it:
+
+```bash
+python pandas_05_aggregate.py
+```
+
+> **Try it yourself:** change `.agg(["sum", "count", "mean"])` to add `"max"`. You will get a fourth column showing each region's biggest single order.
+
+### Part 6 — Save Your Results
+
+The last step writes your work back to disk so others can use it. `df.to_csv("file.csv")` does it.
+
+- Use `index=False` for a normal cleaned table (you do not want pandas' row numbers in the file)
+- Keep the index for a `groupby` result (the group label — like `region` — lives in the index)
+
+**`pandas_06_save.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 6: Save the Output
+# ============================================
+import pandas as pd
+
+# Steps from Parts 1-5, condensed.
+df = pd.read_csv("sales_raw.csv")
+df = df.dropna(subset=["customer", "product"])
+df = df[(df["quantity"] > 0) & (df["price"] > 0)].copy()
+df["total"] = (df["price"] * df["quantity"]).round(2)
+by_region = df.groupby("region")["total"].sum().round(2)
+
+# Save the cleaned rows. index=False drops pandas' row numbers.
+df.to_csv("sales_pandas_cleaned.csv", index=False)
+print("Saved: sales_pandas_cleaned.csv")
+
+# Save the summary. Keep the index here — it holds the region names.
+by_region.to_csv("region_report.csv")
+print("Saved: region_report.csv")
+
+# A few headline numbers for the console.
+print(f"\nTotal revenue:       ${df['total'].sum():,.2f}")
+print(f"Average order value: ${df['total'].mean():,.2f}")
+```
+
+Run it:
+
+```bash
+python pandas_06_save.py
+```
+
+> **You just built a full pipeline.** Parts 1-6 are exactly Extract (load) → Transform (clean, build columns, aggregate) → Load (save). Every pandas job you ever write is a longer version of these six steps.
 
 ### pandas Cheat Sheet — The 15 Methods You'll Use Daily
 
@@ -4846,85 +5023,228 @@ Duration: 12:00
 
 Comprehensions, lambdas, and classes are the patterns that turn a Python beginner into a productive Data Engineer. They make code shorter, clearer, and reusable.
 
-**`intermediate.py`**
+We will meet the "intermediate trifecta" — **comprehensions, lambdas, and classes** — one at a time, in its own small file. Each one is just a shorter, clearer way to do something you already know how to do with a loop or a `def`.
+
+### The Six Intermediate Skills
+
+```
+   Part 1            Part 2              Part 3      Part 4              Part 5     Part 6
+   LIST          ->  DICT / SET      ->  LAMBDA  ->  sorted/map/    ->   CLASSES ->  APIs
+   comprehension     comprehension       one-line    filter             (OOP)       requests
+   [x for x in ..]   {k: v for ..}       function     + lambda           blueprint   .get()
+```
+
+### Part 1 — List Comprehensions
+
+**The one-line idea:** a list comprehension builds a new list from an existing one **in a single line**. It replaces the three-line "create empty list, loop, append" pattern.
+
+**The shape:** `[expression for item in iterable if condition]`
+
+**Mental model — read it right-to-left, like a sentence:**
+
+```
+   [ p          for p in prices      if p > 100 ]
+     |              |                     |
+   keep this    for each price       but only when
+   value        in the list          it is over 100
+```
+
+**`int_01_list_comprehension.py`**
 
 ```python
-"""
-HitaVir Tech - Intermediate Python for Data Engineering
-"""
+# ============================================
+# HitaVir Tech - Part 1: List Comprehensions
+# ============================================
 
-# ====== LIST COMPREHENSIONS ======
-# A list comprehension builds a new list from another iterable, in ONE line.
-# Pattern: [expression for item in iterable if condition]
-print("=" * 60)
-print("LIST COMPREHENSIONS")
-print("=" * 60)
-
-# Traditional loop
 prices = [999.99, 29.99, 79.99, 449.99, 149.99]
+
+# --- 1A. The old way: empty list, loop, append (3 lines) ---
 high_value = []
-for p in prices:
-    if p > 100:
-        high_value.append(p)
+for price in prices:
+    if price > 100:
+        high_value.append(price)
+print(f"Loop result:          {high_value}")
 
-# Same thing with list comprehension (Pythonic way)
-high_value_lc = [p for p in prices if p > 100]
-print(f"High value items: {high_value_lc}")
+# --- 1B. The comprehension way: same result, one line ---
+high_value_lc = [price for price in prices if price > 100]
+print(f"Comprehension result: {high_value_lc}")
 
-# Transform AND filter in one line
-discounted = [round(p * 0.9, 2) for p in prices if p > 100]
-print(f"10% discount on premium items: {discounted}")
+# --- 1C. Transform AND filter together ---
+# Give a 10% discount, but only on items over 100.
+discounted = [round(price * 0.9, 2) for price in prices if price > 100]
+print(f"Discounted premiums:  {discounted}")
 
-# Dictionary comprehension — same idea, building a dict
+# --- 1D. A plain transform (no filter) ---
+with_tax = [round(price * 1.18, 2) for price in prices]
+print(f"All prices + 18% tax: {with_tax}")
+```
+
+Run it:
+
+```bash
+python int_01_list_comprehension.py
+```
+
+> **Try it yourself:** write a comprehension that builds a list of the **lengths** of these words: `["data", "engineering", "python"]`. (Hint: `[len(w) for w in words]`.)
+
+### Part 2 — Dictionary and Set Comprehensions
+
+The same idea works for dictionaries and sets — you just change the brackets.
+
+- **Dict comprehension** uses `{key: value for ...}` — note the colon
+- **Set comprehension** uses `{value for ...}` — no colon, and duplicates vanish
+
+**`int_02_dict_set_comprehension.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 2: Dict & Set Comprehensions
+# ============================================
+
 products = ["Laptop", "Mouse", "Keyboard", "Monitor"]
-prices_list = [999.99, 29.99, 79.99, 449.99]
-catalog = {product: price for product, price in zip(products, prices_list)}
-print(f"\nCatalog: {catalog}")
+prices = [999.99, 29.99, 79.99, 449.99]
 
-# ====== LAMBDA FUNCTIONS ======
-print(f"\n{'=' * 60}")
-print("LAMBDA FUNCTIONS")
-print("=" * 60)
+# --- 2A. Dict comprehension: pair each product with its price ---
+# zip() walks both lists together, one pair at a time.
+catalog = {product: price for product, price in zip(products, prices)}
+print(f"Catalog: {catalog}")
 
-# Named function:
+# --- 2B. Dict comprehension with a transform on the value ---
+# Build a price list that already includes 18% tax.
+with_tax = {product: round(price * 1.18, 2)
+            for product, price in zip(products, prices)}
+print(f"With tax: {with_tax}")
+
+# --- 2C. Set comprehension: collect UNIQUE values ---
+regions = ["North", "South", "North", "East", "South", "North"]
+unique_regions = {region for region in regions}
+print(f"Unique regions: {unique_regions}")
+```
+
+Run it:
+
+```bash
+python int_02_dict_set_comprehension.py
+```
+
+> **Why this matters in DE:** dict comprehensions are how you reshape data fast — turning two parallel columns into a lookup table, or re-scaling every value in one line.
+
+### Part 3 — Lambda Functions
+
+**The one-line idea:** a `lambda` is a tiny **unnamed** function you write inline, in one line. It is a shortcut for a `def` that is too small to deserve a name.
+
+**Mental model — the same function, two ways:**
+
+```
+   def add_tax(amount):              add_tax = lambda amount: amount * 1.18
+       return amount * 1.18
+   |---------- a named def ------|   |--------- the lambda twin ---------|
+```
+
+**`int_03_lambda.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 3: Lambda Functions
+# ============================================
+
+# --- 3A. A normal named function ---
 def calculate_tax(amount):
-    return round(amount * 0.18, 2)
+    """Add 18% tax to an amount."""
+    return round(amount * 1.18, 2)
 
-# Lambda equivalent (inline, anonymous):
-tax = lambda amount: round(amount * 0.18, 2)
 
-print(f"Tax on $100: ${tax(100)}")
+# --- 3B. The lambda equivalent (inline, no name needed) ---
+# Read it as: "given amount, give back amount rounded with 18% tax".
+add_tax = lambda amount: round(amount * 1.18, 2)
 
-# Common use: sorting complex data by a custom key
+print(f"Named function: {calculate_tax(100)}")
+print(f"Lambda:         {add_tax(100)}")
+```
+
+Run it:
+
+```bash
+python int_03_lambda.py
+```
+
+> **HitaVir Tech says:** "Use a `lambda` only for a one-line throwaway. The moment it needs a second line or an `if/else`, give it a real `def` and a clear name — your teammates will thank you. (This is also a PEP 8 rule.)"
+
+> **Note:** assigning a lambda to a name like `add_tax` above is shown only to compare it with the `def`. In real code, the right place for a lambda is **inside another function call** — which is exactly what Part 4 shows.
+
+### Part 4 — `sorted`, `map`, and `filter` with Lambda
+
+This is where lambdas earn their keep. Functions like `sorted`, `map`, and `filter` take **another function** as an argument, and a lambda is the perfect tiny function to hand them.
+
+- `sorted(data, key=lambda x: ...)` — sort by whatever the lambda returns
+- `filter(lambda x: ..., data)` — keep only items where the lambda is `True`
+- `map(lambda x: ..., data)` — transform every item
+
+**`int_04_sort_map_filter.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 4: sorted / map / filter
+# ============================================
+
 sales = [
     {"product": "Laptop", "revenue": 4999.95},
     {"product": "Mouse", "revenue": 149.95},
     {"product": "Monitor", "revenue": 449.99},
 ]
 
-sorted_sales = sorted(sales, key=lambda x: x["revenue"], reverse=True)
-print("\nSales sorted by revenue:")
-for s in sorted_sales:
-    print(f"  {s['product']}: ${s['revenue']:,.2f}")
+# --- 4A. sorted() with a lambda key: sort by revenue, biggest first ---
+ranked = sorted(sales, key=lambda sale: sale["revenue"], reverse=True)
+print("Sales ranked by revenue:")
+for sale in ranked:
+    print(f"  {sale['product']}: ${sale['revenue']:,.2f}")
 
-# Common use: map and filter together
+# --- 4B. filter() then map(), step by step (clear for beginners) ---
 amounts = [100, 250, 50, 800, 30, 1200]
-large_with_tax = list(map(lambda x: round(x * 1.18, 2), filter(lambda x: x > 200, amounts)))
-print(f"\nLarge amounts with 18% tax: {large_with_tax}")
 
-# ====== BASIC OOP (Object-Oriented Programming) ======
-# A class is a blueprint; an object is an instance built from it.
-# Real-life analogy: "Car" is a class; your specific car is an object.
-print(f"\n{'=' * 60}")
-print("CLASSES (BASIC OOP)")
-print("=" * 60)
+# Step 1: keep only amounts above 200.
+big = filter(lambda x: x > 200, amounts)
+
+# Step 2: add 18% tax to each survivor.
+big_with_tax = map(lambda x: round(x * 1.18, 2), big)
+
+# filter() and map() are lazy — list() makes them produce values.
+print(f"\nBig amounts + 18% tax: {list(big_with_tax)}")
+```
+
+Run it:
+
+```bash
+python int_04_sort_map_filter.py
+```
+
+> **Try it yourself:** sort `sales` by **product name** instead of revenue. (Hint: `key=lambda sale: sale["product"]`, and drop `reverse=True`.)
+
+### Part 5 — Classes (Object-Oriented Programming Basics)
+
+**The one-line idea:** a **class** is a blueprint that bundles **data** (attributes) and **behaviour** (methods) together. An **object** is one real thing built from that blueprint.
+
+Real-life analogy: `"Car"` is the class (the design). *Your* specific car in the driveway is an object built from it.
+
+Three words to learn:
+
+- `__init__` — the **constructor**; it runs automatically when you create an object and sets up its starting data
+- `self` — means "**this particular object**"; every method takes it as the first parameter
+- **method** — a function that lives inside a class
+
+**`int_05_classes.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 5: Classes (Basic OOP)
+# ============================================
+
 
 class DataPipeline:
-    """A reusable data pipeline class."""
+    """A small, reusable data pipeline."""
 
     def __init__(self, name, source, destination):
-        # __init__ is the constructor — runs when you create an object
-        # self refers to "this specific instance"
+        # __init__ runs when you create the object. self = this object.
         self.name = name
         self.source = source
         self.destination = destination
@@ -4932,81 +5252,91 @@ class DataPipeline:
         self.status = "initialized"
 
     def extract(self):
-        """Simulate data extraction."""
+        """Pretend to pull records from the source."""
         self.status = "extracting"
-        self.records = [
-            {"id": 1, "value": 100},
-            {"id": 2, "value": 200},
-            {"id": 3, "value": 300},
-        ]
-        print(f"  [{self.name}] Extracted {len(self.records)} records from {self.source}")
-        return self  # returning self enables method chaining
+        self.records = [{"id": 1, "value": 100}, {"id": 2, "value": 200}]
+        print(f"  [{self.name}] Extracted {len(self.records)} records")
+        return self  # returning self lets us chain .extract().transform()...
 
     def transform(self, multiplier=1.0):
-        """Transform records."""
+        """Multiply every record's value."""
         self.status = "transforming"
         for record in self.records:
             record["value"] = record["value"] * multiplier
-        print(f"  [{self.name}] Transformed {len(self.records)} records (x{multiplier})")
+        print(f"  [{self.name}] Transformed records (x{multiplier})")
         return self
 
     def load(self):
-        """Load records to destination."""
+        """Pretend to write records to the destination."""
         self.status = "completed"
-        print(f"  [{self.name}] Loaded {len(self.records)} records to {self.destination}")
+        print(f"  [{self.name}] Loaded {len(self.records)} records")
         return self
 
-    def run(self):
-        """Run the full pipeline."""
-        print(f"\nRunning pipeline: {self.name}")
-        return self.extract().transform(multiplier=1.18).load()
-
     def __str__(self):
-        # __str__ controls what print(object) shows
-        return f"Pipeline('{self.name}', status={self.status}, records={len(self.records)})"
+        # __str__ decides what print(object) shows.
+        return f"Pipeline('{self.name}', status={self.status})"
 
-# Use the class
-pipeline = DataPipeline(
-    name="Sales ETL",
-    source="postgres://hitavir-db",
-    destination="s3://hitavir-warehouse"
-)
 
-pipeline.run()
+# Build ONE object from the blueprint.
+pipeline = DataPipeline("Sales ETL", "postgres", "s3")
+
+# Call its methods. Because each returns self, we can chain them.
+pipeline.extract().transform(multiplier=1.18).load()
+
 print(f"Result: {pipeline}")
-
-# ====== WORKING WITH APIs ======
-# An API (Application Programming Interface) is a URL that returns data
-# (usually JSON). The requests library lets you call APIs in one line.
-print(f"\n{'=' * 60}")
-print("WORKING WITH APIs")
-print("=" * 60)
-
-try:
-    import requests
-
-    response = requests.get("https://api.github.com/repos/python/cpython")
-    if response.status_code == 200:
-        data = response.json()
-        print(f"Repo: {data['full_name']}")
-        print(f"Stars: {data['stargazers_count']:,}")
-        print(f"Language: {data['language']}")
-        print(f"Open issues: {data['open_issues_count']:,}")
-    else:
-        print(f"API returned status: {response.status_code}")
-except ImportError:
-    print("requests not installed — run: pip install requests")
-except Exception as e:
-    print(f"API call failed: {e}")
 ```
 
 Run it:
 
 ```bash
-python intermediate.py
+python int_05_classes.py
 ```
 
-> **HitaVir Tech says:** "List comprehensions, lambdas, and classes are the intermediate trifecta. Comprehensions make your code concise. Lambdas make sorting and filtering elegant. Classes make your pipelines reusable and testable."
+> **Why classes matter in DE:** a class keeps a pipeline's data (`records`, `status`) and its steps (`extract`, `transform`, `load`) in one tidy package you can reuse and test. You met this exact shape in the ETL mini-project.
+
+### Part 6 — Working with APIs
+
+**The one-line idea:** an **API** is a URL that returns **data** (usually JSON) instead of a web page. The `requests` library calls it in one line, and you get back a Python dictionary.
+
+**`int_06_api.py`**
+
+```python
+# ============================================
+# HitaVir Tech - Part 6: Calling an API
+# ============================================
+import requests
+
+# Ask GitHub's API about the official Python repository.
+url = "https://api.github.com/repos/python/cpython"
+
+try:
+    response = requests.get(url, timeout=10)
+
+    # status_code 200 means "OK, here is your data".
+    if response.status_code == 200:
+        data = response.json()  # turn the JSON reply into a dict
+        print(f"Repo:        {data['full_name']}")
+        print(f"Stars:       {data['stargazers_count']:,}")
+        print(f"Language:    {data['language']}")
+        print(f"Open issues: {data['open_issues_count']:,}")
+    else:
+        print(f"API returned status {response.status_code}")
+
+except requests.exceptions.RequestException as error:
+    # Catches no-internet, timeout, bad-URL, etc.
+    print(f"API call failed: {error}")
+```
+
+Run it (install the library first if needed):
+
+```bash
+pip install requests
+python int_06_api.py
+```
+
+> **Try it yourself:** change the URL to your own favourite repo, e.g. `https://api.github.com/repos/pandas-dev/pandas`, and see its star count.
+
+> **HitaVir Tech says:** "List comprehensions, lambdas, and classes are the intermediate trifecta. Comprehensions make your code concise. Lambdas make sorting and filtering elegant. Classes make your pipelines reusable and testable. APIs connect your pipelines to the wider world."
 
 ### Assignment 9 — Refactor Assignment 4 with Pythonic Tools
 
