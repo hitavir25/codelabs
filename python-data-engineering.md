@@ -4101,16 +4101,7 @@ python real_02_json.py
 
 It is the default storage format of modern data lakes — Spark, Databricks, AWS Athena, and BigQuery all speak Parquet.
 
-| Feature | CSV | JSON | Parquet |
-|---|---|---|---|
-| Layout | row by row | records / nested objects | column by column |
-| Stored as | plain text | plain text | compressed binary |
-| Size (large data) | large | largest (keys repeat every row) | smallest (~5–10× < CSV) |
-| Remembers data types | no (all text) | some (number, bool, null) | yes (full types) |
-| Nested data | no | yes | yes |
-| Read just one column | reads whole file | reads whole file | reads only that column |
-| Human-readable | yes | yes | no (needs code) |
-| Best for | spreadsheets, exchange | APIs, configs, nested data | analytics, data lakes |
+![CSV vs JSON vs Parquet](assets/diagrams/python-de/36-csv-vs-json-vs-parquet.svg)
 
 #### Real Parquet — Election 2026 (CSV → Parquet, then read)
 
