@@ -27,8 +27,8 @@
 
   var RETRY_MS = 300;
   var MAX_RETRIES = 60;
-  var MIN_READ_SEC = 15;
-  var MAX_READ_SEC = 120;
+  var MIN_READ_SEC = 30;
+  var MAX_READ_SEC = 30;
   var WORDS_PER_MIN = 200;
 
   /* ---- ADMIN BYPASS ---- */
