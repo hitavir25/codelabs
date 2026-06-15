@@ -51,7 +51,7 @@ This is not a motivational talk. This is an **operational playbook** with hands-
 ## HitaVir Tech Code: Learn Like a Top Performer
 Duration: 15:00
 
-These 11 guidelines are your flight manual. Read them carefully. Come back to them when you are stuck. Internalize them until they become instinct.
+These 11 guidelines are your playbook. Read them carefully. Come back to them when you are stuck. Practise them until they become instinct.
 
 ### 1. Learn by Doing
 
@@ -101,7 +101,7 @@ If you can execute but cannot explain, you are not ready for an interview.
 
 ### 3. Debugging Mindset
 
-Errors are missions, not failures. Every stack trace is a clue.
+Errors are puzzles to solve, not failures. Every stack trace is a clue.
 
 **"Yield not to faint-heartedness — it does not become you. Cast off this weakness and arise."** *(Bhagavad Gita 2.3)* — The bug thinks it can beat you. Prove it wrong.
 
@@ -189,7 +189,7 @@ The 20-Minute Rule: If stuck for 20 minutes, ask for help. Do not waste 2 hours.
 
 At every step, ask: "How would this work in a production environment with 10TB of data?"
 
-**"Perform your duty without attachment, and you will attain the highest."** *(Bhagavad Gita 3.19)* — The codelab is training. The real mission is your career. Think production from day one.
+**"Perform your duty without attachment, and you will attain the highest."** *(Bhagavad Gita 3.19)* — The codelab is training. The real goal is your career. Think production from day one.
 
 ```
 Four Questions for Every Step:
@@ -231,9 +231,9 @@ When the lab gets hard, do not skip ahead. Stay with the struggle.
 
 The moment you want to skip is the moment you need to stay. The struggle is the learning.
 
-### Your Mission
+### Your Goal
 
-Your mission is clear: land the dream job. Every command you type, every error you debug, every checkpoint you validate brings you one step closer. The only thing standing between you and that offer letter is execution. So stop thinking about it — and start building.
+Your goal is clear: land the dream job. Every command you type, every error you debug, every checkpoint you validate brings you one step closer. The only thing standing between you and that offer letter is execution. So stop thinking about it — and start building.
 
 ## What You Will Build
 Duration: 3:00
@@ -324,7 +324,7 @@ Commit to these before starting:
   [ ] I understand that struggling IS the learning process
 ```
 
-**If you are not ready to commit to these, stop here. Come back when you are. There are no shortcuts at this altitude.**
+**If you are not ready to commit to these, stop here. Come back when you are. There are no shortcuts on this path.**
 
 ## Architecture Overview
 Duration: 3:00
@@ -1458,7 +1458,7 @@ Day 1 of building in public.
 #DataEngineering #LearningInPublic #HitaVirTech"
 ```
 
-**"Lift yourself by your own self; the self alone is your friend, and the self alone is your enemy."** *(Bhagavad Gita 6.5)* — Your portfolio proves you are the pilot, not just a passenger.
+**"Lift yourself by your own self; the self alone is your friend, and the self alone is your enemy."** *(Bhagavad Gita 6.5)* — Your portfolio proves you can build, not just follow.
 
 ## Interview Questions from This Lab
 Duration: 3:00
@@ -1535,7 +1535,7 @@ Your next codelab is **Data Engineering Environment Setup on Windows 11**. Apply
 - **Journal** your setup experience at the end
 - **Rebuild** the setup on a clean machine if possible
 
-## Mission Complete — But the Real Mission Starts Now
+## The Lab Is Done — But the Real Work Starts Now
 Duration: 3:00
 
 You have completed the lab. But completing is not mastering.
@@ -1546,11 +1546,11 @@ Go back. Rebuild it without the guide. Break it on purpose. Fix it under pressur
 
 **"The restless mind is subdued through steady practice and detachment."** *(Bhagavad Gita 6.35)* — The engineers who land the best roles are not the ones who finished the codelab. They are the ones who finished it, broke it, rebuilt it, and then taught it to someone else.
 
-**"The highest yogi sees all beings as their own self, sharing their joy and their pain."** *(Bhagavad Gita 6.32)* — Your batchmates are on the same mission. Help them. Challenge them. Rise together.
+**"The highest yogi sees all beings as their own self, sharing their joy and their pain."** *(Bhagavad Gita 6.32)* — Your batchmates are on the same path. Help them. Challenge them. Rise together.
 
-Your mission was never just this lab. Your mission is the career you are building. Every command you executed today is a brick in that foundation.
+This was never just about one lab. It is about the career you are building. Every command you executed today is a brick in that foundation.
 
-Now go fly.
+Now go build.
 
 — HitaVir Tech | Building Engineers, Not Just Learners
 
