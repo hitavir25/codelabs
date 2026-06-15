@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Lock down the HitaVir Retail lake with least-privilege IAM, Lake Formation column permissions, and KMS encryption, then watch it with CloudWatch, CloudTrail, and cost tags.
 id: hvt-de-aws-05-security
 categories: aws,data-engineering,foundations

@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Build a gold layer with Athena CTAS, load it into Redshift Serverless with COPY, query the lake directly with Redshift Spectrum, and understand the lake house.
 id: hvt-de-aws-03-3-serve
 categories: aws,data-engineering,foundations

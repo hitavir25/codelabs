@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Recap the full HitaVir Retail pipeline you built across the track, see the one-page architecture, plan where to go next, then run the complete teardown that deletes every resource so nothing keeps billing.
 id: hvt-de-aws-07-conclusion
 categories: aws,data-engineering,foundations

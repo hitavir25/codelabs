@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Review every prior lesson with answered questions, then run the whole pipeline end to end as a capstone and grade your own readiness with a rubric.
 id: hvt-de-aws-06-assessment
 categories: aws,data-engineering,foundations

@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Compare five AWS orchestration options, then wire the crawler, Glue ETL job, and an Athena CTAS into one retryable Step Functions workflow on a daily EventBridge schedule.
 id: hvt-de-aws-04-orchestration
 categories: aws,data-engineering,foundations

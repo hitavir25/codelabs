@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Learn what a data engineer actually does, the six key functions and the pipeline lifecycle, then get a quick win by landing the HitaVir Retail raw CSVs in your S3 data lake.
 id: hvt-de-aws-01-introduction
 categories: aws,data-engineering,foundations

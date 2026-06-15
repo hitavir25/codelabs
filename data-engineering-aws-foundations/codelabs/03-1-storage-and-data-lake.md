@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Design the HitaVir Retail data lake on S3 — Medallion layers, partitioning, storage classes, lifecycle rules, and Parquet versus CSV.
 id: hvt-de-aws-03-1-storage
 categories: aws,data-engineering,foundations

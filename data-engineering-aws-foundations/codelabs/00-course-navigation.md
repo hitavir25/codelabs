@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Set up your AWS account, IAM user, billing guardrails, and the AWS CLI, then confirm you can list S3.
 id: hvt-de-aws-00-course-navigation
 categories: aws,data-engineering,foundations

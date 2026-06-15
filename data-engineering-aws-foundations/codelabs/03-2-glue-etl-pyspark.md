@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Build an AWS Glue ETL job in PySpark that moves orders from raw to bronze to silver, casting types, dropping duplicates, and writing partitioned Parquet.
 id: hvt-de-aws-03-2-glue-etl
 categories: aws,data-engineering,foundations

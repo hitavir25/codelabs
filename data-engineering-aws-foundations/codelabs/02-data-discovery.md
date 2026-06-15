@@ -1,4 +1,4 @@
-author: HitaVirTech
+authors: HitaVirTech
 summary: Profile unknown raw data, crawl it with AWS Glue to infer a schema, fix the wrong guessed types in the Glue Data Catalog, then explore the data with Amazon Athena.
 id: hvt-de-aws-02-data-discovery
 categories: aws,data-engineering,foundations
