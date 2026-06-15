@@ -36,6 +36,7 @@ jobs:
         run: |
           find . -name '*.md' \
             -not -path './.github/*' \
+            -not -path './data-engineering-aws-foundations/*' \
             -not -name 'README.md' | tee codelab-files.txt
           echo "Found $(wc -l < codelab-files.txt) codelab(s)"
 
@@ -122,6 +123,7 @@ jobs:
           mkdir -p _site
           find . -name '*.md' \
             -not -path './.github/*' \
+            -not -path './data-engineering-aws-foundations/*' \
             -not -name 'README.md' | while IFS= read -r f; do
             claat export -o _site "$f"
           done
