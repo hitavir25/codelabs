@@ -47,6 +47,34 @@ export const BATCHES = {
     "mahimokhashi96@gmail.com",
   ],
 
+  // Batch 4 — previous cohort, full codelab access.
+  "B4": [
+    "Shruthikkr2009@gmail.com",
+    "nbalagavi@gmail.com",
+    "shimpukadesahil@gmail.com",
+    "powarharsh07@gmail.com",
+    "rutik17koli@gmail.com",
+    "yogeshawate153@gmail.com",
+    "abhishekkonthe@gmail.com",
+    "wagawadeabhinav@gmail.com",
+    "pmalappavpujari@gmail.com",
+    "aniketharale12@gmail.com",
+    "moreamit7887@gmail.com",
+    "shivarajpp18@gmail.com",
+    "meenakshitas25@gmail.com",
+    "sonalipawar187@gmail.com",
+    "prashantsasane05@gmail.com",
+    "shubham195pawar@gmail.com",
+    "koleavadhut@gmail.com",
+    "sharathpujari952@gmail.com",
+    "moreshripati28@gmail.com",
+    "indrajitawate1999@gmail.com",
+    "shashidhark021@gmail.com",
+    "patilvishwajit707@gmail.com",
+    "ayushkole95@gmail.com",
+    "babugoudapatil06@gmail.com",
+  ],
+
   // To start the next cohort, copy the block above and rename:
   // "B6-July-2026": [
   //   "newstudent@gmail.com",
