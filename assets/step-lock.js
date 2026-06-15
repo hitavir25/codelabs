@@ -39,13 +39,13 @@
   var _isAdmin = false;
   function isAdmin() { return _isAdmin; }
 
-  /* Detect admin via Cloudflare Access identity endpoint (sync).
+  /* Detect admin via the access gate's identity endpoint (sync).
      Runs once at script load — blocks briefly but guarantees
      the admin flag is set before any step-lock logic fires. */
   (function detectAdmin() {
     try {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/cdn-cgi/access/get-identity', false); /* sync */
+      xhr.open('GET', '/auth/whoami', false); /* sync */
       xhr.send();
       if (xhr.status === 200) {
         var data = JSON.parse(xhr.responseText);

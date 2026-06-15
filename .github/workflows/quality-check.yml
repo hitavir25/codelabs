@@ -192,7 +192,7 @@ jobs:
           (function(){
             try {
               var xhr = new XMLHttpRequest();
-              xhr.open('GET', '/cdn-cgi/access/get-identity', false);
+              xhr.open('GET', '/auth/whoami', false);
               xhr.send();
               if (xhr.status === 200) {
                 var data = JSON.parse(xhr.responseText);
