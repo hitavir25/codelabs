@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Defense in layers — Data Engineering on AWS</title>
+<link rel="stylesheet" href="design-tokens.css">
+<style>
+  .wrap { max-width: 980px; margin: 0 auto; }
+  header { margin-bottom: 28px; }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 22px;
+    align-items: stretch;
+  }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel-title { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 2px 0 4px; }
+  .panel-note { color: var(--text-muted); font-size: 13.5px; margin: 0 0 14px; }
+
+  svg { display: block; width: 100%; height: auto; overflow: visible; }
+
+  /* Concentric protective rings refine on hover/focus */
+  .ring {
+    transition: transform 0.3s var(--ease), filter 0.3s var(--ease);
+    transform-box: fill-box; transform-origin: center; cursor: default;
+  }
+  .ring:hover, .ring:focus { filter: brightness(1.14); outline: none; }
+  .ring:hover .ring-shape, .ring:focus .ring-shape { stroke-width: 3; }
+
+  .ring-label { font-family: var(--font-display); font-weight: 600; font-size: 13px; fill: var(--text); }
+  .ring-sub   { font-family: var(--font-body); font-size: 10.5px; fill: var(--text-muted); }
+  .core-label { font-family: var(--font-display); font-weight: 700; font-size: 14px; fill: var(--ink); text-anchor: middle; }
+  .core-sub   { font-family: var(--font-body); font-size: 10.5px; fill: rgba(10,14,31,0.7); text-anchor: middle; }
+
+  /* Signature motion: a rose scan sweep that orbits the protected lake */
+  .scan {
+    transform-box: fill-box; transform-origin: 230px 230px;
+    animation: scanSweep 6s linear infinite;
+  }
+  @keyframes scanSweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* The legend cards stack the layers as a readable list */
+  .layer-card {
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    background: var(--panel); border: 1px solid var(--panel-line);
+    margin-bottom: 10px;
+    transition: transform 0.3s var(--ease), border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
+  }
+  .layer-card:hover, .layer-card:focus-within {
+    transform: translateX(3px);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow: 0 14px 36px -22px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+  .layer-card .chip {
+    width: 12px; height: 12px; border-radius: 4px; margin-top: 4px; flex: none;
+    background: var(--accent); box-shadow: 0 0 12px var(--accent);
+  }
+  .layer-card h4 { font-family: var(--font-display); font-weight: 600; font-size: 14.5px; margin: 0 0 2px; }
+  .layer-card p  { margin: 0; color: var(--text-muted); font-size: 12.5px; line-height: 1.5; }
+
+  @media (prefers-reduced-motion: reduce) { .scan { display: none; } }
+</style>
+</head>
+<body class="hvt">
+<div class="wrap">
+  <header class="hvt-rise">
+    <div class="hvt-eyebrow">HitaVirTech &middot; Lesson 05 &middot; Security and monitoring</div>
+    <h1 class="hvt-headline">Defense in layers</h1>
+    <p class="hvt-sub">The HitaVir Retail lake sits at the center in its medallion hues. Five protective layers wrap around it, each rose-toned ring doing one job. Together they decide who gets in, what they can see, whether the bytes are scrambled, and who is watching.</p>
+    <div class="hvt-key" aria-label="Color key">
+      <span><i class="hvt-dot" style="color:var(--m-gold)"></i> The data lake</span>
+      <span><i class="hvt-dot" style="color:var(--c-protect)"></i> Protective layers</span>
+      <span><i class="hvt-dot" style="color:var(--c-foundation)"></i> Foundation storage</span>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- (1) CONCENTRIC DEFENSE RINGS -->
+    <div class="hvt-panel hvt-accent hvt-rise" style="--accent: var(--c-protect)" tabindex="0">
+      <p class="panel-title">Rings around the lake</p>
+      <p class="panel-note">Each layer must be passed before the data is reached. Hover a ring to lift it.</p>
+      <svg viewBox="0 0 460 470" role="img" aria-label="Concentric security layers IAM, Lake Formation, KMS, CloudWatch and CloudTrail wrapping the data lake">
+        <defs>
+          <radialGradient id="coreGlow" cx="0.5" cy="0.42" r="0.7">
+            <stop offset="0" stop-color="#ffd873"/>
+            <stop offset="1" stop-color="var(--m-gold)"/>
+          </radialGradient>
+          <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="var(--c-protect)" stop-opacity="0"/>
+            <stop offset="1" stop-color="var(--c-protect)" stop-opacity="0.55"/>
+          </linearGradient>
+        </defs>
+
+        <!-- Ring 5: CloudTrail (outermost) -->
+        <g class="ring" tabindex="0" role="group" aria-label="CloudTrail: records who did what, for audit">
+          <circle class="ring-shape" cx="230" cy="230" r="205" fill="var(--c-protect)" fill-opacity="0.05"
+                  stroke="var(--c-protect)" stroke-opacity="0.85" stroke-width="2"/>
+          <text x="230" y="44" class="ring-label" text-anchor="middle">CloudTrail</text>
+          <text x="230" y="60" class="ring-sub" text-anchor="middle">audit: who did what, when</text>
+        </g>
+
+        <!-- Ring 4: CloudWatch -->
+        <g class="ring" tabindex="0" role="group" aria-label="CloudWatch: metrics, logs and alarms">
+          <circle class="ring-shape" cx="230" cy="230" r="170" fill="var(--c-protect)" fill-opacity="0.07"
+                  stroke="var(--c-protect)" stroke-opacity="0.85" stroke-width="2"/>
+          <text x="230" y="80" class="ring-label" text-anchor="middle">CloudWatch</text>
+          <text x="230" y="96" class="ring-sub" text-anchor="middle">metrics, logs &amp; alarms</text>
+        </g>
+
+        <!-- Ring 3: KMS -->
+        <g class="ring" tabindex="0" role="group" aria-label="KMS: encryption at rest">
+          <circle class="ring-shape" cx="230" cy="230" r="135" fill="var(--c-protect)" fill-opacity="0.10"
+                  stroke="var(--c-protect)" stroke-opacity="0.9" stroke-width="2"/>
+          <text x="230" y="116" class="ring-label" text-anchor="middle">KMS</text>
+          <text x="230" y="132" class="ring-sub" text-anchor="middle">encryption at rest</text>
+        </g>
+
+        <!-- Ring 2: Lake Formation -->
+        <g class="ring" tabindex="0" role="group" aria-label="Lake Formation: column-level permissions">
+          <circle class="ring-shape" cx="230" cy="230" r="100" fill="var(--c-protect)" fill-opacity="0.13"
+                  stroke="var(--c-protect)" stroke-opacity="0.95" stroke-width="2"/>
+          <text x="230" y="152" class="ring-label" text-anchor="middle">Lake Formation</text>
+          <text x="230" y="168" class="ring-sub" text-anchor="middle">column-level grants</text>
+        </g>
+
+        <!-- Ring 1: IAM -->
+        <g class="ring" tabindex="0" role="group" aria-label="IAM: least-privilege identity and access">
+          <circle class="ring-shape" cx="230" cy="230" r="66" fill="var(--c-protect)" fill-opacity="0.16"
+                  stroke="var(--c-protect)" stroke-opacity="1" stroke-width="2"/>
+          <text x="230" y="186" class="ring-label" text-anchor="middle">IAM</text>
+          <text x="230" y="200" class="ring-sub" text-anchor="middle">least privilege</text>
+        </g>
+
+        <!-- Signature scan sweep orbiting the lake -->
+        <g class="scan" aria-hidden="true">
+          <path d="M230 230 L230 25 A205 205 0 0 1 375 85 Z" fill="url(#sweepGrad)" opacity="0.5"/>
+        </g>
+
+        <!-- The protected data lake at the center -->
+        <g role="group" aria-label="The HitaVir Retail data lake, the asset being protected">
+          <circle cx="230" cy="230" r="40" fill="url(#coreGlow)"/>
+          <circle cx="230" cy="230" r="40" fill="none" stroke="var(--c-foundation)" stroke-width="2.5" stroke-opacity="0.7"/>
+          <text x="230" y="226" class="core-label">HitaVir</text>
+          <text x="230" y="242" class="core-label">Retail lake</text>
+          <text x="230" y="258" class="core-sub">gold tables</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- (2) LAYER LEGEND — one job each -->
+    <div class="hvt-rise" tabindex="-1">
+      <div class="layer-card hvt-accent" style="--accent: var(--c-protect)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>IAM</h4><p>Decides who can act and grants each identity only the permissions it needs — least privilege.</p></div>
+      </div>
+      <div class="layer-card hvt-accent" style="--accent: var(--c-protect)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>Lake Formation</h4><p>Governs the catalog down to the column, so an analyst reads <code>customers</code> but never the <code>email</code> field.</p></div>
+      </div>
+      <div class="layer-card hvt-accent" style="--accent: var(--c-protect)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>KMS</h4><p>Encrypts the data at rest with a key you own, so the bytes on disk are unreadable without it.</p></div>
+      </div>
+      <div class="layer-card hvt-accent" style="--accent: var(--c-protect)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>CloudWatch</h4><p>Collects metrics and logs and fires alarms — tells you the moment a Glue job fails or costs spike.</p></div>
+      </div>
+      <div class="layer-card hvt-accent" style="--accent: var(--c-protect)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>CloudTrail</h4><p>Records every API call into an audit log, so you always know who did what, when, and from where.</p></div>
+      </div>
+      <div class="layer-card hvt-accent" style="--accent: var(--c-foundation)" tabindex="0">
+        <span class="chip" aria-hidden="true"></span>
+        <div><h4>The lake (center)</h4><p>Amazon S3 holds the medallion layers. Everything above exists to protect and watch it.</p></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

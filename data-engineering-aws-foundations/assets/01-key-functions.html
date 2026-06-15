@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The six key functions — Data Engineering on AWS</title>
+<link rel="stylesheet" href="design-tokens.css">
+<style>
+  .wrap { max-width: 980px; margin: 0 auto; }
+  header { margin-bottom: 26px; }
+
+  /* The pipeline board */
+  .board { position: relative; margin-top: 14px; }
+
+  /* Wrapping rails: automate above, govern below */
+  .rail {
+    display: flex; align-items: center; gap: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+    padding: 11px 16px; color: var(--text);
+  }
+  .rail .rail-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
+  .rail b { font-family: var(--font-display); font-weight: 600; letter-spacing: 0.01em; }
+  .rail span { color: var(--text-muted); font-size: 14px; }
+  .rail-up { --accent: var(--c-automate); margin-bottom: 14px; }
+  .rail-down { --accent: var(--c-protect); margin-top: 14px; }
+  .rail .wrap-tag {
+    margin-left: auto; font-family: var(--font-display); font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* The flowing line with the four sequential stages */
+  .flow { position: relative; padding: 8px 0; }
+  .flow-line { position: absolute; left: 3%; right: 3%; top: 50%; height: 0; pointer-events: none; }
+  .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+  .stages {
+    position: relative; z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .stage { text-align: left; }
+  .stage .step {
+    font-family: var(--font-display); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  .stage h3 { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 0 0 6px; }
+  .stage p { margin: 0; color: var(--text-muted); font-size: 13.5px; }
+  .stage .num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 26px; height: 26px; border-radius: 50%; margin-bottom: 12px;
+    font-family: var(--font-display); font-weight: 700; font-size: 13px;
+    color: var(--ink); background: var(--accent); box-shadow: 0 0 16px var(--accent);
+  }
+  .stage[data-k="foundation"] { --accent: var(--c-foundation); }
+  .stage[data-k="ingest"]     { --accent: var(--c-ingest); }
+  .stage[data-k="transform"]  { --accent: var(--c-transform); }
+  .stage[data-k="catalog"]    { --accent: var(--c-catalog); }
+
+  /* Traveling data pulse riding the flow line */
+  .data-pulse {
+    position: absolute; top: 50%; left: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px;
+    border-radius: 50%; background: #fff; box-shadow: 0 0 16px 5px rgba(255,255,255,0.85);
+    offset-path: path("M 0 0 L 1000 0");
+    animation: hvtPulse 5.5s var(--ease) infinite;
+    z-index: 3;
+  }
+
+  .legend { margin-top: 30px; }
+  .legend h4 { font-family: var(--font-display); font-weight: 600; font-size: 14px; margin: 0 0 12px; color: var(--text); }
+  .keygrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px 22px; }
+  .keygrid span { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text-muted); }
+
+  @media (max-width: 760px) {
+    .stages { grid-template-columns: 1fr; gap: 10px; }
+    .flow-svg, .data-pulse { display: none; }
+    .stage { padding: 14px; border-radius: var(--radius-sm); border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
+    .keygrid { grid-template-columns: 1fr; }
+    .rail .wrap-tag { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .data-pulse { display: none; } }
+</style>
+</head>
+<body class="hvt">
+<div class="wrap">
+  <header class="hvt-rise">
+    <div class="hvt-eyebrow">HitaVirTech &middot; Lesson 01</div>
+    <h1 class="hvt-headline">The six key functions of data engineering</h1>
+    <p class="hvt-sub">Four functions flow in sequence as data moves from source to value. Two more wrap every stage: <b>automate</b> rides above, <b>govern</b> rides below. Color carries meaning here and across the whole track.</p>
+  </header>
+
+  <div class="board">
+    <!-- Automate rail (above) -->
+    <div class="rail rail-up hvt-rise" tabindex="0" aria-label="Automate wraps every stage">
+      <i class="rail-dot" aria-hidden="true"></i>
+      <b>Automate</b>
+      <span>&mdash; schedule and chain the steps so the pipeline runs on its own</span>
+      <span class="wrap-tag">wraps every stage</span>
+    </div>
+
+    <!-- Sequential flow -->
+    <div class="flow hvt-rise">
+      <svg class="flow-svg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%"  stop-color="var(--c-foundation)"/>
+            <stop offset="34%" stop-color="var(--c-ingest)"/>
+            <stop offset="67%" stop-color="var(--c-transform)"/>
+            <stop offset="100%" stop-color="var(--c-catalog)"/>
+          </linearGradient>
+        </defs>
+        <line x1="20" y1="60" x2="980" y2="60" stroke="url(#flowGrad)" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+      </svg>
+      <span class="data-pulse" aria-hidden="true"></span>
+
+      <div class="stages">
+        <div class="stage hvt-rise" data-k="foundation" tabindex="0">
+          <div class="num">1</div>
+          <div class="step">Build infrastructure</div>
+          <h3>Build the foundation</h3>
+          <p>Stand up the S3 lake, identity, and compute the platform runs on.</p>
+        </div>
+        <div class="stage hvt-rise" data-k="ingest" tabindex="0">
+          <div class="num">2</div>
+          <div class="step">Ingest</div>
+          <h3>Bring data in</h3>
+          <p>Pull from databases, files, APIs, and streams into the lake.</p>
+        </div>
+        <div class="stage hvt-rise" data-k="transform" tabindex="0">
+          <div class="num">3</div>
+          <div class="step">Prepare</div>
+          <h3>Make it usable</h3>
+          <p>Clean, validate, and reshape raw into analytics-ready data.</p>
+        </div>
+        <div class="stage hvt-rise" data-k="catalog" tabindex="0">
+          <div class="num">4</div>
+          <div class="step">Catalog</div>
+          <h3>Describe and find</h3>
+          <p>Record what each dataset means so others discover and trust it.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Govern rail (below) -->
+    <div class="rail rail-down hvt-rise" tabindex="0" aria-label="Govern and secure wraps every stage">
+      <i class="rail-dot" aria-hidden="true"></i>
+      <b>Govern &amp; secure</b>
+      <span>&mdash; quality, least-privilege access, encryption, and audit, end to end</span>
+      <span class="wrap-tag">wraps every stage</span>
+    </div>
+  </div>
+
+  <div class="legend hvt-rise">
+    <h4>Color key &mdash; one hue, one concept, everywhere</h4>
+    <div class="keygrid" aria-label="Color key">
+      <span><i class="hvt-dot" style="color:var(--c-foundation)"></i> Foundation &mdash; build infrastructure</span>
+      <span><i class="hvt-dot" style="color:var(--c-ingest)"></i> Ingest &mdash; bring data in</span>
+      <span><i class="hvt-dot" style="color:var(--c-transform)"></i> Transform &mdash; prepare data</span>
+      <span><i class="hvt-dot" style="color:var(--c-catalog)"></i> Catalog &mdash; describe datasets</span>
+      <span><i class="hvt-dot" style="color:var(--c-automate)"></i> Automate &mdash; orchestrate the flow</span>
+      <span><i class="hvt-dot" style="color:var(--c-protect)"></i> Protect &mdash; govern &amp; secure</span>
+    </div>
+  </div>
+</div>
+</body>
+</html>

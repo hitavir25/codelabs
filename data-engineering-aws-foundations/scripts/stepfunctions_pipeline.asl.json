@@ -1,0 +1,182 @@
+{
+  "Comment": "HitaVir Retail nightly pipeline: crawl raw, run Glue ETL raw to bronze to silver, then Athena CTAS to gold. Every task retries on transient errors; any hard failure is caught and routed to a single Fail state.",
+  "StartAt": "StartCrawler",
+  "States": {
+    "StartCrawler": {
+      "Type": "Task",
+      "Comment": "Kick off the Glue crawler that keeps hvt_retail_db in sync with the lake.",
+      "Resource": "arn:aws:states:::aws-sdk:glue:startCrawler",
+      "Parameters": {
+        "Name": "hvt-retail-raw-crawler"
+      },
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Glue.CrawlerRunningException"
+          ],
+          "IntervalSeconds": 30,
+          "MaxAttempts": 5,
+          "BackoffRate": 1.5
+        },
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 10,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ],
+      "Next": "WaitForCrawler"
+    },
+    "WaitForCrawler": {
+      "Type": "Wait",
+      "Comment": "The crawler runs asynchronously, so pause before polling its state.",
+      "Seconds": 30,
+      "Next": "GetCrawler"
+    },
+    "GetCrawler": {
+      "Type": "Task",
+      "Comment": "Read the crawler state so we can loop until it is no longer RUNNING.",
+      "Resource": "arn:aws:states:::aws-sdk:glue:getCrawler",
+      "Parameters": {
+        "Name": "hvt-retail-raw-crawler"
+      },
+      "ResultPath": "$.crawler",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "IntervalSeconds": 10,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ],
+      "Next": "CrawlerDone"
+    },
+    "CrawlerDone": {
+      "Type": "Choice",
+      "Comment": "If the crawler is still running, wait again; otherwise move on to the ETL job.",
+      "Choices": [
+        {
+          "Variable": "$.crawler.Crawler.State",
+          "StringEquals": "READY",
+          "Next": "StartGlueETL"
+        }
+      ],
+      "Default": "WaitForCrawler"
+    },
+    "StartGlueETL": {
+      "Type": "Task",
+      "Comment": "Run the PySpark job that lands bronze and produces typed, partitioned silver. The .sync pattern blocks until the run finishes.",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "hvt-retail-bronze-to-silver",
+        "Arguments": {
+          "--BUCKET.$": "$.bucket"
+        }
+      },
+      "ResultPath": "$.etl",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Glue.ConcurrentRunsExceededException",
+            "Glue.InternalServiceException"
+          ],
+          "IntervalSeconds": 60,
+          "MaxAttempts": 3,
+          "BackoffRate": 2.0
+        },
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 30,
+          "MaxAttempts": 2,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ],
+      "Next": "AthenaCTAS"
+    },
+    "AthenaCTAS": {
+      "Type": "Task",
+      "Comment": "Build the gold orders_by_region table with Athena CTAS. The .sync pattern blocks until the query completes.",
+      "Resource": "arn:aws:states:::athena:startQueryExecution.sync",
+      "Parameters": {
+        "QueryString": "CREATE TABLE hvt_retail_db.daily_region_sales WITH (format = 'PARQUET', external_location = 's3://hvt-retail-datalake-ACCOUNT_ID/gold/orders_by_region/') AS SELECT region, count(*) AS order_count, sum(amount) AS total_amount FROM hvt_retail_db.silver_orders GROUP BY region;",
+        "WorkGroup": "hvt-retail-wg",
+        "ResultConfiguration": {
+          "OutputLocation": "s3://hvt-retail-datalake-ACCOUNT_ID/athena-results/"
+        }
+      },
+      "ResultPath": "$.athena",
+      "Retry": [
+        {
+          "ErrorEquals": [
+            "Athena.TooManyRequestsException",
+            "Athena.InternalServerException"
+          ],
+          "IntervalSeconds": 20,
+          "MaxAttempts": 4,
+          "BackoffRate": 2.0
+        },
+        {
+          "ErrorEquals": [
+            "States.TaskFailed"
+          ],
+          "IntervalSeconds": 15,
+          "MaxAttempts": 2,
+          "BackoffRate": 2.0
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": [
+            "States.ALL"
+          ],
+          "ResultPath": "$.error",
+          "Next": "PipelineFailed"
+        }
+      ],
+      "Next": "PipelineSucceeded"
+    },
+    "PipelineSucceeded": {
+      "Type": "Succeed",
+      "Comment": "Crawl, ETL, and CTAS all finished; gold is refreshed."
+    },
+    "PipelineFailed": {
+      "Type": "Fail",
+      "Comment": "A task exhausted its retries. Inspect $.error in the execution history to see which step failed and why.",
+      "Error": "PipelineFailed",
+      "Cause": "A pipeline task failed after exhausting its retry policy. See the caught error in the execution input path $.error."
+    }
+  }
+}

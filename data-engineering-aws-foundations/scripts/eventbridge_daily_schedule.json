@@ -1,0 +1,22 @@
+{
+  "Comment": "Daily trigger for the HitaVir Retail pipeline. Use this with EventBridge Scheduler (aws scheduler create-schedule --cli-input-json file://eventbridge_daily_schedule.json). Replace ACCOUNT_ID with your 12-digit AWS account id in every ARN and in the Input bucket name.",
+  "Name": "hvt-retail-daily-pipeline",
+  "GroupName": "default",
+  "Description": "Runs the hvt-retail-pipeline Step Functions state machine once a day at 02:00 UTC.",
+  "ScheduleExpression": "cron(0 2 * * ? *)",
+  "ScheduleExpressionTimezone": "UTC",
+  "State": "ENABLED",
+  "FlexibleTimeWindow": {
+    "Mode": "FLEXIBLE",
+    "MaximumWindowInMinutes": 15
+  },
+  "Target": {
+    "Arn": "arn:aws:states:us-east-1:ACCOUNT_ID:stateMachine:hvt-retail-pipeline",
+    "RoleArn": "arn:aws:iam::ACCOUNT_ID:role/hvt-retail-scheduler-role",
+    "Input": "{\"bucket\": \"hvt-retail-datalake-ACCOUNT_ID\"}",
+    "RetryPolicy": {
+      "MaximumEventAgeInSeconds": 3600,
+      "MaximumRetryAttempts": 2
+    }
+  }
+}
