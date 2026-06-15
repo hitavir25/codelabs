@@ -11,7 +11,7 @@ Feedback Link: https://github.com/hitavir25/codelabs/issues
 ## Introduction
 Duration: 5:00
 
-**"It's not the plane, it's the pilot."** — The tools do not make the engineer. YOU do.
+**"Lift yourself by your own self; the self alone is your friend, and the self alone is your enemy."** *(Bhagavad Gita 6.5)* — The tools do not make the engineer. YOU do.
 
 Welcome to **HitaVir Tech Code: Learn Like a Top Performer**. This is the most important codelab in your entire program. Every other lab teaches you a tool. This one teaches you **how to learn any tool**.
 
@@ -57,7 +57,7 @@ These 11 guidelines are your flight manual. Read them carefully. Come back to th
 
 Do not read passively. Execute every command yourself. Your fingers on the keyboard are worth more than hours of passive reading.
 
-**"Don't think. Just do."** — Open the terminal right now. The learning starts when you start typing.
+**"Perform your prescribed duty, for action is far better than inaction."** *(Bhagavad Gita 3.8)* — Open the terminal right now. The learning starts when you start typing.
 
 ```
 The Learning Pyramid (Retention Rates):
@@ -81,7 +81,7 @@ HitaVir Tech codelabs operate in the 75-90% zone. Every step has a command to ru
 
 First run it. Then understand why it works. Then explain it to someone else.
 
-**"You don't have time to think up there. If you think, you're dead."** — In interviews and production, hesitation kills. Build muscle memory through repetition.
+**"Yoga is skill in action."** *(Bhagavad Gita 2.50)* — In interviews and production, hesitation kills. Build muscle memory through repetition.
 
 ```
   EXECUTE     →  Run the command, write the code
@@ -103,7 +103,7 @@ If you can execute but cannot explain, you are not ready for an interview.
 
 Errors are missions, not failures. Every stack trace is a clue.
 
-**"Maybe so, sir. But not today."** — The bug thinks it can beat you. Prove it wrong.
+**"Yield not to faint-heartedness — it does not become you. Cast off this weakness and arise."** *(Bhagavad Gita 2.3)* — The bug thinks it can beat you. Prove it wrong.
 
 ```
 The Debugging Protocol:
@@ -130,7 +130,7 @@ Error Classification Quick Reference:
 
 After every step, verify your output matches the expected result before moving on.
 
-**"Stay on target."** — Precision matters. Validate every checkpoint like your deployment depends on it — because one day, it will.
+**"As a lamp in a windless place does not flicker, so is the steady mind of the disciplined."** *(Bhagavad Gita 6.19)* — Precision matters. Validate every checkpoint like your deployment depends on it — because one day, it will.
 
 ```
 After CREATING a resource  → Verify it exists
@@ -145,7 +145,7 @@ A missed validation in Step 3 becomes an impossible-to-debug failure in Step 15.
 
 After completing the lab, close this document and rebuild the entire project from memory.
 
-**"Push beyond your limits."** — If you cannot rebuild it blind, you have not learned it. You have only followed instructions.
+**"The restless mind is subdued through steady practice and detachment."** *(Bhagavad Gita 6.35)* — If you cannot rebuild it blind, you have not learned it. You have only followed instructions.
 
 ```
 The 3-Attempt System:
@@ -160,7 +160,7 @@ The 3-Attempt System:
 
 Write down what surprised you, what broke, and what clicked.
 
-**"Trust your instincts."** — Your journal trains your engineering intuition. What you write down today becomes the instinct you rely on tomorrow.
+**"Nothing in this world purifies like knowledge; in time you find it within yourself."** *(Bhagavad Gita 4.38)* — Your journal trains your engineering intuition. What you write down today becomes the instinct you rely on tomorrow.
 
 Every session, document:
 - Key concepts learned (one sentence each)
@@ -173,7 +173,7 @@ Every session, document:
 
 Set a timer. No distractions. One codelab equals one focused session.
 
-**"The only place where success comes before work is in the dictionary."** — Block the time. Silence the noise. Execute.
+**"You have a right to your actions, but never to the fruits of your actions."** *(Bhagavad Gita 2.47)* — Block the time. Silence the noise. Execute.
 
 ```
 Daily System:
@@ -189,7 +189,7 @@ The 20-Minute Rule: If stuck for 20 minutes, ask for help. Do not waste 2 hours.
 
 At every step, ask: "How would this work in a production environment with 10TB of data?"
 
-**"It's not the mission, it's the man."** — The codelab is training. The real mission is your career. Think production from day one.
+**"Perform your duty without attachment, and you will attain the highest."** *(Bhagavad Gita 3.19)* — The codelab is training. The real mission is your career. Think production from day one.
 
 ```
 Four Questions for Every Step:
@@ -203,7 +203,7 @@ Four Questions for Every Step:
 
 Share knowledge. Help your batchmates. Review each other's work.
 
-**"You're a team. You live together, you fly together."** — In real engineering teams, nobody ships alone. Start that habit now.
+**"Whatever a great person does, others follow; the standard they set, the world pursues."** *(Bhagavad Gita 3.21)* — In real engineering teams, nobody ships alone. Start that habit now.
 
 - Explain a concept to a peer — teaching is the highest form of learning
 - Review someone else's code — you learn new patterns every time
@@ -213,7 +213,7 @@ Share knowledge. Help your batchmates. Review each other's work.
 
 Do not be afraid to break things in a dev environment. That is how you learn what not to break in production.
 
-**"You gotta let go."** — Fear of errors is the biggest enemy of learning. Break it, fix it, own it.
+**"Heat and cold, pleasure and pain come and go — they are fleeting. Endure them bravely."** *(Bhagavad Gita 2.14)* — Fear of errors is the biggest enemy of learning. Break it, fix it, own it.
 
 ```
 Things you SHOULD break on purpose:
@@ -227,7 +227,7 @@ Things you SHOULD break on purpose:
 
 When the lab gets hard, do not skip ahead. Stay with the struggle.
 
-**"I'm not leaving my wingman."** — The hard step you are stuck on right now? That is the one that will separate you in interviews.
+**"The highest yogi sees all beings as their own self, sharing their joy and their pain."** *(Bhagavad Gita 6.32)* — The hard step you are stuck on right now? That is the one that will separate you in interviews.
 
 The moment you want to skip is the moment you need to stay. The struggle is the learning.
 
@@ -479,7 +479,7 @@ git log --oneline
 
 ### Why This Step Matters
 
-**"It's not the plane, it's the pilot."** — Your GitHub profile is your engineering portfolio. Every recruiter and hiring manager will check it. A well-maintained learning repository shows discipline, consistency, and genuine engineering mindset — traits that cannot be faked in an interview.
+**"Lift yourself by your own self; the self alone is your friend, and the self alone is your enemy."** *(Bhagavad Gita 6.5)* — Your GitHub profile is your engineering portfolio. Every recruiter and hiring manager will check it. A well-maintained learning repository shows discipline, consistency, and genuine engineering mindset — traits that cannot be faked in an interview.
 
 ### Expected Output
 
@@ -544,7 +544,7 @@ cat ~/hitavir-learning-system/debug-log/errors-and-fixes.md
 
 ### Why This Step Matters
 
-**"Maybe so, sir. But not today."** — The same error will try to beat you twice. Your debug log ensures it never wins a second time. Production engineers maintain runbooks for exactly this reason — a catalog of known issues and their fixes that turns hours of debugging into minutes.
+**"Yield not to faint-heartedness — it does not become you. Cast off this weakness and arise."** *(Bhagavad Gita 2.3)* — The same error will try to beat you twice. Your debug log ensures it never wins a second time. Production engineers maintain runbooks for exactly this reason — a catalog of known issues and their fixes that turns hours of debugging into minutes.
 
 ### Expected Output
 
@@ -622,7 +622,7 @@ cat ~/hitavir-learning-system/journal/week-01.md
 
 ### Why This Step Matters
 
-**"Trust your instincts."** — Your journal trains your engineering intuition. The human brain forgets 70% of new information within 24 hours. A journal captures insights at the moment they happen, when they are sharpest. What you write down today becomes the instinct you rely on tomorrow.
+**"Nothing in this world purifies like knowledge; in time you find it within yourself."** *(Bhagavad Gita 4.38)* — Your journal trains your engineering intuition. The human brain forgets 70% of new information within 24 hours. A journal captures insights at the moment they happen, when they are sharpest. What you write down today becomes the instinct you rely on tomorrow.
 
 ### Expected Output
 
@@ -757,7 +757,7 @@ cat ~/hitavir-learning-system/challenges/rebuild-tracker.md
 
 ### Why This Step Matters
 
-**"Push beyond your limits."** — The rebuild tracker is your objective measure of skill ownership. Anyone can follow a guide. The tracker proves you can build without one. When you can rebuild three codelabs blind, you are genuinely job-ready — not just tutorial-complete.
+**"The restless mind is subdued through steady practice and detachment."** *(Bhagavad Gita 6.35)* — The rebuild tracker is your objective measure of skill ownership. Anyone can follow a guide. The tracker proves you can build without one. When you can rebuild three codelabs blind, you are genuinely job-ready — not just tutorial-complete.
 
 ### Expected Output
 
@@ -819,7 +819,7 @@ cat ~/hitavir-learning-system/interview-prep/questions-bank.md
 
 ### Why This Step Matters
 
-**"You don't have time to think up there. If you think, you're dead."** — Interview preparation is not something you cram the night before. It is something you build incrementally, one codelab at a time. By the end of this program, you will have 50+ practiced questions with confident answers.
+**"Yoga is skill in action."** *(Bhagavad Gita 2.50)* — Interview preparation is not something you cram the night before. It is something you build incrementally, one codelab at a time. By the end of this program, you will have 50+ practiced questions with confident answers.
 
 ### Expected Output
 
@@ -879,7 +879,7 @@ cd ~/hitavir-learning-system
 
 ### Why This Step Matters
 
-**"You gotta let go."** — Most learners freeze when they see an error. This drill rewires your response. After practicing intentional errors, you will read error messages with curiosity instead of fear. Production engineers encounter dozens of errors daily — the difference is they read them calmly and fix them systematically.
+**"Heat and cold, pleasure and pain come and go — they are fleeting. Endure them bravely."** *(Bhagavad Gita 2.14)* — Most learners freeze when they see an error. This drill rewires your response. After practicing intentional errors, you will read error messages with curiosity instead of fear. Production engineers encounter dozens of errors daily — the difference is they read them calmly and fix them systematically.
 
 ### Expected Output
 
@@ -977,7 +977,7 @@ echo "=== VALIDATION COMPLETE ==="
 
 ### Why This Step Matters
 
-**"Stay on target."** — This is your final checkpoint for the hands-on section. A complete validation before moving on ensures every component is in place. In production, this is equivalent to running integration tests before deploying.
+**"As a lamp in a windless place does not flicker, so is the steady mind of the disciplined."** *(Bhagavad Gita 6.19)* — This is your final checkpoint for the hands-on section. A complete validation before moving on ensures every component is in place. In production, this is equivalent to running integration tests before deploying.
 
 ### Expected Output
 
@@ -1417,7 +1417,7 @@ Tried increasing executor memory to 64GB but still fails."
 
 Using the debugging protocol, write your response. What questions would you ask? What would you check first?
 
-**"Push beyond your limits."** — These challenges are optional, but the engineers who do them are the ones who get hired.
+**"The restless mind is subdued through steady practice and detachment."** *(Bhagavad Gita 6.35)* — These challenges are optional, but the engineers who do them are the ones who get hired.
 
 ## Portfolio Enhancement Tips
 Duration: 3:00
@@ -1458,7 +1458,7 @@ Day 1 of building in public.
 #DataEngineering #LearningInPublic #HitaVirTech"
 ```
 
-**"It's not the plane, it's the pilot."** — Your portfolio proves you are the pilot, not just a passenger.
+**"Lift yourself by your own self; the self alone is your friend, and the self alone is your enemy."** *(Bhagavad Gita 6.5)* — Your portfolio proves you are the pilot, not just a passenger.
 
 ## Interview Questions from This Lab
 Duration: 3:00
@@ -1489,7 +1489,7 @@ Reference the team mindset — code reviews, knowledge sharing, pair debugging.
 **Q8: How would you design a system to handle 10x your current data?**
 Reference the 4 questions: reliability, scalability, cost, security.
 
-**"Trust your instincts."** — Your answers should flow naturally because you have lived these principles, not memorized them.
+**"Nothing in this world purifies like knowledge; in time you find it within yourself."** *(Bhagavad Gita 4.38)* — Your answers should flow naturally because you have lived these principles, not memorized them.
 
 ## Final Summary
 Duration: 3:00
@@ -1542,11 +1542,11 @@ You have completed the lab. But completing is not mastering.
 
 Go back. Rebuild it without the guide. Break it on purpose. Fix it under pressure.
 
-**"Don't think. Just do."** — When the interviewer asks you to describe your engineering process, your answer should flow before your doubt has time to speak.
+**"Perform your prescribed duty, for action is far better than inaction."** *(Bhagavad Gita 3.8)* — When the interviewer asks you to describe your engineering process, your answer should flow before your doubt has time to speak.
 
-**"Push beyond your limits."** — The engineers who land the best roles are not the ones who finished the codelab. They are the ones who finished it, broke it, rebuilt it, and then taught it to someone else.
+**"The restless mind is subdued through steady practice and detachment."** *(Bhagavad Gita 6.35)* — The engineers who land the best roles are not the ones who finished the codelab. They are the ones who finished it, broke it, rebuilt it, and then taught it to someone else.
 
-**"I'm not leaving my wingman."** — Your batchmates are on the same mission. Help them. Challenge them. Rise together.
+**"The highest yogi sees all beings as their own self, sharing their joy and their pain."** *(Bhagavad Gita 6.32)* — Your batchmates are on the same mission. Help them. Challenge them. Rise together.
 
 Your mission was never just this lab. Your mission is the career you are building. Every command you executed today is a brick in that foundation.
 

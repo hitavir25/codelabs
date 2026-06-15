@@ -31,6 +31,11 @@
   var MAX_READ_SEC = 30;
   var WORDS_PER_MIN = 200;
 
+  /* Bump this whenever codelab content changes enough that students
+     should re-read from the start. Changing it invalidates everyone's
+     saved reading progress on their next page load (a one-time rollback). */
+  var STORAGE_VERSION = 2;
+
   /* ---- ADMIN BYPASS ---- */
   var ADMIN_EMAILS = [
     'iamawannadole@gmail.com'
@@ -76,7 +81,7 @@
   function run(codelab) {
     var id = codelab.getAttribute('id') ||
       location.pathname.replace(/[^a-z0-9]/gi, '_');
-    var KEY = 'codelab-lock:' + id;
+    var KEY = 'codelab-lock:v' + STORAGE_VERSION + ':' + id;
 
     var blocking = false;
     var lastValid = 0;
