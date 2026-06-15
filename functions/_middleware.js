@@ -24,7 +24,17 @@ export async function onRequest(context) {
     return next(); // serve the requested codelab
   }
 
-  // 4. Not allowed → send to login, remembering where they were headed.
+  // 4. Not allowed. Only bounce real top-level navigations to the login
+  //    page. Sub-resource requests (favicon, images, css, fetch/XHR) must
+  //    NOT be redirected into /auth/login: that re-renders the login page
+  //    and overwrites the one-time OAuth state cookie (e.g. with
+  //    /favicon.ico), which then fails the state check at /auth/callback.
+  const dest = request.headers.get("Sec-Fetch-Dest");
+  if (dest && dest !== "document") {
+    return new Response(null, { status: 401 });
+  }
+
+  // 5. Real navigation → send to login, remembering where they were headed.
   const loginUrl = new URL("/auth/login", url.origin);
   loginUrl.searchParams.set("redirect", url.pathname + url.search);
   return Response.redirect(loginUrl.toString(), 302);
