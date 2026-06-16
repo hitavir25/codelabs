@@ -94,6 +94,11 @@ export const ADMIN_CONTACT = "iamawannadole@gmail.com";
 // get in. Anything not listed here stays open to every allowlisted student.
 export const RESTRICTED_PATHS = {
   "/data-engineering-on-aws": ["B4"],
+  "/aws-analytics-fundamentals-part1": ["B4"],
+  "/aws-analytics-fundamentals-part2": ["B4"],
+  "/azure-analytics-fundamentals-part1": ["B4"],
+  "/azure-analytics-fundamentals-part2": ["B4"],
+  "/data-modelling": ["B4"],
 };
 
 // ---- lookup (do not edit below) ----------------------------------
