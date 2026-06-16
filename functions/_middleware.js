@@ -3,7 +3,8 @@
 //  Runs on EVERY request to the site. This is the gate.
 // ============================================================
 import { verifySession, parseCookies } from "./_auth.js";
-import { isAllowed } from "./_allowlist.js";
+import { isAllowed, canAccessPath } from "./_allowlist.js";
+import { restrictedPage } from "./_pages.js";
 
 export async function onRequest(context) {
   const { request, next, env } = context;
@@ -21,6 +22,18 @@ export async function onRequest(context) {
   //    delete a student from _allowlist.js and their next click is blocked,
   //    even if their cookie hasn't expired yet.
   if (session && isAllowed(session.email)) {
+    // Per-course cohort restriction (e.g. alumni-only tracks). The student is
+    // on the site allowlist, but some codelabs are limited to certain batches.
+    if (!canAccessPath(session.email, url.pathname)) {
+      const sub = request.headers.get("Sec-Fetch-Dest");
+      if (sub && sub !== "document") return new Response(null, { status: 403 });
+      return new Response(
+        restrictedPage(
+          "The Data Engineering on AWS track is open to Batch 4 alumni only. If you think this is a mistake, contact your trainer."
+        ),
+        { status: 403, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } }
+      );
+    }
     return next(); // serve the requested codelab
   }
 

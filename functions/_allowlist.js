@@ -89,6 +89,13 @@ export const ADMINS = [
 // Shown to denied users so they know who to contact.
 export const ADMIN_CONTACT = "iamawannadole@gmail.com";
 
+// Courses restricted to specific cohorts. Key = URL path prefix of the codelab,
+// value = the batch keys (from BATCHES above) allowed to open it. Admins always
+// get in. Anything not listed here stays open to every allowlisted student.
+export const RESTRICTED_PATHS = {
+  "/data-engineering-on-aws": ["B4"],
+};
+
 // ---- lookup (do not edit below) ----------------------------------
 import { normalizeEmail } from "./_auth.js";
 
@@ -98,4 +105,22 @@ const _allowed = new Set(
 
 export function isAllowed(email) {
   return _allowed.has(normalizeEmail(email));
+}
+
+const _adminSet = new Set(ADMINS.map(normalizeEmail));
+
+// Per-course cohort restriction, layered on top of the site-wide allowlist.
+// Returns true if `email` may open `pathname`. Admins always may; paths not
+// listed in RESTRICTED_PATHS are open to everyone already on the allowlist.
+export function canAccessPath(email, pathname) {
+  const e = normalizeEmail(email);
+  if (_adminSet.has(e)) return true;
+  for (const prefix in RESTRICTED_PATHS) {
+    if (pathname === prefix || pathname.startsWith(prefix + "/")) {
+      return RESTRICTED_PATHS[prefix].some((b) =>
+        (BATCHES[b] || []).map(normalizeEmail).includes(e)
+      );
+    }
+  }
+  return true;
 }
