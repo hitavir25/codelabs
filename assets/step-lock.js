@@ -31,11 +31,6 @@
   var MAX_READ_SEC = 30;
   var WORDS_PER_MIN = 200;
 
-  /* Bump this whenever codelab content changes enough that students
-     should re-read from the start. Changing it invalidates everyone's
-     saved reading progress on their next page load (a one-time rollback). */
-  var STORAGE_VERSION = 2;
-
   /* ---- ADMIN BYPASS ---- */
   var ADMIN_EMAILS = [
     'iamawannadole@gmail.com'
@@ -79,9 +74,23 @@
   /* ================================================================ */
 
   function run(codelab) {
-    var id = codelab.getAttribute('id') ||
-      location.pathname.replace(/[^a-z0-9]/gi, '_');
-    var KEY = 'codelab-lock:v' + STORAGE_VERSION + ':' + id;
+    /* Progress is keyed ONLY to stable, build-independent identifiers, so a
+       deployment never resets a student. We WRITE to one canonical key and
+       READ across every key format we have ever used, taking the furthest
+       progress found. That way changing the key scheme can never lose
+       progress, and students always resume exactly where they left off. */
+    var attrId = codelab.getAttribute('id') || '';
+    var pathId = location.pathname.replace(/[^a-z0-9]/gi, '_');
+    var KEY = 'codelab-lock:' + (attrId || pathId);
+
+    var PROGRESS_KEYS = [];
+    var keyPrefixes = ['codelab-lock:', 'codelab-lock:v1:', 'codelab-lock:v2:'];
+    var keyIds = attrId ? [attrId, pathId] : [pathId];
+    for (var kp = 0; kp < keyPrefixes.length; kp++) {
+      for (var ki = 0; ki < keyIds.length; ki++) {
+        PROGRESS_KEYS.push(keyPrefixes[kp] + keyIds[ki]);
+      }
+    }
 
     var blocking = false;
     var lastValid = 0;
@@ -97,7 +106,12 @@
     /* ============================================================ */
 
     function maxCompleted() {
-      return parseInt(localStorage.getItem(KEY) || '-1', 10);
+      var best = -1;
+      for (var i = 0; i < PROGRESS_KEYS.length; i++) {
+        var v = parseInt(localStorage.getItem(PROGRESS_KEYS[i]) || '-1', 10);
+        if (!isNaN(v) && v > best) best = v;
+      }
+      return best;
     }
 
     function saveCompleted(step) {
