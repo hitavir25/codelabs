@@ -113,10 +113,10 @@ MySQL is the most widely used open-source relational database in the world. Pick
 
 Before moving on, you should be able to:
 
-- [ ] Explain OLTP vs OLAP in one sentence each
-- [ ] Name at least one product in each category
-- [ ] Describe where SQL sits in an ETL pipeline
-- [ ] Explain why this codelab uses MySQL 8.0 specifically
+- ✅ Explain OLTP vs OLAP in one sentence each
+- ✅ Name at least one product in each category
+- ✅ Describe where SQL sits in an ETL pipeline
+- ✅ Explain why this codelab uses MySQL 8.0 specifically
 
 ---
 
@@ -228,10 +228,10 @@ Tape this next to your monitor. Run it over every query before you call it done:
 
 Before moving on, you should be able to:
 
-- [ ] Explain why a pro avoids `SELECT *` and the comma-join
-- [ ] Rewrite a one-line query into clean, aliased, multi-line form
-- [ ] State the half-open date-range rule and why it prevents bugs
-- [ ] List three reasons "boring" SQL is more professional than clever SQL
+- ✅ Explain why a pro avoids `SELECT *` and the comma-join
+- ✅ Rewrite a one-line query into clean, aliased, multi-line form
+- ✅ State the half-open date-range rule and why it prevents bugs
+- ✅ List three reasons "boring" SQL is more professional than clever SQL
 
 ---
 
@@ -302,10 +302,10 @@ LIMIT 5;
 
 Before moving on, you should be able to:
 
-- [ ] Recite the eight phases in execution order from memory
-- [ ] Explain why `SELECT` aliases work in `ORDER BY` but not in `WHERE`
-- [ ] State the difference between `WHERE` and `HAVING` in one sentence
-- [ ] Trace the top-5-customers query through all eight phases
+- ✅ Recite the eight phases in execution order from memory
+- ✅ Explain why `SELECT` aliases work in `ORDER BY` but not in `WHERE`
+- ✅ State the difference between `WHERE` and `HAVING` in one sentence
+- ✅ Trace the top-5-customers query through all eight phases
 
 ---
 
@@ -652,9 +652,9 @@ SELECT 'order_items', COUNT(*) FROM order_items;
 
 You should now be able to:
 
-- [ ] Open MySQL Workbench and connect to your local instance
-- [ ] See `hitavir_sales` in the SCHEMAS panel with four tables under it
-- [ ] Run the row-count query above and get exactly the four numbers shown
+- ✅ Open MySQL Workbench and connect to your local instance
+- ✅ See `hitavir_sales` in the SCHEMAS panel with four tables under it
+- ✅ Run the row-count query above and get exactly the four numbers shown
 
 If anything is off, drop and recreate the schema with `DROP DATABASE hitavir_sales;` and re-run from Step 2.4.
 
@@ -797,11 +797,11 @@ SELECT * FROM orders LIMIT 1;
 
 You can now:
 
-- [ ] Run a `SELECT` with explicit column names
-- [ ] Filter with `WHERE` using `=`, `>`, `<`, `>=`, `<=`, `<>`
-- [ ] Combine conditions with `AND`
-- [ ] Sort with `ORDER BY ... DESC`
-- [ ] Cap rows with `LIMIT`
+- ✅ Run a `SELECT` with explicit column names
+- ✅ Filter with `WHERE` using `=`, `>`, `<`, `>=`, `<=`, `<>`
+- ✅ Combine conditions with `AND`
+- ✅ Sort with `ORDER BY ... DESC`
+- ✅ Cap rows with `LIMIT`
 
 ---
 
@@ -949,10 +949,10 @@ ORDER BY status_code;
 
 You can now:
 
-- [ ] Read a `CREATE TABLE` and explain every column type
-- [ ] State what `PRIMARY KEY`, `NOT NULL`, and `FOREIGN KEY` enforce
-- [ ] Justify `DECIMAL(10,2)` over `FLOAT` for `unit_price`
-- [ ] Sketch the `hitavir_sales` ER diagram from memory
+- ✅ Read a `CREATE TABLE` and explain every column type
+- ✅ State what `PRIMARY KEY`, `NOT NULL`, and `FOREIGN KEY` enforce
+- ✅ Justify `DECIMAL(10,2)` over `FLOAT` for `unit_price`
+- ✅ Sketch the `hitavir_sales` ER diagram from memory
 
 ---
 
@@ -1079,11 +1079,11 @@ The `ROLLBACK` undoes both statements. If you used `COMMIT` instead, both would 
 
 You can now:
 
-- [ ] Insert a single row and a batch of rows
-- [ ] Update rows safely with a `WHERE` clause
-- [ ] Delete rows safely with a `WHERE` clause
-- [ ] Wrap related changes in `START TRANSACTION` … `COMMIT`/`ROLLBACK`
-- [ ] Confirm `SQL_SAFE_UPDATES` is on in Workbench
+- ✅ Insert a single row and a batch of rows
+- ✅ Update rows safely with a `WHERE` clause
+- ✅ Delete rows safely with a `WHERE` clause
+- ✅ Wrap related changes in `START TRANSACTION` … `COMMIT`/`ROLLBACK`
+- ✅ Confirm `SQL_SAFE_UPDATES` is on in Workbench
 
 ---
 
@@ -1256,11 +1256,11 @@ LIMIT 8;
 
 You can now:
 
-- [ ] Combine `AND`/`OR`/`NOT` with parentheses for clarity
-- [ ] Replace long OR chains with `IN (...)`
-- [ ] Filter ranges with `BETWEEN` (and know it is inclusive on both sides)
-- [ ] Match strings with `LIKE` using `%` and `_`
-- [ ] Derive a categorical column with `CASE WHEN ... THEN ... ELSE ... END`
+- ✅ Combine `AND`/`OR`/`NOT` with parentheses for clarity
+- ✅ Replace long OR chains with `IN (...)`
+- ✅ Filter ranges with `BETWEEN` (and know it is inclusive on both sides)
+- ✅ Match strings with `LIKE` using `%` and `_`
+- ✅ Derive a categorical column with `CASE WHEN ... THEN ... ELSE ... END`
 
 ---
 
@@ -1392,10 +1392,10 @@ ORDER BY order_count DESC;
 
 You can now:
 
-- [ ] Run a single aggregate (`COUNT`, `SUM`, `AVG`, `MIN`, `MAX`)
-- [ ] Group by one or more columns
-- [ ] Filter groups with `HAVING`
-- [ ] Explain why every non-aggregate column must be in `GROUP BY`
+- ✅ Run a single aggregate (`COUNT`, `SUM`, `AVG`, `MIN`, `MAX`)
+- ✅ Group by one or more columns
+- ✅ Filter groups with `HAVING`
+- ✅ Explain why every non-aggregate column must be in `GROUP BY`
 
 ---
 
@@ -1584,10 +1584,10 @@ JOIN orders   AS o ON o.order_id = oi.order_id;
 
 You can now:
 
-- [ ] Draw `INNER`, `LEFT`, `RIGHT`, `FULL OUTER`, and `CROSS` joins on paper
-- [ ] Pick the correct join for "all customers, even those who never bought"
-- [ ] Simulate `FULL OUTER` in MySQL using `LEFT … UNION … RIGHT`
-- [ ] Spot a runaway cross join by comparing row counts before and after
+- ✅ Draw `INNER`, `LEFT`, `RIGHT`, `FULL OUTER`, and `CROSS` joins on paper
+- ✅ Pick the correct join for "all customers, even those who never bought"
+- ✅ Simulate `FULL OUTER` in MySQL using `LEFT … UNION … RIGHT`
+- ✅ Spot a runaway cross join by comparing row counts before and after
 
 ---
 
@@ -1738,11 +1738,11 @@ Note: four cities are tied at 3 customers (Bengaluru, Chennai, Delhi, Kochi). Wi
 
 You can now:
 
-- [ ] Pick a scalar subquery for "compare against one value"
-- [ ] Pick `IN` for "value matches any in a list"
-- [ ] Pick `EXISTS` for "any matching row exists"
-- [ ] Spot a correlated subquery and reason about its cost
-- [ ] Use a derived table (subquery in `FROM`) when an aggregate must feed another query
+- ✅ Pick a scalar subquery for "compare against one value"
+- ✅ Pick `IN` for "value matches any in a list"
+- ✅ Pick `EXISTS` for "any matching row exists"
+- ✅ Spot a correlated subquery and reason about its cost
+- ✅ Use a derived table (subquery in `FROM`) when an aggregate must feed another query
 
 ---
 
@@ -1860,10 +1860,10 @@ You will see `idx_orders_order_date` listed alongside the auto-created `PRIMARY`
 
 You can now:
 
-- [ ] Create a view that hides a complex join
-- [ ] Use a temporary table as scratch space inside a session
-- [ ] Create a simple non-unique index
-- [ ] State the read/write trade-off of every index
+- ✅ Create a view that hides a complex join
+- ✅ Use a temporary table as scratch space inside a session
+- ✅ Create a simple non-unique index
+- ✅ State the read/write trade-off of every index
 
 ---
 
@@ -2040,11 +2040,11 @@ ORDER BY yr, mo;
 
 You can now:
 
-- [ ] Find rows with NULLs and replace with `COALESCE`
-- [ ] Standardize strings with `LOWER`, `UPPER`, `TRIM`, `SUBSTRING`, `CONCAT`
-- [ ] Detect duplicates with `GROUP BY ... HAVING COUNT(*) > 1`
-- [ ] Pull `YEAR`, `MONTH`, `DAY` from a `DATE` column
-- [ ] Identify when a function on a column makes a query non-sargable
+- ✅ Find rows with NULLs and replace with `COALESCE`
+- ✅ Standardize strings with `LOWER`, `UPPER`, `TRIM`, `SUBSTRING`, `CONCAT`
+- ✅ Detect duplicates with `GROUP BY ... HAVING COUNT(*) > 1`
+- ✅ Pull `YEAR`, `MONTH`, `DAY` from a `DATE` column
+- ✅ Identify when a function on a column makes a query non-sargable
 
 ---
 
@@ -2248,11 +2248,11 @@ LIMIT 5;
 
 You can now:
 
-- [ ] Use `SUM() OVER (PARTITION BY … ORDER BY …)` for running totals
-- [ ] Pick `ROW_NUMBER` vs `RANK` vs `DENSE_RANK` correctly
-- [ ] Use `LAG` / `LEAD` for period-over-period deltas
-- [ ] Stack multiple CTEs with commas in a single `WITH` statement
-- [ ] Generate a date series with a recursive CTE
+- ✅ Use `SUM() OVER (PARTITION BY … ORDER BY …)` for running totals
+- ✅ Pick `ROW_NUMBER` vs `RANK` vs `DENSE_RANK` correctly
+- ✅ Use `LAG` / `LEAD` for period-over-period deltas
+- ✅ Stack multiple CTEs with commas in a single `WITH` statement
+- ✅ Generate a date series with a recursive CTE
 
 ---
 
@@ -2368,11 +2368,11 @@ ORDER BY order_date;
 
 You can now:
 
-- [ ] Read `EXPLAIN` and identify `type`, `key`, `rows`, `Extra`
-- [ ] Show a before/after EXPLAIN that proves an index helped
-- [ ] Pick the leading column of a composite index by selectivity
-- [ ] Recognize a covering index from `Extra: Using index`
-- [ ] Name three situations where adding an index makes performance worse
+- ✅ Read `EXPLAIN` and identify `type`, `key`, `rows`, `Extra`
+- ✅ Show a before/after EXPLAIN that proves an index helped
+- ✅ Pick the leading column of a composite index by selectivity
+- ✅ Recognize a covering index from `Extra: Using index`
+- ✅ Name three situations where adding an index makes performance worse
 
 ---
 
@@ -2648,12 +2648,12 @@ GROUP BY fs.order_date;
 
 You can now:
 
-- [ ] Stage dirty raw data and clean it through a view
-- [ ] Build a star schema with one fact and two dimensions
-- [ ] Explain the star vs snowflake trade-off in one sentence
-- [ ] Materialize a `daily_sales_summary` table from the fact
-- [ ] Add a running-total window function on top of the summary
-- [ ] Show before/after EXPLAIN that proves the index helped
+- ✅ Stage dirty raw data and clean it through a view
+- ✅ Build a star schema with one fact and two dimensions
+- ✅ Explain the star vs snowflake trade-off in one sentence
+- ✅ Materialize a `daily_sales_summary` table from the fact
+- ✅ Add a running-total window function on top of the summary
+- ✅ Show before/after EXPLAIN that proves the index helped
 
 ---
 
@@ -2704,10 +2704,10 @@ Duration: 10:00
 
 You can now:
 
-- [ ] Recite the four naming prefixes (`stg_`, `dim_`, `fact_`, `v_`)
-- [ ] Explain why `DECIMAL` beats `FLOAT` for money
-- [ ] State the rule for adding a new index
-- [ ] Justify wrapping multi-statement DML in a transaction
+- ✅ Recite the four naming prefixes (`stg_`, `dim_`, `fact_`, `v_`)
+- ✅ Explain why `DECIMAL` beats `FLOAT` for money
+- ✅ State the rule for adding a new index
+- ✅ Justify wrapping multi-statement DML in a transaction
 
 ---
 
@@ -2795,10 +2795,10 @@ If the second is bigger, your join key is non-unique on the right side.
 
 You can now:
 
-- [ ] Decode error codes 1054, 1064, 1062, 1093, 1452 on sight
-- [ ] Fix the `UPDATE`-from-self pattern with a derived table
-- [ ] Detect a join cardinality bug from row counts alone
-- [ ] Explain `ONLY_FULL_GROUP_BY` to a teammate
+- ✅ Decode error codes 1054, 1064, 1062, 1093, 1452 on sight
+- ✅ Fix the `UPDATE`-from-self pattern with a derived table
+- ✅ Detect a join cardinality bug from row counts alone
+- ✅ Explain `ONLY_FULL_GROUP_BY` to a teammate
 
 ---
 
@@ -2949,10 +2949,10 @@ The fully-qualified name is `catalog.schema.table` — under Unity Catalog, this
 
 You can now:
 
-- [ ] Read MySQL into a pandas DataFrame with `pymysql` + `pd.read_sql`
-- [ ] Schedule a daily SQL job with `MySqlOperator` in Airflow
-- [ ] Load a MySQL table into Spark and run SQL on it
-- [ ] Read a three-part Databricks Unity Catalog table name
+- ✅ Read MySQL into a pandas DataFrame with `pymysql` + `pd.read_sql`
+- ✅ Schedule a daily SQL job with `MySqlOperator` in Airflow
+- ✅ Load a MySQL table into Spark and run SQL on it
+- ✅ Read a three-part Databricks Unity Catalog table name
 
 ---
 
@@ -3251,9 +3251,9 @@ ORDER BY category_share_pct DESC;
 
 You can now:
 
-- [ ] Solve all five challenges in under 30 minutes total
-- [ ] Explain *why* each solution works in 2–3 sentences
-- [ ] Spot the cardinality, NULL, and tie-breaking traps that each challenge hides
+- ✅ Solve all five challenges in under 30 minutes total
+- ✅ Explain *why* each solution works in 2–3 sentences
+- ✅ Spot the cardinality, NULL, and tie-breaking traps that each challenge hides
 
 ---
 
@@ -3295,10 +3295,10 @@ Duration: 5:00
 
 You can now:
 
-- [ ] Name the distinguishing feature of Snowflake, BigQuery, and Redshift
-- [ ] Explain SCD Type 1 vs Type 2 in one sentence each
-- [ ] Define "fact table grain" and why mixing grains is dangerous
-- [ ] Explain "conformed dimensions" with an example
+- ✅ Name the distinguishing feature of Snowflake, BigQuery, and Redshift
+- ✅ Explain SCD Type 1 vs Type 2 in one sentence each
+- ✅ Define "fact table grain" and why mixing grains is dangerous
+- ✅ Explain "conformed dimensions" with an example
 
 ---
 
