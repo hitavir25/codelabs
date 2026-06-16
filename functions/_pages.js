@@ -135,9 +135,9 @@ export function messagePage(heading, message) {
 
 export function restrictedPage(message) {
   return shell({
-    title: "Alumni access · HitaVirTech Codelabs",
+    title: "Coming soon · HitaVirTech Codelabs",
     inner: `
-      <h1>This track is for Batch 4 alumni</h1>
+      <h1>Coming soon — stay tuned!</h1>
       <p>${message}</p>
       <a class="gbtn" href="/" style="margin-top:22px">Back to all codelabs</a>
       <div class="tag">Wisdom to Lead, Intelligence to Serve</div>`,

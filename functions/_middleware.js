@@ -29,7 +29,7 @@ export async function onRequest(context) {
       if (sub && sub !== "document") return new Response(null, { status: 403 });
       return new Response(
         restrictedPage(
-          "The Data Engineering on AWS track is open to Batch 4 alumni only. If you think this is a mistake, contact your trainer."
+          "The Data Engineering on AWS track is not open for your batch yet. Hang tight, it is on the way."
         ),
         { status: 403, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } }
       );

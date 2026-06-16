@@ -177,14 +177,15 @@ jobs:
                   "id": cid,
                   "title": title,
                   "unlocked": cfg.get("unlocked", True),
-                  "order": cfg.get("order", 99)
+                  "order": cfg.get("order", 99),
+                  "badge": cfg.get("badge", "Coming Soon")
               })
 
           codelabs.sort(key=lambda x: x["order"])
 
           # --- Card HTML generators ---
           def unlocked_card(c):
-              return (f'<div class="card">'
+              return (f'<div class="card" data-id="{c["id"]}">'
                       f'<h3>{c["title"]}</h3>'
                       f'<a href="{c["id"]}/">Start Lab</a>'
                       f'</div>')
@@ -192,7 +193,7 @@ jobs:
           def locked_card(c):
               return (f'<div class="card locked" data-id="{c["id"]}">'
                       f'<h3>{c["title"]}</h3>'
-                      f'<span class="badge">Coming Soon</span>'
+                      f'<span class="badge">{c["badge"]}</span>'
                       f'</div>')
 
           # --- Admin unlock script (injected only on main landing page) ---
@@ -219,6 +220,23 @@ jobs:
                       link.href = id + '/';
                       link.textContent = 'Start Lab';
                       badge.parentNode.replaceChild(link, badge);
+                    }
+                  }
+                }
+                var access = data.access || {};
+                var lockedA = document.querySelectorAll('.card.locked');
+                for (var k = 0; k < lockedA.length; k++) {
+                  var cardA = lockedA[k];
+                  var idA = cardA.getAttribute('data-id');
+                  if (!idA) continue;
+                  if (access['/' + idA] === true) {
+                    cardA.classList.remove('locked');
+                    var badgeA = cardA.querySelector('.badge');
+                    if (badgeA) {
+                      var linkA = document.createElement('a');
+                      linkA.href = idA + '/';
+                      linkA.textContent = 'Start Lab';
+                      badgeA.parentNode.replaceChild(linkA, badgeA);
                     }
                   }
                 }

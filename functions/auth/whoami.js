@@ -9,6 +9,7 @@
 //  HMAC-signed hv_session cookie. No session → 401.
 // ============================================================
 import { verifySession, parseCookies } from "../_auth.js";
+import { RESTRICTED_PATHS, canAccessPath } from "../_allowlist.js";
 
 export async function onRequest(context) {
   const { request, env } = context;
@@ -19,5 +20,12 @@ export async function onRequest(context) {
   if (!session) {
     return new Response(JSON.stringify({ email: "" }), { status: 401, headers });
   }
-  return new Response(JSON.stringify({ email: session.email }), { status: 200, headers });
+
+  // Per-restricted-path access for THIS caller, so the landing page can show
+  // "Coming soon" cards to students who are not in the right cohort while still
+  // opening them for those who are. Only the caller's own access is exposed.
+  const access = {};
+  for (const p in RESTRICTED_PATHS) access[p] = canAccessPath(session.email, p);
+
+  return new Response(JSON.stringify({ email: session.email, access }), { status: 200, headers });
 }

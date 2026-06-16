@@ -12,5 +12,5 @@
   "azure-analytics-fundamentals-part1": { "unlocked": true, "order": 11 },
   "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 12 },
   "data-modelling": { "unlocked": false, "order": 13 },
-  "data-engineering-on-aws": { "unlocked": true, "order": 14 }
+  "data-engineering-on-aws": { "unlocked": false, "order": 14, "badge": "Coming soon — stay tuned!" }
 }
