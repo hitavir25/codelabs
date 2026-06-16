@@ -12,14 +12,5 @@
   "azure-analytics-fundamentals-part1": { "unlocked": true, "order": 11 },
   "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 12 },
   "data-modelling": { "unlocked": false, "order": 13 },
-  "hvt-de-aws-00-course-navigation": { "unlocked": true, "order": 14 },
-  "hvt-de-aws-01-introduction": { "unlocked": true, "order": 15 },
-  "hvt-de-aws-02-data-discovery": { "unlocked": true, "order": 16 },
-  "hvt-de-aws-03-1-storage": { "unlocked": true, "order": 17 },
-  "hvt-de-aws-03-2-glue-etl": { "unlocked": true, "order": 18 },
-  "hvt-de-aws-03-3-serve": { "unlocked": true, "order": 19 },
-  "hvt-de-aws-04-orchestration": { "unlocked": true, "order": 20 },
-  "hvt-de-aws-05-security": { "unlocked": true, "order": 21 },
-  "hvt-de-aws-06-assessment": { "unlocked": true, "order": 22 },
-  "hvt-de-aws-07-conclusion": { "unlocked": true, "order": 23 }
+  "data-engineering-on-aws": { "unlocked": true, "order": 14 }
 }
