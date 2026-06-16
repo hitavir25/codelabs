@@ -7,10 +7,10 @@
   "python-data-engineering": { "unlocked": true, "order": 6 },
   "mysql-workbench-setup": { "unlocked": true, "order": 7 },
   "sql-for-data-engineering": { "unlocked": true, "order": 8 },
-  "aws-analytics-fundamentals-part1": { "unlocked": true, "order": 9 },
-  "aws-analytics-fundamentals-part2": { "unlocked": true, "order": 10 },
-  "azure-analytics-fundamentals-part1": { "unlocked": true, "order": 11 },
-  "azure-analytics-fundamentals-part2": { "unlocked": true, "order": 12 },
-  "data-modelling": { "unlocked": false, "order": 13 },
-  "data-engineering-on-aws": { "unlocked": false, "order": 14, "badge": "Coming soon — stay tuned!" }
+  "aws-analytics-fundamentals-part1": { "unlocked": false, "order": 9, "badge": "Coming Soon — Stay Tuned!" },
+  "aws-analytics-fundamentals-part2": { "unlocked": false, "order": 10, "badge": "Coming Soon — Stay Tuned!" },
+  "azure-analytics-fundamentals-part1": { "unlocked": false, "order": 11, "badge": "Coming Soon — Stay Tuned!" },
+  "azure-analytics-fundamentals-part2": { "unlocked": false, "order": 12, "badge": "Coming Soon — Stay Tuned!" },
+  "data-modelling": { "unlocked": false, "order": 13, "badge": "Coming Soon — Stay Tuned!" },
+  "data-engineering-on-aws": { "unlocked": false, "order": 14, "badge": "Coming Soon — Stay Tuned!" }
 }
