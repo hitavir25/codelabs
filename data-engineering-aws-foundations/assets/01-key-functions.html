@@ -3,164 +3,110 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The six key functions — Data Engineering on AWS</title>
+<title>The six key functions of the data engineer — Data Engineering on AWS</title>
 <link rel="stylesheet" href="design-tokens.css">
 <style>
-  .wrap { max-width: 980px; margin: 0 auto; }
-  header { margin-bottom: 26px; }
-
-  /* The pipeline board */
-  .board { position: relative; margin-top: 14px; }
-
-  /* Wrapping rails: automate above, govern below */
-  .rail {
-    display: flex; align-items: center; gap: 12px;
-    border-radius: var(--radius-sm);
-    border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent);
-    background: color-mix(in srgb, var(--accent) 9%, transparent);
-    padding: 11px 16px; color: var(--text);
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  header { margin-bottom: 22px; }
+  .flow { width: 100%; height: auto; display: block; }
+  .flow text { font-family: var(--font-body); }
+  .flow .num { font-family: var(--font-display); }
+  .node .ring { transition: stroke-width .25s var(--ease), filter .25s var(--ease); }
+  .node:hover .ring, .node:focus .ring { stroke-width: 4.5; filter: drop-shadow(0 0 9px currentColor); }
+  .node text { pointer-events: none; }
+  .hvt-key .hvt-dot { background: currentColor; }
+  .pulse { animation: kfFlow 5.5s linear infinite; }
+  @keyframes kfFlow {
+    0% { transform: translateX(0); opacity: 0; }
+    6% { opacity: 1; }
+    94% { opacity: 1; }
+    100% { transform: translateX(990px); opacity: 0; }
   }
-  .rail .rail-dot { width: 12px; height: 12px; border-radius: 50%; flex: none; background: var(--accent); box-shadow: 0 0 12px var(--accent); }
-  .rail b { font-family: var(--font-display); font-weight: 600; letter-spacing: 0.01em; }
-  .rail span { color: var(--text-muted); font-size: 14px; }
-  .rail-up { --accent: var(--c-automate); margin-bottom: 14px; }
-  .rail-down { --accent: var(--c-protect); margin-top: 14px; }
-  .rail .wrap-tag {
-    margin-left: auto; font-family: var(--font-display); font-size: 11px;
-    text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
-    white-space: nowrap;
-  }
-
-  /* The flowing line with the four sequential stages */
-  .flow { position: relative; padding: 8px 0; }
-  .flow-line { position: absolute; left: 3%; right: 3%; top: 50%; height: 0; pointer-events: none; }
-  .flow-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-
-  .stages {
-    position: relative; z-index: 2;
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
-  }
-  .stage { text-align: left; }
-  .stage .step {
-    font-family: var(--font-display); font-size: 11px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
-  }
-  .stage h3 { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 0 0 6px; }
-  .stage p { margin: 0; color: var(--text-muted); font-size: 13.5px; }
-  .stage .num {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 26px; height: 26px; border-radius: 50%; margin-bottom: 12px;
-    font-family: var(--font-display); font-weight: 700; font-size: 13px;
-    color: var(--ink); background: var(--accent); box-shadow: 0 0 16px var(--accent);
-  }
-  .stage[data-k="foundation"] { --accent: var(--c-foundation); }
-  .stage[data-k="ingest"]     { --accent: var(--c-ingest); }
-  .stage[data-k="transform"]  { --accent: var(--c-transform); }
-  .stage[data-k="catalog"]    { --accent: var(--c-catalog); }
-
-  /* Traveling data pulse riding the flow line */
-  .data-pulse {
-    position: absolute; top: 50%; left: 0; width: 14px; height: 14px; margin: -7px 0 0 -7px;
-    border-radius: 50%; background: #fff; box-shadow: 0 0 16px 5px rgba(255,255,255,0.85);
-    offset-path: path("M 0 0 L 1000 0");
-    animation: hvtPulse 5.5s var(--ease) infinite;
-    z-index: 3;
-  }
-
-  .legend { margin-top: 30px; }
-  .legend h4 { font-family: var(--font-display); font-weight: 600; font-size: 14px; margin: 0 0 12px; color: var(--text); }
-  .keygrid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px 22px; }
-  .keygrid span { display: inline-flex; align-items: center; gap: 9px; font-size: 13px; color: var(--text-muted); }
-
-  @media (max-width: 760px) {
-    .stages { grid-template-columns: 1fr; gap: 10px; }
-    .flow-svg, .data-pulse { display: none; }
-    .stage { padding: 14px; border-radius: var(--radius-sm); border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent); background: color-mix(in srgb, var(--accent) 7%, transparent); }
-    .keygrid { grid-template-columns: 1fr; }
-    .rail .wrap-tag { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) { .data-pulse { display: none; } }
+  @media (prefers-reduced-motion: reduce) { .pulse { display: none; } }
 </style>
 </head>
 <body class="hvt">
 <div class="wrap">
   <header class="hvt-rise">
-    <div class="hvt-eyebrow">HitaVirTech &middot; Lesson 01</div>
-    <h1 class="hvt-headline">The six key functions of data engineering</h1>
-    <p class="hvt-sub">Four functions flow in sequence as data moves from source to value. Two more wrap every stage: <b>automate</b> rides above, <b>govern</b> rides below. Color carries meaning here and across the whole track.</p>
+    <div class="hvt-eyebrow">HitaVirTech &middot; Data Engineering on AWS</div>
+    <h1 class="hvt-headline">What are the key functions of the data engineer?</h1>
+    <p class="hvt-sub">Six functions, in order, from left to right. The first four move data along the pipeline; the last two wrap around all of it. Each color means the same thing everywhere in this track.</p>
   </header>
 
-  <div class="board">
-    <!-- Automate rail (above) -->
-    <div class="rail rail-up hvt-rise" tabindex="0" aria-label="Automate wraps every stage">
-      <i class="rail-dot" aria-hidden="true"></i>
-      <b>Automate</b>
-      <span>&mdash; schedule and chain the steps so the pipeline runs on its own</span>
-      <span class="wrap-tag">wraps every stage</span>
-    </div>
+  <div class="hvt-rise">
+    <svg class="flow" viewBox="0 0 1190 250" role="img" xmlns="http://www.w3.org/2000/svg">
+      <title>The six key functions of a data engineer, left to right: build and manage data infrastructure, ingest data from various sources, prepare the ingested data for analytics, catalog and document curated datasets, automate regular data workflows, and ensure data quality, security and compliance.</title>
+      <defs>
+        <marker id="ah" markerWidth="12" markerHeight="9" refX="9" refY="4.5" orient="auto" markerUnits="userSpaceOnUse">
+          <path d="M0,0 L11,4.5 L0,9 Z" fill="#6b78a0"/>
+        </marker>
+      </defs>
 
-    <!-- Sequential flow -->
-    <div class="flow hvt-rise">
-      <svg class="flow-svg" viewBox="0 0 1000 120" preserveAspectRatio="none" aria-hidden="true">
-        <defs>
-          <linearGradient id="flowGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"  stop-color="var(--c-foundation)"/>
-            <stop offset="34%" stop-color="var(--c-ingest)"/>
-            <stop offset="67%" stop-color="var(--c-transform)"/>
-            <stop offset="100%" stop-color="var(--c-catalog)"/>
-          </linearGradient>
-        </defs>
-        <line x1="20" y1="60" x2="980" y2="60" stroke="url(#flowGrad)" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
-      </svg>
-      <span class="data-pulse" aria-hidden="true"></span>
+      <line x1="166" y1="160" x2="232" y2="160" stroke="#566188" stroke-width="2.5" marker-end="url(#ah)"/>
+      <line x1="364" y1="160" x2="430" y2="160" stroke="#566188" stroke-width="2.5" marker-end="url(#ah)"/>
+      <line x1="562" y1="160" x2="628" y2="160" stroke="#566188" stroke-width="2.5" marker-end="url(#ah)"/>
+      <line x1="760" y1="160" x2="826" y2="160" stroke="#566188" stroke-width="2.5" marker-end="url(#ah)"/>
+      <line x1="958" y1="160" x2="1024" y2="160" stroke="#566188" stroke-width="2.5" marker-end="url(#ah)"/>
 
-      <div class="stages">
-        <div class="stage hvt-rise" data-k="foundation" tabindex="0">
-          <div class="num">1</div>
-          <div class="step">Build infrastructure</div>
-          <h3>Build the foundation</h3>
-          <p>Stand up the S3 lake, identity, and compute the platform runs on.</p>
-        </div>
-        <div class="stage hvt-rise" data-k="ingest" tabindex="0">
-          <div class="num">2</div>
-          <div class="step">Ingest</div>
-          <h3>Bring data in</h3>
-          <p>Pull from databases, files, APIs, and streams into the lake.</p>
-        </div>
-        <div class="stage hvt-rise" data-k="transform" tabindex="0">
-          <div class="num">3</div>
-          <div class="step">Prepare</div>
-          <h3>Make it usable</h3>
-          <p>Clean, validate, and reshape raw into analytics-ready data.</p>
-        </div>
-        <div class="stage hvt-rise" data-k="catalog" tabindex="0">
-          <div class="num">4</div>
-          <div class="step">Catalog</div>
-          <h3>Describe and find</h3>
-          <p>Record what each dataset means so others discover and trust it.</p>
-        </div>
-      </div>
-    </div>
+      <g class="node" tabindex="0" role="img" aria-label="Function 1: build and manage data infrastructure" style="color:var(--c-foundation)">
+        <text class="num" x="100" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">01</text>
+        <circle class="ring" cx="100" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="100" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Build and</text>
+        <text x="100" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">manage data</text>
+        <text x="100" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">infrastructure</text>
+      </g>
 
-    <!-- Govern rail (below) -->
-    <div class="rail rail-down hvt-rise" tabindex="0" aria-label="Govern and secure wraps every stage">
-      <i class="rail-dot" aria-hidden="true"></i>
-      <b>Govern &amp; secure</b>
-      <span>&mdash; quality, least-privilege access, encryption, and audit, end to end</span>
-      <span class="wrap-tag">wraps every stage</span>
-    </div>
+      <g class="node" tabindex="0" role="img" aria-label="Function 2: ingest data from various sources" style="color:var(--c-ingest)">
+        <text class="num" x="298" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">02</text>
+        <circle class="ring" cx="298" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="298" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Ingest data</text>
+        <text x="298" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">from various</text>
+        <text x="298" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">sources</text>
+      </g>
+
+      <g class="node" tabindex="0" role="img" aria-label="Function 3: prepare the ingested data for analytics" style="color:var(--c-transform)">
+        <text class="num" x="496" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">03</text>
+        <circle class="ring" cx="496" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="496" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Prepare the</text>
+        <text x="496" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">ingested data</text>
+        <text x="496" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">for analytics</text>
+      </g>
+
+      <g class="node" tabindex="0" role="img" aria-label="Function 4: catalog and document curated datasets" style="color:var(--c-catalog)">
+        <text class="num" x="694" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">04</text>
+        <circle class="ring" cx="694" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="694" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Catalog and</text>
+        <text x="694" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">document</text>
+        <text x="694" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">curated datasets</text>
+      </g>
+
+      <g class="node" tabindex="0" role="img" aria-label="Function 5: automate regular data workflows" style="color:var(--c-automate)">
+        <text class="num" x="892" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">05</text>
+        <circle class="ring" cx="892" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="892" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Automate</text>
+        <text x="892" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">regular data</text>
+        <text x="892" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">workflows</text>
+      </g>
+
+      <g class="node" tabindex="0" role="img" aria-label="Function 6: ensure data quality, security and compliance" style="color:var(--c-protect)">
+        <text class="num" x="1090" y="70" text-anchor="middle" font-size="14" font-weight="600" fill="currentColor">06</text>
+        <circle class="ring" cx="1090" cy="160" r="62" fill="rgba(255,255,255,0.05)" stroke="currentColor" stroke-width="3"/>
+        <text x="1090" y="150" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">Ensure data</text>
+        <text x="1090" y="167" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">quality, security</text>
+        <text x="1090" y="184" text-anchor="middle" font-size="12.5" font-weight="500" fill="#eaf0fb">and compliance</text>
+      </g>
+
+      <circle class="pulse" cx="100" cy="160" r="7" fill="#ffffff" opacity="0"/>
+    </svg>
   </div>
 
-  <div class="legend hvt-rise">
-    <h4>Color key &mdash; one hue, one concept, everywhere</h4>
-    <div class="keygrid" aria-label="Color key">
-      <span><i class="hvt-dot" style="color:var(--c-foundation)"></i> Foundation &mdash; build infrastructure</span>
-      <span><i class="hvt-dot" style="color:var(--c-ingest)"></i> Ingest &mdash; bring data in</span>
-      <span><i class="hvt-dot" style="color:var(--c-transform)"></i> Transform &mdash; prepare data</span>
-      <span><i class="hvt-dot" style="color:var(--c-catalog)"></i> Catalog &mdash; describe datasets</span>
-      <span><i class="hvt-dot" style="color:var(--c-automate)"></i> Automate &mdash; orchestrate the flow</span>
-      <span><i class="hvt-dot" style="color:var(--c-protect)"></i> Protect &mdash; govern &amp; secure</span>
-    </div>
+  <div class="hvt-key hvt-rise" aria-label="Color key" style="margin-top:18px">
+    <span><i class="hvt-dot" style="color:var(--c-foundation)"></i> Foundation</span>
+    <span><i class="hvt-dot" style="color:var(--c-ingest)"></i> Ingest</span>
+    <span><i class="hvt-dot" style="color:var(--c-transform)"></i> Prepare</span>
+    <span><i class="hvt-dot" style="color:var(--c-catalog)"></i> Catalog</span>
+    <span><i class="hvt-dot" style="color:var(--c-automate)"></i> Automate</span>
+    <span><i class="hvt-dot" style="color:var(--c-protect)"></i> Protect</span>
   </div>
 </div>
 </body>
