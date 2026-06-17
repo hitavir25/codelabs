@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hitavirtech-codelabs",
+  "compatibility_date": "2026-04-06",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "batch5-intro"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
