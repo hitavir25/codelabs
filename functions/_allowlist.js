@@ -96,8 +96,8 @@ export const ADMIN_CONTACT = "iamawannadole@gmail.com";
 // value = the batch keys (from BATCHES above) allowed to open it. Admins always
 // get in. Anything not listed here stays open to every allowlisted student.
 export const RESTRICTED_PATHS = {
-  "/data-engineering-on-aws": ["B4"],
-  "/aws-analytics-fundamentals-part1": ["B4"],
+  "/data-engineering-on-aws": ["B4", "B5-April-2026"],
+  "/aws-analytics-fundamentals-part1": ["B4", "B5-April-2026"],
   "/aws-analytics-fundamentals-part2": ["B4"],
   "/azure-analytics-fundamentals-part1": ["B4"],
   "/azure-analytics-fundamentals-part2": ["B4"],
