@@ -98,10 +98,10 @@ export const ADMIN_CONTACT = "iamawannadole@gmail.com";
 export const RESTRICTED_PATHS = {
   "/data-engineering-on-aws": ["B4", "B5-April-2026"],
   "/aws-analytics-fundamentals-part1": ["B4", "B5-April-2026"],
-  "/aws-analytics-fundamentals-part2": ["B4"],
-  "/azure-analytics-fundamentals-part1": ["B4"],
-  "/azure-analytics-fundamentals-part2": ["B4"],
-  "/data-modelling": ["B4"],
+  "/aws-analytics-fundamentals-part2": ["B4", "B5-April-2026"],
+  "/azure-analytics-fundamentals-part1": ["B4", "B5-April-2026"],
+  "/azure-analytics-fundamentals-part2": ["B4", "B5-April-2026"],
+  "/data-modelling": ["B4", "B5-April-2026"],
 };
 
 // ---- lookup (do not edit below) ----------------------------------
