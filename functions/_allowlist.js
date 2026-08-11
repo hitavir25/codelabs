@@ -45,6 +45,7 @@ export const BATCHES = {
     "ashagorobal1998@gmail.com",
     "pooja.sb934@gmail.com",
     "mahimokhashi96@gmail.com",
+    "bhavanargowda0128@gmail.com",
   ],
 
   // Batch 4 — previous cohort, full codelab access.
