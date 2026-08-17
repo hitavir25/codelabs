@@ -77,6 +77,7 @@ export const BATCHES = {
     "anuprpatil555@gmail.com",
     "onlyvishaldat@gmail.com",
     "nagarajpatil654@gmail.com",
+    "kartikkamate00@gmail.com",
   ],
 
   // To start the next cohort, copy the block above and rename:
