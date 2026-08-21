@@ -56,7 +56,6 @@ export const BATCHES = {
     "powarharsh07@gmail.com",
     "rutik17koli@gmail.com",
     "yogeshawate153@gmail.com",
-    "abhishekkonthe@gmail.com",
     "wagawadeabhinav@gmail.com",
     "pmalappavpujari@gmail.com",
     "aniketharale12@gmail.com",
